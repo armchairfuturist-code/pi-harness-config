@@ -1,0 +1,17 @@
+# Secrets — never commit
+auth.json
+models-store.json
+*.key
+*.pem
+
+# Large binary assets
+*.zip
+*.mp3
+*.jpeg
+*.jpg
+*.png
+*.pdf
+
+# OS cruft
+.DS_Store
+Thumbs.db

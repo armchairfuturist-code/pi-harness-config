@@ -1,0 +1,20 @@
+# Disabled gating entirely — ctx_shell is the sole shell now and must not block
+# legitimate introspection. Compression still applies.
+shell_allowlist = []
+shell_allowlist_extra = [
+    "pi",
+    "env",
+    "command",
+    "uname",
+    "cat",
+    "ldd",
+    "curl",
+    "bash",
+    "bun",
+    "npm",
+    "which",
+    "mv",
+    "ln",
+    "chmod",
+    "dcp",
+]
