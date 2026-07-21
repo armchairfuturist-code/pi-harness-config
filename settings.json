@@ -1,0 +1,39 @@
+{
+  "lastChangelogVersion": "0.80.10",
+  "theme": "dark",
+  "defaultProvider": "Lilac",
+  "defaultModel": "moonshotai/kimi-k2.6",
+  "modelRoles": {
+    "default": "deepseek/deepseek-v4-flash",
+    "smol": "deepseek/deepseek-v4-flash",
+    "advisor": "deepseek/deepseek-v4-flash"
+  },
+  "packages": [
+    "npm:context-mode",
+    "npm:pi-autoresearch",
+    "npm:pi-cache-graph",
+    "npm:pi-cache-optimizer",
+    "npm:pi-context-usage",
+    "npm:pi-lean-ctx",
+    "npm:pi-mcp-adapter",
+    "npm:pi-slim",
+    "npm:pi-tscg",
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:pi-btw"
+  ],
+  "extensions": [
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/daily-log.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
+  ],
+  "defaultThinkingLevel": "high",
+  "compaction": {
+    "reserveTokens": 60000,
+    "keepRecentTokens": 20000
+  }
+}
