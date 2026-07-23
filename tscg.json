@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "profile": "aggressive",
+  "aggressiveMaxDescChars": 30
+}
