@@ -1,0 +1,8 @@
+{
+  "mode": "replace",
+  "toolProfile": "lean",
+  "enableMcp": false,
+  "disableTools": [
+    "lean_ctx"
+  ]
+}
