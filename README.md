@@ -1,45 +1,41 @@
 # Pi Harness Config
 
-Optimized configuration for the [Pi coding agent](https://pi.dev) — a token-efficient, context-aware setup tuned from 172 sessions of real usage data.
+Optimized configuration for the [Pi coding agent](https://pi.dev) — a token-efficient, context-aware setup tuned from 172 sessions of real usage data and extensive autoresearch benchmarking.
 
 ## What's in here
 
 ```
 pi-harness-config/
-├── settings.json          # Pi core: packages, extensions, compaction
-├── models.json            # Provider + model definitions (Lilac provider, 4 models)
-├── tscg.json              # pi-tscg config (tool-schema compression, maxDesc=30)
-├── AGENTS.md              # Project instructions injected into every session
+├── settings.json            # Pi core: 17 packages, 7 extensions, compaction
+├── models.json              # Provider + model definitions (Lilac provider)
+├── tscg.json                # pi-tscg config (tool-schema compression, maxDesc=30)
+├── AGENTS.md                # Project instructions injected into every session
+├── extensions/
+│   └── delegate.ts          # Minimal subagent tool (24 tok vs 3,808)
 ├── lean-ctx/
-│   ├── config.toml        # lean-ctx shell config (allowlist disabled)
-│   └── pi-config.json     # pi-lean-ctx bridge: replace mode, lean profile
+│   ├── config.toml          # lean-ctx shell config (allowlist disabled)
+│   └── pi-config.json       # pi-lean-ctx bridge: replace mode, lean profile
 ├── rules/
-│   └── lean-ctx.md        # Auto-injected rules: ctx_* tool mapping, batching
+│   └── lean-ctx.md          # Auto-injected rules: ctx_* tool mapping, batching
 ├── research/
 │   └── progressive-disclosure-findings.md  # What works and what doesn't
-├── extensions/
-│   └── delegate.ts      # Minimal subagent tool (24 tok vs 3,808)
 ├── bench/
-│   ├── measure.sh         # Short workload bench (list, read, summarize, create)
-│   ├── measure-long.sh    # Long workload bench (8-step, triggers compaction)
-│   ├── prompt-long.md     # Long workload prompt
-│   └── probe.sh           # 1-request probe for per-request fixed overhead
+│   ├── measure.sh           # Short workload bench (list, read, summarize, create)
+│   ├── measure-long.sh      # Long workload bench (8-step, triggers compaction)
+│   ├── prompt-long.md       # Long workload prompt
+│   └── probe.sh             # 1-request probe for per-request fixed overhead
 └── skills/
-    └── mattpocock/     # 22 skills from mattpocock/skills
-    ├── agent-skills/      # 37 skills in ~/.pi/agent/skills
-    └── agents-skills/     # 56 skills in ~/.agents/skills
+    └── mattpocock/          # 22 skills from mattpocock/skills
 ```
 
 ## Optimizations applied
-
-Tuned from analysis of 172 agent sessions (22.6 MB, 2,657 tool calls, 13.7M input tokens).
 
 ### 1. Tool consolidation — ~4,500 tokens/request off the schema floor
 
 Removed `@hypabolic/pi-hypa` and `@ff-labs/pi-fff` (7 redundant tools with near-zero usage).
 Set `pi-lean-ctx` to `mode: replace` so `ctx_shell`/`ctx_read`/`ctx_grep` become the sole tool family (Pi core `bash`/`read`/`grep` are disabled). Disabled the shell allowlist so `ctx_shell` never blocks.
 
-**Measured:** turn-1 gross context dropped from 14,748 → 10,221 tokens (−30.9%), deterministic across trials. The saving is paid on every cold start and cache miss.
+**Measured:** turn-1 gross context dropped from 14,748 → 10,221 tokens (−30.9%), deterministic across trials.
 
 ### 2. Session guardrail — ~18-27% of total input tokens
 
@@ -51,24 +47,39 @@ Added a `## Session Guardrail` section to `AGENTS.md` (auto-injected by Pi core 
 
 `tscg.json` with `aggressive` profile and `aggressiveMaxDescChars: 30` compresses tool descriptions. Per-request tool-schema overhead dropped from ~14,676 → ~11,385 tokens (−22%).
 
+### 4. Lean package selection — 63.5% per-request reduction
+
+Removed 6 expensive packages (measured individually via probe.sh), replaced with minimal alternatives. Per-request overhead: 14,698 → 5,394 tokens. See package tables below.
+
+### 5. Minimal subagent extension — 159× cheaper than pi-subagents
+
+Custom `delegate.ts` extension provides subagent capability (spawn fresh agent session, read/bash/grep/find/ls tools) for 24 tokens/req vs 3,808 for pi-subagents.
+
 ## Research findings (progressive disclosure & system prompt terseness)
 
 Tested extensively; **most interventions are counterproductive** due to prompt caching. See `research/progressive-disclosure-findings.md` for full details.
 
 **What works:**
 
-- `tscg.json` `aggressiveMaxDescChars: 30` ✅ (already applied)
-- Keeping the system prompt STABLE to preserve prompt cache ✅
-- Session guardrails (handoff at 50/100 turns) ✅
+- ✅ `tscg.json` `aggressiveMaxDescChars: 30` — ~22% tool-schema reduction
+- ✅ Package removal — measured each package's token cost, removed the expensive ones
+- ✅ Minimal `delegate.ts` extension — subagent capability at 24 tokens vs 3,808
+- ✅ Skills (mattpocock) — zero per-request cost, loaded on-demand
+- ✅ Keeping the system prompt STABLE — preserves prompt cache (cached original is cheaper than any pruned version)
+- ✅ Session guardrails — handoff at 50/100 turns kills quadratic cost growth
 
 **What doesn't work (tested and rejected):**
 
-- ❌ System prompt pruning — invalidates prompt cache, net zero or worse
-- ❌ Terseness directives — increase request count unpredictably
-- ❌ Compaction tuning (keepRecent 20k→8k) — overhead exceeds savings
-- ❌ Lean-ctx compression level changes — negligible or destabilizing
+- ❌ **System prompt pruning** — invalidates prompt cache. Pruned 55% of system prompt (7720→3447 bytes) but total tokens stayed at 14,090 because cacheRead dropped from 13,888 to 13,312 while uncached input rose from 202 to 797. Net zero or worse.
+- ❌ **End-only prompt pruning** (removing Pi docs block only) — complete cache invalidation. Total went from 14,090 to 14,698 (cacheRead=0). Any modification to the system prompt invalidates the entire cache prefix.
+- ❌ **Terseness directives** (adding "be concise" instructions to system prompt) — increased request count unpredictably (5→10 requests). Aggressive directive: 153k vs 85k baseline. Mild directive: 119k vs 85k. Directives change model behavior, not just output format.
+- ❌ **Compaction tuning** (keepRecentTokens 20k→8k) — overhead exceeds savings on workloads <50 requests. Short workload: no effect. Long workload: 113k vs 85k baseline (worse).
+- ❌ **Lean-ctx ephemeral threshold** (ephemeral_min_tokens 2000→800) — no measurable effect. Tool outputs in the bench workload are too small to trigger the ephemeral firewall.
+- ❌ **Lean-ctx compression level changes** (lite→standard→max) — negligible savings (~30 tokens) but destabilized model behavior. Reverted.
 
 **Key insight:** The provider caches the system prompt prefix. The original prompt costs ~14,090 tokens but only ~202 are uncached (cacheRead=13,888). Any modification invalidates the cache, making pruned prompts MORE expensive than the cached original.
+
+**Research alignment:** The research findings about "hierarchical pruning" and "sliding windows" apply to long sessions (50+ requests) where context genuinely exceeds model limits. For short workloads (5-10 requests), these techniques add overhead without benefit. "Progressive disclosure" via system prompt modification is counterproductive when prompt caching is active.
 
 ## Packages (17 — lean config)
 
@@ -94,20 +105,20 @@ Measured token cost per package (via probe.sh, 2025-07-25):
 | `@ogulcancelik/pi-model-agents` | 0 | Multi-model agent support |
 | `pi-herdr-btw` | 0 | Herdr by-the-way integration |
 
-**Total per-request overhead: ~5,370 tokens (down from 14,698 — 63.5% reduction)**
+**Total per-request overhead: ~5,394 tokens (down from 14,698 — 63.5% reduction)**
 
 ### Removed packages (measured cost, justified removal)
 
 | Package | Cost | Why removed |
 | --- | --- | --- |
-| `pi-subagents` | 3,808 | Most expensive package (26% of total). Massive tool schema. |
-| `@leing2021/super-pi` | 2,884 | 31 tool names, CE pipeline overlap with pi-goal-list-loop-audit |
+| `pi-subagents` | 3,808 | Most expensive package (26% of total). Massive tool schema. Replaced by `delegate.ts` (24 tok). |
+| `@leing2021/super-pi` | 2,884 | 31 tool names, CE pipeline overlap with mattpocock skills + pi-goal-list-loop-audit |
 | `@ogulcancelik/pi-herdr` | 1,590 | Only useful with Herdr terminal multiplexer |
 | `pi-lens` | 1,271 | LSP diagnostics available via built-in tools |
 | `@narumitw/pi-goal` | 526 | Replaced by pi-goal-list-loop-audit |
 | `pi-smart-compact` | 275 | Overlaps with built-in compaction |
 
-**Extensions** (6 from `@samfp/pi-essentials` + 1 custom):
+## Extensions (6 from `@samfp/pi-essentials` + 1 custom)
 
 - `@samfp/pi-essentials`: auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer
 - `delegate.ts` — minimal subagent tool (24 tokens vs 3,808 for pi-subagents). Spawns a fresh pi agent session via `createAgentSession()` with read/bash/grep/find/ls tools.
@@ -126,6 +137,8 @@ Key skills:
 - `/code-review` — replaces super-pi's 7 reviewer tools with one skill
 - `/writing-great-skills` — methodology for writing skills (no-op test, single source of truth, granularity rules)
 - `/improve-codebase-architecture` — scans for deepening opportunities, produces HTML report (uses `delegate` for codebase exploration)
+
+See [WORKFLOW.md](WORKFLOW.md) for how to use these skills with pi-goal-list-loop-audit and delegate.
 
 ## Model setup
 
@@ -172,7 +185,7 @@ cp extensions/delegate.ts ~/.pi/agent/extensions/delegate.ts
 # 2. Copy skills (mattpocock engineering + productivity)
 cp -r skills/mattpocock/* ~/.pi/agent/skills/
 
-# 3. Install packages (17 — lean config, ~5,370 tokens/req)
+# 3. Install packages (17 — lean config, ~5,394 tokens/req)
 pi install npm:context-mode npm:pi-lean-ctx npm:pi-tscg npm:pi-context-usage \
   npm:pi-cache-graph npm:pi-cache-optimizer npm:pi-mcp-adapter npm:pi-slim \
   npm:pi-web-access npm:pi-autoresearch npm:pi-continue npm:cc-safety-net \
@@ -191,9 +204,3 @@ export LILAC_API_KEY="your-key-here"
 - `sessions/` — personal conversation history
 - `npm/node_modules/` — reproducible from the package list
 - Large skill assets (images, mp3, zips) — excluded to keep the repo lean
-
-## Skills overview
-
-**agent-skills** (37): the ask-matt engineering flow — `/grill-with-docs`, `/implement`, `/tdd`, `/code-review`, `/handoff`, `/wayfinder`, `/triage`, `/diagnosing-bugs`, plus domain-modeling and codebase-design vocabulary.
-
-**agents-skills** (56): broader toolkit — copywriting, visual design, investment optimization, research, UI design (minimalist, industrial-brutalist, high-end), Ponytail finance skills, and more.
