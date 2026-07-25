@@ -17,12 +17,15 @@ pi-harness-config/
 │   └── lean-ctx.md        # Auto-injected rules: ctx_* tool mapping, batching
 ├── research/
 │   └── progressive-disclosure-findings.md  # What works and what doesn't
+├── extensions/
+│   └── delegate.ts      # Minimal subagent tool (24 tok vs 3,808)
 ├── bench/
 │   ├── measure.sh         # Short workload bench (list, read, summarize, create)
 │   ├── measure-long.sh    # Long workload bench (8-step, triggers compaction)
 │   ├── prompt-long.md     # Long workload prompt
 │   └── probe.sh           # 1-request probe for per-request fixed overhead
 └── skills/
+    └── mattpocock/     # 22 skills from mattpocock/skills
     ├── agent-skills/      # 37 skills in ~/.pi/agent/skills
     └── agents-skills/     # 56 skills in ~/.agents/skills
 ```
@@ -104,8 +107,25 @@ Measured token cost per package (via probe.sh, 2025-07-25):
 | `@narumitw/pi-goal` | 526 | Replaced by pi-goal-list-loop-audit |
 | `pi-smart-compact` | 275 | Overlaps with built-in compaction |
 
-**Extensions** (6 from `@samfp/pi-essentials`): auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer.
- (6 from `@samfp/pi-essentials`): auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer.
+**Extensions** (6 from `@samfp/pi-essentials` + 1 custom):
+
+- `@samfp/pi-essentials`: auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer
+- `delegate.ts` — minimal subagent tool (24 tokens vs 3,808 for pi-subagents). Spawns a fresh pi agent session via `createAgentSession()` with read/bash/grep/find/ls tools.
+
+## Skills (22 from mattpocock/skills — zero per-request cost)
+
+Skills are loaded on-demand, not included in the per-request tool schema. All 22 mattpocock engineering + productivity skills installed:
+
+**Engineering:** ask-matt, codebase-design, code-review, diagnosing-bugs, domain-modeling, grill-with-docs, implement, improve-codebase-architecture, prototype, research, resolving-merge-conflicts, setup-matt-pocock-skills, tdd, to-spec, to-tickets, triage, wayfinder
+
+**Productivity:** grill-me, grilling, handoff, teach, writing-great-skills
+
+Key skills:
+
+- `/handoff` — replaces super-pi's context_handoff + session_checkpoint
+- `/code-review` — replaces super-pi's 7 reviewer tools with one skill
+- `/writing-great-skills` — methodology for writing skills (no-op test, single source of truth, granularity rules)
+- `/improve-codebase-architecture` — scans for deepening opportunities, produces HTML report (uses `delegate` for codebase exploration)
 
 ## Model setup
 
@@ -146,10 +166,11 @@ cp lean-ctx/config.toml ~/.config/lean-ctx/config.toml
 mkdir -p ~/.pi/rules
 cp rules/lean-ctx.md ~/.pi/rules/lean-ctx.md
 
-# 2. Copy skills
-cp -r skills/agent-skills/* ~/.pi/agent/skills/
-mkdir -p ~/.agents/skills
-cp -r skills/agents-skills/* ~/.agents/skills/
+# 1b. Copy delegate extension (minimal subagent tool)
+cp extensions/delegate.ts ~/.pi/agent/extensions/delegate.ts
+
+# 2. Copy skills (mattpocock engineering + productivity)
+cp -r skills/mattpocock/* ~/.pi/agent/skills/
 
 # 3. Install packages (17 — lean config, ~5,370 tokens/req)
 pi install npm:context-mode npm:pi-lean-ctx npm:pi-tscg npm:pi-context-usage \
