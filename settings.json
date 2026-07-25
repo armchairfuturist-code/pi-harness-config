@@ -23,10 +23,11 @@
     "npm:pi-web-access"
   ],
   "extensions": [
+    "~/.pi/agent/extensions/delegate.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
   ],
