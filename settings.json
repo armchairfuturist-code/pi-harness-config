@@ -1,13 +1,8 @@
 {
-  "lastChangelogVersion": "0.80.10",
+  "lastChangelogVersion": "0.82.0",
   "theme": "dark",
   "defaultProvider": "Lilac",
-  "defaultModel": "moonshotai/kimi-k2.6",
-  "modelRoles": {
-    "default": "deepseek/deepseek-v4-flash",
-    "smol": "deepseek/deepseek-v4-flash",
-    "advisor": "deepseek/deepseek-v4-flash"
-  },
+  "defaultModel": "zai-org/glm-5.2",
   "packages": [
     "npm:context-mode",
     "npm:pi-autoresearch",
@@ -20,18 +15,27 @@
     "npm:pi-tscg",
     "npm:pi-web-access",
     "npm:pi-subagents",
-    "npm:pi-btw"
+    "npm:cc-safety-net",
+    "npm:@plannotator/pi-extension",
+    "npm:pi-lens",
+    "npm:@narumitw/pi-goal",
+    "npm:pi-herdr-btw",
+    "npm:@ogulcancelik/pi-herdr",
+    "npm:@ogulcancelik/pi-model-thinking",
+    "npm:@ogulcancelik/pi-model-agents",
+    "npm:pi-continue",
+    "npm:pi-smart-compact",
+    "npm:@leing2021/super-pi"
   ],
   "extensions": [
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/daily-log.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
   ],
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "medium",
   "compaction": {
     "reserveTokens": 60000,
     "keepRecentTokens": 20000
