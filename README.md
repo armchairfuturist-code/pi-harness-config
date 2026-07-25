@@ -67,34 +67,45 @@ Tested extensively; **most interventions are counterproductive** due to prompt c
 
 **Key insight:** The provider caches the system prompt prefix. The original prompt costs ~14,090 tokens but only ~202 are uncached (cacheRead=13,888). Any modification invalidates the cache, making pruned prompts MORE expensive than the cached original.
 
-## Packages (22)
+## Packages (17 — lean config)
 
-| Package | Purpose |
-| --- | --- |
-| `context-mode` | BM25 knowledge base, compressed file reads, session memory |
-| `pi-lean-ctx` | Shell/read/grep compression, ctx_* tool family |
-| `pi-tscg` | Tool-schema compression (`aggressiveMaxDescChars: 30`) |
-| `pi-context-usage` | Passive token observability |
-| `pi-cache-graph` | Prompt-cache visualization |
-| `pi-cache-optimizer` | Cache-hit optimization |
-| `pi-mcp-adapter` | MCP server bridge |
-| `pi-slim` | Trims Pi's default system-prompt docs block |
-| `pi-web-access` | Web search + fetch tools |
-| `pi-autoresearch` | Background research agent |
-| `pi-subagents` | Subagent delegation + chaining |
-| `cc-safety-net` | Safety checks |
-| `@plannotator/pi-extension` | Planning annotations |
-| `@narumitw/pi-goal` | Goal tracking |
-| `@ogulcancelik/pi-herdr` | Herdr terminal layout integration |
-| `@ogulcancelik/pi-model-thinking` | Model thinking level control |
-| `@ogulcancelik/pi-model-agents` | Multi-model agent support |
-| `pi-herdr-btw` | Herdr by-the-way integration |
-| `pi-lens` | Code lens diagnostics |
-| `pi-continue` | Continue from checkpoint |
-| `pi-smart-compact` | Smart context compaction |
-| `@leing2021/super-pi` | Super-pi extensions |
+Measured token cost per package (via probe.sh, 2025-07-25):
+
+| Package | Tokens/Req | Purpose |
+| --- | --- | --- |
+| `context-mode` | 1,757 | BM25 knowledge base, compressed file reads, ctx_* tools (ESSENTIAL) |
+| `pi-goal-list-loop-audit` | 1,025 | Goal/loop/audit with isolated auditor (replaces super-pi + pi-goal) |
+| `pi-web-access` | 718 | Web search + fetch tools |
+| `pi-lean-ctx` | included | Shell/read/grep compression, ctx_* tool family |
+| `pi-tscg` | 0 | Tool-schema compression (`aggressiveMaxDescChars: 30`) |
+| `pi-slim` | 0 | Trims Pi's default system-prompt docs block |
+| `pi-mcp-adapter` | 0 | MCP server bridge |
+| `pi-autoresearch` | 0 | Background research agent |
+| `pi-continue` | 0 | Continue from checkpoint |
+| `cc-safety-net` | 0 | Safety checks |
+| `@plannotator/pi-extension` | 0 | Planning annotations |
+| `pi-context-usage` | 0 | Passive token observability |
+| `pi-cache-graph` | 0 | Prompt-cache visualization |
+| `pi-cache-optimizer` | 0 | Cache-hit optimization |
+| `@ogulcancelik/pi-model-thinking` | 0 | Model thinking level control |
+| `@ogulcancelik/pi-model-agents` | 0 | Multi-model agent support |
+| `pi-herdr-btw` | 0 | Herdr by-the-way integration |
+
+**Total per-request overhead: ~5,370 tokens (down from 14,698 — 63.5% reduction)**
+
+### Removed packages (measured cost, justified removal)
+
+| Package | Cost | Why removed |
+| --- | --- | --- |
+| `pi-subagents` | 3,808 | Most expensive package (26% of total). Massive tool schema. |
+| `@leing2021/super-pi` | 2,884 | 31 tool names, CE pipeline overlap with pi-goal-list-loop-audit |
+| `@ogulcancelik/pi-herdr` | 1,590 | Only useful with Herdr terminal multiplexer |
+| `pi-lens` | 1,271 | LSP diagnostics available via built-in tools |
+| `@narumitw/pi-goal` | 526 | Replaced by pi-goal-list-loop-audit |
+| `pi-smart-compact` | 275 | Overlaps with built-in compaction |
 
 **Extensions** (6 from `@samfp/pi-essentials`): auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer.
+ (6 from `@samfp/pi-essentials`): auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer.
 
 ## Model setup
 
@@ -140,13 +151,13 @@ cp -r skills/agent-skills/* ~/.pi/agent/skills/
 mkdir -p ~/.agents/skills
 cp -r skills/agents-skills/* ~/.agents/skills/
 
-# 3. Install packages
+# 3. Install packages (17 — lean config, ~5,370 tokens/req)
 pi install npm:context-mode npm:pi-lean-ctx npm:pi-tscg npm:pi-context-usage \
   npm:pi-cache-graph npm:pi-cache-optimizer npm:pi-mcp-adapter npm:pi-slim \
-  npm:pi-web-access npm:pi-autoresearch npm:pi-subagents npm:cc-safety-net \
-  npm:@plannotator/pi-extension npm:@narumitw/pi-goal npm:@ogulcancelik/pi-herdr \
+  npm:pi-web-access npm:pi-autoresearch npm:pi-continue npm:cc-safety-net \
+  npm:@plannotator/pi-extension npm:pi-goal-list-loop-audit \
   npm:@ogulcancelik/pi-model-thinking npm:@ogulcancelik/pi-model-agents \
-  npm:pi-herdr-btw npm:pi-lens npm:pi-continue npm:pi-smart-compact npm:@leing2021/super-pi
+  npm:pi-herdr-btw
 
 # 4. Set your API key
 export LILAC_API_KEY="your-key-here"
