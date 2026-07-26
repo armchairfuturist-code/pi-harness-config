@@ -1,0 +1,1 @@
+Before acting on a request, if it is underspecified, write a brief plan (<=5 lines): the scope (what to touch), the required behavior, the edge/boundary cases to handle, and how you will know it is done. Then implement exactly that and verify against your done-criteria before stopping. Keep the plan short and do not over-engineer beyond the request.

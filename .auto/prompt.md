@@ -96,7 +96,12 @@ sorted — see ideas.md.)
   Fair because thinking level is held constant, so rule vs baseline is
   unconfounded. (NOT tuning thinking — that's model-config, off-limits. Low is
   fixed; only `rule.md` varies.)
-- (baseline @ thinking=low pending first run below)
+- **Baseline v2 @ thinking=low, harder suite (8 trials, 2026-07-26):
+  tasks_passed=6/8, total_input_tokens=367,983.** FAILs: stats r1, validate r1.
+  validate r1 used only 23k tok (vs 42k pass) → under-scoped / stopped early.
+  The vague-prompt gap now exhibits honestly (genuine under-scoping, caught by
+  spec-based verifiers). Headroom: 6→8. This is the real target.
+- (rule v1 pending)
 - Update this as experiments accumulate.
 
 ## Verdict (to write at finalize)
