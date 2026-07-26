@@ -1,5 +1,6 @@
 ---
 name: ai-consultant-career
+disable-model-invocation: true
 description: Land a people-facing AI role at a startup (under 150 people). Build resume **bolts** that lead with shipped systems and team adoption, backed by **GitHub proof**. Covers resume, cover letter, interview prep, portfolio authority, web-wide job discovery, and offer negotiation from a position of evidence.
 disable-model-invocation: false
 ---

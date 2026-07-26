@@ -1,5 +1,6 @@
 ---
 name: calibrate-longevity
+disable-model-invocation: true
 description: Turn bloodwork, DNA, and health-tracker data into a ranked longevity optimization plan — supplements, peptides, and research compounds. Use when the user shares lab results, wants a longevity/biohacking protocol, or mentions peptides/NAD+/rapamycin.
 ---
 

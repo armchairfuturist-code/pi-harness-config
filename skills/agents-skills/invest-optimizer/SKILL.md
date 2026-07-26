@@ -1,5 +1,6 @@
 ---
 name: invest-optimizer
+disable-model-invocation: true
 description: "Recalibrate portfolio posture to market regime and goals. Triggers: portfolio review, market timing, goal alignment, posture shift."
 ---
 

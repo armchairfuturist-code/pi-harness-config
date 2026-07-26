@@ -1,5 +1,6 @@
 ---
 name: full-output-enforcement
+disable-model-invocation: true
 description: Overrides default LLM truncation behavior. Enforces complete code generation, bans placeholder patterns, and handles token-limit splits cleanly. Apply to any task requiring exhaustive, unabridged output.
 ---
 
