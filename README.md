@@ -1,6 +1,6 @@
 # Pi Harness Config
 
-Optimized configuration for the [Pi coding agent](https://pi.dev) — a token-efficient, context-aware setup tuned from 172 sessions of real usage data and extensive autoresearch benchmarking.
+Optimized configuration for the [Pi coding agent](https://pi.dev) — a token-efficient, context-aware setup tuned from 172 sessions of real usage data, 10+ autoresearch benchmark experiments, and a prompt-quality autoresearch study.
 
 ## What's in here
 
@@ -27,7 +27,9 @@ pi-harness-config/
 │   ├── prompt-long.md       # Long workload prompt
 │   └── probe.sh             # 1-request probe for per-request fixed overhead
 └── skills/
-    └── mattpocock/          # 22 skills from mattpocock/skills
+    ├── mattpocock/ # 22 engineering + productivity skills
+    ├── agents-skills/ # 14 domain skills (finance, health, copy, ponytail, etc.)
+    └── prompt-sharpen/ # opt-in vague-request sharpener
 ```
 
 ## Optimizations applied
@@ -125,19 +127,37 @@ Measured token cost per package (via probe.sh, 2025-07-25):
 - `@samfp/pi-essentials`: auto-session-name, auto-title, compact-header, clipboard-image, image-context-pruner, markdown-viewer
 - `delegate.ts` — minimal subagent tool (24 tokens vs 3,808 for pi-subagents). Spawns a fresh pi agent session via `createAgentSession()` with read/bash/grep/find/ls tools.
 
-## Skills (22 from mattpocock/skills — zero per-request cost)
+## Skills (39 — all user-invoked, zero per-request cost)
 
-Skills are loaded on-demand, not included in the per-request tool schema. All 22 mattpocock engineering + productivity skills installed:
+**All 39 skills have `disable-model-invocation: true`** — none auto-load into context.
+This saves ~1,380 tokens/turn (previously 29 model-invoked skill descriptions were
+injected every turn). Reach any skill via `/ask-matt`, the global router.
 
-**Engineering:** ask-matt, codebase-design, code-review, diagnosing-bugs, domain-modeling, grill-with-docs, implement, improve-codebase-architecture, prototype, research, resolving-merge-conflicts, setup-matt-pocock-skills, tdd, to-spec, to-tickets, triage, wayfinder
+**`/ask-matt`** — router over every skill. Describe your situation; it names the
+skill or flow to run. Covers the full idea→ship engineering flow (grill → spec →
+tickets → implement → review) plus all domain and utility skills.
 
-**Productivity:** grill-me, grilling, handoff, teach, writing-great-skills
+**Engineering (22, from mattpocock/skills):** ask-matt (router), codebase-design,
+code-review, diagnosing-bugs, domain-modeling, grill-me, grill-with-docs, grilling,
+handoff, implement, improve-codebase-architecture, prototype, research,
+resolving-merge-conflicts, setup-matt-pocock-skills, tdd, teach, to-spec,
+to-tickets, triage, wayfinder, writing-great-skills
+
+**Domain & utility (17):** impeccable (UI design — the sole design skill),
+last30days, invest-optimizer, calibrate-longevity, ai-consultant-career,
+conversion-copywriting, prompt-sharpen, caveman-compress, full-output-enforcement,
+ponytail (+ ponytail-audit/debt/gain/help/review), system-health-check, find-skills
+
+**Removed:** 5 UI-design sprawl skills (design-taste-frontend, high-end-visual-design,
+industrial-brutalist-ui, minimalist-ui, stitch-design-taste) — superseded by
+`/impeccable`, which covers all frontend design comprehensively.
 
 Key skills:
-
+- `/ask-matt` — global router; describe the situation, get the skill or flow
 - `/handoff` — replaces super-pi's context_handoff + session_checkpoint
 - `/code-review` — replaces super-pi's 7 reviewer tools with one skill
-- `/writing-great-skills` — methodology for writing skills (no-op test, single source of truth, granularity rules)
+- `/prompt-sharpen` — turn a vague request into a sharp brief before running
+- `/writing-great-skills` — methodology for writing skills (no-op test, single source of truth)
 - `/improve-codebase-architecture` — scans for deepening opportunities, produces HTML report (uses `delegate` for codebase exploration)
 
 See [WORKFLOW.md](WORKFLOW.md) for how to use these skills with pi-goal-list-loop-audit and delegate.
@@ -344,7 +364,7 @@ cp rules/lean-ctx.md ~/.pi/rules/lean-ctx.md
 # 1b. Copy delegate extension (minimal subagent tool)
 cp extensions/delegate.ts ~/.pi/agent/extensions/delegate.ts
 
-# 2. Copy skills (mattpocock engineering + productivity)
+    ├── mattpocock/ # 22 engineering + productivity skills
 cp -r skills/mattpocock/* ~/.pi/agent/skills/
 
 # 3. Install packages (17 — lean config, ~5,394 tokens/req)
