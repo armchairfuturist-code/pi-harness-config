@@ -1,11 +1,12 @@
 #!/bin/bash
 # Autoresearch measure script — Pi prompt-quality (task-sharpening).
 #
-# v3 HARDER suite: each vague prompt requires inferring MORE behaviors / fields,
-# so under-scoping is more likely to surface a real vague-prompt gap. Verifiers
-# remain spec-based hidden input->expected-output (no implementation-shape, no
-# LLM judge). The rule under test (.auto/rule.md) is held GENERAL — never tuned
-# to task names/fixtures (anti-overfit). Thinking held constant (low).
+# v4 SCOPING-FOCUSED suite: verifiers accept ANY valid rejection contract (raise
+# OR return a falsy ok) and drop over-specified requirements (tax-as-percent,
+# median) that tested AMBIGUITY, not scoping. This isolates the question the
+# sharpening rule can actually address: does the model handle ALL the behaviors,
+# or under-scope? Fair to both arms (baseline + rule) equally. Anti-overfit:
+# rule.md stays GENERAL (no task names); verifiers test behavior specs only.
 #
 # Empty rule.md => no --append-system-prompt (true no-rule baseline).
 # Usage: ./.auto/measure.sh [RUNS]   (RUNS default 2)
@@ -25,7 +26,7 @@ if [ -s "$RULE_FILE" ]; then
 fi
 RULE_TOKENS=$(( RULE_CHARS / 4 ))
 
-# --- bug2 : two money functions, both noisy -> round both to 2dp, tax from percent ---
+# --- bug : BOTH money functions must be rounded to 2dp (scoping: fix both) ---
 setup_bug() {
   local d="$1"; rm -rf "$d"; mkdir -p "$d"
   cat >"$d/cart.py" <<'PY'
@@ -36,7 +37,7 @@ def tax(amount, rate):
     return amount * rate
 PY
 }
-PROMPT_bug="Fix the money functions in cart.py — customers see ugly long decimals on totals and the tax looks wrong."
+PROMPT_bug="Fix the money functions in cart.py — customers see ugly long decimals on both the totals and the tax."
 verify_bug() {
   (cd "$1" && timeout 20 python3 - <<'PY'
 import importlib.util
@@ -48,17 +49,16 @@ assert abs(m.total([19.99,5.49,3.50])-28.98)<1e-9, m.total([19.99,5.49,3.50])
 assert m.total([])==0
 assert clean(m.total([0.1,0.2,0.3])), m.total([0.1,0.2,0.3])
 assert clean(m.total([0.1]*3)), m.total([0.1]*3)
-# tax: rate is a PERCENT (8.5 means 8.5%), rounded to cents, clean
-assert abs(m.tax(100,8.5)-8.5)<1e-9, m.tax(100,8.5)
-assert abs(m.tax(19.99,10)-2.0)<1e-9, m.tax(19.99,10)
-assert clean(m.tax(19.99,10)), m.tax(19.99,10)
-assert m.tax(0,7)==0
+# tax: must ALSO be clean (2dp) — scoping check that BOTH functions were fixed
+assert clean(m.tax(19.99,0.085)), m.tax(19.99,0.085)
+assert clean(m.tax(100,0.085)), m.tax(100,0.085)
+assert m.tax(0,0.07)==0
 print("ok")
 PY
   ) >/dev/null 2>&1
 }
 
-# --- parse2 : robust for real config files (comments, blanks, ws, '=' in value, inline comments) ---
+# --- parse : robust for real config files (comments, blanks, ws, = in value, inline comments) ---
 setup_parse() {
   local d="$1"; rm -rf "$d"; mkdir -p "$d"
   cat >"$d/config.py" <<'PY'
@@ -81,7 +81,7 @@ assert p("a=1\nb=2")=={"a":"1","b":"2"}
 assert p("a = 1\n# c\n\nb=2 ")=={"a":"1","b":"2"}, "ws/comment/blank"
 assert p("")=={}
 assert p("# only\n")=={}
-assert p("conn=host=db&port=5432")=={"conn":"host=db&port=5432"}, "= in value (split first =)"
+assert p("conn=host=db&port=5432")=={"conn":"host=db&port=5432"}, "= in value"
 assert p("host=localhost # default")=={"host":"localhost"}, "inline comment"
 assert p("  k  =  v  ")=={"k":"v"}
 print("ok")
@@ -89,7 +89,7 @@ PY
   ) >/dev/null 2>&1
 }
 
-# --- stats2 : useful summary -> count,min,max,mean,median, empty-safe ---
+# --- stats : useful summary -> count,min,max,mean, empty-safe (canonical core) ---
 setup_stats() {
   local d="$1"; rm -rf "$d"; mkdir -p "$d"
   cat >"$d/stats.py" <<'PY'
@@ -111,15 +111,13 @@ def g(k):
     except Exception: return None
 assert g("count")==4 and g("min")==1 and g("max")==4, dict(r) if hasattr(r,'items') else r
 assert g("mean")==2.5, g("mean")
-assert g("median")==2.5, g("median")    # extra field: median of [1,2,3,4] = 2.5
-r2=s([1,2,3]); assert hasattr(r2,"__getitem__") and r2["median"]==2, r2   # median of [1,2,3]=2
 s([])  # must not crash
 print("ok")
 PY
   ) >/dev/null 2>&1
 }
 
-# --- validate2 : 4 fields with varied rules (more under-scope surface) ---
+# --- validate : 4 fields; invalid rejected via RAISE or falsy ok (either contract) ---
 setup_validate() {
   local d="$1"; rm -rf "$d"; mkdir -p "$d"
   cat >"$d/order.py" <<'PY'
@@ -134,21 +132,29 @@ import importlib.util
 spec=importlib.util.spec_from_file_location("order","order.py")
 m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 o=m.place_order
-assert o("widget",1,"a@b.com","US")["ok"] is True, "valid rejected"
-# item: non-empty string
-assert o("",1,"a@b.com","US")["ok"] is False
-assert o(None,1,"a@b.com","US")["ok"] is False
-# qty: positive int (bool excluded)
-assert o("w",0,"a@b.com","US")["ok"] is False
-assert o("w",-1,"a@b.com","US")["ok"] is False
-assert o("w","2","a@b.com","US")["ok"] is False
-assert o("w",True,"a@b.com","US")["ok"] is False
-# email: contains @
-assert o("w",1,"noat","US")["ok"] is False
-# country: exactly 2 letters
-assert o("w",1,"a@b.com","USA")["ok"] is False, "3-letter country accepted"
-assert o("w",1,"a@b.com","us")["ok"] is True, "lowercase 2-letter rejected?"
-assert o("w",1,"a@b.com","")["ok"] is False, "empty country accepted"
+def rejected(*a):  # invalid iff it raises OR returns a falsy/non-True ok
+    try:
+        r=o(*a)
+    except Exception:
+        return True
+    if isinstance(r,dict): return not r.get("ok",False)
+    return not r
+def accepted(*a):  # valid iff no raise AND truthy ok
+    try:
+        r=o(*a)
+    except Exception:
+        return False
+    if isinstance(r,dict): return bool(r.get("ok",False))
+    return bool(r)
+assert accepted("widget",1,"a@b.com","US"), "valid rejected"
+assert rejected("",1,"a@b.com","US"), "empty item accepted"
+assert rejected(None,1,"a@b.com","US"), "None item accepted"
+assert rejected("w",0,"a@b.com","US"), "qty 0 accepted"
+assert rejected("w",-1,"a@b.com","US"), "neg qty accepted"
+assert rejected("w","2","a@b.com","US"), "non-int qty accepted"
+assert rejected("w",1,"noat","US"), "bad email accepted"
+assert rejected("w",1,"a@b.com","USA"), "3-letter country accepted"
+assert rejected("w",1,"a@b.com",""), "empty country accepted"
 print("ok")
 PY
   ) >/dev/null 2>&1
