@@ -11,6 +11,7 @@
 # Usage: ./.auto/measure.sh [RUNS]   (RUNS default 2)
 set -uo pipefail
 RUNS="${1:-2}"
+THINKING="${THINKING:-low}"   # constant; low models the cost-conscious case where Pi's thinness hurts most
 PI_BIN="pi"
 SESSIONS_ROOT="/home/alex/.pi/agent/sessions"
 BENCH_ROOT="/home/alex/pi-pq-bench"
@@ -21,7 +22,7 @@ REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 RULE_ARGS=()
 RULE_CHARS=0
 if [ -s "$RULE_FILE" ]; then
-  RULE_ARGS=(--append-system-prompt "$RULE_FILE" --no-prompt-templates)
+  RULE_ARGS=(--append-system-prompt "$RULE_FILE")
   RULE_CHARS=$(wc -c < "$RULE_FILE")
 fi
 RULE_TOKENS=$(( RULE_CHARS / 4 ))
@@ -163,6 +164,7 @@ for task in "${TASKS[@]}"; do
     marker=$(mktemp)
     prompt="PROMPT_$task"; prompt="${!prompt}"
     ( cd "$taskdir" && timeout 150 "$PI_BIN" -p "$prompt" \
+        --thinking "$THINKING" --no-prompt-templates \
         "${RULE_ARGS[@]}" ) >/tmp/pq-out.$$ 2>&1
     rc=$?
     sess=$(find_session "$taskdir" "$marker")

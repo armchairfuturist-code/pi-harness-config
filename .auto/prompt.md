@@ -85,9 +85,19 @@ sorted — see ideas.md.)
   unreliable — treat as crash/noise, not a real regression.
 
 ## What's Been Tried
-- (baseline pending) Empty `rule.md` → measures Pi's raw vague-task reliability.
-  Update this as experiments accumulate: note which rule phrasings helped/hurt,
-  which tasks are noise-stable, dead ends.
+- **Baseline @ thinking=high (8 trials, 2026-07-26): tasks_passed=8/8,
+  total_input_tokens=518,372.** At high thinking the model's own reasoning
+  closes the vague-prompt gap — primary metric SATURATED, no headroom. Confirms
+  the handoff's note that the reliability gap is a *cost-conscious / low-context*
+  problem, not a peak-reasoning problem.
+- **Reframe:** run the bench at `--thinking low` (constant across all arms).
+  Low thinking models the cost-conscious / beginner case the handoff identifies
+  as Pi's weak spot, widens the gap the skill targets, AND cuts loop cost ~10×.
+  Fair because thinking level is held constant, so rule vs baseline is
+  unconfounded. (NOT tuning thinking — that's model-config, off-limits. Low is
+  fixed; only `rule.md` varies.)
+- (baseline @ thinking=low pending first run below)
+- Update this as experiments accumulate.
 
 ## Verdict (to write at finalize)
 - Does a thin general sharpening rule close the vague-prompt gap? By how much?
