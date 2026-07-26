@@ -102,6 +102,13 @@ sorted — see ideas.md.)
   The vague-prompt gap now exhibits honestly (genuine under-scoping, caught by
   spec-based verifiers). Headroom: 6→8. This is the real target.
 - (rule v1 pending)
+- **Exp1 — rule v1 (8 trials, thinking=low): tasks_passed=7/8, tokens=382,152,
+  rule=88 tok.** +1 over baseline (6/8) but within binomial noise at n=8;
+  tokens +3.8% (the brief adds a little + one extra pass costs more). Remaining
+  fail: validate r2 (29k tok) — still under-scoped/early-stop. NOTE: v1's "do not
+  over-engineer beyond the request" may INDUCE under-scoping on vague reqs (model
+  errs minimal). v2 will drop that clause and emphasize re-verify-before-stopping.
+- Needs RUNS=3 confirmation to separate signal from noise.
 - Update this as experiments accumulate.
 
 ## Verdict (to write at finalize)
