@@ -114,6 +114,16 @@ sorted — see ideas.md.)
   v2 (drop anti-over-engineer + re-verify-before-stopping) looks much stronger
   than v1. NEEDS baseline @ RUNS=3 for fair same-n comparison (baseline so far
   only n=8=75%).
+- **Baseline v2-suite @ RUNS=3 (n=12): 11/12 = 91.7%.** SAME as rule v2 (11/12).
+  => on SIMPLE single-file vague tasks, the rule gives NO measurable benefit for
+  a strong model; the n=8 "gap" was sampling noise. Honest negative for the
+  simple regime.
+- **Suite hardened to v3** (2 money fns; parser w/ =-in-value + inline comments;
+  stats+median; 4-field validate) — more behaviors to infer per vague prompt.
+- **Baseline v3 @ RUNS=3 (n=12): 4/12 = 33%.** REAL gap on harder tasks: bug
+  0/3 (misses tax-as-percent), parse 1/3 (misses =-in-value/inline comments),
+  stats 2/3 (misses median), validate 1/3 (misses country field). This is the
+  regime the thesis targets. Next: rule v2 (UNCHANGED, general) @ v3 n=12.
 - Update this as experiments accumulate.
 
 ## Verdict (to write at finalize)
