@@ -146,19 +146,168 @@ See [WORKFLOW.md](WORKFLOW.md) for how to use these skills with pi-goal-list-loo
 
 - **Default:** `zai-org/glm-5.2` via Lilac provider (changes often — user uses multiple models)
 - **Roles:** not configured (user changes models frequently)
-- **Thinking:** `medium` (saves reasoning tokens vs `high`); `xhigh`/`max` available on reasoning-effort models
+- **Thinking:** `medium` by default (saves reasoning tokens vs `high`); `xhigh`/`max` available on reasoning-effort models
 - **Compaction:** 60k reserve, 20k keep-recent (tested optimal — lower values add overhead)
 
 Available models in `models.json`: Kimi K2.6, GLM 5.2, Gemma 4 31B, MiniMax M3 — all via Lilac (OpenAI-compatible API, env var `LILAC_API_KEY`).
 
+### Config flow: models.json → runtime
+
+Pi reads `~/.pi/agent/models.json` as the **source of truth**, but the runtime model used for API calls lives in `~/.pi/agent/models-store.json` — an enriched cache that adds per-model `compat`, `cost`, and `thinkingLevelMap` fields via pi-ai's `provider-composer` merge layer. The key merge rule:
+
+```js
+// provider-composer.js — thinkingLevelMap from models.json merges into runtime
+thinkingLevelMap: override.thinkingLevelMap
+  ? {...model.thinkingLevelMap, ...override.thinkingLevelMap}
+  : model.thinkingLevelMap,
+```
+
+This means **anything you set in `models.json` flows through to the runtime** — including `thinkingLevelMap`, per-model `compat`, and `maxTokens`. You do **not** need to edit `models-store.json` directly.
+
 ### Reasoning levels (xhigh / max)
 
-Pi's shift-tab thinking dial only shows `xhigh`/`max` when a model's `thinkingLevelMap` explicitly defines them — a model can have `supportsReasoningEffort: true` yet still hide those levels if the map is absent. `models.json` ships with `thinkingLevelMap` set on every reasoning-effort-capable model. The provider/model-agnostic script `scripts/ensure-reasoning-levels.js` re-derives these maps from the `reasoning` + `supportsReasoningEffort` flags, so adding a new provider or model and running it keeps the dial correct:
+Pi's shift-tab thinking dial only shows `xhigh`/`max` when a model's `thinkingLevelMap` explicitly defines them — a model can have `supportsReasoningEffort: true` yet still hide those levels if the map is absent. The gate is in pi-ai's `models.js`:
+
+```js
+// getSupportedThinkingLevels — xhigh/max are gated on the map
+if (level === "xhigh" || level === "max")
+  return model.thinkingLevelMap?.[level] !== undefined;
+```
+
+`models.json` ships with `thinkingLevelMap` set on every reasoning-effort-capable model:
+
+```json
+"thinkingLevelMap": {
+  "minimal": "low",   // clamps to lowest accepted API value
+  "low":     "low",
+  "medium":  "medium",
+  "high":    "high",
+  "xhigh":   "xhigh",
+  "max":     "max"
+}
+```
+
+The provider/model-agnostic script `scripts/ensure-reasoning-levels.js` re-derives these maps from the `reasoning` + `supportsReasoningEffort` flags (checks per-model compat, falls back to provider-level compat). Run it after adding any new provider or model:
 
 ```bash
-node scripts/ensure-reasoning-levels.js models.json   # repo source
+node scripts/ensure-reasoning-levels.js models.json              # repo source
 node scripts/ensure-reasoning-levels.js ~/.pi/agent/models.json  # live config
 ```
+
+### defaultThinkingLevel and per-model overrides
+
+`settings.json` has `defaultThinkingLevel` — the thinking level Pi starts each session with. Acceptable values: `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`. Defaults to `off` (no reasoning effort unless changed by shift-tab).
+
+For **per-model overrides** (persist a thinking level across sessions for a specific model), use `~/.pi/agent/model-thinking.json` (managed by `@ogulcancelik/pi-model-thinking`):
+
+```json
+{
+  "providers": {
+    "Lilac": "medium"
+  },
+  "models": {
+    "Lilac/zai-org/glm-5.2": "high"
+  }
+}
+```
+
+Model-level entries override provider-level entries. To clear all per-model pins: `/model-thinking reset`.
+
+### Lilac provider verification
+
+To verify the endpoint is pulling correct model configuration:
+
+```bash
+# 1. Check the endpoint responds and returns valid model data
+curl -s https://api.getlilac.com/v1/models -H "Authorization: Bearer $LILAC_API_KEY" | python3 -m json.tool
+
+# 2. Check a specific model accepts reasoning_effort (for GLM 5.2)
+curl -s https://api.getlilac.com/v1/chat/completions \
+  -H "Authorization: Bearer $LILAC_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"zai-org/glm-5.2","messages":[{"role":"user","content":"say ok"}],"max_tokens":16,"reasoning_effort":"xhigh"}'
+```
+
+Compare the `supported_parameters` array from `/v1/models` against `models.json`:
+
+| Field | Source | Where to check |
+| --- | --- | --- |
+| `reasoning_effort` in `supported_parameters` | Live API `/v1/models` | Only GLM 5.2 has it — others accept/ignore it silently |
+| `supportsReasoningEffort` | `models.json` compat flag | Must be `true` for the reasoning effort dial to send `reasoning_effort` |
+| `thinkingLevelMap` | `models.json` model field | Must define `xhigh` and `max` for them to appear in shift-tab |
+| `contextWindow` / `maxTokens` | `models.json` | Verify against API `top_provider.context_length` / `max_completion_tokens` |
+
+If the endpoint returns HTTP 200 but reasoning levels still don't appear:
+1. Check `models.json` has `"supportsReasoningEffort": true` in the provider-level `compat`
+2. Check the model has `"reasoning": true`
+3. Check the model has `thinkingLevelMap` with `"xhigh": "xhigh"` and `"max": "max"`
+4. Run `node scripts/ensure-reasoning-levels.js ~/.pi/agent/models.json`
+5. Restart pi fully (not just reload)
+
+## Troubleshooting
+
+### xhigh / max don't appear in shift-tab thinking dial
+
+The shift-tab dial only shows `xhigh`/`max` when all three conditions are met:
+
+1. `models.json` has `compat.supportsReasoningEffort: true` (provider-level or per-model)
+2. The model has `reasoning: true`
+3. The model has a `thinkingLevelMap` with non-null values for `xhigh` and `max`
+
+Run the diagnostic:
+
+```bash
+# Check what levels pi thinks are available for your current model
+node -e "
+  const fs = require('fs');
+  const d = JSON.parse(fs.readFileSync(process.env.HOME + '/.pi/agent/models.json', 'utf8'));
+  const models = d.providers?.Lilac?.models || [];
+  for (const m of models) {
+    const effort = m.compat?.supportsReasoningEffort ?? d.providers?.Lilac?.compat?.supportsReasoningEffort;
+    console.log(m.id, 'reasoning:', m.reasoning, 'effort:', effort, 'map:', m.thinkingLevelMap ? 'present' : 'MISSING');
+  }
+"
+```
+
+If the map is missing, run the fix:
+
+```bash
+node scripts/ensure-reasoning-levels.js ~/.pi/agent/models.json
+# Then restart pi fully
+```
+
+### Skill conflict: "SKILL.md collision"
+
+If you see `[Skill conflicts] <skill-name> collision` at session start, a skill exists in both `~/.pi/agent/skills/<name>/SKILL.md` and `~/.agents/skills/<name>/SKILL.md`. Pi loads the user (`.pi`) copy and skips the system (`.agents`) copy, but the warning persists. Fix by removing the duplicate:
+
+```bash
+# Check which skills have duplicates
+for d in ~/.agents/skills/*/SKILL.md; do
+  name=$(basename $(dirname "$d"))
+  [ -f ~/.pi/agent/skills/$name/SKILL.md ] && echo "CONFLICT: $name"
+done
+
+# Remove the .agents duplicate (keeps the .pi user copy)
+rm ~/.agents/skills/<conflicting-skill>/SKILL.md
+```
+
+### models.json changes not taking effect
+
+Pi reads `models.json` into an in-memory cache on startup. If you edit the file while a session is running, **restart pi fully** (not just reload). To verify the runtime loaded your changes:
+
+```bash
+# Check the runtime store reflects your models.json
+node -e "
+  const d = JSON.parse(require('fs').readFileSync(process.env.HOME + '/.pi/agent/models-store.json', 'utf8'));
+  const glm = d.Lilac?.models?.find(m => m.id === 'zai-org/glm-5.2');
+  console.log('GLM 5.2 supportsReasoningEffort:', glm?.compat?.supportsReasoningEffort);
+  console.log('GLM 5.2 thinkingLevelMap:', glm?.thinkingLevelMap ? 'present' : 'MISSING');
+"
+```
+
+### Reasoning effort sent but ignored by API
+
+Some models accept `reasoning_effort` silently (HTTP 200) but don't actually use it. Check the API's `supported_parameters` in the `/v1/models` response — only models with `"reasoning_effort"` in that list truly support the dial. For Lilac, only `zai-org/glm-5.2` currently lists it. The others (kimi, gemma, minimax) accept the param without error but ignore it.
 
 ## Bench tooling
 
@@ -208,12 +357,18 @@ pi install npm:context-mode npm:pi-lean-ctx npm:pi-tscg npm:pi-context-usage \
 
 # 4. Set your API key
 export LILAC_API_KEY="your-key-here"
+
+# 5. Resolve skill conflicts (if any)
+# Skills in ~/.agents/skills/ collide with ~/.pi/agent/skills/ when both
+# contain a SKILL.md for the same skill name. Remove the duplicate:
+#   ls ~/.agents/skills/<skill-name>/SKILL.md  # if this exists, delete it
+#   rm ~/.agents/skills/<skill-name>/SKILL.md
 ```
 
 ## What's NOT included (secrets + bulk)
 
 - `auth.json` — contains real API tokens
-- `models-store.json` — 220KB provider catalog with embedded keys
+- `models-store.json` — ~9000-line enriched runtime cache that pi reads at runtime. It's auto-generated by pi-ai's `provider-composer` from `models.json` + built-in provider data, adding per-model `compat`, `cost`, and `thinkingLevelMap` fields. **You do not edit this file** — edit `models.json` instead; changes merge through on next load. Excluded because it contains cached API cost data and can be 200KB+.
 - `sessions/` — personal conversation history
 - `npm/node_modules/` — reproducible from the package list
 - Large skill assets (images, mp3, zips) — excluded to keep the repo lean
