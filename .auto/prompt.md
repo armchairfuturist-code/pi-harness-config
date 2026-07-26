@@ -109,6 +109,11 @@ sorted — see ideas.md.)
   over-engineer beyond the request" may INDUCE under-scoping on vague reqs (model
   errs minimal). v2 will drop that clause and emphasize re-verify-before-stopping.
 - Needs RUNS=3 confirmation to separate signal from noise.
+- **Exp2 — rule v2, RUNS=3 (12 trials): tasks_passed=11/12 (91.7%), tokens=661,440,
+  rule=93 tok.** Only fail: stats r2 (61k tok — wrong shape, not early-stop).
+  v2 (drop anti-over-engineer + re-verify-before-stopping) looks much stronger
+  than v1. NEEDS baseline @ RUNS=3 for fair same-n comparison (baseline so far
+  only n=8=75%).
 - Update this as experiments accumulate.
 
 ## Verdict (to write at finalize)
