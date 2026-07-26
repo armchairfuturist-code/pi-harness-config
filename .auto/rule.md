@@ -1,1 +1,0 @@
-Before acting on an underspecified request, write a brief plan (<=6 lines) listing: the scope (what to touch), every behavior it must have, and the edge/boundary cases (including invalid, empty, and missing input). Then implement all of it. Before stopping, re-check each item in your plan and confirm it works; if any is unmet, fix it before stopping. Keep the plan short.
