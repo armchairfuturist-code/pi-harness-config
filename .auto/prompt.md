@@ -124,11 +124,80 @@ sorted — see ideas.md.)
   0/3 (misses tax-as-percent), parse 1/3 (misses =-in-value/inline comments),
   stats 2/3 (misses median), validate 1/3 (misses country field). This is the
   regime the thesis targets. Next: rule v2 (UNCHANGED, general) @ v3 n=12.
+- **Exp3 — rule v2 @ v3 (n=12): 3/12 = 25%, 687k tok** vs baseline 4/12, 611k.
+  Rule did NOT help; tokens +13%. BUT v3 verifiers had unfair contract pins
+  (required return-{ok:False}; model reasonably raises). Diagnostic on a
+  validate FAIL showed the rule-v2 model scoped ALL 4 fields excellently and
+  only failed the arbitrary contract => v3 "gap" was partly verifier artifact.
+- **Suite hardened to v4 (scoping-focused, FAIR):** verifiers accept raise OR
+  falsy-ok rejection; dropped ambiguity reqs (tax-as-percent, median).
+- **Baseline v4 @ RUNS=3 (n=12): 7/12 = 58%, 814k tok.** Real gap concentrated
+  in parse (0/3 — =-in-value + inline comments) and validate (1/3 — missing
+  fields). bug 3/3, stats 3/3.
+- **Exp4 — rule v2 @ v4 (n=12): 7/12 = 58%, 1,221k tok.** SAME pass rate as
+  baseline; tokens +50%. The rule's plan+re-check loop adds turns/overhead and
+  does NOT close the parse/validate gaps (those are DOMAIN-AMBIGUITY failures —
+  "does = appear in values?", "which fields?" — that a meta-process rule cannot
+  resolve without task knowledge).
 - Update this as experiments accumulate.
 
-## Verdict (to write at finalize)
-- Does a thin general sharpening rule close the vague-prompt gap? By how much?
-- Token cost of the winning rule vs the ~20k it replaces.
-- Does it touch the max-thinking −7pt gap, or is that a separate "context
-  sufficiency" lever? (Initial read: separate — sharpening gives clearer scope,
-  not more context budget.)
+## Verdict (written at finalize)
+
+**A thin, general, injected-every-turn sharpening rule does NOT improve Pi's
+vague-task reliability, and it costs ~50% more tokens.** Measured across three
+suite hardness levels at n=12, thinking=low (constant), free model:
+
+| Suite | Baseline (no rule) | Rule v2 (93 tok, injected) |
+|---|---|---|
+| simple (v2) | 11/12 (92%) | 11/12 (92%), +0 tok-gain |
+| harder-unfair (v3) | 4/12 (33%) | 3/12 (25%) |
+| fair-scoping (v4) | 7/12 (58%), 814k tok | 7/12 (58%), **1,221k tok (+50%)** |
+
+The rule never beat baseline on correctness. On the fair v4 suite it matched
+(7/12) while raising token cost 50% — the plan+re-check loop adds turns that,
+for tasks the model would solve anyway, are pure overhead. This empirically
+confirms the handoff's own research: extra injected tokens dilute attention
+AND cost money; here they bought nothing.
+
+**Why it fails — the gap is domain-ambiguity, not meta-process.** The remaining
+v4 failures (parse: `=`-in-value/inline-comments; validate: missing fields) are
+not "the model forgot to plan." They are genuine under-specification that needs
+*task knowledge* (does `=` appear in config values? which fields need rules?) —
+exactly the knowledge a general meta-process rule cannot supply. A rule that
+*could* fix them would have to name the task's specifics = overfitting = the
+thing we forbade. So the negative is structural, not a tuning miss.
+
+**Does it touch the max-thinking −7pt gap?** No — separate lever. Sharpening
+supplies clearer scope, not more context budget; at thinking=high the model's
+own reasoning already closed even the simple-suite gap (baseline 8/8). The
+−7pt Opus/max case is a context-sufficiency problem, addressed by a different
+lever (provision more relevant context when reasoning is long), not by a
+sharpening rule. Confirms the handoff's hypothesis.
+
+**Net:** the handoff's thesis is half-right and half-wrong. Right: Pi's thinness
+is a quality feature when the prompt is sharp, and a liability when vague.
+Wrong: the liability is NOT closable by a cheap injected meta-process rule —
+because the vague cases that actually fail require domain knowledge, and
+injecting a planning loop just adds the per-turn tax the project exists to
+avoid. Pi's documented premise ("assumes you know what you want") holds: the
+honest fix for vague prompts is a sharper *input*, authored by the user — not a
+harness rule that tries to manufacture sharpness per turn.
+
+### Recommended changes (distilled)
+1. **Do NOT ship a per-turn sharpening rule into AGENTS.md.** Measured: no
+   reliability gain, +50% tokens. Would make Pi strictly worse on its core
+   thinness advantage. (This is the key negative — it prevents a plausible but
+   counterproductive change.)
+2. **Optional: ship an on-demand `/sharpen` SKILL (opt-in, fires once, NOT
+   injected per turn).** Zero per-turn cost (only runs when the user invokes
+   it). It emits a scope/behavior/edges/done-criteria brief the user can edit
+   and re-submit — moving the sharpness into the *input*, where the thesis says
+   it belongs, at ~0 amortized cost. Reliability benefit is UNMEASURED (I
+   measured the injected form, which failed); the value here is philosophical
+   alignment + zero per-turn tax. Author it thin (<120 tok instruction).
+3. **Do NOT chase the max-thinking −7pt gap with sharpening.** It is a separate
+   context-sufficiency lever; leave it for a different experiment.
+4. **Keep the existing Session Guardrail in AGENTS.md as-is** — it targets the
+   O(turns²) cost lever, which IS real and orthogonal; don't touch it.
+
+(See `.auto/findings.md` for the full distilled writeup + raw numbers.)
