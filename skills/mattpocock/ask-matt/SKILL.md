@@ -1,6 +1,6 @@
 ---
 name: ask-matt
-description: Ask which skill or flow fits your situation. A router over the skills in this repo.
+description: Router over every skill — describe the situation, get the skill or flow to run.
 disable-model-invocation: true
 ---
 
@@ -70,8 +70,44 @@ Off the main flow entirely.
 - **`/grill-me`** — the same relentless interview as `/grill-with-docs`, but for when you have **no codebase**. Stateless: it saves nothing locally, builds no `CONTEXT.md`. Reach for it to sharpen any plan or design that doesn't live in a repo.
 - **`/prototype`** — a small, throwaway program that answers one design question: does this state model feel right, or what should this UI look like. Throwaway from day one — keep the answer, delete the code. It's the detour in step 2 of the main flow, but reach for it any time a design question is hard to settle on paper.
 - **`/research`** — delegate reading legwork to a **background agent**: it investigates a question against **primary sources**, then leaves a cited Markdown file in the repo. Keep working while it reads. The file it produces is something to take *into* the main flow at `/grill-with-docs` — research feeds the thinking, it doesn't replace it.
+- **`/resolving-merge-conflicts`** — resolve an in-progress git merge or rebase conflict.
 - **`/teach`** — learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-great-skills`** — reference for writing and editing skills well.
+
+## Off the flow — domain & utility skills
+
+Everything below sits off the idea→ship path. Reach by situation; none of it needs the engineering setup. One line each.
+
+**Design**
+- **`/impeccable`** — design, redesign, audit, or polish any frontend UI. The one design skill.
+
+**Research & insight**
+- **`/last30days`** — what people are actually saying about a topic in the last 30 days, across social and forums.
+
+**Money & life**
+- **`/invest-optimizer`** — recalibrate portfolio posture to market regime and goals.
+- **`/calibrate-longevity`** — ranked longevity plan from bloodwork, DNA, and tracker data.
+- **`/ai-consultant-career`** — land a people-facing AI role; build resume bolts that lead with shipped systems.
+
+**Writing**
+- **`/conversion-copywriting`** — research-first, Voice-of-Customer copy that earns a "yes" (landing pages, emails, sales).
+
+**Keeping the harness lean**
+- **`/prompt-sharpen`** — turn a vague request into a sharp, editable brief before running it. The pre-task sharpener for a thin harness.
+- **`/caveman-compress`** — compress memory files (CLAUDE.md, todos) to caveman format to save input tokens.
+- **`/full-output-enforcement`** — force complete code generation; ban placeholder truncation and token-limit splits.
+
+**Codebase minimalism (ponytail)**
+- **`/ponytail`** — force the laziest solution that works: YAGNI, stdlib before deps, question whether the task needs to exist.
+- **`/ponytail-review`** — review a diff for over-engineering; one line per thing to delete.
+- **`/ponytail-audit`** — whole-repo audit for over-engineering.
+- **`/ponytail-debt`** — harvest `ponytail:` comments into a tracked debt ledger.
+- **`/ponytail-gain`** — show ponytail's measured impact as a compact scoreboard.
+- **`/ponytail-help`** — quick-reference card for all ponytail commands.
+
+**Harness upkeep**
+- **`/system-health-check`** — morning ritual: run drift probes, correct where safe, report.
+- **`/find-skills`** — discover and install skills from the open ecosystem (`npx skills`).
 
 ## Precondition
 
