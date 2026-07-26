@@ -8,6 +8,8 @@ Optimized configuration for the [Pi coding agent](https://pi.dev) — a token-ef
 pi-harness-config/
 ├── settings.json            # Pi core: 17 packages, 7 extensions, compaction
 ├── models.json              # Provider + model definitions (Lilac provider)
+├── scripts/
+│   └── ensure-reasoning-levels.js # Inject thinkingLevelMap (xhigh/max) for any reasoning-effort model
 ├── tscg.json                # pi-tscg config (tool-schema compression, maxDesc=30)
 ├── AGENTS.md                # Project instructions injected into every session
 ├── extensions/
@@ -144,10 +146,19 @@ See [WORKFLOW.md](WORKFLOW.md) for how to use these skills with pi-goal-list-loo
 
 - **Default:** `zai-org/glm-5.2` via Lilac provider (changes often — user uses multiple models)
 - **Roles:** not configured (user changes models frequently)
-- **Thinking:** `medium` (saves reasoning tokens vs `high`)
+- **Thinking:** `medium` (saves reasoning tokens vs `high`); `xhigh`/`max` available on reasoning-effort models
 - **Compaction:** 60k reserve, 20k keep-recent (tested optimal — lower values add overhead)
 
 Available models in `models.json`: Kimi K2.6, GLM 5.2, Gemma 4 31B, MiniMax M3 — all via Lilac (OpenAI-compatible API, env var `LILAC_API_KEY`).
+
+### Reasoning levels (xhigh / max)
+
+Pi's shift-tab thinking dial only shows `xhigh`/`max` when a model's `thinkingLevelMap` explicitly defines them — a model can have `supportsReasoningEffort: true` yet still hide those levels if the map is absent. `models.json` ships with `thinkingLevelMap` set on every reasoning-effort-capable model. The provider/model-agnostic script `scripts/ensure-reasoning-levels.js` re-derives these maps from the `reasoning` + `supportsReasoningEffort` flags, so adding a new provider or model and running it keeps the dial correct:
+
+```bash
+node scripts/ensure-reasoning-levels.js models.json   # repo source
+node scripts/ensure-reasoning-levels.js ~/.pi/agent/models.json  # live config
+```
 
 ## Bench tooling
 
@@ -170,6 +181,8 @@ All benches report `totalInputTokens` (Σ input + cacheRead + cacheWrite across 
 # 1. Copy config files into place
 cp settings.json ~/.pi/agent/settings.json
 cp models.json ~/.pi/agent/models.json
+# 1a. (Optional) re-derive thinkingLevelMap for any new reasoning-effort models
+node scripts/ensure-reasoning-levels.js ~/.pi/agent/models.json
 cp tscg.json ~/.pi/tscg.json
 cp AGENTS.md ~/Projects/AGENTS.md   # or your project root
 mkdir -p ~/.pi/agent/extensions/pi-lean-ctx
