@@ -64,14 +64,14 @@ PY
 }
 PROMPT_faster="Make the unique function faster, but don't change what it returns."
 verify_faster() { # pass iff order-preserving + output correct + runs fast on big input
-  (cd "$1" && timeout 8 python3 - <<'PY'
+  (cd "$1" && timeout 12 python3 - <<'PY'
 import importlib.util, time
 spec=importlib.util.spec_from_file_location("dedup","dedup.py")
 m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-big=list(range(20000))+list(range(20000))
+big=list(range(150000))+list(range(150000))
 t=time.time(); r=m.unique(big); dt=time.time()-t
-assert dt < 4.0, f"too slow: {dt:.1f}s"
-assert r==list(range(20000)), "wrong output or order"
+assert dt < 6.0, f"too slow: {dt:.1f}s"
+assert r==list(range(150000)), "wrong output or order"
 print("ok")
 PY
   ) >/dev/null 2>&1
@@ -118,15 +118,20 @@ PROMPT_errors="This script crashes on bad input. Handle errors better."
 verify_errors() { # pass iff good input prints content AND missing input is graceful (no traceback)
   local d="$1"
   printf 'hello\n' >"$d/data.txt"
-  local out
+  local out clean
   out=$(cd "$d" && timeout 20 python3 fetch.py data.txt 2>/dev/null) || return 1
-  [ "${out%%$'\n'}" = "hello" ] || return 1
+  clean=$(printf '%s' "$out" | tr -d '[:space:]')
+  [ "$clean" = "hello" ] || return 1
   (cd "$d" && timeout 20 python3 fetch.py nope.txt) >"$d/o.txt" 2>"$d/e.txt" || true
   if grep -qi traceback "$d/e.txt" "$d/o.txt" 2>/dev/null; then return 1; fi
   return 0
 }
 
 TASKS=(validate faster cli errors)
+
+# Only run the main loop when executed directly, not when sourced (offline
+# verifier testing). Sourcing returns before the loop.
+if [ "${BASH_SOURCE[0]:-$0}" != "$0" ]; then return 0 2>/dev/null || true; fi
 
 # ---- session discovery (newest jsonl matching a cwd, newer than marker) ----
 find_session() {
