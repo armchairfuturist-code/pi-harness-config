@@ -14,16 +14,13 @@
     "npm:pi-cache-optimizer",
     "npm:pi-context-usage",
     "npm:pi-continue",
-    "npm:pi-goal-list-loop-audit",
     "npm:pi-herdr-btw",
     "npm:pi-lean-ctx",
-    "npm:pi-mcp-adapter",
     "npm:pi-slim",
     "npm:pi-tscg",
-    "npm:pi-web-access"
+    "npm:@quintinshaw/pi-dynamic-workflows"
   ],
   "extensions": [
-    "~/.pi/agent/extensions/delegate.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",

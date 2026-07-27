@@ -1,125 +1,43 @@
-# Workflow: mattpocock skills + pi-goal-list-loop-audit + delegate
+# Workflow — CE-lite (for the operator)
 
-How to use the three components together. They operate at different layers and compose, not conflict.
+**There is nothing to memorize.** Say what you want in plain language. The ce-lite orchestrator routes it.
 
-## Component roles
+## The four shapes of work
 
-| Component | Layer | Role |
-| --- | --- | --- |
-| **mattpocock skills** | Methodology | HOW to do the work (grill → spec → tickets → implement → review) |
-| **pi-goal-list-loop-audit** | Execution | DRIVES the work to completion + verifies with isolated auditor |
-| **delegate** | Exploration | Isolated subagent for codebase scanning, research, verification |
+**"What's X?" / "Draft a thank-you note"** — answered directly. Done.
 
-## Feature work (the main flow)
+**"Look up X"** — you get an answer with sources. Behind the scenes it fetches directly or runs a research workflow; you don't choose which.
 
-```
-/grill-with-docs                    ← sharpen idea, build CONTEXT.md
-    ↓
-/to-spec                            ← turn conversation into spec
-    ↓
-/to-tickets                         ← split into tracer-bullet tickets
-    ↓
-/list <paste tickets>               ← import to glla (batch, one confirm)
-    ↓
-    ┌─ glla drives each item ──────────────────────────────┐
-    │  /implement → /tdd internally (red-green slices)     │
-    │  delegate("explore module X for dependencies")       │
-    │  glla auditor verifies completion (isolated session) │
-    └──────────────────────────────────────────────────────┘
-    ↓
-/code-review                        ← quality check on the full diff
-```
+**"Do this multi-step thing"** (organize files, produce a report, research-and-summarize, fix a recurring annoyance) — the orchestrator:
+1. asks **only** the questions it genuinely can't default (one at a time),
+2. states the acceptance terms up front (what "done" means),
+3. gives a short plan summary,
+4. executes — fanning out subagents when the work decomposes,
+5. **verifies the result against the terms** before delivering,
+6. tells you what happened in a few lines, and saves anything reusable for next time.
 
-**Why this order:** Keep grilling → spec → tickets in one unbroken context window (Matt's rule). glla takes over AFTER tickets exist — it's the execution engine, not the ideation engine. glla persists to disk, so it survives `/handoff` naturally.
+**"Keep improving X"** (weekly metrics, optimization) — runs as a measured experiment loop.
 
-## Single goal (smaller work)
+## Side questions mid-work
 
-```
-/goal "implement X. Done when: tests pass"
-    ↓
-    agent uses /implement → /tdd
-    agent uses delegate for any exploration
-    glla auditor verifies (read-only, isolated)
-```
+Use `/btw` — opens a side thread that doesn't disturb the main conversation.
 
-Skip the spec/tickets flow — go straight to glla with a clear "Done when:" clause.
+## What you will NOT need anymore
 
-## Bug fixes
+- No `/grill-with-docs → /to-spec → /to-tickets → /list → /implement` chains. Those skills still exist as the orchestrator's reference library — it reads them, you never type them.
+- No goal/list/loop commands. Contract tracking is internal.
+- No model picking for subagents. Tiers (small/medium/big) route automatically; the one config file is `~/.pi/workflows/model-tiers.json`.
+- No trigger words. The orchestrator may use workflows proactively.
 
-```
-/diagnosing-bugs                    ← tight feedback loop (red test first)
-    ↓
-/goal "fix bug X. Done when: regression test passes"
-    ↓
-    glla auditor verifies the fix is real
-```
+## When something goes wrong
 
-## Architecture work
+- **"It did the small thing but I wanted the full treatment"** → say "run this as a contract" or "fan this out" — explicit always works.
+- **"Web answers feel thin this week"** → `pi install npm:pi-web-access` for heavy-research periods (+~1,084 tok/request, documented trade). Remove after: `pi remove npm:pi-web-access`.
+- **"I want to check the plan before it runs"** → say so ("show me the plan and wait"). The default is to proceed; pausing is one sentence.
+- **Long job got interrupted** → workflows are journaled; say "resume the last workflow" — completed agents don't re-run.
 
-```
-/improve-codebase-architecture
-    ↓
-    agent calls delegate("scan codebase for shallow modules")
-    ↓
-    HTML report produced, you pick a candidate
-    ↓
-    /grilling walks the decision tree
-    ↓
-    /goal "deepen module X. Done when: tests pass, interface shrinks"
-    ↓
-    glla auditor verifies
-```
+## Monthly maintenance (5 minutes)
 
-## Loops (continuous improvement)
-
-```
-/loop start "improve test coverage" measure="coverage report | grep -oP '\d+(?=%)'" direction=max
-    ↓
-    each iteration: delegate explores, agent implements
-    metric determines progress (not the agent's self-report)
-    ↓
-/loop stop
-```
-
-## How the three pieces interact
-
-**glla auditor vs /code-review** — different things:
-
-- glla auditor: "Did you actually do what you said?" (goal completion, isolated session)
-- /code-review: "Is the code good?" (standards + spec, same session)
-- Run /code-review WITHIN the goal, then glla's auditor does the final gate
-
-**delegate vs glla auditor** — different purposes:
-
-- delegate: agent voluntarily calls it for exploration ("go figure this out")
-- glla auditor: forced on completion ("prove you did it")
-- Both spawn isolated sessions, but delegate is a tool the agent chooses; the auditor is automatic
-
-**delegate vs /handoff** — different directions:
-
-- delegate: spawn a fresh session, get a result back, continue here
-- /handoff: compact THIS session, start fresh elsewhere
-- Use delegate for parallel exploration; use /handoff when your context is full
-
-## What NOT to do
-
-1. **Don't use glla for ideation** — use mattpocock skills (grill → spec → tickets) first, THEN glla for execution. glla's loop will rush you if you haven't finished thinking.
-
-2. **Don't use delegate for simple reads** — if you just need to read one file, use `ctx_read` directly. delegate has overhead (spawning a new session). Use it for multi-step exploration or research.
-
-3. **Don't skip "Done when:" clauses** — glla's auditor needs a verification contract. Without "Done when: tests pass", the auditor has nothing concrete to check.
-
-4. **Don't use /compact inside a glla loop** — glla persists state to disk, so use `/handoff` (fork) not `/compact` (in-place) if context gets full. The goal survives the handoff.
-
-## Quick reference card
-
-```
-IDEATION:     /grill-with-docs → /to-spec → /to-tickets
-EXECUTION:    /list <tickets>  OR  /goal "X. Done when: Y"
-WITHIN:       /implement → /tdd, delegate for exploration
-VERIFY:       glla auditor (automatic) + /code-review (manual)
-CROSSING:     /handoff (glla survives)
-ARCHITECTURE: /improve-codebase-architecture (uses delegate for scanning)
-BUGS:         /diagnosing-bugs → /goal "fix. Done when: regression test"
-LOOPS:        /loop start "improve X" measure="cmd" direction=max
-```
+- `bench/probe.sh` → number stays ≤ 4,052. If it creeps up, something new is always-on — check what changed.
+- Upstream radar: `research/ce-upstream-radar.md` — quick diff of watched repos, log adopt/adapt/ignore.
+- Quarterly: re-check model tiers against the current catalog.
