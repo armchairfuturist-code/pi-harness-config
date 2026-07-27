@@ -101,4 +101,4 @@ Roles pin in **one file** `~/.pi/workflows/model-tiers.json` (small/medium/big);
 3. README/WORKFLOW: rewrite operator-facing docs around ce-lite (no skill checklists).
 4. Verify: probe canary (**3,990 ✓ measured in kernel sandbox**) + workload run + bench-systima old-vs-new + U1–U5 smoke.
 5. Push to origin master.
-6. **Live `~/.pi/agent` sync: only with explicit operator OK** (diff is: 3 packages out, 1 in, delegate out, ce-lite skill + APPEND_SYSTEM.md in, model-tiers.json auto-derives on first workflow run). Additive-only exception already taken: `skills/ce-lite/` copied into live skills so smoke tests exercise the production path — no existing live file modified.
+6. **Live `~/.pi/agent` sync: APPLIED 2026-07-27 with explicit operator OK.** Kernel settings merged preserving live prefs (Venice/kimi-k3/medium); APPEND_SYSTEM.md + ce-lite skill in place; delegate.ts removed. Backup: `~/.pi/agent/settings.json.bak-ce-lite-20260727` (rollback = restore + restart). **Live probe canary: 4,012 ≤ 4,052 ✓ (−30.7%)**; live U1 smoke green. model-tiers.json auto-derives on first workflow run; pin after ~1 week (§5).
