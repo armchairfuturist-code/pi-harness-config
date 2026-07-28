@@ -10,10 +10,10 @@
 
 | Formula | When | Example |
 |---|---|---|
-| `[Role] with [X systems] of [capability]` | Default: works everywhere | AI Solutions Consultant who has shipped 40+ systems: from conversation agents to automated workflows |
-| `I build [thing] that [outcome] for [team]` | Cover letter opener, interview intro | I build AI systems that make product teams faster. Shipped code, no hand-waving. |
+| `[Role] with [X systems] of [capability]` | Default: works everywhere | AI Adoption Consultant who has shipped 40+ systems and trained the teams that run them |
+| `I build [thing] that [outcome] for [team]` | Cover letter opener, interview intro | I build AI systems that teams actually adopt: shipped, trained, in daily use. |
 | `[Provocation]. I [verb] [capability].` | High differentiation (LinkedIn, portfolio) | AI credibility isn't a credential. I ship it. |
-| `[Capability] for [company type] \| [Role]` | Short-form (LinkedIn header, portfolio hero) | Production AI systems for early-stage startups \| AI Solutions Consultant |
+| `[Capability] for [company type] \| [Role]` | Short-form (LinkedIn header, portfolio hero) | AI adoption for early-stage startups \| AI Adoption Consultant |
 
 ### Niche Statement Framework (for LinkedIn About & Portfolio)
 
@@ -21,8 +21,8 @@ A niche statement is three clauses separated by colons:
 > [What you build]: [who you'd build it for]: [what it unlocks]
 
 Examples:
-- *Build AI systems (conversation agents, automated workflows, AI provisioning): for early-stage startups: to ship faster without a full AI team.*
-- *Design and deploy production AI: for product teams that need leverage, so they can focus on what differentiates them.*
+- *Ship AI systems and get teams to adopt them: for early-stage startups: so new ways of working outlast the engagement.*
+- *Design AI workflows and train the teams behind them: for companies where adoption is the bottleneck: so the tools actually get used.*
 
 ---
 
@@ -33,24 +33,15 @@ Examples:
 | Technical founders / CTOs | "shipped", "production", "architecture", "commits", "API", "open source" | "passionate", "certified", "accredited", "results-driven" | Direct, code-forward. Assume they'll inspect your repos. |
 | Recruiters / HR (non-technical) | "AI systems", "built for [industry]", "deployed across [clients]" | "RAG pipeline", "embedding", "prompt chaining" | Outcome-forward, technology in service of business value |
 | Product / Design (cross-functional) | "shipped", "product", "user", "iteration", "decision" | "metrics", "10x", "crushing it" | Collaboration-forward: how you work, not just what you built |
-| Enterprise hiring (big tech) | "systems", "scale", "trade-offs", "design", "reliability" | "scrappy", "hack", "move fast" | Structured, evidence-heavy |
+| People / Ops leaders | "adoption", "enablement", "training", "rollout", "change management" | "10x", "crushing it", "evangelist" | Outcome-forward: hours reclaimed, teams onboarded, resistance bypassed |
 
 ---
 
-## Body Templates (uses **bolt**, **bridge**, **evidence line**, **GitHub proof** from SKILL.md)
+## Body Templates (uses **bolt**, **bridge**, **evidence line**, **GitHub proof**, **adoption-first** from SKILL.md)
 
 ### 1. Resume Summary Bolt
 
-A resume summary is three bolts stacked:
-
-1. **Headline**: Who you are and what you do
-   - *AI Solutions Consultant who has shipped 40+ systems across tech, strategy, and operations: clients on 4 continents.*
-
-2. **Evidence**: Your strongest shipped result
-   - *Shipped production AI at github.com/armchairfuturist-code: inspect the repos, fork the stack, benchmark the output.*
-
-3. **Bridge**: What you want next
-   - *Seeking a full-time role building AI products at an early-stage startup where shipping matters more than titles.*
+Defined in SKILL.md, Resume & Cover Letter branch, Step 2 (single source of truth). Use the headline formulas above and the Quick Bolt Bank below for variants.
 
 ### 2. Interview Intro Bolt (for "tell me about yourself")
 
@@ -59,23 +50,23 @@ Structure:
 > "I build [kind of systems]. I've shipped [number] of them. Here's my GitHub: github.com/armchairfuturist-code. My most relevant project for this role is [repo], where I [capability]. I'm talking to [Company] because [reason specific to them]. I'd love to walk you through [repo] and talk about how I'd approach [their challenge]."
 
 Example:
-> "I build AI systems: conversation agents, automated workflows, AI provisioning pipelines. I've shipped 40+ of them for clients across 4 continents. My GitHub is at github.com/armchairfuturist-code, and the most relevant project for this role is [repo], where I built an AI agent that handles lead qualification end-to-end. I'm talking to [Company] because your [product] solves a problem I've seen firsthand in my client work. I'd love to walk you through the architecture and talk about how I'd contribute."
+> "I build AI systems: conversation agents, automated workflows, AI provisioning pipelines. I've shipped 40+ of them for clients across 4 continents. My GitHub is at github.com/armchairfuturist-code, and the most relevant project for this role is [repo], where I built an AI agent that handles lead qualification end-to-end. I'm talking to [Company] because your [product] solves a problem I've seen firsthand in my client work. I'd love to walk you through how the client team adopted it and how I'd approach adoption at [Company]."
 
 ### 3. Cover Letter Opening Bolt
 
 Two structures:
 
-**GitHub-first** (default):
-> "I've shipped [project] at github.com/armchairfuturist-code/[repo]: a [description] that [capability]. It's the same kind of work you're doing at [Company]. I'd love to show it to you and talk about how I'd approach [their specific challenge]."
+**Adoption-first** (default):
+> "I've shipped [number] AI systems and gotten the teams behind them to change how they work: [1-sentence adoption win with metric]. [Company] is tackling [their adoption challenge]. That's the work I do."
 
-**Problem-first** (when you want to lead with empathy):
-> "Most AI implementations fail because [problem]. I've built [number] systems that solve this. You can see one at github.com/armchairfuturist-code/[repo]. I'd like to bring that approach to [Company]'s [product/team]."
+**Proof-first** (technical founder audience):
+> "I've shipped [project] at github.com/armchairfuturist-code/[repo]: a [description] that [capability]. Same kind of work you're doing at [Company], and my client teams actually adopted it. I'd love to show it to you and talk about how I'd approach [their specific challenge]."
 
 ### 4. Call-to-Action Bolt (for cover letter close & LinkedIn)
 
-- *I'd love 15 minutes to walk your team through [project] and talk about [their challenge].*
-- *My GitHub is my resume: inspect the code at github.com/armchairfuturist-code. If the approach looks right, let's talk.*
-- *Not sure if there's a fit? Look at the commit history in [repo]. That's how I think. If that resonates, I'd love to chat.*
+- *I'd love 15 minutes to walk your team through how I got [client type] onto AI workflows and talk about [their challenge].*
+- *The pitch is adoption: 40+ systems shipped, teams trained across 4 continents. Code proof at github.com/armchairfuturist-code. If that looks right, let's talk.*
+- *Not sure if there's a fit? Look at [repo]: the system is public, and I'll tell you exactly how the team adopted it. If that resonates, I'd love to chat.*
 
 ---
 
@@ -96,14 +87,14 @@ Two structures:
 
 Ready-to-adapt bolts for Alex Myers / The Armchair Futurist, applying to startup roles:
 
-**Headline:** AI Solutions Consultant who has shipped 40+ production systems: from conversation agents to automated workflows: looking to build full-time at an early-stage product team.
+**Headline:** AI adoption consultant: 40+ systems shipped, teams trained across 4 continents, change management certified (CCMP).
 
-**Evidence (resume):** Shipped 40+ AI systems across tech, strategy, and operations: clients on 4 continents. Code at github.com/armchairfuturist-code.
+**Evidence (adoption):** Led 8-week AI pilots that start with the most adaptable 20% of employees: rapid ROI first, then org-wide rollout. Clients reclaim 10-20 hours per week.
 
-**Evidence (GitHub):** Public repos at github.com/armchairfuturist-code: conversation agents, AI workflows, provisioning pipelines. Inspect the architecture. Fork the stack. Benchmark the output.
+**Evidence (GitHub, supporting):** Public repos at github.com/armchairfuturist-code: conversation agents, AI workflows, provisioning pipelines. Proof I understand the tech I get teams to adopt.
 
-**Bridge:** What a startup gets is proof, not a promise: shipped code you can inspect before the first interview.
+**Bridge:** What a startup gets: someone who ships the system and gets the team using it. The second part is where most AI rollouts die.
 
-**Hook (LinkedIn/portfolio):** AI credibility isn't a credential. I ship it.
+**Hook (LinkedIn/portfolio):** AI doesn't fail on the tech. It fails on adoption. I fix the second part, and I ship the first.
 
-**Close (cover letter):** My GitHub is my resume. If the approach looks right, I'd love 15 minutes to walk your team through it.
+**Close (cover letter):** I'd love 15 minutes to walk you through how I got [client type]'s team onto AI workflows, and how I'd approach yours.
