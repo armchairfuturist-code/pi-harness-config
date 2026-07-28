@@ -1,5 +1,7 @@
 # Cutting-Edge Gap Analysis — 2026-07-28
 
+> **CORRECTION (2026-07-28, post-investigation):** The token estimates below used an **~11k tool-schema figure that is stale** — it traces to `progressive-disclosure-findings.md`, which measured the config **pre-tscg**. The measured post-tscg reality (config-overhead attribution, 22 tools): tool-schema overhead is **~3,000 tok** (3,087 attributed), not ~11k. The baseline table's "✅ tscg already optimal" is correct, but the "Token estimate for config" and Recommendation #1 carried the pre-tscg figure forward anyway. Corrected figures inline below; the two-phase loading gap shrinks from "massive" to **marginal-to-moderate** at current tool count. See `ce-upstream-radar.md` 2026-07-28 investigation entries.
+
 **Context:** Web research sweep (arXiv, ACL, GitHub, technical blogs) of token efficiency, execution optimization, and compression research published ~Apr–Jul 2026, compared against pi-harness-config kernel.
 
 ## Baseline (locked kernel, 3,919 tok always-on)
@@ -24,7 +26,7 @@
 
 **Key difference from config's existing approach:** tscg compresses each tool's description. Two-phase loading changes HOW tools are DISCOVERED — the model sees compact summaries first, fetches full schemas on demand. This operates at the tool-loading layer, not schema-text layer. The compact phase-1 summaries are STABLE (cache-friendly), unlike the progressive-disclosure experiments that modified the system prompt.
 
-**Token estimate for config:** ~11k tool schemas × 5-10 requests = 55k-110k per session. Two-phase could cut to ~1-2k per request = 5k-20k per session. **~70-90% reduction in tool-schema tokens.**
+**Token estimate for config (CORRECTED):** ~3k tool schemas × 8-10 requests = ~24-30k per session (NOT the stale ~55-110k). Two-phase could cut per-request tool schemas to ~1.1k, but each deferred-tool-use adds a ~2.1k fetch round-trip. Optimistic net over an 8-request session using 3 deferred tools: **~8,900 tok saved (~9-18% of overhead, NOT of total)**. At real risk of net-negative if the model fetches wrong tools (extra round-trips) or if Lilac/GLM can't accept tools added mid-conversation. The headline "70-90%" reduction comes from a 120-tool benchmark; our 22-tool, tscg-compressed config is 3.7× below that scale.
 
 **Barrier:** Requires new Pi package or extension. No config toggle achieves this.
 
@@ -71,6 +73,6 @@
 
 ## Recommendations
 
-1. **Highest impact, highest effort:** Build `pi-tool-router` package — two-phase tool loading with semantic search + on-demand schema fetch. Could cut 55k-110k tok/session from tool schemas.
+1. **Marginal at current scale (22 tools, tscg-compressed):** Build `pi-tool-router` — two-phase loading. Corrected estimate is ~9-18% of *overhead* (not total), with net-negative risk from fetch round-trips and provider support unknowns. **Becomes worth building ONLY if tool count grows substantially** (e.g., adding MCP servers → 50+ tools → 3k overhead becomes 15k+, and two-phase economics flip positive). That growth is the trigger; not justified at 22 tools. Reference impl exists: `howaboua/pi-codex-conversion` `splitDeferredTools` proves the pi extension API (`before_agent_start` + `ctx.tools` partition) supports it — see radar.
 2. **Medium impact, medium effort:** Response-filtering extension — tool output post-processor that strips verbatim returns to only needed fields.
 3. **Watch:** Semantic caching improvements for pi-cache-graph (parameter-aware cache keys).
