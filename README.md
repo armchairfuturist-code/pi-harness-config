@@ -100,7 +100,7 @@ Optional heavy web weeks: `pi install npm:pi-web-access` re-adds parent web tool
 
 ## Warnings
 
-- **Do not retune `tscg.json`.** Aggressive 30-char description truncation saves ~6,000 tok of schema; `balanced` inflates the kernel probe to 9,994 (measured). Truncated tool docs are compensated by APPEND_SYSTEM.md guidance.
+- **Do not retune `tscg.json`.** Aggressive 30-char description truncation saves 6,467 tok of schema (autoresearch attribution 2026-07-28: removal probe → 10,483; earlier `balanced` test → 9,994). Truncated tool docs are compensated by APPEND_SYSTEM.md guidance.
 - **Do not churn the system prompt.** Cache-prefix stability beats prose golf (see research/progressive-disclosure-findings.md).
 - Live `~/.pi/agent` sync from this repo is an explicit operator decision (see spec §8).
 

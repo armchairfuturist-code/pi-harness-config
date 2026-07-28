@@ -123,8 +123,11 @@ Live parity verified the same day via proxy: 4,014 (Δ = 2-char probe cwd line).
   (drift invisible to the probe — variants always use live models.json patched
   to the proxy — but relevant at finalize/install time).
 
-*(Update this section as experiments accumulate: key wins, dead ends, per-package
-cost table. A resuming agent must not re-measure costs already recorded here.)*
+- **Attribution pass COMPLETE (runs 2–22, 2026-07-28).** Cost table (removal-probe deltas vs 4,016): context-mode **1,757**, pi-dynamic-workflows **627**, pi-lean-ctx **616** (already at minimal `lean` profile), pi-cache-optimizer 2 (noise), pi-slim **−323 (saves)**, pi-tscg **−6,467 (saves)**, 9 other packages **0** each, all 6 pi-essentials extensions **0** each. All removals pass checks — workload doesn't exercise extension features; cost ≠ removability.
+- **Structural probes (runs 23–26):** combined context-mode+lean-ctx = 2,428 ≈ sum of parts ⇒ **no schema duplication** (dedup refuted). skills-only-ce-lite Δ0 ⇒ **skills fully lazy, out of scope permanently**. thinking-minimal Δ0 ⇒ not an overhead lever. overlay-empty ⇒ exact overlay cost **93 tok**.
+- **KEEP (run 27, `f0fca10`): APPEND_SYSTEM.md tightened 93→84 actual tok ⇒ probe_total 4,016→4,007.** Semantics preserved (diff-checked); checks green; reproduced.
+- **pi-slim has no knobs**; **context-mode has no user-facing tool-surface config**; settings.json has no other prompt-injecting keys. Structural avenues exhausted.
+- **SESSION FINALIZED 2026-07-28** — criterion (b) met. Verdict + operator action list in `.auto/findings.md`. Result: **4,007 (−9)**; near-local-optimum confirmed.
 
 ## Finalize Criteria
 
