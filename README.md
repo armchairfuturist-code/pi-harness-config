@@ -26,9 +26,7 @@ pi-harness-config/
 ├── tscg.json              # pi-tscg: aggressive schema compression — LOAD-BEARING, do not retune
 ├── AGENTS.md              # Project instructions (session guardrail)
 ├── skills/
-│   ├── ce-lite/           # THE orchestrator skill (routing doctrine + contract loop)
-│   ├── mattpocock/        # 22 engineering skills — lazy backends, never operator surface
-│   └── agents-skills/     # domain library (optional, default OFF)
+│   └── ce-lite/           # THE orchestrator skill (routing doctrine + contract loop)
 ├── scripts/
 │   └── ensure-reasoning-levels.js
 ├── lean-ctx/              # lean-ctx bridge config (replace mode, lean profile)
@@ -78,11 +76,9 @@ mkdir -p ~/.pi/agent/extensions/pi-lean-ctx
 cp lean-ctx/pi-config.json ~/.pi/agent/extensions/pi-lean-ctx/config.json
 mkdir -p ~/.config/lean-ctx && cp lean-ctx/config.toml ~/.config/lean-ctx/config.toml
 cp -r skills/ce-lite ~/.pi/agent/skills/ce-lite
-cp -r skills/mattpocock/* ~/.pi/agent/skills/   # lazy library (optional but recommended)
-cp -r skills/agents-skills/* ~/.pi/agent/skills/  # domain & harness skills
-cp -r skills/prompt-sharpen ~/.pi/agent/skills/
-# Owned by ~/Projects/Skills (armchairfuturist-code/Skills) and symlinked into ~/.pi/agent/skills:
-#   ai-consultant-career, calibrate-longevity, invest-optimizer, no-ai-slop
+# Other skills are NOT vendored here (config-only repo). Install what you want:
+#   npx skills add mattpocock/skills     # engineering flow library
+#   armchairfuturist-code/Skills         # personal packs (symlink into ~/.pi/agent/skills)
 pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
