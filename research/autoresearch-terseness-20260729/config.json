@@ -1,0 +1,9 @@
+{
+  "name": "terseness",
+  "metric": "suite_total",
+  "unit": "tokens",
+  "direction": "lower",
+  "maxIterations": 10,
+  "keepThreshold": "improvement >= 3% else re-run once before deciding",
+  "canaries": "checks.sh must pass (checks_failed => discard regardless of metric)"
+}
