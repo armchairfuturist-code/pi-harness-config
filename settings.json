@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.82.0",
+  "lastChangelogVersion": "0.82.1",
   "theme": "dark",
-  "defaultProvider": "Lilac",
-  "defaultModel": "zai-org/glm-5.2",
+  "defaultProvider": "Venice",
+  "defaultModel": "kimi-k3",
   "packages": [
     "npm:@ogulcancelik/pi-model-agents",
     "npm:@ogulcancelik/pi-model-thinking",
@@ -28,7 +28,7 @@
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
   ],
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "xhigh",
   "compaction": {
     "reserveTokens": 60000,
     "keepRecentTokens": 20000

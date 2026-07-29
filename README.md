@@ -11,6 +11,7 @@ All decisions and measurements: `.scratch/thin-pi-harness/map.md` (wayfinder, 13
 | Always-on overhead (`bench/probe.sh`) | 5,789 tok | **4,014 tok** | **−30.6%** |
 | Workload (`bench/measure.sh`) | 18,403 tok | 12,449 tok | −32.4% |
 | bench-systima A/B, first request | 5,780 tok | 3,979 tok | −31.2% |
+| Behavioral suite, T1–T3 median-of-2 (2026-07-29) | 70,657 tok | **58,551 tok** | **−17.1%** |
 | Always-on tools | 37 | 22 | −15 |
 | Always-on skill descriptions | 0 | 0 | — |
 
@@ -30,6 +31,11 @@ pi-harness-config/
 ├── scripts/
 │   └── ensure-reasoning-levels.js
 ├── lean-ctx/              # lean-ctx bridge config (replace mode, lean profile)
+├── extensions/
+│   └── session-index.ts # session-end extractive summaries → memory/sessions/ (zero LLM tokens)
+├── workflows/
+│   ├── model-tiers.json # pinned model routing (leaf/worker/reviewer)
+│   └── saved/memory-consolidate.json # session-end memory consolidation workflow
 ├── bench/
 │   ├── probe.sh           # token canary: 1-request fixed overhead
 │   ├── probe-variant.sh   # probe an ALTERNATE agent dir (A/B without touching live)
@@ -63,7 +69,7 @@ Multi-agent fanout uses pi-dynamic-workflows' 5 built-in patterns (deep-research
 
 ## Model roles
 
-Pinned in **one file**: `~/.pi/workflows/model-tiers.json` (auto-derives on first workflow run; pin after a week of observation). leaf=small (mechanical), worker/reviewer=medium, reasoner=big. Parent = your default model. Re-benchmark quarterly. No model IDs anywhere else.
+Pinned in **one file**: `~/.pi/workflows/model-tiers.json` (vendored: `workflows/model-tiers.json`; pinned 2026-07-29). leaf=small (`Venice/mercury-2:minimal`, mechanical), worker/reviewer=medium (`Venice/gemini-3-5-flash`), reasoner=big (`Venice/kimi-k3:xhigh`). Parent = your default model. Re-benchmark quarterly. No model IDs anywhere else (exception: `~/.pi/agent/agents/Explore.md` pins flash — leaf-tier search).
 
 ## Install / restore
 
@@ -72,6 +78,9 @@ cp settings.json ~/.pi/agent/settings.json
 cp models.json ~/.pi/agent/models.json
 cp APPEND_SYSTEM.md ~/.pi/agent/APPEND_SYSTEM.md
 cp tscg.json ~/.pi/tscg.json
+mkdir -p ~/.pi/workflows && cp workflows/model-tiers.json ~/.pi/workflows/model-tiers.json
+mkdir -p ~/.pi/workflows/saved && cp workflows/saved/memory-consolidate.json ~/.pi/workflows/saved/
+cp extensions/session-index.ts ~/.pi/agent/extensions/session-index.ts
 mkdir -p ~/.pi/agent/extensions/pi-lean-ctx
 cp lean-ctx/pi-config.json ~/.pi/agent/extensions/pi-lean-ctx/config.json
 mkdir -p ~/.config/lean-ctx && cp lean-ctx/config.toml ~/.config/lean-ctx/config.toml
@@ -86,6 +95,12 @@ pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflow
   npm:cc-safety-net npm:pi-herdr-btw
 export LILAC_API_KEY="your-key-here"
 ```
+
+**Migrating into an existing install** (overlay without reinstalling packages): the safe
+overlay set is `APPEND_SYSTEM.md`, `tscg.json`, `skills/ce-lite/`, `extensions/session-index.ts`,
+`workflows/`, and `lean-ctx/pi-config.json`. Overlay `settings.json` only after checking
+`defaultProvider`/`defaultModel` (this repo's default mirrors the operator's current machine);
+`models.json` only if you want the provider definitions. Never overlay `auth.json` (not vendored).
 
 **Remove-if-present (old kernel):** pi-mcp-adapter, pi-goal-list-loop-audit, pi-web-access (`pi remove <pkg>`), and delete `~/.pi/agent/extensions/delegate.ts`.
 
@@ -102,6 +117,7 @@ Optional heavy web weeks: `pi install npm:pi-web-access` re-adds parent web tool
 
 - **Do not retune `tscg.json`.** Aggressive 30-char description truncation saves 6,467 tok of schema (autoresearch attribution 2026-07-28: removal probe → 10,483; earlier `balanced` test → 9,994). Truncated tool docs are compensated by APPEND_SYSTEM.md guidance.
 - **Do not churn the system prompt.** Cache-prefix stability beats prose golf (see research/progressive-disclosure-findings.md).
+- **Do not set `enableMcp: true`** in the lean-ctx config. The bridge triggers intent-based tool-surface expansion (22→78 tools, ~13.6k tok/request on file tasks; measured A/B 2026-07-29, same task: 3,997 vs 13,591). `ctx_edit` falling back to native edit is intended behavior, not a fault.
 - Live `~/.pi/agent` sync from this repo is an explicit operator decision (see spec §8).
 
 ## Not included (secrets + bulk)
