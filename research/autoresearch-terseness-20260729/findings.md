@@ -47,3 +47,12 @@ Standing cost: ~58 tok/request of prefix — already included in the measured su
 - Negative control (measurement sensitivity validation).
 - A non-trivial-task suite that actually loads ce-lite SKILL.md, to target its phrasing.
 - Model-dependent terseness response (does the winner transfer to kimi-k2.6/k3?).
+
+## Transfer check (2026-07-29, post-campaign)
+Winner vs baseline phrasing, 3 models × tasks t1+t3, thinking=high, single-run cells:
+- **Aggregate: output −28% (2,806→2,011), input −25% (130.7K→97.5K), requests −33% (33→22).**
+- glm-5.2: out −50%/−34% (t1/t3). kimi-k2.6: t3 out −60%, reqs 9→4 (strongest transfer). kimi-k3: t1 out −60%, reqs 3→2.
+- Noise cells (single-run, small-N): k2.6 t1 out +72% (172→295), k3 t3 out +27%.
+- Quality canaries passed on all winner t3 lanes (bug fixed + changelog appended).
+- Verdict: transfers. Real-usage verification: `bench/output-trend.js` — weekly out/in ratio per model
+  from session JSONLs; pre-campaign baselines: glm 0.9–1.8%, k3 0.6%, k2.6 0.8% out/in.
