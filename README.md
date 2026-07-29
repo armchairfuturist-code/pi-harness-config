@@ -122,4 +122,4 @@ Optional heavy web weeks: `pi install npm:pi-web-access` re-adds parent web tool
 
 ## Not included (secrets + bulk)
 
-`auth.json`, `models-store.json`, `sessions/`, `npm/node_modules/`, large skill assets.
+`auth.json`, `models-store.json`, `sessions/`, `npm/node_modules/`, large skill assets. Live-only personal extensions are intentionally not vendored: `rtk.ts` (bash rewrite layer overlapping lean-ctx — keep one), `invest-tools.ts` (operator's finance tooling).
