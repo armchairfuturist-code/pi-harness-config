@@ -1,7 +1,6 @@
 ---
 name: calibrate-longevity
-disable-model-invocation: true
-description: Turn bloodwork, DNA, and health-tracker data into a ranked longevity optimization plan — supplements, peptides, and research compounds. Use when the user shares lab results, wants a longevity/biohacking protocol, or mentions peptides/NAD+/rapamycin.
+description: Turn bloodwork, DNA, CGM, and health-tracker data into a ranked longevity optimization plan — supplements, peptides, GLP-1s, and research compounds. Use when the user shares lab results, wants a longevity/biohacking protocol, mentions peptides/NAD+/rapamycin/GLP-1, or asks about biological age or methylation clocks.
 ---
 
 # calibrate-longevity
@@ -17,11 +16,13 @@ Accept whatever the user provides — any bloodwork (a single panel or many), DN
 Required to proceed (not bloodwork):
 1. **Goals & notes** — what to optimize (longevity, energy, cognition, body composition) and any symptoms.
 2. **Risk tolerance** — none / established supplements only / open to peptides / open to research chems. Gates the plan's tier ceiling.
+3. **Current medications & supplement stack** — Section B checks conflicts against this; medications also confound labs (metformin→B12, PPI→Mg/B12, statins→CoQ10 — full table in `lab-ground-rules.md`).
+4. **Family history** — early MI, diabetes, dementia, cancer. Drives which markers become Primary KPIs in `biomarkers.md`.
 
 High-value inputs (provide what you have; more signal = sharper calibration):
 - **Bloodwork** — any lab panel(s). CBC, CMP, lipids, hormones, inflammation, thyroid, iron studies, vitamin D/B12/folate, HbA1c, fasting insulin, ApoB, and Lp(a) are the most informative for longevity, but a partial panel is still fully contextualized.
 - **DNA / genomics** — raw data (23andMe, etc.) or interpreted report.
-- **Health tracker export** — HRV, RHR, sleep stages, steps, activity, VO2 max.
+- **Health tracker export** — HRV, RHR, sleep stages, steps, activity, VO2 max. **CGM export** — time-in-range and glucose variability (OTC CGMs since 2024; catches dysregulation HbA1c averages away).
 
 The skill reads whatever exists and flags gaps on two axes: **out-of-range values** (visible gaps) and **missing high-value markers** (invisible gaps — you can't calibrate what you can't see).
 
@@ -32,7 +33,7 @@ The skill reads whatever exists and flags gaps on two axes: **out-of-range value
 | Tier | Label | Examples |
 |---|---|---|
 | T1 | Established | Magnesium, creatine, zone 2, TRE |
-| T2 | Emerging | NAD+ precursors, low-dose rapamycin, apigenin, glycine |
+| T2 | Emerging | NAD+ precursors, low-dose rapamycin, apigenin, glycine, taurine, urolithin A, spermidine, GlyNAC, GLP-1/GIP agonists |
 | T3 | Experimental | BPC-157, TB-500, semax, dihexa, noopept, SS-31 |
 
 T3 compounds: require consent (risk tolerance ≥ "open to peptides"). Full spec — warning, dose escalation, stop signals, sourcing — lives in the [experimental compounds register](#6-present-the-calibration-report).
@@ -56,7 +57,7 @@ Extract relevant metrics from each source provided. The skill is **panel-agnosti
 
 Write each finding as a signal card: `[marker] = [value] | optimal: [range] | trend: [stable/improving/worsening] | confidence: [high/medium/low]`
 
-**Biological age**: compute a compressed-age signal alongside the raw markers. From 9 routine blood markers estimate PhenoAge and GrimAge (full method: `biomarkers.md` §Biological Age), then write: `[biological_age] = [PhenoAge: X yr | GrimAge: Y yr | chronological: Z yr | delta: X−Z yr]`. The delta is a high-signal gap indicator — a positive delta means the user is biologically older than their years and the systems driving it are the highest-ROI targets.
+**Biological age**: compute a compressed-age signal alongside the raw markers. From 9 routine blood markers estimate PhenoAge (full method: `biomarkers.md` §Biological Age); if the user brings DNAm or proteomics data, use the validated-clock path in that section instead. Write: `[biological_age] = [PhenoAge: X yr | chronological: Z yr | delta: X−Z yr]`. The delta is a high-signal gap indicator — a positive delta means the user is biologically older than their years and the systems driving it are the highest-ROI targets.
 
 **Completion**: every data source processed, every relevant marker written as a signal card, and a biological age estimate produced from any available routine blood markers.
 
@@ -77,15 +78,7 @@ Group signal cards by biological system. DNA SNPs that directly modulate a syste
 
 **Completion**: every signal card assigned to at least one system.
 
-**Cross-system connections**: a gap in one system is rarely isolated. Before scoring, check the known inter-system axes (full reference: `cross-system-connections.md`):
-
-- **Gut–immune–thyroid axis** — low ferritin + high WBC + borderline TSH → consider malabsorption driving both.
-- **Metabolic–inflammatory axis** — high TG + high hs-CRP + high fasting insulin → insulin resistance is the root; treat the axis, not the markers.
-- **HPA–gonadal axis** — high PM cortisol + low free T → chronic stress suppressing androgen production.
-- **Mitochondrial–nutritional axis** — low CoQ10 + low Mg + low selenium → endogenous antioxidant capacity is underbuilt.
-- **Sleep–metabolic axis** — poor deep sleep + high glucose variability → glymphatic and glucose disposal share the night.
-
-When two or more systems share an axis and all show gaps, treat the axis as a single higher-order gap (one root cause, multiple downstream markers). This raises the priority of the shared root over any single out-of-range marker.
+**Cross-system connections**: a gap in one system is rarely isolated. Before scoring, check the inter-system axes (full reference: `cross-system-connections.md`). When two or more systems share an axis and all show gaps, treat the axis as a single higher-order gap (one root cause, multiple downstream markers) — this raises the priority of the shared root over any single out-of-range marker.
 
 **Completion**: every signal card assigned to a system AND evaluated against the relevant cross-system axis.
 
@@ -135,18 +128,7 @@ T1 interventions addressing calibratable gaps. Table per gap:
 
 | System | Gap | Mechanism | Intervention | Tier | Dosage / Protocol | Timing | Re-check | Interaction notes |
 
-Timing guidance per `interactions.md`:
-- Food vs empty stomach
-- Pairs to separate (Ca ↔ Fe: 4 h; Zn ↔ Cu: always pair; Mg ↔ Ca: different meals)
-- Morning vs evening circadian guidance
-- Fat-required absorption (A, D, E, K, CoQ10, curcumin)
-
-Assess existing stack for conflicts:
-- Zn:Cu ratio (flag if Zn >30 mg/day without Cu)
-- Ca + Fe taken together (separate 4+ h)
-- Multiple GABAergics → sedation risk (Mg, glycine, theanine, melatonin, ashwagandha, GABA)
-- D + K2 + Mg triad completeness
-- NAC + glycine taken together (necessary for GSH)
+Timing guidance and conflict checks live in `interactions.md` — apply its absorption-competition, synergy, antagonism, and circadian-timing tables to every proposed intervention, and check the medication-confounder table in `lab-ground-rules.md` against the user's current medications.
 
 **Completion**: every P0–P1 gap has at least one T1 intervention proposed with timing guidance and interaction check.
 
@@ -155,7 +137,10 @@ Assess existing stack for conflicts:
 #### Section C: Enhancement & experimental (T2–T3)
 
 Only when risk tolerance permits. Covers:
-- **Emerging supplements** (T2): NAD+ precursors, low-dose rapamycin, glycine, apigenin
+- **Emerging supplements** (T2): NAD+ precursors, low-dose rapamycin, glycine, apigenin, taurine (1–3 g/day), urolithin A (500–1000 mg/day), spermidine (food-first, ~1–2 mg/day), GlyNAC (glycine + NAC as a named pair — synergy in `interactions.md`)
+  - Rapamycin expectations: PEARL (2025, PMID 40188830) found low-dose weekly rapamycin safe but effects modest and mixed, with no epigenetic-clock movement — track functional outcomes, not clocks
+  - Metformin: do not default to it for non-diabetic longevity — it blunts exercise adaptations and non-diabetic evidence is weak
+- **GLP-1/GIP agonists** (T2–T3): semaglutide / tirzepatide / retatrutide for body-composition and cardiovascular-risk gaps. Non-negotiable guardrail: resistance training + protein ≥1.6 g/kg/day to protect lean mass; monitor free T during rapid loss
 - **Peptides** (T3): protocol from `peptides.md` with cycle, dose, route, sourcing
 - **Cognition compounds** (T3): protocol from `cognition-compounds.md`
 
@@ -186,7 +171,7 @@ PROTOCOL:
 - Regression to the mean (is the baseline an outlier draw?)
 - Measurement noise (tracker HRV vs lab — which is the endpoint?)
 
-**Verdict rule**: after the trial completes, the user records `merge` (effect confirmed, keep it as standing protocol) or `revert` (no effect / adverse, drop it and log why). Write the experiment + verdict into `longitudinal-record.md` (see Step 1 input #5 / new reference file) so future calibrations build on proven results, not repeated guesses.
+**Verdict rule**: after the trial completes, the user records `merge` (effect confirmed, keep it as standing protocol) or `revert` (no effect / adverse, drop it and log why). Write the experiment + verdict into `longitudinal-record.md` (the persistent record loaded at Step 1) so future calibrations build on proven results, not repeated guesses.
 
 **Completion**: every top-3 intervention has a pre-registered N-of-1 protocol with one variable, a pre-written success criterion, and an adversarial-review note on its weakest assumption.
 

@@ -1,6 +1,6 @@
 # Market Metrics Reference
 
-Thresholds and interpretation for the five market axes the Invest Optimizer reads. All values are current-snapshot checks; a metric outside the range for its axis contributes to the synthesized **market pulse**.
+Thresholds and interpretation for the market axes the Invest Optimizer reads. All values are current-snapshot checks; a metric outside the range for its axis contributes to the synthesized **market pulse**.
 
 ## Valuation
 
@@ -111,3 +111,49 @@ Rolling 30-day count of >5% intraday index drops that recover within the same se
 | 1–2 | ELEVATED — consider put protection |
 | 3–4 | HIGH — collars or cash buffer recommended |
 | > 4 | CRITICAL — minimum position sizing, collars on all positions |
+
+## Correlation Regime
+
+Pairwise equity correlations and equity–credit/bond linkage determine whether diversification in the posture matrix is real or illusory. A book of 20 tech names with pairwise ρ > 0.8 is one bet.
+
+### Average pairwise equity correlation
+
+SPX constituents or the portfolio's own names; state window (default 60–90 trading days).
+
+| Level | Verdict | Meaning |
+|---|---|---|
+| < 0.30 | DIVERSIFIED | Idiosyncratic risk dominates — stock picks and sector tilts earn their keep |
+| 0.30–0.50 | NORMAL | Standard multi-asset assumptions hold |
+| 0.50–0.70 | ELEVATED | Diversification decaying — prefer factor/risk-parity over name count |
+| > 0.70 | CRISIS-CORR | Correlations collapsing to 1 — equity book = one risk factor; hedges must sit outside equities |
+
+### Equity–bond correlation
+
+60-day rolling, SPY (or portfolio equity beta) vs TLT / IEF / duration proxy.
+
+| Level | Verdict | Meaning |
+|---|---|---|
+| < −0.2 | BALLAST-OK | Bonds hedge equities — standard stock/bond math works |
+| −0.2 to +0.2 | WEAK-BALLAST | Hedge unreliable — prefer cash, managed futures, or collars over long duration alone |
+| > +0.2 | CO-CRASH | Bonds will not save an equity drawdown — raise T-bill/cash share; avoid balanced complacency |
+
+### Modifier rules
+
+CRISIS-CORR or CO-CRASH modifies the pulse the same way microstructure does:
+
+- ELEVATED/CRISIS-CORR + equity-heavy posture → raise cash/non-equity hedge floors; ban "diversified by name count" language
+- CO-CRASH + LATE CYCLE → duration is not the hedge; prefer T-bills, collars, or trend/alt premia
+- DIVERSIFIED + EXPANSION → stock-level [`SCREENING.md`](SCREENING.md) picks and sector tilts are justified
+
+## Statistical Regime Confirmation (optional)
+
+When a Markov/HMM regime tool is available (e.g. rolling-return labels + transition matrix, or `hmmlearn`-class fit on returns/vol), use it as a **confirmation layer** on the structural pulse — not a replacement.
+
+| Output | How to use |
+|---|---|
+| Current regime (Bull / Sideways / Bear) | Must not violently contradict the pulse (e.g. structural LATE CYCLE + HMM Bull is tension to flag, not auto-override) |
+| Persistence diagonal P(stay) | High Bear persistence → slower mean-reversion assumption; widen risk gates |
+| Stationary distribution | Long-run Bear share > ~0.35 → structural tail-heaviness; size down aggressive postures |
+| Signal (bull_prob − bear_prob) | Confirmation filter on tactical tilts only |
+
+Graceful degrade: if the tool is missing, skip this block and state the gap. Structural axes (2A–2E + correlation) still produce the pulse.

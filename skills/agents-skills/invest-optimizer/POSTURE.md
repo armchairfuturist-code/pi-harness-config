@@ -9,7 +9,7 @@ Cells marked **(default)** are the allocation the goal profile would produce on 
 | Market pulse | Growth / Aggressive | Balanced / Moderate | Income / Conservative | Preservation |
 |---|---|---|---|---|
 | **EXPANSION** — cheap valuations, bull market, low fear | Maximum equities. Small/value tilt. Emerging markets. Full risk budget. | **(default)** Neutral weight, drift to equity. Maintain targets. | Income tilt. High quality, preferreds, dividend growers. | **(default)** Standard allocation. Quality bias. |
-| **LATE CYCLE** — rich valuations, complacency, macro warnings | Reduce to neutral. Trim winners, raise cash 15–20%. Quality rotation. | Shift defensive. +5–10% bonds. Quality, low vol equities. | Short duration, high credit quality. Trim HY exposure. | Reduce equity to minimum target. Short Treasuries core. |
+| **LATE CYCLE** — rich valuations, complacency, macro warnings | Reduce to neutral. Trim winners, raise cash 15–20%. Quality rotation. Prefer HRP/CVaR over max-Sharpe in 3.5. | Shift defensive. +5–10% bonds (or T-bills if CO-CRASH). Quality, low vol equities. | Short duration, high credit quality. Trim HY exposure. | Reduce equity to minimum target. Short Treasuries core. |
 | **CONTRACTION** — fear, recession, crash | Average down systematically. Extend duration. Scale into weakness. | Rebalance. Sell bonds into equity strength at targets. | **(default)** Hold income. Dividends safe; yield quality only. | **(default)** Maintain. Equity at floor. Duration extended. |
 | **CRISIS** — panic, credit freeze, policy emergency | Aggressive buy. Full deployment into panic. Go barbell. | Systematic rebalance only. | Hold course. Income from best credits. | **(default)** Hold. This is what the allocation is for. |
 
@@ -63,6 +63,23 @@ Standard monthly ATM covered calls **underperform structurally** — an intraday
 - **Blend short-duration income + pure equity**: Let the short-duration income layer (daily/weekly) provide cash flow while pure equity holds the parabolic capture. Avoid full allocation to any single expiration schedule.
 - **Watch for intraday skew**: When agents trigger a >5% single-stock move within 30 minutes, option IV reprices instantly. Short-duration writers benefit (premium reprices up), monthly writers lose (strike gets gapped through).
 - **Tax efficiency**: Section 1256 contracts (index options — NDX, SPX) get 60/40 LTCG/STCG treatment. Prefer index-based options (GIAX, QQQI, SPYI) over single-stock in taxable accounts.
+
+## Correlation Regime Addendum
+
+When Phase 2F reads ELEVATED, CRISIS-CORR, WEAK-BALLAST, or CO-CRASH, the matrix cells still pick the direction — but hedge *composition* changes.
+
+| 2F verdict | Posture adjustment |
+|---|---|
+| ELEVATED | Keep equity band; inside equities prefer risk-parity / factor-balanced weights over equal stock count. State effective-N, not ticker count. |
+| CRISIS-CORR | Treat the equity sleeve as one risk factor. Raise cash or true diversifiers (managed futures, collars, T-bills) to at least the template cash ceiling. Stock-picking alpha claims require extraordinary evidence. |
+| WEAK-BALLAST | Do not count long duration as a full equity hedge. Split the fixed-income band toward T-bills / short Treasuries unless the goal is pure income carry. |
+| CO-CRASH | Bonds co-move with equities — duration extension is not the LATE CYCLE / CONTRACTION hedge. Prefer cash, T-bills, collars, or non-correlated alts. Balanced templates must disclose the broken stock/bond assumption. |
+
+CRISIS-CORR + CO-CRASH together: maximum caution on any “diversified 60/40” language; preservation and conservative columns win ties.
+
+## Optimizer hook
+
+Phase 3.5 reads bands from the templates above and the model × goal map in [`OPTIMIZATION.md`](OPTIMIZATION.md). Pulse → view encoding (BL / Entropy Pooling) also lives there. This file owns *what band*; OPTIMIZATION.md owns *how weights fill the band*.
 
 ## Thematic Tilt Overlay
 

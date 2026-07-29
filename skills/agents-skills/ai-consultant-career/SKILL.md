@@ -1,7 +1,7 @@
 ---
 name: ai-consultant-career
 disable-model-invocation: true
-description: Land a people-facing AI role at a startup (under 150 people): resume bolts, cover letters, interview prep, portfolio authority, web-wide job discovery, and offer negotiation for an LLC-contracted AI adoption consultant.
+description: "Land a people-facing AI role at a startup (under 150 people): resume bolts, cover letters, interview prep, portfolio authority, web-wide job discovery, and offer negotiation for an LLC-contracted AI adoption consultant."
 ---
 
 # AI Career Builder (for Startup Applicants)

@@ -37,6 +37,10 @@ Generate 15–30 raw candidates per affected area before applying technical gate
 - [ ] Tight risk
 - [ ] Industry leadership
 
+## Correlation gate (portfolio-level)
+
+When adding a pick to an existing book, check pairwise correlation to the current equity sleeve (60–90d). If Phase 2F is ELEVATED or CRISIS-CORR, reject names with ρ > 0.75 to the sleeve average unless they are an explicit hedge or the only liquid vehicle in a mandated sector. Diversification is measured by effective N and factor exposure, not ticker count.
+
 If the posture recommends a market-wide shift (e.g. "rotate to defensive" or "increase fixed income"), the screener applies to the **instruments used to execute the shift** — e.g. which defensive equities, not whether to go defensive.
 
 **Completion criterion:** At least one concrete stock-level example per affected portfolio area that passes all three technical gates, or an explicit note that no candidates survive the filter.

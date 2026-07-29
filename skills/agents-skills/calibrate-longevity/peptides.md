@@ -70,6 +70,62 @@ All entries below are T3 (experimental). General caveats apply: limited human da
 | Stack notes | Commonly stacked with Sermorelin or CJC-1295 (no DAC) for GH pulse amplification |
 | Interaction risks | Monitor prolactin on extended cycles; theoretical desensitisation with chronic use |
 
+## CJC-1295 (no DAC / Mod GRF 1-29)
+| Property | Detail |
+|---|---|
+| Mechanism | Modified GHRH analogue (no drug-affinity complex). Amplifies pulsatile GH release when paired with a GHS. |
+| Typical dose | 100–200 µg nightly (fasted) |
+| Cycle | 8–12 weeks on, 4 weeks off |
+| Route | Subcutaneous |
+| Stack notes | The standard partner for ipamorelin (see its stack notes). Do not use the DAC version for daily dosing. |
+| Interaction risks | Same GH-axis cautions as sermorelin; avoid with exogenous HGH |
+
+## Tesamorelin
+| Property | Detail |
+|---|---|
+| Mechanism | GHRH analogue with the strongest evidence base of the GH peptides — FDA-approved (Egrifta) for HIV-associated lipodystrophy; reduces visceral adipose tissue. |
+| Typical dose | 1–2 mg nightly (fasted) |
+| Cycle | 3–6 months, then reassess with waist measurement or DEXA |
+| Route | Subcutaneous |
+| Stack notes | Best-evidence option when the gap is visceral adiposity + low GH pulse. Monitor IGF-1 and fasting glucose. |
+| Interaction risks | Can raise fasting glucose; avoid in active malignancy (GH/IGF-1 axis) |
+
+## Thymosin alpha-1
+| Property | Detail |
+|---|---|
+| Mechanism | Thymic immune-modulating peptide; restores T-cell function. Clinically used (Zadaxin) for hepatitis and immunodeficiency outside the US. |
+| Typical dose | 1.6 mg 2–3× per week |
+| Cycle | 4–12 weeks |
+| Route | Subcutaneous |
+| Stack notes | Fits immune-gap patterns (recurrent infections, low lymphocytes). Not a daily-driver peptide. |
+| Interaction risks | Theoretical caution with immunosuppressants |
+
+## GHK-Cu
+| Property | Detail |
+|---|---|
+| Mechanism | Copper tripeptide; shifts gene expression toward tissue repair, collagen synthesis, and anti-inflammatory signalling. |
+| Typical dose | 1–2 mg/day subcutaneous, or topical |
+| Cycle | 4–8 weeks on, 4 weeks off |
+| Route | Subcutaneous or topical (skin) |
+| Stack notes | Topical has the best risk profile; injectable use is community practice with limited human data. |
+| Interaction risks | Copper load — do not stack injectable copper peptides with high-dose oral copper (see Zn:Cu guidance in `interactions.md`) |
+
+## KPV
+| Property | Detail |
+|---|---|
+| Mechanism | α-MSH fragment; anti-inflammatory via NF-κB suppression, especially in gut mucosa. |
+| Typical dose | 250–500 µg 1–2× daily |
+| Cycle | 4–8 weeks |
+| Route | Oral (gut target) or subcutaneous |
+| Stack notes | Fits gut–immune–thyroid axis gaps (`cross-system-connections.md` Axis 1). |
+| Interaction risks | None well documented; human data minimal |
+
+## Evidence-poor — do not propose
+These circulate in biohacker channels but lack meaningful human data. Do not include them in plans; if the user asks, explain the evidence state:
+- **Epitalon** — telomerase claims rest on small, old, uncontrolled studies
+- **5-Amino-1MQ** — NNMT inhibitor; preclinical only
+- **SLU-PP-332 / BAM-15** — exercise mimetics; animal data only, and BAM-15 is a mitochondrial uncoupler (DNP-class mechanism)
+- **DSIP / humanin** — anecdotal human use, no controlled dosing data
 
 ---
 
@@ -112,7 +168,7 @@ All peptides listed above are T3 (experimental — limited human data). This app
 |---|---|
 | **Lyophilised powder (long-term)** | Store at -20°C (freezer) in a dark, desiccated container. Stable for 12–24 months. |
 | **Lyophilised powder (in-use)** | Room temperature (15–25°C) for up to 1 month in cool, dark, dry place. Avoid temperature cycling. |
-| **Reconstituted (refrigerated)** | 2–8°C (refrigerator). Most peptides stable 7–14 days. Discard after 14 days unless stability data supports longer (BDC-157 is more stable; some peptides degrade within 7 days). |
+| **Reconstituted (refrigerated)** | 2–8°C (refrigerator). Most peptides stable 7–14 days. Discard after 14 days unless stability data supports longer (BPC-157 is more stable; some peptides degrade within 7 days). |
 | **Reconstituted (frozen)** | NOT recommended — ice crystals can shear peptides. Use only if specifically formulated for freezing. |
 | **Light sensitivity** | Protect from UV and direct sunlight. Amber vials or opaque containers preferred. |
 | **Transport** | Use an insulated container with an ice pack. Avoid temperature extremes and prolonged transit. |
@@ -160,4 +216,4 @@ All peptides listed above are T3 (experimental — limited human data). This app
 7. **Rotate vials.** If using a multi-month cycle, reconstitute a fresh vial every 7–14 days. Do not use a vial that has been reconstituted for more than 14 days unless stability data says otherwise.
 8. **Never share vials or syringes.** Cross-contamination risks are real and include bloodborne pathogens even with single-use vials.
 9. **If in doubt, throw it out.** A cloudy solution, a suspicious CoA, a product that doesn't dissolve as expected — discard. The cost of a vial is trivial compared to a hospital visit.
-10. **Align with the bio-orchestrator's philosophy:** No intervention is free. Every T3 compound has a risk budget. The goal is to spend that budget where the expected ROI is highest — never on curiosity alone.
+10. **Spend the risk budget deliberately.** No intervention is free. Every T3 compound has a risk budget — spend it where the expected ROI is highest, never on curiosity alone.

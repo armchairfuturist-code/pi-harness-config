@@ -168,6 +168,9 @@ use the rule at the bottom of this section.
 | RHR / Resting HR | rhr |
 | Deep sleep / REM / Sleep latency | sleep_* |
 | Steps / Active calories | activity_* |
+| CGM Time-in-Range / TIR | cgm_tir |
+| CGM glucose variability / CV / GMI | cgm_gv |
+| Grip strength (kg, dynamometer) | grip_strength |
 
 ### Other
 | Report label | Canonical |

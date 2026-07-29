@@ -34,14 +34,21 @@ Not every panel measures the same thing. This table lists the high-value longevi
 | **High** | HbA1c + fasting insulin → HOMA-IR | Metabolic | Cheap insulin-resistance proxy |
 | **High** | CRP, WBC, neutrophil:lymphocyte ratio | Inflammatory | Immune activation |
 | **High** | Vitamin B1, B6 | Nutritional | Often-untested cofactors |
+| **High** | uACR (urine albumin:creatinine) | Renal / vascular | Earliest kidney + endothelial damage signal; confirms BP reaches the kidney |
+| **High** | Omega-3 index (RBC EPA+DHA) | Nutritional / cardiovascular | Target 8–12%; dose fish oil against it |
+| **High** | Grip strength | Functional | Cheap, strong mortality predictor; track per decade |
+| **High** | CGM: time-in-range (TIR), glucose variability (CV) | Metabolic | OTC since 2024; catches dysregulation HbA1c averages away |
+| **Context** | Imaging: DEXA, CCTA, full-body MRI, MCED (Galleri) | Structural | DEXA/CCTA are baseline measurements; full-body MRI carries incidentaloma risk with no mortality evidence; Galleri has ~50% stage-I sensitivity — positives need confirmatory workup |
 | **Context** | Genetic: APOE, LPA kringle, MTHFR, C677T, F2/F5, CYP21A2 | Genomic | Predisposition context for the above |
 | **Context** | Tracker: HRV, RHR, VO2 max, sleep stages | Recovery / fitness | Real-world validation of lab picture |
+
+**Do not score**: consumer gut-microbiome reports — validity too poor to open gaps; contextualize at most.
 
 A panel that contains, say, only a CBC + lipids is fully contextualized for hematology and cardiovascular risk — the coverage scan simply flags that metabolic-insulin (fasting insulin, HOMA-IR), inflammatory (hs-CRP, homocysteine), nutritional (vit D, ferritin), and hormonal (thyroid, testosterone) markers are absent and thus invisible.
 
 ---
 
-Not every marker deserves equal attention. Use a tiered structure (adapted from the `years` system) so the plan targets the highest-leverage markers first, not just the ones furthest from lab-normal.
+Not every marker deserves equal attention. Use a tiered structure so the plan targets the highest-leverage markers first, not just the ones furthest from lab-normal.
 
 | Tier | Name | What lives here | Recheck |
 |---|---|---|---|
@@ -53,7 +60,7 @@ Not every marker deserves equal attention. Use a tiered structure (adapted from 
 
 ### Default Primary KPI set (adults, no special history)
 
-ApoB, fasting insulin / HOMA-IR, home blood pressure, waist-to-height ratio, and VO₂max trend from a smartwatch. Start here if starting from zero. Promote/demote based on phenotype and family history (ferritin + TSAT if hemochromatosis carrier; ApoB if paternal early MI; cystatin-C eGFR if high muscle mass makes creatinine eGFR misleading).
+ApoB, fasting insulin / HOMA-IR, home blood pressure, waist-to-height ratio, grip strength, and VO₂max trend from a smartwatch. Start here if starting from zero. Promote/demote based on phenotype and family history (ferritin + TSAT if hemochromatosis carrier; ApoB if paternal early MI; cystatin-C eGFR if high muscle mass makes creatinine eGFR misleading).
 
 ---
 
@@ -69,7 +76,7 @@ ApoB, fasting insulin / HOMA-IR, home blood pressure, waist-to-height ratio, and
 | HDL | Men: >55 mg/dL, Women: >65 mg/dL | >80 optimal for longevity | 6–8 weeks | CETP, LIPC, LPL |
 | LDL | <100 mg/dL | <70 if APOE ε4 or Lp(a) high | 6–8 weeks | APOE, PCSK9, LDLR |
 | ApoB | <80 mg/dL | <60 if high risk; better marker than LDL | 8–12 weeks | APOB, PCSK9 |
-| Lp(a) | <30 mg/dL | Mostly genetic; if high, aggressive LDL lowering | 12 months (largely stable) | LPA kringle repeats |
+| Lp(a) | <30 mg/dL | Mostly genetic; if high, aggressive LDL lowering | Once in life (largely genetic) | LPA kringle repeats |
 
 ## Inflammatory / immune
 
@@ -190,15 +197,22 @@ PhenoAge = 141.50225 + ln( -0.00553 · ln(1 - M) ) / 0.09165
 
 **Partial estimates**: if a marker is missing, you cannot simply drop its term — the coefficients are fit jointly. Instead flag PhenoAge as **indeterminate** and report only the qualitative cross-system picture. Do not invent a number.
 
-### GrimAge (surrogate)
+### Beyond PhenoAge — validated clocks from omics data
 
-GrimAge adds DNAm-based mortality predictors; the routine-blood surrogate uses the same 9 markers plus smoking-pack-years where known, weighted toward the inflammatory and renal terms. Report it as a second opinion on the PhenoAge estimate — large disagreement between the two suggests a dominant single driver (e.g. renal or inflammatory) worth isolating.
+PhenoAge from routine blood is the skill's built-in estimate. When the user brings richer data, switch to validated clocks instead of approximating them:
+
+- **DNAm methylation data** → compute DunedinPACE (preferred: a pace-of-aging measure and the most intervention-responsive single clock), GrimAge, and others with `biolearn` (Biomarkers of Aging Consortium, PyPI) or `pyaging` (GitHub: lucascamillomd/pyaging, actively maintained). Never approximate DNAm clocks from blood markers.
+- **Proteomics (Olink / SomaScan)** → organ-specific and whole-body proteomic age clocks (Argentieri et al., Nat Med 2024, PMID 39117878) outperform blood-only clocks for disease-risk prediction.
+
+**Reliability caveat**: epigenetic clocks carry years-scale technical noise — a single-sample clock delta cannot validate an N-of-1 effect (Sehgal & Higgins-Chen, PMID 41279914). If a clock is used as feedback, require duplicate assays averaged, and never let a clock override the pre-registered blood/functional criterion from Step 5. Environment dominates genetics as a mortality driver (exposome ≈17% vs polygenic score <2% of explained variance; Argentieri et al., Nat Med 2025, PMID 39972219) — the modifiable gaps this plan targets are the right lever regardless of what any clock says.
 
 ### Signal card format
 
 ```
-[biological_age] = [PhenoAge: X yr | GrimAge: Y yr | chronological: Z yr | delta: X−Z yr]
+[biological_age] = [PhenoAge: X yr | chronological: Z yr | delta: X−Z yr]
 ```
+
+If validated omics clocks were computed, append them: `| DunedinPACE: P | GrimAge: G yr`.
 
 - **delta ≤ 0**: biological age at or below chronological — systems are keeping pace.
 - **delta +3 to +7**: moderate acceleration — find the dominant axis (metabolic and inflammatory are the usual roots).

@@ -79,6 +79,8 @@ cp lean-ctx/pi-config.json ~/.pi/agent/extensions/pi-lean-ctx/config.json
 mkdir -p ~/.config/lean-ctx && cp lean-ctx/config.toml ~/.config/lean-ctx/config.toml
 cp -r skills/ce-lite ~/.pi/agent/skills/ce-lite
 cp -r skills/mattpocock/* ~/.pi/agent/skills/   # lazy library (optional but recommended)
+cp -r skills/agents-skills/* ~/.pi/agent/skills/  # domain & harness skills
+cp -r skills/prompt-sharpen ~/.pi/agent/skills/
 pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \

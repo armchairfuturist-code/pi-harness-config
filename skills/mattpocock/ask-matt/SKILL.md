@@ -91,6 +91,14 @@ Everything below sits off the idea→ship path. Reach by situation; none of it n
 
 **Writing**
 - **`/conversion-copywriting`** — research-first, Voice-of-Customer copy that earns a "yes" (landing pages, emails, sales).
+- **`/no-ai-slop`** — edit a draft into sharper, more human writing in your voice — or just detect the slop without rewriting.
+
+**Repo setup**
+- **`/setup-pre-commit`** — Husky pre-commit hooks with lint-staged, typecheck, and tests.
+- **`/setup-ts-deep-modules`** — wire dependency-cruiser into a TS repo so packages stay deep modules.
+
+**Comms**
+- **`/to-questionnaire`** — turn a decision you can't answer yourself into a questionnaire for someone else to fill in.
 
 **Keeping the harness lean**
 - **`/prompt-sharpen`** — turn a vague request into a sharp, editable brief before running it. The pre-task sharpener for a thin harness.
@@ -107,7 +115,8 @@ Everything below sits off the idea→ship path. Reach by situation; none of it n
 
 **Harness upkeep**
 - **`/system-health-check`** — morning ritual: run drift probes, correct where safe, report.
-- **`/find-skills`** — discover and install skills from the open ecosystem (`npx skills`).
+- **`/ce-lite`** — the orchestrator for non-trivial work: grill blocking questions, write contract terms, run subagents, verify.
+- **`/find-skills`** — nothing installed fits? Discover and install skills from the open ecosystem (`npx skills`).
 
 ## Precondition
 

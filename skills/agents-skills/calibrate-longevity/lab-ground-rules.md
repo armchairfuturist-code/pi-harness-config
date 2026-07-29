@@ -81,32 +81,35 @@ Factors that change lab values before the tube reaches the centrifuge.
 
 ---
 
+## Medication confounders
+The skill collects current medications as a required input — check this table before interpreting labs or proposing interventions.
+
+| Medication | Affected markers | Direction / note |
+|---|---|---|
+| Metformin | B12, MMA | Lowers B12 over years — confirm with MMA before declaring deficiency |
+| PPIs (omeprazole etc.) | Mg, B12, iron, calcium | Reduced absorption; serum Mg may be falsely reassuring — use RBC Mg |
+| Statins | CoQ10, glucose, CK | CoQ10 depletion (myopathy risk); small glucose rise; CK elevation ≠ liver injury |
+| SGLT2 inhibitors | Glucose, ketones | Euglycemic DKA risk — interpret glucose together with symptoms |
+| ACE inhibitors / ARBs | Potassium, creatinine | Small creatinine rise expected on initiation |
+| TRT / anabolics | Hematocrit, PSA, estradiol | Hematocrit >54% → address before any addition |
+| Levothyroxine | TSH, fT4 | Draw trough (before AM dose) |
+| High-dose biotin | TSH, troponin, most immunoassays | Falsely low TSH / troponin — stop 48–72 h before draw |
+| GLP-1/GIP agonists | Glucose, TG, free T | Rapid fat loss suppresses free T — see the GLP-1 guardrail in SKILL.md Section C |
+
+---
+
 ## Recheck intervals
 
-How long to wait before re-testing after starting an intervention. Testing sooner wastes money and may misinterpret natural fluctuation as a trend.
+Authoritative recheck windows live with each marker in `biomarkers.md` (the per-marker Recheck columns). The governing principle: **never recheck before the marker reaches steady state** — testing sooner wastes money and misreads natural fluctuation as a trend. The slowest common cases: HbA1c (12 weeks — 90-day average), vitamin D (3 months after a loading change), ferritin after IV iron (3 months — artefactually high for weeks).
+
+Markers without a `biomarkers.md` entry:
 
 | Marker | Minimum recheck window | Notes |
 |---|---|---|
-| **HbA1c** | **12 weeks (3 months)** | Reflects average glucose over 90 days. Earlier rechecks are useless. |
-| **Fasting insulin** | 2–4 weeks | Can respond quickly to carb restriction, IF, or metformin. |
-| **Glucose (fasting)** | 2–4 weeks | Daily glucose may fluctuate from stress/illness — trend over weeks, not days. |
-| **Lipids (TC, LDL, HDL, TG)** | 6–8 weeks | Respond to diet/lifestyle changes within 4–6 weeks. Allow a full menstrual cycle for stable comparison. |
-| **ApoB, Lp(a)** | 8–12 weeks | Slower to change; Lp(a) is largely genetically determined. |
-| **TSH, fT4, fT3** | 6–8 weeks after dose change | Pituitary-thyroid axis takes 4–6 weeks to reach new steady state after levothyroxine dose change. |
-| **Vitamin D (25-OH)** | **3 months after loading** | 25-OH D half-life is ~15–25 days. Steady state takes 3 months after loading dose change. |
-| **Homocysteine** | 4–6 weeks after supplement change | Responds to B12, folate, TMG, creatine within 4 weeks. |
-| **hs-CRP** | 4–6 weeks after anti-inflammatory intervention | Diet, exercise, supplements (curcumin, fish oil) show meaningful change in 4–6 weeks. |
-| **Iron panel (Fe, ferritin, saturation)** | 4–8 weeks after oral iron | Ferritin responds slowly (weeks). Saturation and iron respond in days — but ferritin is the actionable marker for stores. |
-| **Ferritin** (post-iron infusion) | **3 months** | After IV iron, ferritin may be artefactually elevated for weeks due to acute-phase response — not reflective of true stores. |
-| **Testosterone (total & free)** | 4–6 weeks after intervention | Clomiphene, HCG, TRT all take 4–6 weeks for new steady state. |
-| **Cortisol (salivary curve)** | 2–4 weeks after stress intervention | Responds to sleep improvement, stress reduction, adaptogens. |
-| **SHBG** | 6–8 weeks | SHBG responds to thyroid status, insulin, estrogen, diet changes — slowly. |
-| **DHEA-S** | 4–6 weeks after DHEA supplementation | Measure trough (just before next dose). |
-| **Estradiol, Progesterone (HRT)** | 6–8 weeks after dose change on HRT | Steady state after transdermal/oral HRT change. |
-| **CoQ10 (plasma)** | 8–12 weeks after starting supplement | Slow to accumulate. |
-| **Liver enzymes (ALT, AST, GGT)** | 2–4 weeks after removing insult | Can normalise quickly after alcohol cessation or NAC supplementation. |
-| **Creatinine, GFR** | 2–4 weeks | Stable if the insult (dehydration, nephrotoxin) is removed. A small change may be lab noise. |
-| **BNP / NT-proBNP** | 2–4 weeks | Responds to efpeglenatide / tirzepatide / decongestion. |
+| **Estradiol, Progesterone (HRT)** | 6–8 weeks after dose change | Steady state after transdermal/oral HRT change. |
+| **Liver enzymes (ALT, AST)** | 2–4 weeks after removing insult | Can normalise quickly after alcohol cessation or NAC. |
+| **Creatinine, GFR** | 2–4 weeks | Stable once the insult (dehydration, nephrotoxin) is removed; a small change may be lab noise. |
+| **BNP / NT-proBNP** | 2–4 weeks | Responds to GLP-1/GIP therapy and decongestion. |
 
 ---
 

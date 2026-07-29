@@ -33,6 +33,8 @@ The Skills CLI (`npx skills`) is the package manager for the open agent skills e
 
 ## How to Help Users Find Skills
 
+**Check installed skills first.** `/ask-matt` routes every installed skill — if one already covers the need, use it. Search the ecosystem only when nothing installed fits.
+
 ### Step 1: Understand What They Need
 
 When a user asks for help with something, identify:
@@ -102,6 +104,8 @@ npx skills add <owner/repo@skill> -g -y
 ```
 
 The `-g` flag installs globally (user-level) and `-y` skips confirmation prompts.
+
+Install for **pi only**. Multi-agent selections write to `~/.agents/skills`, which pi also scans — every update then collides with the `~/.pi/agent/skills` copy of the same skill. If `~/.agents/skills/<name>` reappears after an update, move it to `~/.agents/skills-archived/`.
 
 ## Common Skill Categories
 
