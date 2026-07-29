@@ -81,6 +81,8 @@ cp -r skills/ce-lite ~/.pi/agent/skills/ce-lite
 cp -r skills/mattpocock/* ~/.pi/agent/skills/   # lazy library (optional but recommended)
 cp -r skills/agents-skills/* ~/.pi/agent/skills/  # domain & harness skills
 cp -r skills/prompt-sharpen ~/.pi/agent/skills/
+# Owned by ~/Projects/Skills (armchairfuturist-code/Skills) and symlinked into ~/.pi/agent/skills:
+#   ai-consultant-career, calibrate-longevity, invest-optimizer, no-ai-slop
 pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
