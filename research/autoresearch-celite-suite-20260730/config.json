@@ -1,0 +1,1 @@
+{"name":"celite-suite","metric":"suite_total","unit":"tokens","direction":"lower","maxIterations":10,"fixedModel":"Venice/kimi-k3","fixedThinking":"xhigh","note":"non-trivial briefs that force ce-lite loading; mutate candidates/SKILL.md phrasing for plan/turn economy"}
