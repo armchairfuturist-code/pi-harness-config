@@ -73,34 +73,36 @@ Pinned in **one file**: `~/.pi/workflows/model-tiers.json` (vendored: `workflows
 
 ## Install / restore
 
+**Single command** — copies every vendored file to its live location, verifies each
+with a diff, and reports `[OK]`/`[FAIL]` per file:
+
 ```bash
-cp settings.json ~/.pi/agent/settings.json
-cp models.json ~/.pi/agent/models.json
-cp APPEND_SYSTEM.md ~/.pi/agent/APPEND_SYSTEM.md
-cp tscg.json ~/.pi/tscg.json
-mkdir -p ~/.pi/workflows && cp workflows/model-tiers.json ~/.pi/workflows/model-tiers.json
-mkdir -p ~/.pi/workflows/saved && cp workflows/saved/memory-consolidate.json ~/.pi/workflows/saved/
-cp extensions/session-index.ts ~/.pi/agent/extensions/session-index.ts
-mkdir -p ~/.pi/agent/extensions/pi-lean-ctx
-cp lean-ctx/pi-config.json ~/.pi/agent/extensions/pi-lean-ctx/config.json
-mkdir -p ~/.config/lean-ctx && cp lean-ctx/config.toml ~/.config/lean-ctx/config.toml
-cp -r skills/ce-lite ~/.pi/agent/skills/ce-lite
-# Other skills are NOT vendored here (config-only repo). Install what you want:
-#   npx skills add mattpocock/skills     # engineering flow library
-#   armchairfuturist-code/Skills         # personal packs (symlink into ~/.pi/agent/skills)
+./install.sh                # deploy all vendored config + verify
+./install.sh --check        # verify only (no writes) — checks for drift
+./install.sh --settings     # also overlay settings.json (excluded by default)
+```
+
+The manifest inside `install.sh` is the **single source of truth** for what gets deployed.
+Adding a file to the repo means adding one line to the manifest — no manual `cp` list to forget.
+
+**First install on a fresh machine** also needs the npm packages:
+
+```bash
 pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
   npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking \
   npm:cc-safety-net npm:pi-herdr-btw
 export LILAC_API_KEY="your-key-here"
+# Other skills (not vendored here — install what you want):
+# npx skills add mattpocock/skills    # engineering flow library
+# armchairfuturist-code/Skills        # personal packs (symlink into ~/.pi/agent/skills)
 ```
 
-**Migrating into an existing install** (overlay without reinstalling packages): the safe
-overlay set is `APPEND_SYSTEM.md`, `tscg.json`, `skills/ce-lite/`, `extensions/session-index.ts`,
-`workflows/`, and `lean-ctx/pi-config.json`. Overlay `settings.json` only after checking
-`defaultProvider`/`defaultModel` (this repo's default mirrors the operator's current machine);
-`models.json` only if you want the provider definitions. Never overlay `auth.json` (not vendored).
+**Migrating into an existing install:** `./install.sh` is idempotent — run it, then `./install.sh --check`
+to confirm zero drift. `settings.json` is excluded by default (provider/model differ per machine);
+overlay it with `./install.sh --settings` only after checking `defaultProvider`/`defaultModel`.
+Never overlay `auth.json` (not vendored).
 
 **Remove-if-present (old kernel):** pi-mcp-adapter, pi-goal-list-loop-audit, pi-web-access (`pi remove <pkg>`), and delete `~/.pi/agent/extensions/delegate.ts`.
 
