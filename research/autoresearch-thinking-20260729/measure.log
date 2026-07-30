@@ -1,0 +1,7 @@
+PROXY FAILED
+MEASURE_EXIT=1
+FAIL t1-r1
+FAIL t3-r1
+FAIL t1-r2
+FAIL t3-r2
+checks_failed=1

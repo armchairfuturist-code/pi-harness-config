@@ -1,0 +1,1 @@
+{"name":"thinking-economics","metric":"out_sum","unit":"tokens","direction":"lower","maxIterations":10,"fixedModel":"Venice/kimi-k3","note":"out primary (thinking=output); suite_total + canaries guard"}
