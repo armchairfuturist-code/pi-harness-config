@@ -3,6 +3,8 @@
 > **Pi version**: `0.80.7`  
 > **Generated**: 2026-07-14  
 > **Purpose**: Replicate this Pi setup on another machine with identical configuration.
+>
+> **Corrected 2026-07-30**: package lists (snapshot below, the §6 table, and Step 5) updated to the current 15 packages. All other values (provider/model defaults, thinking level, dates) remain a 2026-07-14 snapshot — the live repo `settings.json`/`models.json` are authoritative.
 
 ---
 
@@ -85,19 +87,21 @@
     "advisor": "deepseek/deepseek-v4-flash"
   },
   "packages": [
-    "npm:@hypabolic/pi-hypa",
-    "npm:context-mode",
-    "npm:pi-autoresearch",
-    "npm:pi-cache-graph",
-    "npm:pi-cache-optimizer",
-    "npm:pi-context-prune",
-    "npm:pi-context-usage",
-    "npm:pi-lean-ctx",
-    "npm:pi-mcp-adapter",
-    "npm:pi-readcache",
-    "npm:pi-slim",
-    "npm:pi-tscg",
-    "npm:pi-web-access"
+    "npm:@ogulcancelik/pi-model-agents"
+    "npm:@ogulcancelik/pi-model-thinking"
+    "npm:@plannotator/pi-extension"
+    "npm:cc-safety-net"
+    "npm:context-mode"
+    "npm:pi-autoresearch"
+    "npm:pi-cache-graph"
+    "npm:pi-cache-optimizer"
+    "npm:pi-context-usage"
+    "npm:pi-continue"
+    "npm:pi-herdr-btw"
+    "npm:pi-lean-ctx"
+    "npm:pi-slim"
+    "npm:pi-tscg"
+    "npm:@quintinshaw/pi-dynamic-workflows"
   ],
   "defaultThinkingLevel": "low",
   "compaction": {
@@ -331,21 +335,23 @@ Installed via `packages` array in `settings.json`:
 
 | Package | npm Name | Purpose |
 |---------|----------|---------|
-| **pi-hypa** | `@hypabolic/pi-hypa` | Hypa compression for shell/file output |
 | **context-mode** | `context-mode` | Lean-ctx: context management, search, indexing |
 | **pi-autoresearch** | `pi-autoresearch` | Autonomous web research agent |
 | **pi-cache-graph** | `pi-cache-graph` | Cache dependency graph visualization |
 | **pi-cache-optimizer** | `pi-cache-optimizer` | Prompt caching optimization |
-| **pi-context-prune** | `pi-context-prune` | Automatic context window pruning |
 | **pi-context-usage** | `pi-context-usage` | Token usage tracking |
 | **pi-lean-ctx** | `pi-lean-ctx` | Lean context mode (ctx_* tool suite) |
-| **pi-mcp-adapter** | `pi-mcp-adapter` | MCP protocol adapter |
-| **pi-readcache** | `pi-readcache` | File read caching for token savings |
 | **pi-slim** | `pi-slim` | Token optimization/slimming |
 | **pi-tscg** | `pi-tscg` | Tool Schema Compression Group — compresses tool JSON schemas to reduce token count |
-| **pi-web-access** | `pi-web-access` | Web search + fetch capabilities |
+| **pi-model-agents** | `@ogulcancelik/pi-model-agents` | Model-specific subagent definitions |
+| **pi-model-thinking** | `@ogulcancelik/pi-model-thinking` | Per-model thinking-level control |
+| **pi-extension (plannotator)** | `@plannotator/pi-extension` | Plan annotation/review UI |
+| **cc-safety-net** | `cc-safety-net` | Command safety guardrails |
+| **pi-continue** | `pi-continue` | Session continuation helpers |
+| **pi-herdr-btw** | `pi-herdr-btw` | herdr integration bridge |
+| **pi-dynamic-workflows** | `@quintinshaw/pi-dynamic-workflows` | Dynamic multi-agent workflow orchestration |
 
-Additional npm packages installed as dependencies include: `@anthropic-ai`, `@aws`, `@aws-sdk`, `@clack`, `@earendil-works`, `@google`, `@hono`, `@hypabolic`, `@mistralai`, `@modelcontextprotocol`, `@sinclair`, `better-sqlite3`, `ajv`, `bowser`, `context-mode`, and others.
+Additional npm packages installed as dependencies include: `@anthropic-ai`, `@aws`, `@aws-sdk`, `@clack`, `@earendil-works`, `@google`, `@hono`, `@mistralai`, `@modelcontextprotocol`, `@sinclair`, `better-sqlite3`, `ajv`, `bowser`, `context-mode`, and others.
 
 ---
 
@@ -752,19 +758,21 @@ cp extensions/orca-titlebar-spinner.ts ~/.pi/agent/extensions/orca-titlebar-spin
 
 ```bash
 cd ~/.pi/agent
-pi pkg add @hypabolic/pi-hypa
 pi pkg add context-mode
 pi pkg add pi-autoresearch
 pi pkg add pi-cache-graph
 pi pkg add pi-cache-optimizer
-pi pkg add pi-context-prune
 pi pkg add pi-context-usage
 pi pkg add pi-lean-ctx
-pi pkg add pi-mcp-adapter
-pi pkg add pi-readcache
 pi pkg add pi-slim
 pi pkg add pi-tscg
-pi pkg add pi-web-access
+pi pkg add @ogulcancelik/pi-model-agents
+pi pkg add @ogulcancelik/pi-model-thinking
+pi pkg add @plannotator/pi-extension
+pi pkg add cc-safety-net
+pi pkg add pi-continue
+pi pkg add pi-herdr-btw
+pi pkg add @quintinshaw/pi-dynamic-workflows
 ```
 
 Alternatively, the packages will auto-install from the `settings.json` `packages` array on the next Pi start.

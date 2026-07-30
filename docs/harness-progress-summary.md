@@ -90,6 +90,10 @@ A trace of the structural improvements made across the harness configuration his
   * Rebuilt bench rig after untracked-file loss: `proxy-oi.mjs` rewritten (+accept-encoding fix for Venice gzip, +usage-key normalization), `gradient.sh`, `run-bench.sh` (now thin wrapper); all rig files now git-tracked. Killed the zombie capture proxy and cleaned capture/label litter.
   * Key hygiene: scrubbed 3 rotated credentials from `docs/pi-configuration.md` (push protection caught them); verified full history + all branches key-free; provider configs are env-var references only.
   * Cross-model terseness transfer confirmed (glm-5.2/kimi-k2.6/kimi-k3: aggregate out −28%, reqs −33%, canaries green).
+  * **Machine cleanup (evening)**: removed OMP harness + rtk + headroom entirely (binaries, `~/.omp`, audit-upgrade systemd timer, shell-rc headroom env blocks); removed `.pi-lens` (533M), `.pi-glla`, `.pi-meter`, `.autoresearch-pi`, stale caches/backups (~540M freed). Active harnesses: pi, codex, reasonix.
+  * **hypa removed**: `@hypabolic/pi-hypa` was uninstalled but left a broken `~/.local/bin/hypa` shim — 522/564 of all 30-day `command not found` errors came from agents invoking it. Shim deleted, `@hypabolic` allowScripts residue cleaned, stale doc references corrected.
+  * **context-mode local patch**: `buildBatchNodeOptionsPrefix` emitted `NODE_OPTIONS='...' <cmd>` — a bash syntax error before `for`/`if`/`while` (broke ctx_shell/ctx_batch_execute loops). Patched to `export NODE_OPTIONS='...'; <cmd>` in `build/server.js` + both `.mjs` bundles. **Re-apply after any context-mode upgrade.**
+  * **New live skill `harness-doctor`** (`~/.pi/agent/skills/`): verified harness/provider/credential inventory (snapshot + drift) and transactional provider add/remove (dry-run default, snapshot → validate → residue-scan → auto-rollback). Pi-native replacement for the OMP system-health-check skill (deleted with OMP).
 
 ---
 

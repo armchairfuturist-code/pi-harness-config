@@ -38,7 +38,7 @@ recommendations**. Tracker: local markdown (no git repo). Skills to consult:
   after a bad revert). `~/.pi/agent/settings.json` set to `defaultProvider: opencode-zen`,
   `modelRoles.default: lilac/moonshotai/kimi-k2.6`, `defaultThinkingLevel: low`,
   `keepRecentTokens: 10000`, full 15-package list. Added the 3 genuinely-missing packages
-  (`@hypabolic/pi-hypa`, `pi-context-prune`, `pi-readcache`); **kept** `pi-subagents` + `pi-btw`
+  (`@hypabolic/pi-hypa` — removed 2026-07-30, broken shim; `pi-context-prune` — reverted after every-turn explosion; `pi-readcache` — removed); **kept** `pi-subagents` + `pi-btw`
   (installed and load-bearing — an earlier agent wrongly deleted them by treating the stale
   `pi-configuration.md` export as authoritative). `opencode-zen` is a built-in provider
   (`OPENCODE_ZEN_API_KEY` is in env); `models.json` listing only `Lilac` is not a contradiction.

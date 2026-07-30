@@ -22,7 +22,7 @@ Canary definitions + as-run results: `.scratch/thin-pi-harness/issues/12-grill-c
 ```
 pi-harness-config/
 ├── settings.json          # 15 packages, 6 extensions (thin kernel)
-├── models.json            # Provider + model definitions (Lilac)
+├── models.json            # Provider + model definitions (Venice + Lilac)
 ├── APPEND_SYSTEM.md       # CE-lite activation hook (~85 tok, the ONLY global overlay)
 ├── tscg.json              # pi-tscg: aggressive schema compression — LOAD-BEARING, do not retune
 ├── AGENTS.md              # Project instructions (session guardrail)
@@ -53,7 +53,7 @@ pi-harness-config/
 
 **Packages (15):** pi-lean-ctx, context-mode, @quintinshaw/pi-dynamic-workflows, pi-tscg, pi-slim, pi-cache-optimizer, pi-cache-graph, pi-context-usage, pi-continue, pi-autoresearch, @plannotator/pi-extension, @ogulcancelik/pi-model-agents, @ogulcancelik/pi-model-thinking, cc-safety-net, pi-herdr-btw.
 
-**Removed (measured):** pi-mcp-adapter (no MCP servers configured; dead schema), pi-goal-list-loop-audit (11 always-on tools ≈ 1,100 tok — incompatible with the −30% budget; contract/audit is now ce-lite artifacts + workflow reviewer phases), pi-web-access (parent web tools ≈ 1,084 tok — web moved to workflow child agents + direct `ctx_fetch_and_index`), extensions/delegate.ts (superseded by dyn-workflows), pi-subagents never activated (+3,810 tok).
+**Removed (measured):** pi-mcp-adapter (no MCP servers configured; dead schema), pi-goal-list-loop-audit (11 always-on tools ≈ 1,100 tok — incompatible with the −30% budget; contract/audit is now ce-lite artifacts + workflow reviewer phases), pi-web-access (parent web tools ≈ 1,084 tok — web moved to workflow child agents + direct `ctx_fetch_and_index`), extensions/delegate.ts (superseded by dyn-workflows), pi-subagents never activated (+3,810 tok). pi-hypa/@hypabolic (npm package uninstalled but a broken `~/.local/bin/hypa` shim remained — 522 command-not-found errors in 30 days; shim + allowScripts residue removed 2026-07-30).
 
 **Extensions (6):** @samfp/pi-essentials (session naming, titles, clipboard images, compact header, image pruning, markdown viewer) — UI only, zero schema cost.
 
@@ -117,6 +117,8 @@ Optional heavy web weeks: `pi install npm:pi-web-access` re-adds parent web tool
 
 - **Do not retune `tscg.json`.** Aggressive 30-char description truncation saves 6,467 tok of schema (autoresearch attribution 2026-07-28: removal probe → 10,483; earlier `balanced` test → 9,994). Truncated tool docs are compensated by APPEND_SYSTEM.md guidance.
 - **Do not churn the system prompt.** Cache-prefix stability beats prose golf (see research/progressive-disclosure-findings.md).
+- **context-mode has a local patch (2026-07-30)**: `buildBatchNodeOptionsPrefix` now emits `export NODE_OPTIONS=...; <cmd>` so `for`/`if`/`while` survive ctx_shell. A context-mode npm upgrade overwrites `build/server.js` + bundles — re-apply (see `~/.pi/agent/memory/consolidated.md`).
+- **Machine environment 2026-07-30**: OMP harness, rtk, headroom, `.pi-lens` (533M) and stale add-on dirs removed; active harnesses = pi, codex, reasonix (`~/.pi/agent/memory/harnesses.md`). New live skill `harness-doctor`: verified inventory + transactional provider add/remove.
 - **Do not set `enableMcp: true`** in the lean-ctx config. The bridge triggers intent-based tool-surface expansion (22→78 tools, ~13.6k tok/request on file tasks; measured A/B 2026-07-29, same task: 3,997 vs 13,591). `ctx_edit` falling back to native edit is intended behavior, not a fault.
 - Live `~/.pi/agent` sync from this repo is an explicit operator decision (see spec §8).
 

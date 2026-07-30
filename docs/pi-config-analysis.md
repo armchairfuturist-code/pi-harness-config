@@ -65,7 +65,7 @@
 
 ### 6. Three other installed-but-unloaded packages = clutter
 
-`pi-readcache`, `@hypabolic/pi-hypa`, `pi-context-prune` are in `node_modules` but not in `packages`. They consume disk and can confuse `pi pkg list` audits but have no runtime effect. Either add to `packages` or `pi pkg remove`.
+`pi-readcache`, `@hypabolic/pi-hypa`, `pi-context-prune` were in `node_modules` but not in `packages`. They consume disk and can confuse `pi pkg list` audits but have no runtime effect. Either add to `packages` or `pi pkg remove`.
 
 ### 7. Stale credentials in `auth.json`
 
