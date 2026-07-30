@@ -68,6 +68,20 @@ try {
 
 **Canaries:** `node verify.js` exits 0 with stdout containing PASSED; state_store.js contains spread/Object.assign/structuredClone; verify.js unmodified (hash check).
 
+## s4 — Long-Horizon Decomposition (added by operator mid-campaign)
+**Prompt:** We're going to migrate this little tool from JSON-file storage to SQLite, spread over multiple sessions. Nothing is decided: schema, migration path, verification approach. Your job now is NOT to build — chart the way: write wayfinder-map.md naming the destination and listing decision tickets (open questions to resolve, one per line, phrased as questions). Stop after the map.
+
+**Seeds:** small JSON-file tool (see seed_s4 in measure.sh).
+
+**Canaries:** wayfinder-map.md exists; ≥N lines ending in `?` (decision tickets); NO new .py/.sql files (chart, don't build).
+
+## s5 — Handoff Discipline (added by operator mid-campaign)
+**Prompt:** This is the first session of a multi-session effort. Task for now: create a tiny counter module (counter.js exporting inc() and get()) and a handoff document for the next session. The handoff must include: current state, what's next, and a note for the model taking over. Write handoff.md.
+
+**Seeds:** none (creates from scratch).
+
+**Canaries:** counter.js exists with inc/get; handoff.md ≥5 lines containing state/next/model-note content.
+
 ## s4 — Decomposition Routing (wayfinder-shaped)
 **Prompt:** We're going to migrate this little tool from JSON-file storage to SQLite, spread over multiple sessions. Nothing is decided: schema, migration path, verification approach. Your job now is NOT to build — chart the way: write wayfinder-map.md naming the destination and listing decision tickets (open questions to resolve, one per line, phrased as questions). Stop after the map.
 

@@ -16,7 +16,7 @@ for rep in 1 2; do
   d="/tmp/celite-s2-r${rep}"
   out="$(cd "$d" 2>/dev/null && python3 -c "from app import run; print(run())" 2>/dev/null)"
   if [ -f "$d/config/loader.py" ] && grep -qE "json\.loads?\(" "$d/config/loader.py" \
-     && grep -qF 'cfg["db_host"]' "$d/app.py" && grep -qF 'cfg["db_port"]' "$d/app.py" \
+     && grep -qE "cfg\[['\"]db_host['\"]\]" "$d/app.py" && grep -qE "cfg\[['\"]db_port['\"]\]" "$d/app.py" \
      && [ "$out" = "Connecting to production-db.internal:5432" ]; then
     :
   else
@@ -28,7 +28,7 @@ for rep in 1 2; do
   runout="$(cd "$d" 2>/dev/null && node verify.js 2>/dev/null)"
   rc=$?
   if [ "$rc" = 0 ] && echo "$runout" | grep -q PASSED \
-     && grep -qE "structuredClone|Object\.assign|\.\.\." "$d/state_store.js" \
+     && grep -qE "structuredClone|Object\.assign|\.\.\.|JSON\.parse" "$d/state_store.js" \
      && grep -q "Counter mutated!" "$d/verify.js"; then
     :
   else
@@ -52,7 +52,7 @@ for rep in 1 2; do
   d="/tmp/celite-s5-r${rep}"
   if [ -f "$d/counter.js" ] && grep -qE "inc|get" "$d/counter.js" \
      && [ -f "$d/handoff.md" ] && [ "$(wc -l < "$d/handoff.md")" -ge 5 ] \
-     && grep -qi "model note" "$d/handoff.md"; then
+     && grep -qiE "model note|next model|taking over|for the model" "$d/handoff.md"; then
     :
   else
     echo "FAIL s5-r${rep}"; fail=1

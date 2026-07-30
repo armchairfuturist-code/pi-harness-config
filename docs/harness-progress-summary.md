@@ -83,6 +83,14 @@ A trace of the structural improvements made across the harness configuration his
   * Ran bounded autoresearch terseness campaign (8 iterations): two APPEND_SYSTEM.md sentences → −17.1% suite tokens, −38% output, −21% round-trips (canaries caught the best-metric iteration being a quality failure). Cross-model transfer confirmed (glm-5.2/k2.6/k3: aggregate out −28%, reqs −33%). Floor 4,005→4,071 (netted).
   * Vendored all fixes into this repo (extensions/session-index.ts, workflows/saved/memory-consolidate.json, model-tiers.json, ce-lite sync) + "Migrating into an existing install" README section. Ponytail audit applied: removed run-pi-trials.sh, 9 cache-optimizer .tmp litter files, orphaned context-prune config, inert ~/.pi/rules/lean-ctx.md (+ its .bak; backup in /tmp). Purged pi-hermes-memory remnant. Mapped 4 harnesses on this machine (pi, omp, codex, cursor); OMP has native cross-session memory — pi's equivalent is session-index + context-mode FTS5. Attribution corrections recorded in ~/.pi/agent/memory/consolidated.md.
 
+* **2026-07-30**:
+  * Thinking-level economics campaign (Venice/kimi-k3, T1+T3): `high` beats `xhigh` by **−34% suite tokens, −40% output, −28% round-trips**; `medium` ties cost but fails the hardest-task canary (quality cliff located). Promoted `defaultThinkingLevel: xhigh → high` and reasoner-tier pin `kimi-k3:high`. Mechanism: thinking cost compounds via turn *multiplication*, not just reasoning tokens.
+  * Removed `extensions/rtk.ts`: verified inert — lean-ctx replace mode means the model calls `ctx_shell`, never `bash`, so rtk's bash-hook fires zero times. rtk belongs to the OMP harness (which has no lean-ctx).
+  * ce-lite suite campaign running (5 non-trivial briefs incl. operator-added wayfinder/handoff long-horizon shapes; `skill_loaded=10/10` premise confirmed). Baseline 135.9k/46 reqs; plan-economy iter1 discarded after canary caught skipped discovery (legacy-values regression).
+  * Rebuilt bench rig after untracked-file loss: `proxy-oi.mjs` rewritten (+accept-encoding fix for Venice gzip, +usage-key normalization), `gradient.sh`, `run-bench.sh` (now thin wrapper); all rig files now git-tracked. Killed the zombie capture proxy and cleaned capture/label litter.
+  * Key hygiene: scrubbed 3 rotated credentials from `docs/pi-configuration.md` (push protection caught them); verified full history + all branches key-free; provider configs are env-var references only.
+  * Cross-model terseness transfer confirmed (glm-5.2/kimi-k2.6/kimi-k3: aggregate out −28%, reqs −33%, canaries green).
+
 ---
 
 ## Open threads

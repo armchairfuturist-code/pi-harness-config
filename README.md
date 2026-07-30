@@ -122,4 +122,4 @@ Optional heavy web weeks: `pi install npm:pi-web-access` re-adds parent web tool
 
 ## Not included (secrets + bulk)
 
-`auth.json`, `models-store.json`, `sessions/`, `npm/node_modules/`, large skill assets. Live-only personal extensions are intentionally not vendored: `rtk.ts` (bash rewrite layer overlapping lean-ctx — keep one), `invest-tools.ts` (operator's finance tooling).
+`auth.json`, `models-store.json`, `sessions/`, `npm/node_modules/`, large skill assets. Live-only personal extensions are intentionally not vendored: `invest-tools.ts` (operator's finance tooling). NOTE: `rtk.ts` was removed from live 2026-07-30 — verified inert: lean-ctx replace mode means the model calls `ctx_shell`, not `bash`, so rtk's `bash`-hook never fires (zero invocations since replace mode). It belongs to the OMP harness, which has no lean-ctx.
