@@ -1,7 +1,10 @@
-PROXY FAILED
-MEASURE_EXIT=1
-FAIL t1-r1
-FAIL t3-r1
-FAIL t1-r2
-FAIL t3-r2
-checks_failed=1
+lane think-high-t1-r1 done: 2 captures
+lane think-high-t1-r2 done: 2 captures
+lane think-high-t3-r1 done: 5 captures
+lane think-high-t3-r2 done: 5 captures
+METRIC suite_total=36333
+METRIC out_sum=1444
+METRIC req_sum=14
+METRIC detail_t1=9712_t3=26621
+MEASURE_EXIT=0
+checks_pass=1

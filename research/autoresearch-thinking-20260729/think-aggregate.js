@@ -9,7 +9,7 @@ function lane(label) {
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.json'))) {
     const j = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
     const u = j.response?.body?.usage || j.response?.usage || j.usage || {};
-    tin += u.input_tokens || 0; tout += u.output_tokens || 0; n++;
+    tin += u.input_tokens ?? u.prompt_tokens ?? 0; tout += u.output_tokens ?? u.completion_tokens ?? 0; n++;
   }
   return { tin, tout, n };
 }

@@ -28,7 +28,7 @@
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
   ],
-  "defaultThinkingLevel": "xhigh",
+  "defaultThinkingLevel": "high",
   "compaction": {
     "reserveTokens": 60000,
     "keepRecentTokens": 20000

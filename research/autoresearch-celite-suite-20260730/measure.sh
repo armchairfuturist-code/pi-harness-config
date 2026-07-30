@@ -85,7 +85,7 @@ for s in s1 s2 s3 s4 s5; do
       node "$BENCH/rig/proxy-oi.mjs" >> "$BENCH/proxy.log" 2>&1 &
     wait_listen || { echo "PROXY FAILED" >&2; exit 1; }
     prompt_var="P_$s"
-    (cd "$wd" && PI_CODING_AGENT_DIR="$VAGENT" timeout 240 pi -p "${!prompt_var}" --model "Venice/kimi-k3" --thinking xhigh >/dev/null 2>&1) || true
+    (cd "$wd" && PI_CODING_AGENT_DIR="$VAGENT" timeout 240 pi -p "${!prompt_var}" --model "Venice/kimi-k3" --thinking high >/dev/null 2>&1) || true
     pkill -TERM -f 'proxy-oi.mjs' 2>/dev/null || true
     echo "lane $label done: $(ls "$BENCH/captures/$label" 2>/dev/null | wc -l) captures" >&2
   done

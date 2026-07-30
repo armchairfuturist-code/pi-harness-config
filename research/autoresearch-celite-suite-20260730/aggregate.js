@@ -9,7 +9,7 @@ function lane(label) {
     const j = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
     const body = j.request?.body || j.body || j.request || j;
     const u = j.response?.body?.usage || j.response?.usage || j.usage || {};
-    tin += u.input_tokens || 0; tout += u.output_tokens || 0; n++;
+    tin += u.input_tokens ?? u.prompt_tokens ?? 0; tout += u.output_tokens ?? u.completion_tokens ?? 0; n++;
     if (JSON.stringify(body.messages || []).includes('ce-lite')) skill = 1;
   }
   return { tin, tout, n, skill };
