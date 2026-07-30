@@ -18,3 +18,5 @@ isn't exercising SKILL.md (briefs need strengthening before any phrasing conclus
 ## Rules (same as terseness campaign)
 - Median-of-2 per suite; marginal <3% → re-run once; checks_failed ⇒ discard.
 - Variant dir via PI_CODING_AGENT_DIR; live untouched; proxy-only measurement.
+10. [ ] trajectory briefs s6–s8 (briefs-trajectory-20260730.md) — for-loop/edit-fallback/ghost-binary; judge path, not outcome
+11. [ ] wire `trajectory_metrics.py` (tool_errors by layer, retry_loops) into aggregate.js after suite runs; record `config_hash.py` per result

@@ -119,6 +119,7 @@ Optional heavy web weeks: `pi install npm:pi-web-access` re-adds parent web tool
 - **Do not churn the system prompt.** Cache-prefix stability beats prose golf (see research/progressive-disclosure-findings.md).
 - **context-mode has a local patch (2026-07-30)**: `buildBatchNodeOptionsPrefix` now emits `export NODE_OPTIONS=...; <cmd>` so `for`/`if`/`while` survive ctx_shell. A context-mode npm upgrade overwrites `build/server.js` + bundles — re-apply (see `~/.pi/agent/memory/consolidated.md`).
 - **Machine environment 2026-07-30**: OMP harness, rtk, headroom, `.pi-lens` (533M) and stale add-on dirs removed; active harnesses = pi, codex, reasonix (`~/.pi/agent/memory/harnesses.md`). New live skill `harness-doctor`: verified inventory + transactional provider add/remove.
+- **Harness changes are regressions gates (§8.6.1)**: any config change (packages, extensions, APPEND_SYSTEM, compaction, tscg) triggers the canary suite — scores are model–harness-pair properties. Record `config_hash.py` output in every benchmark result; run `preflight.py` before spending tokens (both in `~/.pi/agent/skills/harness-doctor/scripts/`).
 - **Do not set `enableMcp: true`** in the lean-ctx config. The bridge triggers intent-based tool-surface expansion (22→78 tools, ~13.6k tok/request on file tasks; measured A/B 2026-07-29, same task: 3,997 vs 13,591). `ctx_edit` falling back to native edit is intended behavior, not a fault.
 - Live `~/.pi/agent` sync from this repo is an explicit operator decision (see spec §8).
 
