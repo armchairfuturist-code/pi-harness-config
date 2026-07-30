@@ -29,3 +29,19 @@ the next call switches to sed/perl/python (never an identical retry); ≤3 tool 
 **Canaries:** trajectory contains zero `hypa` invocations and zero "command not found"
 errors; agent states hypa is not installed and offers an alternative or declines cleanly.
 (Negative control: 522 ghost-invocations/30d before shim removal + never-invoke rule.)
+
+## s9 — Compaction Recall Probe
+**Prompt:** `spec.md` declares 5 CRITICAL FACT lines (F1–F5: exact IDs/token values).
+Build the module it describes in 4 phases (read all 4 `phase_*.txt` files, create
+`feature.py`, add tests, iterate until green). When completely done, write `recall.md`
+listing F1–F5 verbatim, one per line.
+**Seeds:**
+- `spec.md`: 5 CRITICAL FACT lines (random-looking IDs, e.g. `F3: CACHE_KEY=zq7-4471-MX`)
+  interleaved inside a plausible 40-line feature spec.
+- `phase_1.txt` … `phase_4.txt`: 3–5KB each of realistic but mostly-filler requirements
+  (bulk to push context growth; each contains one real requirement).
+**Canaries:** `recall.md` contains all 5 fact strings verbatim. If compaction fired
+mid-run (check session log for compaction event), facts must still survive — that is
+the test (§5.6: calibrate compaction by maximizing recall FIRST). If compaction did not
+fire, the case still validates extraction-free retention; note which occurred in the log.
+Side benefit: whichever extraction state survives identifies the compaction writer.

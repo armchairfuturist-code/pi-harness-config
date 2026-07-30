@@ -72,11 +72,13 @@ TODO: convert 2026-07-30 findings into permanent suite cases:
 ## Status (2026-07-30 evening)
 - Item 1 DONE — `prefix_audit.py`; all celite lanes STABLE (1 prefix hash/lane, 0 timestamped)
 - Item 2 DONE — verified APPEND_SYSTEM already U-optimal (routing first, guardrails last); no churn per cache-prefix-stability rule
-- Items 3, 4, 5 DEFERRED — need measurement first (per doc)
+- Item 3 DONE (probe built; writer resolved) — s9 compaction-recall canary added; smart-compact writer = **OMP by elimination** (exhaustive string search: pi core, agent npm, extensions, skills, bins, context-mode, lean-ctx all clean; writes ceased with OMP removal — recurrance ⇒ pi-core obfuscated, reopen)
+- Item 4 DONE (measured) — `context_growth.py`: toolResult = p50 49% of context bytes; 98.7% of big tool outputs reach model UNCLEARED; but top fresh-token sessions are conversation-dominated (share 0.24–0.54) → attack = compaction/turn management for the head, tool-clearing for the 88-session mid-tail (6.1M, 13%)
+- Item 5 DONE (audited) — workflow/herdr_agent returns: p50 0.2KB, p95 8.6KB, max 11.1KB (~2.8K tok); script-variable isolation works; within paper guidance at p50, no cap needed (watch p95 tail)
 - Item 6 DONE — `preflight.py` (23 checks incl. broken-shim exec-target scan); caught 4 broken shims on first run; 23/23 green
 - Item 7 DONE — `trajectory_metrics.py` (layer-classified errors + retry loops; baseline 903 errors/30d); suite wiring = ideas.md #11
 - Item 8 DONE — `config_hash.py` (baseline `bcb8dff8f834`) + README standing rule
-- Item 9 DONE — `briefs-trajectory-20260730.md` (s6-s8) added to suite dir
+- Item 9 DONE — `briefs-trajectory-20260730.md` (s6-s9) added to suite dir
 
 ## Execution note
 Items 1, 2, 6 are near-free and compound with the harness-doctor build (inventory/provider-ops/
