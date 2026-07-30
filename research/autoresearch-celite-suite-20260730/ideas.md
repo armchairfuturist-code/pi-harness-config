@@ -10,6 +10,10 @@ isn't exercising SKILL.md (briefs need strengthening before any phrasing conclus
 3. [ ] verify-step brevity: "Verify = run canaries and report pass/fail only; no re-derivation."
 4. [ ] winners combined
 5. [ ] negative control: remove the decomposition-routing section (expect req_sum up — validates the section is load-bearing)
+6. [ ] wayfinder doctrine — plan-phase line: "Produce decisions, not deliverables" (expect s4 req_sum/out down, no canary change)
+7. [ ] wayfinder handoff trigger: "The pull to just do the work = edge of the map; hand off" (expect s4/s5 to converge faster)
+8. [ ] wayfinder naming discipline: "Refer by name" — artifact names declared once, used verbatim (canary hygiene: fewer wrong-name file writes)
+9. [ ] s4 sensitivity variant: same migration ask WITHOUT naming wayfinder-map.md — tests spontaneous routing vs scripted artifact (canary: any *map*/*.md artifact with ≥3 question lines)
 
 ## Rules (same as terseness campaign)
 - Median-of-2 per suite; marginal <3% → re-run once; checks_failed ⇒ discard.

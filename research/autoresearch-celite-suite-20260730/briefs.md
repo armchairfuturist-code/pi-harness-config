@@ -67,3 +67,21 @@ try {
 ```
 
 **Canaries:** `node verify.js` exits 0 with stdout containing PASSED; state_store.js contains spread/Object.assign/structuredClone; verify.js unmodified (hash check).
+
+## s4 — Decomposition Routing (wayfinder-shaped)
+**Prompt:** We're going to migrate this little tool from JSON-file storage to SQLite, spread over multiple sessions. Nothing is decided: schema, migration path, verification approach. Your job now is NOT to build — chart the way: write wayfinder-map.md naming the destination and listing decision tickets (open questions to resolve, one per line, phrased as questions). Stop after the map.
+
+**Seeds:**
+- `store.js`: `const fs = require('fs');\nmodule.exports.load = f => JSON.parse(fs.readFileSync(f, 'utf8'));\nmodule.exports.save = (f, d) => fs.writeFileSync(f, JSON.stringify(d, null, 2));`
+- `data/notes.json`: `[{"id": 1, "text": "first"}, {"id": 2, "text": "second"}]`
+
+**Canaries:** wayfinder-map.md exists; ≥3 lines ending in `?`; contains "destination" (case-insensitive); NO new .py/.js/.sql files created (wayfinder doctrine: produce decisions, not deliverables).
+
+**Note:** prompt names the artifact for canary determinism — it tests decision-vs-deliverable discipline, not spontaneous routing. A vaguer variant (no filename given) is a sensitivity idea in ideas.md.
+
+## s5 — Handoff
+**Prompt:** This is the first session of a multi-session effort. Task for now: create a tiny counter module (counter.js exporting inc() and get()) and a handoff document for the next session. The handoff must include: current state, what's next, and a note for the model taking over. Write handoff.md.
+
+**Seeds:** none (empty dir).
+
+**Canaries:** counter.js exists and exports inc/get; handoff.md exists with ≥5 lines and contains "model note" (case-insensitive).

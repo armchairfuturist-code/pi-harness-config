@@ -17,7 +17,7 @@ function lane(label) {
 const med = (a, b) => (a + b) / 2;
 let suite = 0, outSum = 0, reqSum = 0, skillLanes = 0;
 const parts = [];
-for (const s of ['s1', 's2', 's3']) {
+for (const s of ['s1', 's2', 's3', 's4', 's5']) {
   const a = lane(`celite-${s}-r1`), b = lane(`celite-${s}-r2`);
   if (!a || !b) { console.log(`MISSING ${s}`); process.exit(1); }
   suite += med(a.tin + a.tout, b.tin + b.tout);
@@ -28,5 +28,5 @@ for (const s of ['s1', 's2', 's3']) {
 console.log(`METRIC suite_total=${Math.round(suite)}`);
 console.log(`METRIC out_sum=${outSum}`);
 console.log(`METRIC req_sum=${reqSum}`);
-console.log(`METRIC skill_loaded=${skillLanes}/6`);
+console.log(`METRIC skill_loaded=${skillLanes}/10`);
 console.log(`METRIC detail_${parts.join('_')}`);

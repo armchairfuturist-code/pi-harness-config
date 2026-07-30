@@ -34,6 +34,29 @@ for rep in 1 2; do
   else
     echo "FAIL s3-r${rep} (rc=$rc)"; fail=1
   fi
+
+  # --- s4: wayfinder map exists, decision-shaped, no deliverables built ---
+  d="/tmp/celite-s4-r${rep}"
+  qcount=$(grep -cE "\?$" "$d/wayfinder-map.md" 2>/dev/null || echo 0)
+  newcode=$(find "$d" -name "*.py" -o -name "*.sql" 2>/dev/null | wc -l)
+  newjs=$(find "$d" -name "*.js" ! -name store.js 2>/dev/null | wc -l)
+  if [ -f "$d/wayfinder-map.md" ] && [ "$qcount" -ge 3 ] \
+     && grep -qi "destination" "$d/wayfinder-map.md" \
+     && [ "$newcode" = 0 ] && [ "$newjs" = 0 ]; then
+    :
+  else
+    echo "FAIL s4-r${rep} (q=$qcount newcode=$newcode newjs=$newjs)"; fail=1
+  fi
+
+  # --- s5: counter module + handoff with model note ---
+  d="/tmp/celite-s5-r${rep}"
+  if [ -f "$d/counter.js" ] && grep -qE "inc|get" "$d/counter.js" \
+     && [ -f "$d/handoff.md" ] && [ "$(wc -l < "$d/handoff.md")" -ge 5 ] \
+     && grep -qi "model note" "$d/handoff.md"; then
+    :
+  else
+    echo "FAIL s5-r${rep}"; fail=1
+  fi
 done
 [ "$fail" = 0 ] && echo "checks_pass=1" || echo "checks_failed=1"
 exit "$fail"

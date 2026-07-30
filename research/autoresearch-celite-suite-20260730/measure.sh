@@ -60,11 +60,20 @@ try {
 VEOF
 }
 
+seed_s4() { wd="$1"
+  mkdir -p "$wd/data"
+  printf 'const fs = require("fs");\nmodule.exports.load = f => JSON.parse(fs.readFileSync(f, "utf8"));\nmodule.exports.save = (f, d) => fs.writeFileSync(f, JSON.stringify(d, null, 2));\n' > "$wd/store.js"
+  printf '[{"id": 1, "text": "first"}, {"id": 2, "text": "second"}]\n' > "$wd/data/notes.json"
+}
+seed_s5() { :; }
+
 P_s1="Analyze 'access.log' and cross-reference entries with security rules in 'rules.json'. Identify all legitimate API queries and filter out any requests originating from IPs flagged with high-severity threats. Produce a synthesis report saved as 'access_report.md'. The report must contain a markdown table showing the total count of clean queries grouped by department, followed by a 'Security Alerts' section citing the exact log line number of any high-severity threat IP using the format [filename:line_number]."
 P_s2="Inspect 'config/schema.json' to retrieve the expected key names and default values. Update the 'load_config' function in 'config/loader.py' to read that JSON file and return the values associated with those keys as a dictionary. Finally, modify 'app.py' to update how it extracts the config values from the returned dictionary and returns the updated connection string."
 P_s3="Diagnose and resolve a bug in 'state_store.js'. Subsequent mutations are bleeding into different independent runs, causing isolation assertion checks to fail. Implement a clone-on-instantiation or clone-on-retrieve pattern to isolate the active state object. Verify your solution by running 'node verify.js' until it returns an exit code of 0 and prints only 'PASSED'. Do not modify 'verify.js'."
+P_s4="We're going to migrate this little tool from JSON-file storage to SQLite, spread over multiple sessions. Nothing is decided: schema, migration path, verification approach. Your job now is NOT to build — chart the way: write wayfinder-map.md naming the destination and listing decision tickets (open questions to resolve, one per line, phrased as questions). Stop after the map."
+P_s5="This is the first session of a multi-session effort. Task for now: create a tiny counter module (counter.js exporting inc() and get()) and a handoff document for the next session. The handoff must include: current state, what's next, and a note for the model taking over. Write handoff.md."
 
-for s in s1 s2 s3; do
+for s in s1 s2 s3 s4 s5; do
   for rep in 1 2; do
     label="celite-${s}-r${rep}"
     wd="/tmp/celite-${s}-r${rep}"
