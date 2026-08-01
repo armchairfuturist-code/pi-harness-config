@@ -7,6 +7,7 @@ Catches hypa-class failures (broken shims), dead providers, missing extension
 files, unparsable configs. Exit 0 = green, 1 = any FAIL.
 """
 import json, os, re, socket, sys, urllib.request, urllib.error
+from pathlib import Path
 
 HOME = os.path.expanduser("~")
 RESULTS = []
@@ -94,7 +95,11 @@ def configs():
 
 
 def env_credentials():
-    for f in sorted(os.listdir(f"{HOME}/.config/env.d")):
+    env_d = Path(f"{HOME}/.config/env.d")
+    if not env_d.is_dir():
+        print("env.d: absent (ok)")
+        return
+    for f in sorted(os.listdir(env_d)):
         p = f"{HOME}/.config/env.d/{f}"
         names = re.findall(r'(?m)^export\s+([A-Z_][A-Z0-9_]*)', open(p).read())
         for n in names:

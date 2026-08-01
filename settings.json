@@ -32,5 +32,9 @@
   "compaction": {
     "reserveTokens": 60000,
     "keepRecentTokens": 20000
-  }
+  },
+  "skills": [
+    "!**/last30days-pi/pi-skills/**",
+    "!**/.agents/skills/**"
+  ]
 }

@@ -1,3 +1,8 @@
+---
+name: harness-doctor
+description: Inventory and audit local harnesses, providers, credentials, and Pi package health; add/remove providers safely; run preflight checks for broken shims, dead endpoints, and config drift. Use when diagnosing harness errors, provider setup, command-not-found/shim failures, or system health.
+---
+
 # Harness Doctor
 
 Pi-native replacement for the deleted OMP system-health-check. Use when the user asks to:

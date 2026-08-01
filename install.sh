@@ -39,6 +39,7 @@ APPEND_SYSTEM.md|PI_AGENT/APPEND_SYSTEM.md|
 tscg.json|PI_HOME/tscg.json|
 models.json|PI_AGENT/models.json|
 extensions/session-index.ts|PI_AGENT/extensions/session-index.ts|
+extensions/transcript-pruner.ts|PI_AGENT/extensions/transcript-pruner.ts|
 lean-ctx/pi-config.json|PI_AGENT/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|LEANCTX_HOME/config.toml|
 workflows/model-tiers.json|PI_HOME/workflows/model-tiers.json|
