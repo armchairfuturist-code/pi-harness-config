@@ -9,7 +9,8 @@
     "Venice/qwen3-6-27b": "medium",
     "Venice/kimi-k3": "high",
     "Venice/grok-4-5": "high",
-    "Venice/grok-4-20": "high"
+    "Venice/grok-4-20": "high",
+    "Venice/deepseek-v4-flash": "xhigh"
   },
   "providers": {
     "Lilac": "high",
