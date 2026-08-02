@@ -1,10 +1,9 @@
-# Pi Agent — Full Configuration Export
+# Pi Agent — Full Configuration Reference
 
-> **Pi version**: `0.80.7`  
-> **Generated**: 2026-07-14  
-> **Purpose**: Replicate this Pi setup on another machine with identical configuration.
->
-> **Corrected 2026-07-30**: package lists (snapshot below, the §6 table, and Step 5) updated to the current 15 packages. All other values (provider/model defaults, thinking level, dates) remain a 2026-07-14 snapshot — the live repo `settings.json`/`models.json` are authoritative.
+> **Purpose**: Replicate this Pi setup on another machine.
+> **Authoritative sources**: `install.sh` (deployment manifest) + `README.md` (quick-start).
+> This doc provides reference detail only. Live `settings.json`/`models.json` in the repo are authoritative over any snapshot here.
+> **Updated 2026-08-02**: fish shell (§10), current extensions (§7), replication via install.sh (§14).
 
 ---
 
@@ -25,9 +24,7 @@
 11. [Pi Cache Optimizer Stats](#11-pi-cache-optimizer-stats)
 12. [OMP Agent Config](#12-omp-agent-config)
 13. [Zero Agent Config](#13-zero-agent-config)
-14. [Start Script](#14-start-script)
-15. [Replication Instructions](#15-replication-instructions)
-16. [OpenCode Native Config (`opencode.json`)](#16-opencode-native-config-opencodejson)
+14. [Replication (Authoritative)](#14-replication-authoritative)
 
 ---
 
@@ -36,41 +33,31 @@
 ```
 ~/.pi/
 ├── agent/
-│   ├── auth.json                  # Stored API keys (OpenRouter, Nvidia)
-│   ├── models.json                # Provider + model definitions
-│   ├── settings.json              # Core Pi settings
-│   ├── context-prune/
-│   │   └── settings.json          # Context pruning configuration
-├── tscg.json                      # Tool Schema Compression Group settings
-│   ├── extensions/                # Pi extensions (TypeScript)
-│   │   ├── orca-agent-status.ts    # Orca integration — status reporting
-│   │   ├── orca-prefill.ts         # Orca integration — prefill
-│   │   ├── orca-titlebar-spinner.ts# Orca integration — animated spinner
-│   │   ├── rtk.ts                  # RTK bash rewrite extension (ACTIVE)
-│   │   └── rtk.ts.disabled         # RTK extension backup (same content)
-│   ├── git/
-│   │   └── .gitignore
-│   ├── npm/node_modules/           # Installed Pi packages
-│   ├── sessions/                   # Chat session history (JSONL)
-│   ├── skills/                     # Agent skill definitions
-│   ├── tmp/
-│   │   └── extensions/
-│   ├── .agents/                    # Agent system files
-│   ├── .zero/                      # Zero integration data
+│   ├── auth.json              # API keys (NEVER vendored)
+│   ├── models.json            # Provider + model definitions (Venice + Lilac)
+│   ├── settings.json          # Core Pi settings (provider, model, compaction, packages)
+│   ├── APPEND_SYSTEM.md       # CE-lite activation hook (~85 tok, the ONLY global overlay)
+│   ├── tscg.json              # Tool Schema Compression Group (aggressive, load-bearing)
+│   ├── AGENTS.md              # Project instructions (session guardrail)
+│   ├── extensions/
+│   │   ├── transcript-pruner.ts  # cross-message dedup/stale pruning (needs PI_TRANSCRIPT_PRUNE=1)
+│   │   ├── session-index.ts      # session-end extractive summaries → memory/sessions/
+│   │   └── herdr-agent-state.ts  # herdr integration (installed by `herdr integration install pi`)
+│   ├── lean-ctx/
+│   │   └── config.toml        # lean-ctx bridge config (replace mode, lean profile)
+│   ├── npm/node_modules/      # Installed Pi packages (15 packages)
+│   ├── sessions/              # Chat session history (JSONL)
+│   ├── skills/                # Agent skill definitions
 │   └── pi-cache-optimizer-stats.json
 ├── context-mode/
-│   ├── content/                    # Indexed knowledge base content
-│   └── sessions/                   # Context-mode session stats
-├── readcache/
-│   ├── objects/                    # Cached file reads (SHA256)
-│   └── tmp/
+│   ├── content/               # Indexed knowledge base content
+│   └── sessions/              # Context-mode session stats
 ├── rules/
-│   └── lean-ctx.md                # Lean-ctx behavioral rules
-└── skills/                         # Top-level skills (empty)
+│   └── lean-ctx.md            # Lean-ctx behavioral rules
+└── workflows/
+    ├── model-tiers.json       # Pinned model routing (leaf/worker/reviewer)
+    └── saved/                 # Saved workflows (e.g. memory-consolidate.json)
 ```
-
----
-
 ## 2. Core Config: `settings.json`
 
 **Path**: `~/.pi/agent/settings.json`
@@ -355,44 +342,30 @@ Additional npm packages installed as dependencies include: `@anthropic-ai`, `@aw
 
 ---
 
+
 ## 7. Extensions
 
 **Path**: `~/.pi/agent/extensions/`
 
-### 7a. `rtk.ts` — RTK Bash Rewrite (ACTIVE)
+### 7a. `transcript-pruner.ts` — Cross-message Redundancy Pruning
 
-- Rewrites `bash` tool calls to use RTK (Rust Token Kruncher) for token savings
-- Requires `rtk >= 0.23.0` in PATH
-- Timeout: 2 seconds per rewrite
-- Fail-open: if RTK unavailable or timeout, original command passes through
-- Can be disabled at runtime via `RTK_DISABLED=1` env var
-- Skips rewriting commands starting with `rtk `
-- Source of truth for rewrite rules: `rtk rewrite` CLI (Rust registry in `src/discover/registry.rs`)
+- Hooks the `context` event (fires before every LLM call, sees a structuredClone of the transcript)
+- **DEDUP**: exact-duplicate read-only tool results (same tool, same args, byte-identical output) → short pointer to first occurrence. Cross-tool content dedup collapses byte-identical results for the same path.
+- **STALE**: path-read results for a path later written/edited → one-line stale notice
+- Safety: only text content replaced; message pairing (toolCallId) preserved; dedup requires byte-identical output
+- Default OFF unless `PI_TRANSCRIPT_PRUNE=1`; toggles: `PI_PRUNE_DEDUP` / `PI_PRUNE_STALE` (1/0); threshold via `PI_PRUNE_MIN_LEN` (default 40 chars)
+- Proven -15.7% billed tokens on dev-loop benchmark (2026-08-01)
 
-**There is also `rtk.ts.disabled`** — identical content, kept as backup.
+### 7b. `session-index.ts` — Session-end Summaries
 
-### 7b. `orca-agent-status.ts` — Orca Integration (Status)
+- Session-end extractive summaries → `memory/sessions/`
+- Zero LLM tokens (heuristic extraction, not a model call)
 
-- Orca-managed Pi extension for agent lifecycle status reporting
-- Posts status events to Orca via HTTP hook (`/hook/pi` or `/hook/omp`)
-- Events: `before_agent_start`, `agent_start`, `tool_execution_start`, `tool_call`, `tool_execution_end`, `message_end`, `agent_end`
-- Deduplication: only latest pending status sent (queue of 1)
-- Timeout: 1 second per delivery; WSL fallback via Windows `curl.exe`
-- Caches endpoint file reads (stat+mtime based)
-- Detects OMP vs Pi at runtime via process name
+### Removed extensions (2026-07-30, do NOT reinstall)
 
-### 7c. `orca-prefill.ts` — Orca Integration (Prefill)
-
-- On `session_start` (reason: `startup`), sets editor text from `ORCA_PI_PREFILL` env var
-- Only activates if `ORCA_PANE_KEY` is set (running inside Orca)
-
-### 7d. `orca-titlebar-spinner.ts` — Orca Integration (Spinner)
-
-- Animated braille spinner in terminal title bar during agent activity
-- Frames: 10 braille dot patterns at 80ms interval
-- Shows `π - {session} - {cwd}` base title
-- Only activates if `ORCA_PANE_KEY` is set
-- Stops on `agent_end` and `session_shutdown`
+- `rtk.ts` — RTK bash rewrite; inert under lean-ctx replace mode (model calls `ctx_shell`, never `bash`, so rtk's hook never fires). Belongs to the OMP harness.
+- `orca-agent-status.ts`, `orca-prefill.ts`, `orca-titlebar-spinner.ts` — Orca integration; removed with Orca.
+- `delegate.ts` — superseded by pi-dynamic-workflows.
 
 ---
 
@@ -688,230 +661,78 @@ providers:
 }
 ```
 
----
-
-## 14. Start Script
-
-**Path**: `~/start-agents.sh`
-
-```bash
-#!/bin/bash
-SESSION="agents"
-
-tmux kill-session -t "$SESSION" 2>/dev/null
-
-tmux new-session -d -s "$SESSION" \; \
-  send-keys 'opencode' Enter \; \
-  split-window -h \; \
-  send-keys 'mimocode' Enter \; \
-  split-window -v \; \
-  send-keys 'omp' Enter \; \
-  select-pane -t 0 \; \
-  split-window -v \; \
-  send-keys 'coded' Enter \; \
-  select-layout tiled
-
-tmux attach -t "$SESSION"
-```
-
-Launches 4 agents in a tmux grid:
-- **OpenCode** — main coding agent
-- **MimoCode** — secondary agent
-- **OMP** — Orca Mode Pi (Pi variant)
-- **Coded** — additional agent
 
 ---
 
-## 15. Replication Instructions
+## 14. Replication (Authoritative)
 
-### Step 1: Install Pi
+> **This section supersedes all prior replication instructions.**
+> The `install.sh` script in the repo root is the **single source of truth** for deployment.
+> The README.md "Install / restore" section is the canonical quick-start.
+> This doc provides reference detail only.
 
-```bash
-# Install Pi via npm
-npm install -g @earendil-works/pi-coding-agent
+### Prerequisites
 
-# Or via the Pi installer (if available)
-# curl -fsSL https://pi.dev/install | bash
+- **OS**: CachyOS (Arch-based), login shell `/bin/fish`
+- **Pi**: installed via the pi-node installer at `~/.local/share/pi-node/`
+- **Env vars**: set in `~/.config/fish/config.fish` using `set -gx` (see §10)
+
+### Deploy
+
+```fish
+git clone https://github.com/armchairfuturist-code/pi-harness-config.git
+cd pi-harness-config
+./install.sh           # deploy all vendored config + verify
+./install.sh --check   # verify zero drift
 ```
 
-### Step 2: Create Directory Structure
+### First install on a fresh machine
 
-```bash
-mkdir -p ~/.pi/agent/{context-prune,extensions,npm,sessions,skills,tmp,.agents,.zero}
-mkdir -p ~/.pi/{context-mode/{content,sessions},readcache/{objects,tmp},rules,skills}
-mkdir -p ~/.config/env.d
+Also install the npm packages and set env vars (see README.md "Install / restore"):
+
+```fish
+pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
+  npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
+  npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
+  npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking \
+  npm:cc-safety-net npm:pi-herdr-btw
+
+set -gx LILAC_API_KEY "your-key-here"
+set -gx VENICE_API_KEY "your-venice-key-here"
+set -gx VENICE_BASE_URL "https://api.venice.ai/api/v1"
+set -gx PI_TRANSCRIPT_PRUNE 1  # enable transcript-pruner (-15.7% billed tokens)
 ```
 
-### Step 3: Copy Core Config Files
+### What `install.sh` deploys (manifest)
 
-```bash
-# Pi configs
-cp settings.json ~/.pi/agent/settings.json
-cp models.json ~/.pi/agent/models.json
-cp context-prune/settings.json ~/.pi/agent/context-prune/settings.json
+The manifest in `install.sh` is authoritative. It copies:
+- `settings.json` → `~/.pi/agent/settings.json` (optional, `--settings` flag)
+- `models.json` → `~/.pi/agent/models.json`
+- `APPEND_SYSTEM.md` → `~/.pi/agent/APPEND_SYSTEM.md`
+- `tscg.json` → `~/.pi/agent/tscg.json`
+- `AGENTS.md` → `~/.pi/agent/AGENTS.md`
+- `extensions/transcript-pruner.ts` → `~/.pi/agent/extensions/transcript-pruner.ts`
+- `extensions/session-index.ts` → `~/.pi/agent/extensions/session-index.ts`
+- `lean-ctx/config.toml` → `~/.pi/agent/lean-ctx/config.toml`
+- `skills/` → `~/.pi/agent/skills/` (recursive)
+- `workflows/` → `~/.pi/agent/workflows/` (recursive)
+- `rules/lean-ctx.md` → `~/.pi/rules/lean-ctx.md`
 
-# Rules
-cp rules/lean-ctx.md ~/.pi/rules/lean-ctx.md
+### Not deployed (per-machine or secrets)
+
+- `auth.json` — API keys (never vendored)
+- `settings.json` — excluded by default (provider/model differ per machine; overlay with `--settings`)
+- `sessions/` — session history
+- `npm/node_modules/` — installed via `pi install`
+- Personal extensions not vendored (e.g. `invest-tools.ts`)
+
+### Verify
+
+```fish
+./bench/probe.sh     # must print total ≤ 4052
+./bench/measure.sh 3 # all checks_pass=1
 ```
 
-### Step 4: Set Up Extensions
+### Context-mode local patch (re-apply after npm upgrade)
 
-```bash
-cp extensions/rtk.ts ~/.pi/agent/extensions/rtk.ts
-cp extensions/orca-agent-status.ts ~/.pi/agent/extensions/orca-agent-status.ts
-cp extensions/orca-prefill.ts ~/.pi/agent/extensions/orca-prefill.ts
-cp extensions/orca-titlebar-spinner.ts ~/.pi/agent/extensions/orca-titlebar-spinner.ts
-```
-
-### Step 5: Install Packages
-
-```bash
-cd ~/.pi/agent
-pi pkg add context-mode
-pi pkg add pi-autoresearch
-pi pkg add pi-cache-graph
-pi pkg add pi-cache-optimizer
-pi pkg add pi-context-usage
-pi pkg add pi-lean-ctx
-pi pkg add pi-slim
-pi pkg add pi-tscg
-pi pkg add @ogulcancelik/pi-model-agents
-pi pkg add @ogulcancelik/pi-model-thinking
-pi pkg add @plannotator/pi-extension
-pi pkg add cc-safety-net
-pi pkg add pi-continue
-pi pkg add pi-herdr-btw
-pi pkg add @quintinshaw/pi-dynamic-workflows
-```
-
-Alternatively, the packages will auto-install from the `settings.json` `packages` array on the next Pi start.
-
-### Step 6: Set Up Environment Variables
-
-Copy the env files or set manually:
-
-```bash
-# ~/.config/env.d/deepseek.sh
-export DEEPSEEK_API_KEY="<your-deepseek-api-key>"
-
-# ~/.config/env.d/lilac.sh
-export LILAC_API_KEY="<your-lilac-api-key>"
-
-# ~/.config/env.d/gh_token.sh
-export GH_TOKEN="<your-github-token>"
-
-# OpenCode Zen API key (set wherever the OpenCode agent configures it)
-# export OPENCODE_ZEN_API_KEY="..."
-```
-
-Ensure they're sourced in shell init (`~/.zshrc` / `~/.bashrc` / `~/.profile`):
-```bash
-for f in ~/.config/env.d/*.sh; do [ -f "$f" ] && source "$f"; done
-```
-
-### Step 7: Copy Skills
-
-```bash
-cp -r ~/.pi/agent/skills/* ~/.pi/agent/skills/
-```
-
-### Step 8: Set Up OMP (if used)
-
-```bash
-mkdir -p ~/.omp/agent
-cp omp/config.yml ~/.omp/agent/config.yml
-cp omp/models.yml ~/.omp/agent/models.yml
-```
-
-### Step 9: Set Up Zero (if used)
-
-```bash
-mkdir -p ~/.config/zero
-cp zero/config.json ~/.config/zero/config.json
-```
-
-### Step 10: Register Providers in OpenCode Native Config (CRITICAL)
-
-> **Important**: `pi` is a wrapper around OpenCode. OpenCode reads providers from
-> `~/.config/opencode/opencode.json`, NOT from `~/.pi/agent/models.json`. The
-> `models.json` edit alone will NOT make a provider appear at runtime — it must
-> also be registered here in OpenCode's native format.
-
-**Path**: `~/.config/opencode/opencode.json`
-
-```json
-{
-  "provider": {
-    "deepseek": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "DeepSeek",
-      "api": "<your-deepseek-api-key>",
-      "options": { "baseURL": "https://api.deepseek.com" },
-      "models": { "deepseek-v4-flash": { "name": "DeepSeek V4 Flash" } }
-    },
-    "lilac": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Lilac",
-      "api": "<your-lilac-api-key>",
-      "options": { "baseURL": "https://api.getlilac.com/v1" },
-      "models": { "default": { "name": "Lilac Default" } }
-    }
-  }
-}
-```
-
-Note: `opencode-zen` is a built-in provider (not listed here) and works as the
-default without manual registration.
-
-Copy this file or recreate it on the target machine:
-
-```bash
-mkdir -p ~/.config/opencode
-cp opencode/opencode.json ~/.config/opencode/opencode.json
-```
-
----
-
-## 16. OpenCode Native Config (`opencode.json`)
-
-**Path**: `~/.config/opencode/opencode.json`
-
-This is OpenCode's native provider configuration — `pi` is a wrapper around
-OpenCode, and **this file is what actually controls which providers appear at
-runtime**, NOT `~/.pi/agent/models.json`. Each provider must be registered here
-in OpenCode's format for it to be usable.
-
-```json
-{
-  "provider": {
-    "deepseek": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "DeepSeek",
-      "api": "<your-deepseek-api-key>",
-      "options": { "baseURL": "https://api.deepseek.com" },
-      "models": { "deepseek-v4-flash": { "name": "DeepSeek V4 Flash" } }
-    },
-    "lilac": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Lilac",
-      "api": "<your-lilac-api-key>",
-      "options": { "baseURL": "https://api.getlilac.com/v1" },
-      "models": { "default": { "name": "Lilac Default" } }
-    }
-  }
-}
-```
-
-| Field | Meaning |
-|-------|---------|
-| `npm` | OpenCode provider package (`@ai-sdk/openai-compatible` for OpenAI-style APIs) |
-| `name` | Display name in the UI |
-| `api` | API key (inlined literal — OpenCode does not read env vars here) |
-| `options.baseURL` | API endpoint |
-| `models` | Map of model ID → display name |
-
-> ⚠️ The `api` key is inlined as a literal value, not an env var reference.
-> Keep this file out of version control.
->
-> `opencode-zen` is a built-in provider and does NOT appear in this file — it
-> works as the default without manual registration.
+`buildBatchNodeOptionsPrefix` emits `export NODE_OPTIONS=...; <cmd>` so `for`/`if`/`while` survive ctx_shell. A context-mode npm upgrade overwrites `build/server.js` + bundles — re-apply (see `~/.pi/agent/memory/consolidated.md`).
