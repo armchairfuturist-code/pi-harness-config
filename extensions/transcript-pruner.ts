@@ -235,7 +235,7 @@ export default function transcriptPruner(pi: ExtensionAPI) {
     contentRead = name === "read" || name === "ctx_read" || name === "ctx_grep";
    }
    if (stale && PATH_READ_TOOLS.has(name) && normP !== undefined && (lastWrite.get(normP) ?? -1) > i) {
-    if (replaceText(m, `[stale read pruned: ${normP} was modified at message ${(lastWrite.get(normP) ?? 0) + 1} — re-read for current content]`)) {
+    if (replaceText(m, `[stale: ${normP} changed at msg ${(lastWrite.get(normP) ?? 0) + 1}; re-read]`)) {
      changed.push({ msg: m, idx: i, kind: "stale" });
     }
     continue;
@@ -247,7 +247,7 @@ export default function transcriptPruner(pi: ExtensionAPI) {
     const sig = name + "\x00" + stableStringify(sigArgs) + "\x00" + text;
     const first = seen.get(sig);
     if (first !== undefined) {
-     if (replaceText(m, `[duplicate result pruned: identical to earlier ${name} result at message ${first + 1} — see above]`)) {
+     if (replaceText(m, `[dup of earlier ${name} (msg ${first + 1}) — see above]`)) {
       changed.push({ msg: m, idx: i, kind: "dup" });
      }
      continue;
@@ -260,7 +260,7 @@ export default function transcriptPruner(pi: ExtensionAPI) {
     const csig = normP + "\x00" + text;
     const cfirst = seenContent.get(csig);
     if (cfirst !== undefined) {
-     if (replaceText(m, `[duplicate result pruned: identical to earlier ${name} result at message ${cfirst + 1} — see above]`)) {
+     if (replaceText(m, `[dup of earlier ${name} (msg ${cfirst + 1}) — see above]`)) {
       changed.push({ msg: m, idx: i, kind: "dup" });
      }
     } else {
