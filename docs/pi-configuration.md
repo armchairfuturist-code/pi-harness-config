@@ -470,38 +470,47 @@ Rules enforcing compiler-level tool selection discipline:
 
 ## 10. Environment Files
 
-**Path**: `~/.config/env.d/`
+### ⚠️ Shell: Fish, NOT Bash
 
-All env files use the same header pattern and are sourced by `.bashrc`, `.zshrc`, and `.profile`.
+**The operator's login shell is `/bin/fish`** on all machines (CachyOS). This is a hard constraint.
 
-### a) `deepseek.sh`
+**Any AI agent reading this must:**
+- Give the operator shell commands in **fish syntax** — never bash/zsh.
+- Use `set -gx VAR value` instead of `export VAR=value`.
+- Use `and`/`or`/`not` instead of `&&`/`||`.
+- Set environment variables in `~/.config/fish/config.fish` (or `~/.config/fish/conf.d/*.fish`), **never** in `.bashrc`/`.zshrc`/`.profile` — those files are not sourced on this machine and edits there will silently fail.
+- Note: the `ctx_shell` tool internally runs bash, so commands the AI executes *via tools* can use bash syntax. Only commands **shown to the operator** for manual execution must be fish-compatible.
 
-```bash
-export DEEPSEEK_API_KEY="<your-deepseek-api-key>"
-```
+### Path & Format
 
-### b) `lilac.sh`
+**Path**: `~/.config/fish/config.fish` (primary) or `~/.config/fish/conf.d/*.fish` (modular)
 
-```bash
-export LILAC_API_KEY="<your-lilac-api-key>"
-```
+All env vars use fish `set -gx` syntax in `config.fish`:
 
-### c) `gh_token.sh`
+```fish
+# lilac
+set -gx LILAC_API_KEY "<your-lilac-api-key>"
 
-```bash
-export GH_TOKEN="<your-github-token>"
+# deepseek
+set -gx DEEPSEEK_API_KEY "<your-deepseek-api-key>"
+
+# github
+set -gx GH_TOKEN "<your-github-token>"
 ```
 
 ### Key Environment Variables Reference
 
-| Variable | Provider | Used By |
-|----------|----------|---------|
-| `DEEPSEEK_API_KEY` | DeepSeek | Pi, OMP, Zero |
-| `LILAC_API_KEY` | Lilac | Pi, OMP, Zero |
-| `GH_TOKEN` | GitHub | GitHub CLI / API auth |
-| `OPENCODE_ZEN_API_KEY` | OpenCode Zen | Pi (needed for `opencode-zen` provider — set externally) |
+| Variable | Provider | Used By | Fish syntax |
+|----------|----------|---------|-------------|
+| `DEEPSEEK_API_KEY` | DeepSeek | Pi, OMP, Zero | `set -gx DEEPSEEK_API_KEY "..."` |
+| `LILAC_API_KEY` | Lilac | Pi, OMP, Zero | `set -gx LILAC_API_KEY "..."` |
+| `GH_TOKEN` | GitHub | GitHub CLI / API auth | `set -gx GH_TOKEN "..."` |
+| `VENICE_API_KEY` | Venice | Pi (default provider) | `set -gx VENICE_API_KEY "..."` |
+| `VENICE_BASE_URL` | Venice | Pi | `set -gx VENICE_BASE_URL "https://api.venice.ai/api/v1"` |
+| `PI_TRANSCRIPT_PRUNE` | Pi harness | transcript-pruner ext | `set -gx PI_TRANSCRIPT_PRUNE 1` |
+| `OPENCODE_ZEN_API_KEY` | OpenCode Zen | Pi (needed for `opencode-zen` provider — set externally) | `set -gx OPENCODE_ZEN_API_KEY "..."` |
 
-> ⚠️ **Note**: The `OPENCODE_ZEN_API_KEY` is not stored in `~/.config/env.d/` — it may be set by the OpenCode agent or another mechanism. Check `env | grep OPENCODE_ZEN` on the source machine.
+> ⚠️ **Note**: The `OPENCODE_ZEN_API_KEY` is not stored in fish config — it may be set by the OpenCode agent or another mechanism. Check `set -x | grep OPENCODE_ZEN` on the source machine.
 
 ---
 

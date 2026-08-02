@@ -74,10 +74,12 @@ Pinned in **one file**: `~/.pi/workflows/model-tiers.json` (vendored: `workflows
 
 ## Install / restore
 
+> ⚠️ **Shell = Fish, NOT Bash.** The operator's login shell is `/bin/fish` on all machines (CachyOS). Any command shown to the operator must use fish syntax (`set -gx VAR val`, not `export VAR=val`). Set env vars in `~/.config/fish/config.fish`, never `.bashrc`/`.zshrc`. The `ctx_shell` tool runs bash internally — only operator-facing commands need fish syntax. See `docs/pi-configuration.md` §10.
+
 **Single command** — copies every vendored file to its live location, verifies each
 with a diff, and reports `[OK]`/`[FAIL]` per file:
 
-```bash
+```fish
 ./install.sh                # deploy all vendored config + verify
 ./install.sh --check        # verify only (no writes) — checks for drift
 ./install.sh --settings     # also overlay settings.json (excluded by default)
@@ -88,13 +90,14 @@ Adding a file to the repo means adding one line to the manifest — no manual `c
 
 **First install on a fresh machine** also needs the npm packages:
 
-```bash
+```fish
 pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
   npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking \
   npm:cc-safety-net npm:pi-herdr-btw
-export LILAC_API_KEY="your-key-here"
+set -gx LILAC_API_KEY "your-key-here"
+set -gx PI_TRANSCRIPT_PRUNE 1  # enable transcript-pruner extension (-15.7% billed tokens)
 # Other skills (not vendored here — install what you want):
 # npx skills add mattpocock/skills    # engineering flow library
 # armchairfuturist-code/Skills        # personal packs (symlink into ~/.pi/agent/skills)
@@ -109,7 +112,7 @@ Never overlay `auth.json` (not vendored).
 
 ## Verify
 
-```bash
+```fish
 ./bench/probe.sh        # must print total ≤ 4052
 ./bench/measure.sh 3    # all checks_pass=1
 ```
