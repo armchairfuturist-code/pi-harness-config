@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.82.1",
+  "lastChangelogVersion": "0.83.0",
   "theme": "dark",
-  "defaultProvider": "Venice",
-  "defaultModel": "kimi-k3",
+  "defaultProvider": "Lilac",
+  "defaultModel": "zai-org/glm-5.2",
   "packages": [
     "npm:@ogulcancelik/pi-model-agents",
     "npm:@ogulcancelik/pi-model-thinking",
@@ -18,7 +18,9 @@
     "npm:pi-lean-ctx",
     "npm:pi-slim",
     "npm:pi-tscg",
-    "npm:@quintinshaw/pi-dynamic-workflows"
+    "npm:@quintinshaw/pi-dynamic-workflows",
+    "https://github.com/gvkhosla/last30days-pi",
+    "npm:@samfp/pi-essentials"
   ],
   "extensions": [
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
@@ -28,13 +30,15 @@
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
   ],
-  "defaultThinkingLevel": "high", "hideThinkingBlock": true,
-  "compaction": {
-    "reserveTokens": 24000,
-    "keepRecentTokens": 20000
-  },
+  "defaultThinkingLevel": "high",
+  "steeringMode": "all",
+  "hideThinkingBlock": true,
   "skills": [
     "!**/last30days-pi/pi-skills/**",
     "!**/.agents/skills/**"
-  ]
+  ],
+  "compaction": {
+    "reserveTokens": 24000,
+    "keepRecentTokens": 20000
+  }
 }

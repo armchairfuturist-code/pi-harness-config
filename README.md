@@ -4,7 +4,7 @@ A thin, measured Pi configuration for a **non-developer, contract-only operator*
 
 All decisions and measurements: `.scratch/thin-pi-harness/map.md` (wayfinder, 13 tickets) + `.scratch/thin-pi-harness/spec.md` (operator pack).
 
-## Measured (2026-07-27, Lilac/zai-org/glm-5.2)
+## Measured (2026-08-02, Lilac/zai-org/glm-5.2)
 
 | Metric | Old (live) | CE-lite kernel | Δ |
 |---|---:|---:|---:|
@@ -12,8 +12,11 @@ All decisions and measurements: `.scratch/thin-pi-harness/map.md` (wayfinder, 13
 | Workload (`bench/measure.sh`) | 18,403 tok | 12,449 tok | −32.4% |
 | bench-systima A/B, first request | 5,780 tok | 3,979 tok | −31.2% |
 | Behavioral suite, T1–T3 median-of-2 (2026-07-29) | 70,657 tok | **58,551 tok** | **−17.1%** |
-| Always-on tools | 37 | 22 | −15 |
+| Always-on tools (lean-ctx tools lean) | 37 | **12** | −25 |
 | Always-on skill descriptions | 0 | 0 | — |
+| Prompt cache hit rate (GLM-5.2) | — | **83%** | — |
+| Prompt cache hit rate (DeepSeek V4 Flash) | — | **95%** | — |
+| Context rot onset (37 sessions) | — | **42% fill / step 76 / 377K tok** | — |
 
 Canary definitions + as-run results: `.scratch/thin-pi-harness/issues/12-grill-canaries.md`.
 
@@ -21,14 +24,24 @@ Canary definitions + as-run results: `.scratch/thin-pi-harness/issues/12-grill-c
 
 ```
 pi-harness-config/
-├── settings.json          # 15 packages, 6 extensions (thin kernel)
-├── models.json            # Provider + model definitions (Venice + Lilac)
+├── settings.json          # 17 packages, 6 extensions (thin kernel)
+├── models.json            # Provider + model definitions (Venice + Lilac + DeepSeek)
+├── model-thinking.json # Per-model thinking-level routing (GLM-5.2→high, Flash→low)
 ├── APPEND_SYSTEM.md       # CE-lite activation hook (~85 tok, the ONLY global overlay)
 ├── tscg.json              # pi-tscg: aggressive schema compression — LOAD-BEARING, do not retune
 ├── AGENTS.md              # Project instructions (session guardrail)
 ├── skills/
-│   └── ce-lite/           # THE orchestrator skill (routing doctrine + contract loop)
+│   ├── ce-lite/ # THE orchestrator skill (routing doctrine + contract loop)
+│   ├── harness-doctor/ # harness inventory, provider ops, preflight, trajectory metrics
+│   ├── context-rot-forensics/ # session-log rot detection (5-signal, knee analysis, rot-sentinel)
+│   ├── action-context-axes/ # 2×2 axis diagnosis (action vs context complexity → optimization routing)
+│   ├── graph-engineering/ # agent graph topologies (DAG, SharedStore, cycles, fan-in)
+│   ├── poor-mans-distill/ # trace extraction + few-shot digest from prior sessions
+│   └── shard-security/ # harness-level security controls assessment (bwrap, permissions)
 ├── scripts/
+│   ├── ensure-reasoning-levels.js
+│   ├── base64_bench.py # ungamed private benchmark for provider ranking
+│   └── base64_bench_providers.json
 │   └── ensure-reasoning-levels.js
 ├── lean-ctx/              # lean-ctx bridge config (replace mode, lean profile)
 ├── extensions/
@@ -52,7 +65,7 @@ pi-harness-config/
 
 ## The kernel (what runs always-on)
 
-**Packages (15):** pi-lean-ctx, context-mode, @quintinshaw/pi-dynamic-workflows, pi-tscg, pi-slim, pi-cache-optimizer, pi-cache-graph, pi-context-usage, pi-continue, pi-autoresearch, @plannotator/pi-extension, @ogulcancelik/pi-model-agents, @ogulcancelik/pi-model-thinking, cc-safety-net, pi-herdr-btw.
+**Packages (17):** pi-lean-ctx, context-mode, @quintinshaw/pi-dynamic-workflows, pi-tscg, pi-slim, pi-cache-optimizer, pi-cache-graph, pi-context-usage, pi-continue, pi-autoresearch, @plannotator/pi-extension, @ogulcancelik/pi-model-agents, @ogulcancelik/pi-model-thinking, cc-safety-net, pi-herdr-btw, https://github.com/gvkhosla/last30days-pi, @samfp/pi-essentials.
 
 **Removed (measured):** pi-mcp-adapter (no MCP servers configured; dead schema), pi-goal-list-loop-audit (11 always-on tools ≈ 1,100 tok — incompatible with the −30% budget; contract/audit is now ce-lite artifacts + workflow reviewer phases), pi-web-access (parent web tools ≈ 1,084 tok — web moved to workflow child agents + direct `ctx_fetch_and_index`), extensions/delegate.ts (superseded by dyn-workflows), pi-subagents never activated (+3,810 tok). pi-hypa/@hypabolic (npm package uninstalled but a broken `~/.local/bin/hypa` shim remained — 522 command-not-found errors in 30 days; shim + allowScripts residue removed 2026-07-30).
 
@@ -68,6 +81,13 @@ pi-harness-config/
 
 Multi-agent fanout uses pi-dynamic-workflows' 5 built-in patterns (deep-research, adversarial-review, code-review, multi-perspective, codebase-audit) — verified: 7-agent run, 0 failures. The APPEND_SYSTEM.md hook authorizes proactive workflow use; the operator never types trigger words.
 
+## ce-lite optimizations (2026-08-02)
+
+- **Context-rot forensics**: Measured rot onset at ~42% context fill (step 76, 377K tokens). Handoff trigger lowered from 60%→40% hard ceiling, 28% with rot-sentinel. tool_error rate at 22.7% (dominant signal — lean-ctx blocks).
+- **Axis-diagnosis**: Inserted as step 3.5 in contract loop. Context-bound → ctx_index/handoff; action-bound → fan-out; both → isolate; neither → direct. Stops mis-spending fan-out on context-bound tasks.
+- **Per-model thinking routing**: `model-thinking.json` auto-sets thinking levels per model. GLM-5.2→high, Gemini Flash→medium, small models→low. No manual switching when changing models.
+- **Compaction**: Fires at avg 132K tokens — well before rot onset (377K). Current keepRecentTokens=20000 is adequate.
+- **Cache optimizer**: Active and effective. Reorders system prompt for stable prefix + sets PI_CACHE_RETENTION=long. 83% hit rate on GLM-5.2, 95% on DeepSeek V4 Flash.
 ## Model roles
 
 Pinned in **one file**: `~/.pi/workflows/model-tiers.json` (vendored: `workflows/model-tiers.json`; pinned 2026-07-29). leaf=small (`Venice/mercury-2:minimal`, mechanical), worker/reviewer=medium (`Venice/gemini-3-5-flash`), reasoner=big (`Venice/kimi-k3:xhigh`). Parent = your default model. Re-benchmark quarterly. No model IDs anywhere else (exception: `~/.pi/agent/agents/Explore.md` pins flash — leaf-tier search).
@@ -95,7 +115,7 @@ pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflow
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
   npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking \
-  npm:cc-safety-net npm:pi-herdr-btw
+  npm:cc-safety-net npm:pi-herdr-btw npm:@samfp/pi-essentials
 set -gx LILAC_API_KEY "your-key-here"
 set -gx PI_TRANSCRIPT_PRUNE 1  # enable transcript-pruner extension (-15.7% billed tokens)
 # Other skills (not vendored here — install what you want):

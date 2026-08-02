@@ -1,0 +1,18 @@
+{
+  "models": {
+    "Lilac/zai-org/glm-5.2": "high",
+    "Lilac/z-ai-glm-5-turbo": "low",
+    "Venice/zai-org-glm-5-2": "high",
+    "Venice/gemini-3-5-flash": "medium",
+    "Venice/gemini-3-5-flash-lite": "low",
+    "Venice/qwen3-5-9b": "low",
+    "Venice/qwen3-6-27b": "medium",
+    "Venice/kimi-k3": "high",
+    "Venice/grok-4-5": "high",
+    "Venice/grok-4-20": "high"
+  },
+  "providers": {
+    "Lilac": "high",
+    "Venice": "medium"
+  }
+}

@@ -47,9 +47,17 @@ workflows/saved/memory-consolidate.json|PI_HOME/workflows/saved/memory-consolida
 memory/consolidated.md|PI_AGENT/memory/consolidated.md|
 memory/harnesses.md|PI_AGENT/memory/harnesses.md|
 memory/user-shell.md|PI_AGENT/memory/user-shell.md|
+model-thinking.json|PI_AGENT/model-thinking.json|
 skills/ce-lite|PI_AGENT/skills/ce-lite|dir
 skills/harness-doctor|PI_AGENT/skills/harness-doctor|dir
+skills/context-rot-forensics|PI_AGENT/skills/context-rot-forensics|dir
+skills/action-context-axes|PI_AGENT/skills/action-context-axes|dir
+skills/graph-engineering|PI_AGENT/skills/graph-engineering|dir
+skills/poor-mans-distill|PI_AGENT/skills/poor-mans-distill|dir
+skills/shard-security|PI_AGENT/skills/shard-security|dir
 skills/workflow-authoring|PI_AGENT/npm/node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-authoring|dir
+scripts/base64_bench.py|PI_HOME/scripts/base64_bench.py|
+scripts/base64_bench_providers.json|PI_HOME/scripts/base64_bench_providers.json|
 settings.json|PI_AGENT/settings.json|opt
 MANIFEST_EOF
 
