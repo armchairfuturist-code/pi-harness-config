@@ -30,7 +30,7 @@
   ],
   "defaultThinkingLevel": "high", "hideThinkingBlock": true,
   "compaction": {
-    "reserveTokens": 20000,
+    "reserveTokens": 24000,
     "keepRecentTokens": 20000
   },
   "skills": [
