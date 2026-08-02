@@ -6,6 +6,68 @@ metadata: version: "1.0.0"
 
 # Graph engineering for pi
 
+## Quick Start
+
+The fastest way to see the three additive primitives in action is the
+**review-fix-graph** workflow — a reusable code-review + fix loop that is not
+tied to any specific project:
+
+`~/Projects/pi-harness-config/workflows/saved/review-fix-graph.js`
+
+```js
+workflow({
+  script: require("fs").readFileSync(
+    "/home/alex/Projects/pi-harness-config/workflows/saved/review-fix-graph.js",
+    "utf8"
+  ),
+  args: { target: "src/auth/", maxIterations: 3 }
+})
+```
+
+What it demonstrates (and where in the file):
+
+| Primitive | Where | What it does |
+| --- | --- | --- |
+| **SharedStore** | Every node uses `store_put`/`store_get` | Reviewer writes `issues:review`, scanner writes `issues:security`, fixer writes `fix:latest`. Non-adjacent nodes (report ↔ reviewer) share state without piping. |
+| **Fan-in** | `parallel([reviewer, scanner])` → fixer | The fixer depends on TWO parallel upstreams. The `parallel()` barrier is the fan-in; the fixer reads both issue lists from the store. |
+| **Cycle (gate)** | `gate(fixer, reReview, {attempts})` | Fixer → re-review → back to fixer with feedback until `ok=true` or iterations exhausted. The back-edge. |
+
+The topology (annotated in the file header):
+
+```
+  ┌───────────────┐        ┌────────────────────┐
+  │  reviewer (A) │        │  security-scan (B) │   ← parallel fan-out
+  └───────┬───────┘        └─────────┬──────────┘
+          │                           │
+          ▼                           ▼
+     ════════════════ fan-in ════════════════
+                     │
+                     ▼
+            ┌─────────────────┐
+      ┌────►│     fixer       │  reads issues:* from store
+      │     └────────┬────────┘
+      │              ▼
+      │     ┌─────────────────┐
+      │     │  re-review      │  reads fix:latest + issues:*
+      │     │  (verifier)     │
+      │     └────────┬────────┘
+      │     ok=false │ ok=true
+      └──────────────┘
+                     │
+                     ▼
+            ┌─────────────────┐
+            │     report      │  reads entire store
+            └─────────────────┘
+```
+
+**Args:** `target` (file path / glob / description — default: cwd),
+`maxIterations` (gate attempts — default: 3, max: 5).
+
+**When to use this pattern:** any "review → fix → re-review until clean" loop
+where multiple independent reviewers (code quality, security, performance, …)
+fan out in parallel and a fixer must address all of their findings in a cycle.
+Swap the two scanner prompts for your own review lenses; the graph stays the same.
+
 ## What "graph engineering" actually means
 
 Source signal: @calebwritescode (TikTok, Jul 31 2026) frames it as the new
