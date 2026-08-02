@@ -1,0 +1,16 @@
+{
+  "models": {
+    "Lilac/zai-org/glm-5.2": "full",
+    "Venice/kimi-k3": "full",
+    "Venice/grok-4-5": "full",
+    "Venice/grok-4-20": "full",
+    "Venice/mercury-2": "terse",
+    "Venice/gemini-3-5-flash": "terse",
+    "Venice/gemini-3-5-flash-lite": "terse",
+    "Venice/qwen3-5-9b": "terse",
+    "Venice/qwen3-6-27b": "terse"
+  },
+  "providers": {
+    "Lilac": "full"
+  }
+}
