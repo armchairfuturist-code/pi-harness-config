@@ -1,3 +1,7 @@
+---
+name: shard-security
+description: "SHaD security controls for sandboxing pi sessions, project-local permissions, and credential hygiene — applied to Investment-Engine and similar projects."
+---
 # SHaD Security Controls Skill
 
 Reference: `ASSESSMENT.md` in this directory for full analysis.

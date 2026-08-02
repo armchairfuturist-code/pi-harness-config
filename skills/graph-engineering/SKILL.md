@@ -1,7 +1,8 @@
 ---
 name: graph-engineering
 description: Agent→agent graph topologies for the pi coding agent. Maps the "graph engineering" discourse (calebwritescode, open-multi-agent, awesome-harness-engineering) onto pi's concrete primitives — agent/parallel/pipeline/workflow + SharedStore + loopUntilDry/gate — and identifies which topologies add value beyond pipeline/parallel. Read when designing multi-agent topologies, deciding whether a fan-out is enough or a real DAG/loop is needed, or mapping a project to an agent graph.
-metadata: version: "1.0.0"
+metadata:
+  version: "1.0.0"
 ---
 
 # Graph engineering for pi

@@ -1,6 +1,6 @@
 ---
 name: action-context-axes
-description: Diagnose a task against two independent complexity axes — action (tools/decisions/handoffs) and context (info to gather/retain/retrieve) — then pick the harness optimization that matches the binding axis instead of applying every technique uniformly. Source: Hugo Bowne-Anderson, "Stop Overengineering Your Agent Harness" (Vanishing Gradients, 2026-07-21).
+description: "Diagnose a task against two independent complexity axes — action (tools/decisions/handoffs) and context (info to gather/retain/retrieve) — then pick the harness optimization that matches the binding axis instead of applying every technique uniformly. Source: Hugo Bowne-Anderson, 'Stop Overengineering Your Agent Harness' (Vanishing Gradients, 2026-07-21)."
 ---
 
 # Action-Complexity vs. Context-Complexity — Two Independent Axes

@@ -1,3 +1,7 @@
+---
+name: poor-mans-distill
+description: "Extract successful pi session traces and reuse them as curated few-shot examples — no GPU or fine-tuning required."
+---
 # Poor-Man's Distillation — Session-Trace → Few-Shot Skill
 
 **Status:** experimental · measured against 37 sessions (2026-07-14 → 2026-07-27)
