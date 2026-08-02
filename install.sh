@@ -44,6 +44,8 @@ lean-ctx/pi-config.json|PI_AGENT/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|LEANCTX_HOME/config.toml|
 workflows/model-tiers.json|PI_HOME/workflows/model-tiers.json|
 workflows/saved/memory-consolidate.json|PI_HOME/workflows/saved/memory-consolidate.json|
+workflows/saved/gather-judge-split.js|PI_HOME/workflows/saved/gather-judge-split.js|
+workflows/saved/review-fix-graph.js|PI_HOME/workflows/saved/review-fix-graph.js|
 memory/consolidated.md|PI_AGENT/memory/consolidated.md|
 memory/harnesses.md|PI_AGENT/memory/harnesses.md|
 memory/user-shell.md|PI_AGENT/memory/user-shell.md|
