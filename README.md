@@ -24,7 +24,9 @@ Tool descriptions are truncated to **5 characters** (`aggressiveMaxDescChars=5`)
 - **@hypabolic/pi-hypa** — npm package uninstalled but a broken `~/.local/bin/hypa` shim remained → 522 command-not-found errors in 30 days; shim + allowScripts residue removed
 
 ### 3. Single orchestrator (ce-lite)
-One skill routes everything. All other skills are **excluded from the always-on schema** — the orchestrator reads them on demand when needed. Zero description overhead for skills not in use. The operator never types skill names; ce-lite internally reads the reference library (grill, spec, tickets) and applies the right pattern.
+One skill routes everything. All other skills are **excluded from the always-on schema** — the orchestrator reads them on demand when needed. Zero description overhead for skills not in use. The operator never types skill names; ce-lite internally routes to the right skill via a task-shape routing table (implement, tdd, research, diagnosing-bugs, code-review, domain-modeling, to-spec, to-tickets, handoff, workflow-authoring, graph-engineering).
+
+The skill itself uses **progressive disclosure**: `SKILL.md` is a tight core (~1,500 words) with the routing doctrine and contract loop. Branch-specific reference is disclosed to sibling files loaded only when the relevant branch reaches them: `grilling.md` (blocking test, depth-first vs breadth-first, fog, domain modeling), `wayfinding.md` (multi-session map protocol, ticket types, blocking edges, frontier), `gather-judge.md` (evidence-judgment separation), `context-health.md` (handoff triggers), `reference.md` (recall protocol, decomposition routing, skill routing table). Zero always-on cost for reference the current task doesn't need.
 
 ### 4. Minimal system prompt
 One **85-token overlay** (`APPEND_SYSTEM.md`) is the only global addition to pi's system prompt. It routes non-trivial work to ce-lite and authorizes proactive `workflow` calls. Everything else is project-level (`AGENTS.md`). Cache-prefix stability is prioritized over prose golf — churning the system prompt destroys cache hit rates (see `research/progressive-disclosure-findings.md`).
@@ -54,7 +56,8 @@ The harness doesn't trade capability for leanness. What it does:
 
 - **Multi-agent fanout** — 5 built-in workflow patterns (deep-research, adversarial-review, code-review, multi-perspective, codebase-audit). Verified: 7-agent runs, 0 failures. Triggered proactively — no trigger words needed.
 - **Autonomous optimization** — Autoresearch campaigns run measured experiment loops (hypothesis → measure → check → learn). This very config was tuned by one (tscg chars=5, terseness −17.1%, thinking-level economics).
-- **Contract loops** — Non-trivial work runs as a structured contract: blocking questions only → acceptance terms → short plan → fanout → verify against terms → save reusable patterns.
+- **Contract loops** — Non-trivial work runs as a structured contract: grilling (blocking questions only, with depth-first vs breadth-first modes and fog handling) → acceptance terms → short plan → axis diagnosis → fanout → verify against terms → save reusable patterns.
+- **Wayfinding** — Multi-session work is charted as a map of decision tickets (research, prototype, grilling, task types) with blocking edges and a frontier. One ticket per session; fog graduates into tickets as it sharpens. The operator sees questions and progress, never the map structure.
 - **Memory** — `session-index.ts` extension produces extractive summaries at session end (zero LLM tokens). `memory-consolidate` workflow deduplicates constraints across sessions.
 - **Context rot forensics** — 5-signal detection with knee analysis. Handoff trigger at 40% fill (pre-rot), 28% with rot-sentinel.
 - **Model tier routing** — One file (`workflows/model-tiers.json`) pins leaf/worker/reviewer models. Mechanical tasks use cheap models; complex reasoning uses expensive ones. Automatic.
@@ -72,7 +75,8 @@ pi-harness-config/
 ├── tscg.json                 # pi-tscg: aggressive schema compression (desc chars=5) — LOAD-BEARING, do not retune
 ├── AGENTS.md                 # Project instructions (session guardrail)
 ├── skills/
-│   ├── ce-lite/              # THE orchestrator skill (routing doctrine + contract loop)
+│   ├── ce-lite/              # THE orchestrator skill (routing doctrine + contract loop + progressive disclosure:
+│   │                         #   grilling.md, wayfinding.md, gather-judge.md, context-health.md, reference.md)
 │   ├── harness-doctor/       # harness inventory, provider ops, preflight, trajectory metrics
 │   ├── context-rot-forensics/ # session-log rot detection (5-signal, knee analysis, rot-sentinel)
 │   ├── action-context-axes/  # 2×2 axis diagnosis (action vs context complexity → optimization routing)
@@ -113,11 +117,12 @@ pi-harness-config/
 
 1. **Simple** → answered directly. No ceremony.
 2. **Lookup** → direct fetch (`ctx_fetch_and_index`) or a research workflow when source-sensitive. Sources included.
-3. **Non-trivial** → contract loop: blocking questions only → acceptance terms → short plan → `workflow` fanout (tiers small/medium/big) → reviewer verifies against terms → deliver + save reusable patterns.
-4. **Loop-shaped** ("keep improving X") → pi-autoresearch campaign.
-5. Side questions anytime → `/btw` (pi-herdr-btw).
+3. **Non-trivial** → contract loop: grill blocking questions (depth-first to sharpen, breadth-first to map) → acceptance terms → short plan → axis diagnosis (action-bound vs context-bound) → `workflow` fanout (tiers small/medium/big) → reviewer verifies against terms → deliver + save reusable patterns. When a term needs judgment over gathered evidence, a gather-judge split enforces separation architecturally.
+4. **Multi-session** → wayfinder map: chart the destination and frontier as decision tickets, then resolve one per session. The orchestrator initiates this internally when grilling reveals work too big for one session.
+5. **Loop-shaped** ("keep improving X") → pi-autoresearch campaign.
+6. Side questions anytime → `/btw` (pi-herdr-btw).
 
-Multi-agent fanout uses pi-dynamic-workflows' 5 built-in patterns — verified: 7-agent run, 0 failures. The APPEND_SYSTEM.md hook authorizes proactive workflow use; the operator never types trigger words.
+Multi-agent fanout uses pi-dynamic-workflows' 5 built-in patterns — verified: 7-agent run, 0 failures. The APPEND_SYSTEM.md hook authorizes proactive workflow use; the operator never types trigger words. Skill routing is internal: ce-lite matches task shape to the right skill (implement, tdd, research, diagnosing-bugs, code-review, domain-modeling, to-spec, to-tickets, handoff, etc.) via a routing table in `reference.md`.
 
 ## Model roles
 

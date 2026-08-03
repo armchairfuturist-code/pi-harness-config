@@ -2,7 +2,7 @@
 
 **There is nothing to memorize.** Say what you want in plain language. The ce-lite orchestrator routes it.
 
-## The four shapes of work
+## The five shapes of work
 
 **"What's X?" / "Draft a thank-you note"** — answered directly. Done.
 
@@ -16,6 +16,8 @@
 5. **verifies the result against the terms** before delivering,
 6. tells you what happened in a few lines, and saves anything reusable for next time.
 
+**"This is big and I'm not sure where to start"** — the orchestrator charts a wayfinder map: a set of decision tickets with blocking edges, then works them one at a time across sessions. You see questions and progress; the map structure is internal. When the way is clear, it hands off to a contract loop and gets it done.
+
 **"Keep improving X"** (weekly metrics, optimization) — runs as a measured experiment loop.
 
 ## Side questions mid-work
@@ -24,10 +26,11 @@ Use `/btw` — opens a side thread that doesn't disturb the main conversation.
 
 ## What you will NOT need anymore
 
-- No `/grill-with-docs → /to-spec → /to-tickets → /list → /implement` chains. Those skills still exist as the orchestrator's reference library — it reads them, you never type them.
+- No `/grill-with-docs → /to-spec → /to-tickets → /list → /implement` chains. Those skills still exist as the orchestrator's internal reference library — it routes to them by task shape, you never type them.
 - No goal/list/loop commands. Contract tracking is internal.
 - No model picking for subagents. Tiers (small/medium/big) route automatically; the one config file is `~/.pi/workflows/model-tiers.json`.
 - No trigger words. The orchestrator may use workflows proactively.
+- No manual wayfinding. When work is too big for one session, the orchestrator charts a map and works it ticket by ticket across sessions.
 
 ## When something goes wrong
 
