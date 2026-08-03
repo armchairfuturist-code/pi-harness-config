@@ -83,6 +83,8 @@ A trace of the structural improvements made across the harness configuration his
   * Ran bounded autoresearch terseness campaign (8 iterations): two APPEND_SYSTEM.md sentences → −17.1% suite tokens, −38% output, −21% round-trips (canaries caught the best-metric iteration being a quality failure). Cross-model transfer confirmed (glm-5.2/k2.6/k3: aggregate out −28%, reqs −33%). Floor 4,005→4,071 (netted).
   * Vendored all fixes into this repo (extensions/session-index.ts, workflows/saved/memory-consolidate.json, model-tiers.json, ce-lite sync) + "Migrating into an existing install" README section. Ponytail audit applied: removed run-pi-trials.sh, 9 cache-optimizer .tmp litter files, orphaned context-prune config, inert ~/.pi/rules/lean-ctx.md (+ its .bak; backup in /tmp). Purged pi-hermes-memory remnant. Mapped 4 harnesses on this machine (pi, omp, codex, cursor); OMP has native cross-session memory — pi's equivalent is session-index + context-mode FTS5. Attribution corrections recorded in ~/.pi/agent/memory/consolidated.md.
 
+* **2026-08-03**:
+* TSCG `aggressiveMaxDescChars` tuning campaign (10 values tested 5–50). probe_tokens are deterministic & monotonically decreasing in description length. Optimum = 5 (constraint floor, ≥5): probe 4,874→4,339 tok (−535, −11.0%). checks_pass stochastic in the bench (spurious fails at 7/10/18/25 too, all pass on retry); 5 passed 3/3. bench_tokens too noisy (±10k) to optimize on. Updated both `~/.pi/tscg.json` and repo `tscg.json`. README rewritten with WHY/HOW narrative and current measurements. Probe verify threshold updated 4,052→4,400.
 * **2026-07-30**:
   * Thinking-level economics campaign (Venice/kimi-k3, T1+T3): `high` beats `xhigh` by **−34% suite tokens, −40% output, −28% round-trips**; `medium` ties cost but fails the hardest-task canary (quality cliff located). Promoted `defaultThinkingLevel: xhigh → high` and reasoner-tier pin `kimi-k3:high`. Mechanism: thinking cost compounds via turn *multiplication*, not just reasoning tokens.
   * Removed `extensions/rtk.ts`: verified inert — lean-ctx replace mode means the model calls `ctx_shell`, never `bash`, so rtk's bash-hook fires zero times. rtk belongs to the OMP harness (which has no lean-ctx).
@@ -102,7 +104,7 @@ A trace of the structural improvements made across the harness configuration his
 The following paths are active areas for investigation and optimization:
 1. **Lazy Tool Loading Scale**: A two-phase lazy tool loading router was analyzed but deferred. It is deemed uneconomical at the current 22-tool scale, but should be re-evaluated when the local list of active tools grows beyond 50.
 2. **First Request Warm-up Penalty**: Evidence indicates a "warm-up" token penalty where package configuration changes invoke higher startup costs on the first model query. Further exploration of initialization caching is required.
-3. **Compactor Refinement**: Continued monitoring of context-mode integration to determine if further compression of settings, provider descriptions, and custom rules can lower the baseline overhead below the current 4,007-token lock.
+3. **Compactor Refinement**: Continued monitoring of context-mode integration to determine if further compression of settings, provider descriptions, and custom rules can lower the baseline overhead below the current 4,339-token floor.
 
 ---
 

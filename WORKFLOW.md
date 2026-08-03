@@ -38,6 +38,6 @@ Use `/btw` — opens a side thread that doesn't disturb the main conversation.
 
 ## Monthly maintenance (5 minutes)
 
-- `bench/probe.sh` → number stays ≤ 4,052. If it creeps up, something new is always-on — check what changed.
+- `bench/probe.sh` → number stays ≤ 4,400 (with `CTX_MODE_ADMIN_TOOLS=0`). If it creeps up, something new is always-on — check what changed.
 - Upstream radar: `research/ce-upstream-radar.md` — quick diff of watched repos, log adopt/adapt/ignore.
 - Quarterly: re-check model tiers against the current catalog.
