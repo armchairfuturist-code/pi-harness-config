@@ -18,7 +18,7 @@ The leading word is **contract** — a binding agreement with checkable terms. E
 
 ## Contract loop
 
-1. **Grill** — ask only blocking questions, one at a time. If a reasonable default exists, state it and proceed instead of asking. Done when no blocking unknowns remain.
+1. **Grill** — ask only blocking questions, one at a time. If a reasonable default exists, state it and proceed instead of asking. When grilling is non-trivial (real ambiguity, not just a missing detail), read `grilling.md` for the full protocol: blocking test, depth-first vs breadth-first modes, fog handling, domain modeling. Done when no blocking unknowns remain — every unknown either defaulted, deferred, or parked as fog in a wayfinder map.
 2. **Terms** — write acceptance terms as a bullet list (chat) or `CONTRACT.md` (working directory for bigger jobs). Every term must be checkable. Done when every term has a pass/fail condition.
 3. **Plan** — brief summary covering every term with an execution approach. Done when the plan addresses all terms.
 4. **Diagnose** — identify the binding constraint before executing:
@@ -44,7 +44,7 @@ For long-running work, read `context-health.md` for handoff triggers and protoco
 
 ## Reference
 
-Before non-trivial work in a familiar area, read `reference.md` for the recall protocol (prior decisions, gotchas, operator preferences), decomposition routing (tickets vs ephemeral workflows), and the mechanic's shelf of reference skills.
+Before non-trivial work in a familiar area, read `reference.md` for the recall protocol (prior decisions, gotchas, operator preferences), decomposition routing (wayfinder map vs ephemeral workflows — read `wayfinding.md` when work spans sessions), and the mechanic's shelf: a routing table from task shape to the right internal skill, so ce-lite knows when to reach for each one.
 
 ## Side questions
 
