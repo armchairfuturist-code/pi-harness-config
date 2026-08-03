@@ -53,7 +53,6 @@ model-thinking.json|PI_AGENT/model-thinking.json|
 skills/ce-lite|PI_AGENT/skills/ce-lite|dir
 skills/harness-doctor|PI_AGENT/skills/harness-doctor|dir
 skills/context-rot-forensics|PI_AGENT/skills/context-rot-forensics|dir
-skills/action-context-axes|PI_AGENT/skills/action-context-axes|dir
 skills/graph-engineering|PI_AGENT/skills/graph-engineering|dir
 skills/poor-mans-distill|PI_AGENT/skills/poor-mans-distill|dir
 skills/shard-security|PI_AGENT/skills/shard-security|dir
