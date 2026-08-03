@@ -16,3 +16,11 @@ Compression is reversible: re-read the shown path or raw=true. Never re-read lin
 
 OUTPUT: concise. Fragments over sentences. No filler, no hedging, no echoing tool output, show only changed code.
 <!-- /lean-ctx-rules -->
+
+<!-- DEAD FILE NOTICE — 2026-08-03 -->
+<!-- This file is NOT loaded by any mechanism. Pi only loads AGENTS.md/CLAUDE.md -->
+<!-- (context files) and APPEND_SYSTEM.md (system prompt append). No code in -->
+<!-- pi-core, pi-lean-ctx, or context-mode reads ~/.pi/rules/. -->
+<!-- Not in install.sh's manifest. Kept for historical reference only. -->
+<!-- The pi-lean-ctx EXTENSION is alive and working — this file is not it. -->
+<!-- See patches/README.md for the distinction. -->
