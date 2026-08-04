@@ -1,70 +1,74 @@
-# Autoresearch: TSCG aggressiveMaxDescChars tuning
+# Autoresearch: Acted-on tool-result clearing
 
 ## Objective
-Find the optimal `aggressiveMaxDescChars` value in `~/.pi/tscg.json` that minimizes token count without degrading tool understanding or task correctness.
+Cut **long-session input tokens** by clearing tool results the model has already
+acted on — without hurting task success or the always-on probe floor (≤4400).
+
+Grounding (repo research + 2026 harness consensus):
+- `research/harness-survey-actions-20260730.md` item 4: toolResult = p50 49% of
+  context bytes; **98.7% of big tool outputs reach the model uncleared**.
+- `extensions/transcript-pruner.ts` already does DEDUP + STALE (−15.7% billed on
+  pruner bench) but leaves spent large outputs intact once the assistant moves on.
+- Frontier (cutting-edge gap analysis): continuous light compaction / response
+  filtering — implement the **simplest layer** that works end-to-end (AGENTS.md):
+  extend the existing pruner, do not add a second parallel system.
+- Do **not** pursue two-phase tool loading at 22 tools (gap analysis: marginal).
+- Do **not** churn APPEND_SYSTEM / tscg (cache-prefix + measured optimum).
 
 ## Metrics
-- **Primary**: `probe_tokens` (tokens, lower is better) — fixed overhead per request (system prompt + tool schemas), measured via `bench/probe.sh` through the capture proxy
-- **Secondary**: `bench_tokens` — full workload tokens (list files, read largest, create file), measured via `bench/measure.sh`
-- **Secondary**: `checks_pass` — correctness (1 = pass, 0 = fail)
+- **Primary**: `totalInputTokens` (lower better) — median of 3 runs of
+  `./.auto/measure.sh` (pruner multi-read/edit workload).
+- **Secondary**:
+  - `checks_pass` (1/0) — fixture files correct after task
+  - `probe_total` — `./bench/probe.sh` must stay ≤ 4400
+  - `requests` — turn count (watch extra round-trips)
 
 ## How to Run
-`./.auto/measure.sh` — runs probe + bench, outputs `METRIC` lines.
+```bash
+./.auto/measure.sh          # primary + checks
+./bench/probe.sh            # kernel floor
+```
+Emit `METRIC name=value` lines. After any settings change, discard the first
+warm-up invoke (known +~35% artifact).
 
 ## Files in Scope
-- `~/.pi/tscg.json` — the only file to modify. Change `aggressiveMaxDescChars` value.
-- `~/.pi/agent/npm/node_modules/pi-tscg/extensions/tscg.ts` — patched with recursive truncation (see `patches/tscg/apply-patches.mjs`). Do NOT modify this file.
+- `extensions/transcript-pruner.ts` — add CLEAR (acted-on) mode; remove env
+  opt-in gate once proven (AGENTS: no compatibility layers)
+- `install.sh` — only if install path must change
+- `settings.json` — only to point extensions at vendored
+  `~/.pi/agent/extensions/transcript-pruner.ts` (not absolute Projects path)
+- `bench/measure-pruner.sh` / `.auto/measure.sh` — measurement only
+- `README.md` / `docs/pi-configuration.md` — after a kept win, document once
 
 ## Off Limits
-- `bench/probe.sh`, `bench/measure.sh`, `bench/build-variant.sh` — benchmark infrastructure
-- `patches/` — re-apply scripts
-- Any file other than `~/.pi/tscg.json`
+- `tscg.json` (aggressiveMaxDescChars=5 locked)
+- `APPEND_SYSTEM.md` / `skills/ce-lite/**` prompt churn
+- Adding packages or MCP
+- Two-phase/lazy tool schema routers
+- Editing `npm/node_modules` package sources
+- Backward-compat shims, lingering feature-flag soup after keep
 
 ## Constraints
-- `checks_pass` must be 1 (bench workload must complete correctly)
-- `aggressiveMaxDescChars` must be ≥ 5 (below 5 breaks even tool names)
-- After each change, run `pi update --extensions` is NOT needed — TSCG reads the config file live via `/tscg` command, but the probe uses build-variant.sh which copies tscg.json from the repo. So edit BOTH `~/.pi/tscg.json` AND the repo copy, then run probe.
-- The probe must be run with `CTX_MODE_ADMIN_TOOLS=0` to match the current optimized baseline.
+- AGENTS.md: simplest full solution; modular; no stopgaps; remove obsolete paths
+- Task success hard gate (`checks_pass=1` or discard)
+- Probe total ≤ 4400 or discard
+- Prefer extending transcript-pruner over a new extension
+- Measure via repo bench when possible (Lilac/GLM probe path)
 
-## Baseline
-- Current: `aggressiveMaxDescChars: 30` → probe 4,874 tokens, bench 16,255 tokens
-- Range to explore: 10–50 (lower = more compression, higher = more description)
-- The probe captures tool schemas, so it directly measures the impact of description length.
+## Avenues (ordered)
+1. **Baseline** — pruner OFF vs ON (current DEDUP+STALE) on measure.sh
+2. **CLEAR mode** — after assistant used a tool result, replace older result
+   bodies with short pointers; keep last K tool results full (tune K)
+3. **Default ON** — drop `PI_TRANSCRIPT_PRUNE` gate; always prune
+4. **Shell-output caps** — clear large ctx_shell/bash results after N turns
+5. **Dead end** — if CLEAR forces re-reads that exceed savings, discard + document
 
-## Anti-Overfitting Rules
-- Do NOT modify the benchmark scripts to produce better numbers
-- Do NOT change the bench workload — it must stay the same across all runs
-- If `checks_pass` fails at any value, that value is too aggressive — discard it
-- The goal is the SMALLEST value where checks still pass and bench tokens don't increase
-- "Perfectly optimized" doesn't exist — if the current value (30) is already optimal, say so and stop
+## What's Been Tried
+- Closed: `research/autoresearch-token-efficiency-20260714/` (config-only; converged)
+- transcript-pruner A/B (`7dccbf8`): DEDUP+STALE safe, ��15.7%
+- TSCG chars=5; terseness −17.1%; thinking economics measured
+- Item 4 measured uncleared tool results — **fix not built yet** (this campaign)
 
-- 30 (current baseline): probe 4,874, bench 16,255, checks pass
-- 25: probe 4,756, bench 22,042/26,817, checks pass (1 fail in 2 — bench noise)
-- 20: probe 4,644, bench 15,480, checks pass
-- 18: probe 4,595, bench 20,001/36,864, checks pass (1 fail in 2 — bench noise)
-- 15: probe 4,532, bench 20,426, checks pass
-- 10: probe 4,417, bench 19,824/19,757/25,024, checks pass (1 fail in 3 — bench noise)
-- 8: probe 4,378, bench 19,997/21,735, checks pass ×2
-- 7: probe 4,360, bench 27,906/19,804, checks 1 pass + 1 fail (borderline)
-- 6: probe 4,366, bench 25,261, checks pass
-- 5: probe 4,339, bench 19,580/19,478/14,504, checks pass ×3 ← RECOMMENDED (floor)
-
-## Verdict
-aggressiveMaxDescChars=5 is optimal. probe is deterministic & monotonic in chars; 5 is the
-constraint floor (≥5) and yields the lowest probe (4,339 vs 4,874 at 30 = −535 tokens, −11.0%).
-checks_pass is stochastic in this bench (failures observed at 7/10/18/25 too, all passing on
-retry) so it cannot discriminate; 5 passed 3/3. bench_tokens are too noisy (±10k) to optimize on.
-
-
-## ASI Schema
-```json
-{
-  "hypothesis": "what value and why",
-  "mechanism": "how description length affects token count",
-  "result": "what happened",
-  "learned": "key insight",
-  "next_focus": "next value to try",
-  "dead_end": false,
-  "rollback_reason": "why it failed (discard only)"
-}
-```
+## Success
+Beat baseline on totalInputTokens with checks_pass=1 and probe_total≤4400.
+Ship as single pruner behavior (no permanent flag soup).
