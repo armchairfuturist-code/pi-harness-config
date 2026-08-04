@@ -1,7 +1,7 @@
 #!/bin/sh
 # pi-harness-config secret guard
-if git diff --cached | grep -E "(sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}|AIza[A-Za-z0-9_-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,})" >/dev/null 2>&1; then
-  echo "BLOCKED: possible API key/token in staged changes." >&2
+if git diff --cached | grep -E "(sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}|AIza[A-Za-z0-9_-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|Bearer [A-Za-z0-9+/=]{40,}|eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}|BEGIN [A-Z ]*PRIVATE KEY)" >/dev/null 2>&1; then
+  echo "BLOCKED: possible API key/token/credential in staged changes." >&2
   exit 1
 fi
 exit 0
