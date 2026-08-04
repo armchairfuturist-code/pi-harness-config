@@ -1,4 +1,4 @@
-# Harness Inventory — verified 2026-07-29
+# Harness Inventory — verified 2026-08-04
 
 ## Active harnesses (3)
 - **pi** — @earendil-works/pi-coding-agent, fnm node v24 global, config `~/.pi`. Goal: token efficiency (lean-ctx + context-mode stack).
@@ -6,11 +6,12 @@
 - **reasonix** v1.18.0-preview.1 — config/plugin-driven multi-model coding agent, fnm global bin `reasonix`, config `~/.reasonix` (config.toml, memory/, projects/, skills/). Modes: interactive, print, run, review, serve (HTTP+SSE), acp.
 
 ## Adjacent tooling (not harnesses)
-- lean-ctx v3.9.8, context-mode, impeccable skill (`~/.impeccable`, `~/.agents`), herdr 0.7.5 (unverified). hypa — NOT installed (npm target gone; broken shim removed 2026-07-30; `~/.hypa` is data residue). Do NOT invoke hypa: 522 command-not-found failures in 30 days came from agents trying it.
+- lean-ctx, context-mode, impeccable skill (`~/.impeccable`, `~/.agents`), herdr (unverified). hypa — NOT installed (shim removed 2026-07-30; data dir `~/.hypa` deleted 2026-08-04). Do NOT invoke.
 - **pi add-ons REMOVED 2026-07-30**: `~/.pi-lens` (533M), `~/.pi-glla`, `~/.pi-meter`, `~/.autoresearch-pi` — verified unreferenced by settings/extensions/skills/rc/systemd before deletion. Also pruned: compact-backups, readcache, tmp session dirs, .bak files, empty `.agents`/`projects-memory` dirs.
 
 ## Ghosts / residue — NOT installed
-- **omp + rtk + headroom — REMOVED 2026-07-30**: `omp`/`rtk`/`rtkr`/`headroom`/`audit-upgrade` binaries, `~/.omp`, `~/.rtk-data`, `~/.config/rtk`, `~/.headroom`, audit-upgrade systemd units, and headroom env blocks in .bashrc/.zshrc/.profile all deleted. Do not assume they exist; reinstall per-harness only on explicit ask.
+- **omp + rtk + headroom — REMOVED 2026-07-30**; **zombie purge 2026-08-04**: binaries/`~/.omp`/`~/.rtk-data`/`~/.config/rtk`/`~/.headroom`/audit-upgrade units removed earlier; 2026-08-04 also deleted `session-error-scan`, `session-mine`, `~/.local/share/rtk`→`~/.agents/rtk-data`. Do not assume OMP/RTK paths exist.
+
 - `~/.copilot` (no binary)
 - `~/.cursor` — DELETED 2026-07-29 (lean-ctx/impeccable artifact; Cursor never existed)
 - Empty npm scope dirs in fnm node_modules: `@gitlawb`, `@google`, `@opencode-ai` = uninstall residue, not packages.
