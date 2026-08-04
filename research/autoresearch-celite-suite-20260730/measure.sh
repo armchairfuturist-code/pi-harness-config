@@ -26,6 +26,9 @@ for d in ~/.pi/agent/skills/*/; do
 done
 mkdir -p "$VAGENT/skills/ce-lite"
 cp "$CAMPAIGN/candidates/SKILL.md" "$VAGENT/skills/ce-lite/SKILL.md"
+for ref in ENGINEERING_PROFILE.md ENGINEERING_LIGHTWEIGHT.md ENGINEERING_STANDARD.md ENGINEERING_CRITICAL.md; do
+  [ ! -f "$CAMPAIGN/candidates/$ref" ] || cp "$CAMPAIGN/candidates/$ref" "$VAGENT/skills/ce-lite/$ref"
+done
 
 seed_s1() { wd="$1"
   printf '2026-07-30 08:00:00 IP=192.168.1.50 DEPT=Engineering API=/v1/status\n2026-07-30 08:01:22 IP=10.0.0.12 DEPT=Marketing API=/v1/campaign\n2026-07-30 08:02:45 IP=198.51.100.7 DEPT=Unknown API=/v1/admin\n2026-07-30 08:03:10 IP=192.168.1.50 DEPT=Engineering API=/v1/deploy\n' > "$wd/access.log"

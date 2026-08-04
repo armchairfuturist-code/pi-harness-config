@@ -41,7 +41,14 @@ Baseline: suite_total=135,906 · out_sum=9,769 · req_sum=46 (10 lanes).
    clone idioms (`JSON.parse(JSON.stringify)`), and handoff phrasing all produced false
    failures before calibration; the s5 model-note check now accepts semantic equivalents.
 
+## 2026-08-04 engineering-profile evolution
+- Reworked the orchestrator with `writing-great-skills` principles: explicit completion criteria, ID'd acceptance terms, term-to-evidence verification, positive steering, and lazy disclosure of `ENGINEERING_PROFILE.md`.
+- Added risk-scaled lightweight/standard/critical engineering controls, authoritative work state, baseline-before-mutation, vertical TDD slices, layered verification, fresh review, UAT boundaries, safe landing, and exception transitions.
+- Direct 5-brief × 2-rep canaries passed (`checks_pass=1`). Full token/capture metrics could not run because `/home/alex/bench-systima/rig/proxy-oi.mjs` is absent; do not treat this as a metered promotion comparison.
+- Fresh skill review found routing overlap, label-based risk inflation, subjective delegation, vague completion gates, and weak disclosure. Corrected with overlay-first routing, effect-based risk classification, objective workflow triggers, yes/no completion criteria, one process owner, and separate lightweight/standard/critical references. The revised candidate again passed all 10 direct canary lanes.
+
 ## Follow-ups
+- Restore or replace the capture proxy, then run a fresh same-day baseline/candidate metered comparison.
 - Future ce-lite edits: run the suite first; the instrumentation is the deliverable.
 - The doctrine (writing-great-skills) produced real *token* wins (D1 out −37%) — keep it
   for skills whose text is mostly reporting/reference; orchestrator process text is the
