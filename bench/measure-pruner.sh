@@ -90,6 +90,7 @@ run_checks() {
 }
 
 declare -a totals
+declare -a tprs
 all_ok=1
 for i in $(seq 1 "$RUNS"); do
   setup_workspace
@@ -105,6 +106,9 @@ for i in $(seq 1 "$RUNS"); do
   echo "RUN $i: totalInputTokens=$total requests=$reqs checks_pass=$cpass [$creasons] rc=$rc" >&2
   [ "$cpass" != "1" ] && all_ok=0
   [ "$total" != "null" ] && totals+=("$total")
+  if [ "$total" != "null" ] && [ "${reqs:-0}" -gt 0 ] 2>/dev/null; then
+    tprs+=("$(( total / reqs ))")
+  fi
 done
 
 if [ ${#totals[@]} -eq 0 ]; then echo "METRIC totalInputTokens=0"; echo "METRIC checks_pass=0"; echo "METRIC runs_completed=0"; exit 1; fi
@@ -113,3 +117,8 @@ echo "METRIC totalInputTokens=$median"
 echo "METRIC checks_pass=$all_ok"
 echo "METRIC runs_completed=${#totals[@]}"
 echo "METRIC run_totals=$( IFS=,; echo "${totals[*]}" )"
+if [ ${#tprs[@]} -gt 0 ]; then
+  med_tpr=$(printf '%s\n' "${tprs[@]}" | sort -n | awk '{a[NR]=$1} END {if(NR%2==1) print a[(NR+1)/2]; else print int((a[NR/2]+a[NR/2+1])/2)}')
+  echo "METRIC tokens_per_request=$med_tpr"
+  echo "METRIC run_tpr=$( IFS=,; echo "${tprs[*]}" )"
+fi

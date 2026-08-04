@@ -63,11 +63,17 @@ warm-up invoke (known +~35% artifact).
 4. **Shell-output caps** — clear large ctx_shell/bash results after N turns
 5. **Dead end** — if CLEAR forces re-reads that exceed savings, discard + document
 
+
 ## What's Been Tried
-- Closed: `research/autoresearch-token-efficiency-20260714/` (config-only; converged)
-- transcript-pruner A/B (`7dccbf8`): DEDUP+STALE safe, ��15.7%
-- TSCG chars=5; terseness −17.1%; thinking economics measured
-- Item 4 measured uncleared tool results — **fix not built yet** (this campaign)
+- Closed prior: `research/autoresearch-token-efficiency-20260714/` (config-only)
+- transcript-pruner A/B historically: DEDUP+STALE −15.7% (different model/day)
+- **This campaign (2026-08-04, Venice/grok-4-5, 5-run medians):**
+  - OFF: total 93855, tpr 7219
+  - DEFAULT ON DEDUP+STALE+CLEAR k=4: total 83790 (−10.7%), tpr 6865 (−4.9%), checks 5/5
+  - k=2: lower tpr but more turns (net total worse)
+  - k=3: noisy; one lucky low-turn run
+  - k=6: ≈ dedup+stale only
+- **KEEP:** CLEAR keep=4, pruner default ON (`PI_TRANSCRIPT_PRUNE=0` to disable)
 
 ## Success
 Beat baseline on totalInputTokens with checks_pass=1 and probe_total≤4400.

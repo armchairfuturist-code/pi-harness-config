@@ -1,4 +1,4 @@
-/** * transcript-pruner.ts — cross-message transcript redundancy pruning. * * Avenue: existing context engineering compresses messages individually * (pi-tscg), caches tool outputs at the tool level (pi-lean-ctx), and * stabilizes prompts for KV-cache hits (pi-cache-optimizer). None of them * remove *cross-message* redundancy in the transcript: identical tool * results re-sent on later requests, and file reads whose content has been * superseded by a later write/edit. * * This extension hooks the `context` event (fires before every LLM call, * sees a structuredClone of the transcript) and rewrites: * * 1. DEDUP — exact-duplicate read-only tool results (same tool, same * args, byte-identical output) become a short pointer to the * first full occurrence. Lossless: the full text remains in * the transcript above. Cross-tool content dedup additionally * collapses byte-identical results for the same resolved path * (e.g. ctx_read full == ctx_shell "cat" == ctx_grep). * 2. STALE — path-read results (read/ctx_read/ctx_execute_file/ctx_grep * and simple ctx_shell cat/head/tail/grep/sed -n invocations) * for a path that was later written/edited become a one-line * stale notice, so the model is not charged (or misled) by * content it has since changed. * * Safety: only text content is replaced; message pairing (toolCallId) is * preserved; dedup requires byte-identical output (the earlier full * occurrence always remains in the transcript above). Default OFF unless * PI_TRANSCRIPT_PRUNE=1 (so the extension is inert for non-experiment * sessions). Toggles: PI_PRUNE_DEDUP / PI_PRUNE_STALE (1/0), thresholds * via PI_PRUNE_MIN_LEN (default 40 chars). */
+/** * transcript-pruner.ts — cross-message transcript redundancy pruning. * * Avenue: existing context engineering compresses messages individually * (pi-tscg), caches tool outputs at the tool level (pi-lean-ctx), and * stabilizes prompts for KV-cache hits (pi-cache-optimizer). None of them * remove *cross-message* redundancy in the transcript: identical tool * results re-sent on later requests, and file reads whose content has been * superseded by a later write/edit. * * This extension hooks the `context` event (fires before every LLM call, * sees a structuredClone of the transcript) and rewrites: * * 1. DEDUP — exact-duplicate read-only tool results (same tool, same * args, byte-identical output) become a short pointer to the * first full occurrence. Lossless: the full text remains in * the transcript above. Cross-tool content dedup additionally * collapses byte-identical results for the same resolved path * (e.g. ctx_read full == ctx_shell "cat" == ctx_grep). * 2. STALE — path-read results (read/ctx_read/ctx_execute_file/ctx_grep * and simple ctx_shell cat/head/tail/grep/sed -n invocations) * for a path that was later written/edited become a one-line * stale notice, so the model is not charged (or misled) by * content it has since changed. * * 3. CLEAR — tool results older than the last K full results (default K=4 via PI_PRUNE_KEEP) become a short pointer once the model has moved on. Attacks uncleared spent outputs (survey item 4). * * Safety: only text content is replaced; message pairing (toolCallId) is * preserved; dedup requires byte-identical output (the earlier full * occurrence always remains in the transcript above). Default ON. Set PI_TRANSCRIPT_PRUNE=0 to disable. Toggles: PI_PRUNE_DEDUP / PI_PRUNE_STALE / PI_PRUNE_CLEAR (1/0); thresholds * via PI_PRUNE_MIN_LEN (default 40), PI_PRUNE_KEEP (default 4). */
 import * as path from "node:path";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 export default function transcriptPruner(pi: ExtensionAPI) {
@@ -7,10 +7,19 @@ export default function transcriptPruner(pi: ExtensionAPI) {
   if (v === undefined) return def;
   return v === "1" || v.toLowerCase() === "true";
  };
- const enabled = (): boolean => process.env.PI_TRANSCRIPT_PRUNE === "1";
+ const enabled = (): boolean => {
+    // Default ON. Set PI_TRANSCRIPT_PRUNE=0 to disable (escape hatch only).
+    const v = process.env.PI_TRANSCRIPT_PRUNE;
+    if (v === undefined) return true;
+    return !(v === "0" || v.toLowerCase() === "false");
+  };
  const minLen = (): number => {
   const v = Number(process.env.PI_PRUNE_MIN_LEN ?? 40);
   return Number.isFinite(v) && v > 0 ? v : 40;
+ };
+ const keepRecent = (): number => {
+   const v = Number(process.env.PI_PRUNE_KEEP ?? 4);
+   return Number.isFinite(v) && v >= 0 ? Math.floor(v) : 4;
  };
  // Tool classes (names as registered by this harness + lean-ctx shims).
  const READ_TOOLS = new Set([
@@ -160,7 +169,9 @@ export default function transcriptPruner(pi: ExtensionAPI) {
   if (!enabled()) return undefined;
   const dedup = flag("PI_PRUNE_DEDUP");
   const stale = flag("PI_PRUNE_STALE");
+  const clear = flag("PI_PRUNE_CLEAR");
   const min = minLen();
+  const keep = keepRecent();
   const messages = event.messages;
   if (!Array.isArray(messages) || messages.length < 4) return undefined;
   // Index tool calls by id (handle both in-memory and JSONL block shapes).
@@ -268,8 +279,40 @@ export default function transcriptPruner(pi: ExtensionAPI) {
     }
    }
   }
+  // CLEAR: keep last `keep` full-sized tool results; pointer-replace older spent outputs.
+  if (clear && keep >= 0) {
+    const fullIdx: number[] = [];
+    for (let i = 0; i < messages.length; i++) {
+      const m = messages[i];
+      if (!m || typeof m !== "object" || m.role !== "toolResult" || m.isError) continue;
+      const t = textOf(m.content);
+      if (t.length < min) continue;
+      if (/^\[(dup of earlier|stale:|cleared:)/.test(t)) continue;
+      fullIdx.push(i);
+    }
+    const dropCount = Math.max(0, fullIdx.length - keep);
+    for (let j = 0; j < dropCount; j++) {
+      const i = fullIdx[j];
+      const m = messages[i];
+      const info = callById.get(m.toolCallId);
+      const name: string = typeof m.toolName === "string" ? m.toolName : info?.name ?? "tool";
+      const args = info?.args ?? {};
+      const rawPath = args && (args.path ?? args.file_path);
+      let label = name;
+      if (typeof rawPath === "string") label += ` ${normPath(rawPath, ctx?.cwd)}`;
+      else if (name === "ctx_shell" || name === "bash") {
+        const rp = shellReadPath(args && (args.command ?? args.cmd), ctx?.cwd);
+        if (rp) label += ` ${rp}`;
+      }
+      const n = textOf(m.content).length;
+      if (replaceText(m, `[cleared: ${label} — ${n} chars; see earlier turns or re-read]`)) {
+        changed.push({ msg: m, idx: i, kind: "clear" });
+      }
+    }
+  }
+
   if (changed.length > 0) {
-   debug(`pruned ${changed.length} of ${messages.length} msgs (dedup=${dedup} stale=${stale}) kinds=${changed.map((c) => c.kind).join(",")}`);
+   debug(`pruned ${changed.length} of ${messages.length} msgs (dedup=${dedup} stale=${stale} clear=${clear} keep=${keep}) kinds=${changed.map((c) => c.kind).join(",")}`);
    return { messages };
   }
   debug(`noop ${messages.length} msgs`);

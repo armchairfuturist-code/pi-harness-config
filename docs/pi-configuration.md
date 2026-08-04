@@ -40,7 +40,7 @@
 │   ├── tscg.json              # Tool Schema Compression Group (aggressive, load-bearing)
 │   ├── AGENTS.md              # Project instructions (session guardrail)
 │   ├── extensions/
-│   │   ├── transcript-pruner.ts  # cross-message dedup/stale pruning (needs PI_TRANSCRIPT_PRUNE=1)
+│   │   ├── transcript-pruner.ts  # cross-message dedup/stale pruning (default ON; PI_TRANSCRIPT_PRUNE=0 disables)
 │   │   ├── session-index.ts      # session-end extractive summaries → memory/sessions/
 │   │   └── herdr-agent-state.ts  # herdr integration (installed by `herdr integration install pi`)
 │   ├── lean-ctx/
@@ -353,7 +353,7 @@ Additional npm packages installed as dependencies include: `@anthropic-ai`, `@aw
 - **DEDUP**: exact-duplicate read-only tool results (same tool, same args, byte-identical output) → short pointer to first occurrence. Cross-tool content dedup collapses byte-identical results for the same path.
 - **STALE**: path-read results for a path later written/edited → one-line stale notice
 - Safety: only text content replaced; message pairing (toolCallId) preserved; dedup requires byte-identical output
-- Default OFF unless `PI_TRANSCRIPT_PRUNE=1`; toggles: `PI_PRUNE_DEDUP` / `PI_PRUNE_STALE` (1/0); threshold via `PI_PRUNE_MIN_LEN` (default 40 chars)
+- Default ON (DEDUP+STALE+CLEAR keep=4). Set `PI_TRANSCRIPT_PRUNE=0` to disable; toggles: `PI_PRUNE_DEDUP` / `PI_PRUNE_STALE` (1/0); threshold via `PI_PRUNE_MIN_LEN` (default 40 chars)
 - Proven -15.7% billed tokens on dev-loop benchmark (2026-08-01)
 
 ### 7b. `session-index.ts` — Session-end Summaries

@@ -90,7 +90,7 @@ pi-harness-config/
 ├── lean-ctx/                 # lean-ctx bridge config (replace mode, lean profile)
 ├── extensions/
 │   ├── session-index.ts      # session-end extractive summaries → memory/sessions/ (zero LLM tokens)
-│   └── transcript-pruner.ts  # cross-message dedup/stale pruning (inert unless PI_TRANSCRIPT_PRUNE=1)
+│   └── transcript-pruner.ts  # cross-message dedup/stale pruning (default ON: DEDUP+STALE+CLEAR keep=4; PI_TRANSCRIPT_PRUNE=0 disables)
 ├── workflows/
 │   ├── model-tiers.json      # pinned model routing (leaf/worker/reviewer)
 │   └── saved/                # memory-consolidate, gather-judge-split, review-fix-graph
