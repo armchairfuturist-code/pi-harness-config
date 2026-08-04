@@ -43,10 +43,11 @@ You ask something
        ├── simple question  → answer directly
        ├── needs sources    → fetch / research workflow
        ├── real project work → contract loop
-       │         grill blockers → terms → plan
-       │         → workers (workflow fan-out)
-       │         → verify against terms → deliver
-       └── long / loop work → multi-session map or autoresearch
+│   ID’d terms → proportional plan/execution
+│   → term-to-evidence matrix → fresh review → deliver
+├── engineering change → risk overlay
+│   lightweight / standard / critical controls
+└── long / loop work → multi-session map or autoresearch
 ```
 
 You never have to type skill names. A tiny always-on hook
@@ -63,12 +64,18 @@ Without an orchestrator, agents either:
 **CE-lite** is a single skill that:
 
 - stays almost free when idle (other skills are **not** in the always-on list);
-- opens full procedure only for non-trivial work;
-- turns vague asks into **acceptance terms**, runs work (often in parallel
-  sub-agents), and checks the result against those terms;
+- turns vague asks into ID’d **acceptance terms** with yes/no pass conditions;
+- chooses direct execution or workflow fan-out using objective triggers;
+- maintains a term-to-evidence matrix and uses fresh-context review before claiming completion;
+- applies risk-scaled engineering controls without imposing software ceremony on ordinary work;
 - compounds learnings so the next similar task is cheaper.
 
-Details live under `skills/ce-lite/` (progressive disclosure: core loop first,
+Details live under `skills/ce-lite/`. Progressive disclosure keeps the core loop
+small: grilling, wayfinding, gather/judge, context health, and engineering controls
+load only when their branch runs. Engineering first loads
+`ENGINEERING_PROFILE.md`, then exactly one effect-based mode:
+`ENGINEERING_LIGHTWEIGHT.md`, `ENGINEERING_STANDARD.md`, or
+`ENGINEERING_CRITICAL.md`.
 grilling / wayfinding / gather-judge only when that branch runs).
 
 ### Mechanic's shelf (on demand)
