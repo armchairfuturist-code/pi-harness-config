@@ -6,6 +6,9 @@
 - **Focus on Response Format**: The core goal is using autoresearch to improve progressive disclosure response format efficiency. Keep compression levels as-is and target other vectors for output verbosity.
 - **Flexibility and Token Efficiency**: Keep a strong balance between context flexibility and token efficiency, especially for longer, more complex dynamic workflows in pi.
 
+- **Sole maintainer (armchairfuturist-code)**: Operator is the only maintainer of github.com/armchairfuturist-code/*. For pi-harness-config: **remote `origin/master` is source of truth** — always `git fetch` before local work; when shipping, **push directly to master** (no long-lived PR theater unless asked). Local checkout can lag; never treat a dirty local tree as canonical over remote.
+- **README audience**: Prefer clear operator-facing prose (goal, CE-lite why, why no MCP/web always-on, extensions table, model-agnostic). Keep lab detail in `research/` and `docs/`.
+
 ## Confirmed Gotchas & Facts
 - **Context Pruning Explosion**: Entering every-turn mode with `pi-context-prune` was a critical failure. It exploded requests (from 4-5 up to 12-27 per loop) and increased total token consumption by 6x; thus, rapid reversion is required for this mode.
 - **Schema Optimization via Truncation**: Setting `aggressiveMaxDescChars=30` in `tscg.json` is highly effective. It reduces description overhead by ~22% (saving ~14,676 tokens per request, reducing total median across benchmarks from ~73k to ~58k tokens).
