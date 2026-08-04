@@ -84,3 +84,9 @@ TODO: convert 2026-07-30 findings into permanent suite cases:
 Items 1, 2, 6 are near-free and compound with the harness-doctor build (inventory/provider-ops/
 error-fixes) started 2026-07-30. Suggested order: 2 (trivial) → 6 (extends active build) →
 1 (measurement) → 7 (canary extension) → 3+4 (compaction work, needs measurement first).
+
+<!-- tool-result-clear-20260804 -->
+## Update 2026-08-04 — Item 4 fix shipped
+Acted-on tool-result **CLEAR** (keep=4) added to `extensions/transcript-pruner.ts`,
+default ON. Campaign: `research/autoresearch-tool-result-clear-20260804/findings.md`.
+5-run: total −10.7%, tpr −4.9% vs pruner OFF; checks 5/5. No further loop planned.
