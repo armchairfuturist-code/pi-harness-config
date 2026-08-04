@@ -19,3 +19,6 @@ Thumbs.db
 # Python bytecode
 __pycache__/
 *.pyc
+
+# machine-local model list (repo is provider-agnostic)
+models.json
