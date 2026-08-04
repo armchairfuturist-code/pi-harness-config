@@ -71,6 +71,28 @@ Without an orchestrator, agents either:
 Details live under `skills/ce-lite/` (progressive disclosure: core loop first,
 grilling / wayfinding / gather-judge only when that branch runs).
 
+### Mechanic's shelf (on demand)
+
+ce-lite routes specialist work via an internal **mechanic's shelf**
+(`skills/ce-lite/reference.md`) — implement, tdd, research, diagnosing-bugs,
+code-review, domain-modeling, to-spec, to-tickets, handoff, and friends.
+Those workers may live on disk under `~/.pi/agent/skills/`; only **ce-lite**
+is allowlisted in `settings.json` so their descriptions stay out of every
+prompt. The agent path-reads a shelf skill when the task shape matches and
+**never names skills to you**.
+
+**Multi-session SSOT:** living maps under `.scratch/wayfinder/` via
+`skills/ce-lite/wayfinding.md`. Do not run the separate mattpocock `wayfinder`
+skill protocol in a ce-lite session.
+
+**Never auto-invoked under ce-lite:** `wayfinder`, `triage`, `ask-matt`,
+`setup-matt-pocock-skills`, `improve-codebase-architecture` (operator-only),
+and the grill aliases `grill-me` / `grill-with-docs` (use `grilling` +
+`skills/ce-lite/grilling.md` instead).
+
+**Tickets under wayfinding:** `to-tickets` defaults to map-adjacent files under
+`.scratch/wayfinder/` — not GitHub/Linear — unless you ask for a tracker.
+
 ---
 
 ## Why there is no MCP and no always-on web search
