@@ -22,3 +22,9 @@ __pycache__/
 
 # machine-local model list (repo is provider-agnostic)
 models.json
+# Agent runtime (if someone clones into ~/.pi/agent)
+sessions/
+npm/
+node_modules/
+**/__pycache__/
+**/*.py[cod]
