@@ -31,12 +31,22 @@ Project/workspace maps belong in `AGENTS.md` (short). `APPEND_SYSTEM.md` is a th
 5. After first shell allowlist block: switch strategy; do not loop the same blocked shape.
 6. `lean-ctx allow` only for rare audited commands.
 
+## Runtime discipline (enforced)
+
+Extension `extensions/runtime-discipline.ts` injects systemPrompt nudges when:
+
+1. **Allowlist / interpreter block** — after lean-ctx permanent blocks (`python -c`, heredoc, etc.). Recovery: script file + ctx_* tools; never identical retry.
+2. **Edit miss** — after edit/ctx_edit context failures. Recovery: re-read slice; never identical old_string retry; cheap verify after multi-file edits.
+3. **Long session** — after 60 minutes, 24 user turns, or 3+ compactions: require status block (status/done_so_far/files/next/verify). On close: end checklist with verify artifact.
+
+Disable: `PI_RUNTIME_DISCIPLINE=0`. Thresholds: `PI_LONG_SESSION_MS`, `PI_LONG_SESSION_TURNS`, `PI_LONG_SESSION_COMPACTS`.
+
 ## Extensions (enabled)
 
 settings.extensions should include:
 
 - pi-essentials: auto-session-name, auto-title, clipboard-image, compact-header, image-context-pruner, markdown-viewer
-- local: transcript-pruner, tool-trimmer, session-index, invest-tools
+- local: transcript-pruner, tool-trimmer, session-index, invest-tools, **runtime-discipline**
 
 If an extension is documented here, it must appear in `settings.json`. No half-wired paths.
 
