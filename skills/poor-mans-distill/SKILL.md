@@ -61,12 +61,11 @@ threshold, so this is a "re-run later" decision, not a permanent discard.
 2. Improve `session_outcome` — currently tail-heuristic. A real signal: did the
    user send a follow-up correction? (correction = negative label). Parse the
    parentId chain.
-3. Per-project slicing: tag sessions by cwd so Investment-Engine traces get their
-   own few-shot bank.
+3. Per-project slicing: tag sessions by cwd so unrelated projects never share a few-shot bank.
 
 ## How to use the few-shot bank
 
-The intended consumer is a specialist prompt for a narrow task (e.g.
-Investment-Engine MCP edits). Load the top-N traces for that task-type as
+The intended consumer is a specialist prompt for one narrow, repeated task (
+project-specific examples). Load the top-N traces for that task-type as
 few-shot examples in a system message. This is the "poor man's" version of
 fine-tuning: behavior transfer via demonstration, not gradient updates.

@@ -724,7 +724,7 @@ The manifest in `install.sh` is authoritative. It copies:
 - `settings.json` — excluded by default (provider/model differ per machine; overlay with `--settings`)
 - `sessions/` — session history
 - `npm/node_modules/` — installed via `pi install`
-- Personal extensions not vendored (e.g. `invest-tools.ts`)
+- Personal or project-specific extensions are intentionally not vendored.
 
 ### Verify
 

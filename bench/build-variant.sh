@@ -1,48 +1,46 @@
-#!/bin/bash
-# build-variant.sh — materialize a candidate pi agent dir from the CURRENT repo
-# working tree. Output: /tmp/pi-cfg-variant/{agent,tscg.json}, mirroring the
-# ~/.pi/{agent,tscg.json} layout so pi-tscg resolves config identically.
-#
-# Secrets and installed packages are SYMLINKED from live (never copied, never
-# in git). Everything the loop edits is COPIED from the repo working tree.
-# Prints the variant agent dir path on stdout (last line).
+#!/usr/bin/env bash
 set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LIVE_AGENT="${PI_LIVE_AGENT:-$HOME/.pi/agent}"
+VHOME="${PI_VARIANT_HOME:-$(mktemp -d "${TMPDIR:-/tmp}/pi-harness-home.XXXXXX") }"
+VHOME="${VHOME% }"
+VAGENT="$VHOME/.pi/agent"
+mkdir -p "$VAGENT/extensions/pi-lean-ctx" "$VAGENT/sessions" "$VHOME/.config/lean-ctx" "$VHOME/.pi/workflows/saved"
 
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-LIVE_AGENT="$HOME/.pi/agent"
-VROOT="/tmp/pi-cfg-variant"
-VAGENT="$VROOT/agent"
+node "$ROOT/scripts/validate-manifest.mjs" >&2
+PI_AGENT_HOME="$LIVE_AGENT" node "$ROOT/scripts/verify-package-lock.mjs" >&2
 
-rm -rf "$VROOT"
-mkdir -p "$VAGENT/extensions/pi-lean-ctx" "$VAGENT/sessions"
+cp "$ROOT/settings.json" "$VAGENT/settings.json"
+cp "$ROOT/APPEND_SYSTEM.md" "$VAGENT/APPEND_SYSTEM.md"
+cp "$ROOT/HARNESS.md" "$VAGENT/HARNESS.md"
+cp "$ROOT/AGENTS.md" "$VAGENT/AGENTS.md"
+cp "$ROOT/model-thinking.json" "$VAGENT/model-thinking.json"
+cp "$ROOT/packages.lock.json" "$VAGENT/packages.lock.json"
+cp "$ROOT/tscg.json" "$VHOME/.pi/tscg.json"
+cp -a "$ROOT/skills" "$VAGENT/skills"
+cp "$ROOT/lean-ctx/pi-config.json" "$VAGENT/extensions/pi-lean-ctx/config.json"
+cp "$ROOT/lean-ctx/config.toml" "$VHOME/.config/lean-ctx/config.toml"
+for file in transcript-pruner.ts session-index.ts runtime-discipline.ts; do cp "$ROOT/extensions/$file" "$VAGENT/extensions/$file"; done
 
-# --- config under test (copied from repo working tree) ---
-cp "$REPO/settings.json" "$VAGENT/settings.json"
-cp "$REPO/APPEND_SYSTEM.md" "$VAGENT/APPEND_SYSTEM.md"
-cp "$REPO/tscg.json" "$VROOT/tscg.json"   # sibling of agent/, mirrors ~/.pi/tscg.json
-cp -r "$REPO/skills" "$VAGENT/skills"
-cp "$REPO/lean-ctx/pi-config.json" "$VAGENT/extensions/pi-lean-ctx/config.json"
+# Snapshot installed packages; never symlink mutable live node_modules.
+mkdir -p "$VAGENT/npm"
+cp -a --reflink=auto "$LIVE_AGENT/npm/." "$VAGENT/npm/"
+cp "$LIVE_AGENT/models.json" "$VAGENT/models.json"
+cp "$LIVE_AGENT/auth.json" "$VAGENT/auth.json"
+chmod 600 "$VAGENT/auth.json" "$VAGENT/models.json"
+PORT="${PI_BENCH_PORT:-4599}"
+jq --arg url "http://127.0.0.1:$PORT/v1" '.providers.Lilac.baseUrl=$url' "$VAGENT/models.json" > "$VAGENT/models.tmp" && mv "$VAGENT/models.tmp" "$VAGENT/models.json"
 
-# --- identity / secrets / installed packages (symlinked from live, invariant) ---
-# models.json: patched COPY, not symlink — routes the variant through the local
-# capture proxy (.auto/proxy.sh) so token counts are full-cost and immune to
-# provider prompt-cache undercounting. NEVER measure against direct Lilac.
-jq '.providers.Lilac.baseUrl="http://127.0.0.1:4599/v1"' \
-  "$LIVE_AGENT/models.json" > "$VAGENT/models.json"
-ln -s "$LIVE_AGENT/auth.json"   "$VAGENT/auth.json"
-ln -s "$LIVE_AGENT/npm"         "$VAGENT/npm"
-
-# WORKAROUND (upstream pi-lean-ctx bug, #930 half-fix): when PI_CODING_AGENT_DIR
-# is set, pi-lean-ctx resolves its config as $PI_CODING_AGENT_DIR/agent/extensions/...
-# — note the DOUBLED "agent". Without a file there the bridge boots on defaults
-# (no replace mode) and the tool surface explodes (+~16k tok, found 2026-07-28).
+# pi-lean-ctx #930 compatibility path.
 mkdir -p "$VAGENT/agent/extensions/pi-lean-ctx"
-cp "$REPO/lean-ctx/pi-config.json" "$VAGENT/agent/extensions/pi-lean-ctx/config.json"
+cp "$ROOT/lean-ctx/pi-config.json" "$VAGENT/agent/extensions/pi-lean-ctx/config.json"
 
-# rtk.ts (live-only loose extension) was measured INERT on 2026-07-28 and dropped
-# from live: it hooks the `bash` tool, but context-mode `replace` removes `bash`
-# (the agent routes shell through ctx_shell). 0 tok fixed overhead, 0 runtime
-# effect (0 rtk rewrites in the workload session). A copy is preserved in
-# extensions-disabled/rtk.ts. No variant symlink needed.
+PI_AGENT_HOME="$VAGENT" bash "$ROOT/scripts/apply-package-patches.sh" >&2
+PI_AGENT_HOME="$VAGENT" node "$ROOT/scripts/verify-package-lock.mjs" >&2
 
-echo "$VAGENT"
+commit=$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo dirty)
+config_hash=$(sha256sum "$ROOT/settings.json" "$ROOT/APPEND_SYSTEM.md" "$ROOT/tscg.json" "$ROOT/packages.lock.json" | sha256sum | cut -c1-12)
+jq -n --arg commit "$commit" --arg configHash "$config_hash" --arg home "$VHOME" \
+  --slurpfile settings "$VAGENT/settings.json" --slurpfile lock "$ROOT/packages.lock.json" \
+  '{commit:$commit,configHash:$configHash,variantHome:$home,settings:$settings[0],packages:$lock[0]}' > "$VHOME/.pi/variant-manifest.json"
+printf '%s\n' "$VAGENT"

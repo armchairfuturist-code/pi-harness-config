@@ -214,18 +214,11 @@ Computer" as a content/brand surface, not a dependency.
 
 ## Mapping to this user's projects
 
-### Investment-Engine (Python MCP)
-The MCP server is naturally **a node** (or a tool a node calls). A useful graph:
-`market-analysis` (fan-out sub-analyses in parallel) → `portfolio-builder`
-(calls the Investment-Engine MCP, reads analysis from the SharedStore) →
-`risk-review` (gate: rejects and loops back to portfolio-builder if constraints
-breached) → `report`. The SharedStore carries the portfolio state so the risk
-node and the report node both read it without re-piping.
+### Generic service orchestration
+Treat an external service as a node or a tool called by one node. Use `parallel-analysis → builder → constraint-review` with a gate back to the builder on failure, then report from SharedStore state.
 
-See `examples/investment-engine-dag.js` for this exact 3-node DAG with shared
-state and a convergence gate.
+### Generic branching-review example
 
-### novel-writer-harness
 A textbook branching review loop (DAG + back-edge):
 `research → outline → draft → review → (revise back to draft until gate passes)
 → polish`. `research` fans out in parallel; `draft↔review` is a `gate` cycle;

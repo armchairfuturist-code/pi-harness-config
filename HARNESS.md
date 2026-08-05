@@ -1,88 +1,44 @@
 # Pi agent harness contract
 
-Source of truth for **agent-home** behavior. Installed/live path: `~/.pi/agent/HARNESS.md`.
-Project/workspace maps belong in `AGENTS.md` (short). `APPEND_SYSTEM.md` is a thin CE-lite strip only.
+Source of truth for reusable agent-home behavior. Project rules belong in each project's `AGENTS.md`. `APPEND_SYSTEM.md` stays a thin CE-lite dispatch hook.
 
-## Skills policy
+## Skills
 
-| Class | Rule |
-|-------|------|
-| **Always available** | All on-disk skills under `skills/` may load when invoked / matched |
-| **On-demand / manual** | Large skills (e.g. `last30days`) are **not always-on context**. They cost tokens only when the skill is actually loaded/used. Do not deny them solely for SKILL.md size. |
-| **Denied** | None by default. Prefer slim entry files over denylists when a skill is truly always-injected. |
+On-disk skills are lazy: they may load when invoked or matched, but their bodies do not belong in the fixed prompt. Keep entry metadata concise and move detail to references. Do not use skill denylists as a token optimization without a measured regression.
 
-- CE-lite orchestrates triggers (`APPEND_SYSTEM.md`).
-- `last30days` tools also ship via package; skill entry is OK to enable because load is manual/on-demand.
-- Keep top-level `SKILL.md` files lean when practical; move bulk to `references/` for maintainability (not because idle size burns tokens).
+CE-lite is the operator-facing orchestrator. Diagnostic and specialist skills remain on demand. Optional package profiles live under `~/.pi/profiles/`:
 
-### Skill triage (high level)
+- `research` — recent-discourse tools; adds fixed tool schemas while enabled.
+- `audit` — Better Harness slash-command review.
 
-| Always useful | On-demand | Meta / audit |
-|---------------|-----------|--------------|
-| ce-lite, better-harness | last30days, invest-optimizer, research skills | harness-doctor, poor-mans-distill, context-rot-forensics, shard-security, graph-engineering |
-| pi-dynamic-workflows (pkg) | domain skills under skills/ | codebase-audit via workflow tool |
+## Tool execution
 
-## Tool execution policy
+1. Prefer `ctx_read`, `ctx_edit`, `ctx_execute`, `ctx_batch_execute`, `ctx_grep`, `ctx_find`, and `ctx_ls` over raw shell.
+2. Never run inline interpreters or shell heredocs into interpreters; write a script, then run it.
+3. After an edit miss, re-read the exact slice and never retry identical stale text.
+4. Verify multi-file changes with the cheapest relevant parse, search, test, or build.
+5. After a shell policy block, change tool strategy instead of repeating it.
 
-1. Prefer `ctx_read` / `ctx_edit` / `ctx_execute` / `ctx_batch_execute` / `ctx_grep` / `ctx_find` / `ctx_ls` over raw shell.
-2. Never `python -c`, `python3 -c`, or shell heredoc into interpreters. Write a script file, then run it.
-3. On edit "could not find": **never** retry identical text. Re-read the slice; or `sed`/`perl` via shell only when allowed.
-4. After multi-file edits: cheap verify (search, JSON parse, targeted test) before done.
-5. After first shell allowlist block: switch strategy; do not loop the same blocked shape.
-6. `lean-ctx allow` only for rare audited commands.
+`runtime-discipline.ts` injects recovery guidance only after an observed allowlist/edit failure. Long-session reminders use UI notifications rather than changing the system prompt.
 
-## Runtime discipline (enforced)
+## Enabled local extensions
 
-Extension `extensions/runtime-discipline.ts` injects systemPrompt nudges when:
+- `transcript-pruner.ts` — DEDUP, STALE, and CLEAR transcript pruning.
+- `session-index.ts` — extractive cross-session summaries without an LLM call.
+- `runtime-discipline.ts` — event-driven recovery and one-shot long-session notification.
 
-1. **Allowlist / interpreter block** — after lean-ctx permanent blocks (`python -c`, heredoc, etc.). Recovery: script file + ctx_* tools; never identical retry.
-2. **Edit miss** — after edit/ctx_edit context failures. Recovery: re-read slice; never identical old_string retry; cheap verify after multi-file edits.
-3. **Long session** — after 60 minutes, 24 user turns, or 3+ compactions: require status block (status/done_so_far/files/next/verify). On close: end checklist with verify artifact.
+Package-provided UI extensions are listed explicitly in `settings.json`. Domain-specific tools never belong in the generic default.
 
-Disable: `PI_RUNTIME_DISCIPLINE=0`. Thresholds: `PI_LONG_SESSION_MS`, `PI_LONG_SESSION_TURNS`, `PI_LONG_SESSION_COMPACTS`.
+## Context and session hygiene
 
-## Extensions (enabled)
+- Preserve the last few full tool results; prune older spent output without deleting final evidence.
+- Hand off before context health degrades; CE-lite owns thresholds and handoff content.
+- Keep the stable system prefix small. Event-specific guidance must not sit in `APPEND_SYSTEM.md`.
 
-settings.extensions should include:
+## Deployment and proof
 
-- pi-essentials: auto-session-name, auto-title, clipboard-image, compact-header, image-context-pruner, markdown-viewer
-- local: transcript-pruner, tool-trimmer, session-index, invest-tools, **runtime-discipline**
-
-If an extension is documented here, it must appear in `settings.json`. No half-wired paths.
-
-## Session hygiene
-
-- Sessions >60 minutes or 3+ compactions: mid-flight status + end checklist (done/blocked, files, verify).
-- Do not claim completion without a verification artifact when changes were made.
-- session-index writes extractive summaries under `memory/sessions/` on shutdown — keep that enabled.
-
-## Git / versioning
-
-Track harness **intent**, not runtime debris.
-
-| Track | Ignore |
-|-------|--------|
-| settings.json, HARNESS.md, AGENTS.md, APPEND_SYSTEM.md | sessions/ |
-| skills/** (text sources) | skills/**/assets/ (media binaries) |
-| agents/**, extensions source/config | npm/, node_modules/, .pi/, agent/git/ |
-| context-prune/** | .env*, logs, dist/build, __pycache__ |
-
-## Preflight
-
-Run before committing harness changes:
-
-```bash
-~/.pi/agent/scripts/harness-preflight.sh
-```
-
-Checks: settings.json parse, no blanket `!**` skills deny, HARNESS/APPEND present, extension paths resolve, skills dirs exist.
-
-## Inventory
-
-Regenerate after skill/extension/settings mutations:
-
-```bash
-python3 ~/.pi/agent/skills/harness-doctor/scripts/inventory.py
-```
-
-Writes `harness-inventory.json`. Optional — may be gitignored; command is the source of truth.
+- `settings.json`, `install.sh`, package lock, extension files, and benchmark inventory must agree.
+- Run `scripts/harness-preflight.sh` after settings, package, extension, or patch changes.
+- Run `bench/probe.sh` for fixed overhead and `bench/semantic-canary.sh` before changing TSCG compression.
+- Benchmark captures must record commit, config hash, package versions, effective TSCG config, and sorted tool names.
+- Package patches are version-gated and applied by `scripts/apply-package-patches.sh`; preflight fails when their signatures are missing.

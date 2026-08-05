@@ -1,61 +1,22 @@
 #!/usr/bin/env bash
-# harness-preflight — cheap gate for ~/.pi/agent harness intent
-set -euo pipefail
+set -uo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 AGENT="${PI_AGENT_HOME:-$HOME/.pi/agent}"
 ERR=0
-ok() { printf 'OK  %s\n' "$*"; }
-bad() { printf 'BAD %s\n' "$*"; ERR=1; }
+ok() { printf 'OK %s\n' "$*"; }
+bad() { printf 'BAD %s\n' "$*" >&2; ERR=1; }
 
-# settings.json
-if [[ ! -f "$AGENT/settings.json" ]]; then
-  bad "missing settings.json"
-else
-  if node -e "JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'))" "$AGENT/settings.json" 2>/dev/null; then
-    ok "settings.json parses"
-  else
-    bad "settings.json invalid JSON"
-  fi
-  if node -e "
-const s=JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));
-const sk=s.skills;
-if(Array.isArray(sk) && sk.some(x=>x==='!**'||x==='!***')) { console.error('blanket deny'); process.exit(2); }
-" "$AGENT/settings.json" 2>/dev/null; then
-    ok "skills filter has no blanket !**"
-  else
-    bad "skills filter contains blanket !** denylist"
-  fi
-fi
+if [[ -f "$ROOT/install.sh" ]]; then node "$ROOT/scripts/validate-manifest.mjs" && ok "repo manifest closes" || bad "repo manifest mismatch"; fi
+PI_PACKAGE_LOCK="$AGENT/packages.lock.json" node "$ROOT/scripts/verify-package-lock.mjs" && ok "package versions pinned" || bad "package lock mismatch"
+node "$ROOT/scripts/validate-live-settings.mjs" "$AGENT/settings.json" && ok "settings and extension paths resolve" || bad "settings/extension mismatch"
+for file in HARNESS.md APPEND_SYSTEM.md AGENTS.md; do [[ -f "$AGENT/$file" ]] && ok "$file present" || bad "$file missing"; done
 
-# contracts
-for f in HARNESS.md APPEND_SYSTEM.md AGENTS.md; do
-  if [[ -f "$AGENT/$f" ]]; then ok "$f present"; else bad "missing $f"; fi
-done
+CM="$AGENT/npm/node_modules/context-mode/build/adapters/pi"
+grep -q 'PI_HARNESS_ADMIN_TOOLS_REMOVED' "$CM/mcp-bridge.js" 2>/dev/null && ok "context-mode schema patch" || bad "context-mode schema patch missing"
+grep -q 'PI_HARNESS_ADMIN_ROUTING_REMOVED' "$CM/extension.js" 2>/dev/null && ok "context-mode routing patch" || bad "context-mode routing patch missing"
+grep -q 'PI_HARNESS_TSCG_DEEP' "$AGENT/npm/node_modules/pi-tscg/extensions/tscg.ts" 2>/dev/null && ok "TSCG recursive patch" || bad "TSCG recursive patch missing"
 
-# extensions resolve
-if [[ -f "$AGENT/settings.json" ]]; then
-  node -e "
-const fs=require('fs'); const path=require('path'); const os=require('os');
-const s=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));
-const exts=s.extensions||[];
-let bad=0;
-for (const e of exts) {
-  const p=e.replace(/^~/, os.homedir());
-  if (!fs.existsSync(p)) { console.error('missing ext', e); bad++; }
-}
-process.exit(bad?2:0);
-" "$AGENT/settings.json" && ok "extension paths resolve" || bad "one or more extension paths missing"
-fi
+if grep -RqiE 'invest-tools|invest_pulse|invest_optimize|invest_risk|invest-optimizer' "$AGENT/settings.json" "$AGENT/APPEND_SYSTEM.md" "$AGENT/HARNESS.md" "$AGENT/extensions" 2>/dev/null; then bad "personal investment tooling present in active harness"; else ok "generic active harness"; fi
 
-# skills dir
-if [[ -d "$AGENT/skills" ]]; then
-  n=$(find "$AGENT/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-  ok "skills dirs: $n"
-else
-  bad "skills/ missing"
-fi
-
-if [[ "$ERR" -ne 0 ]]; then
-  echo "preflight FAILED" >&2
-  exit 1
-fi
+[[ "$ERR" -eq 0 ]] || { echo "preflight FAILED" >&2; exit 1; }
 echo "preflight OK"

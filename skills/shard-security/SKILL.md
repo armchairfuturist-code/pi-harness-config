@@ -1,36 +1,22 @@
 ---
 name: shard-security
-description: "SHaD security controls for sandboxing pi sessions, project-local permissions, and credential hygiene — applied to Investment-Engine and similar projects."
+description: Apply OS sandboxing, project-local tool permissions, and credential hygiene to sensitive Pi sessions.
 ---
-# SHaD Security Controls Skill
+# Shard security
 
-Reference: `ASSESSMENT.md` in this directory for full analysis.
+Use when a project handles credentials, production APIs, private data, or destructive operations.
 
-## Quick Actions for Investment-Engine
+## Procedure
 
-### 1. Sandbox pi sessions with bubblewrap
-```bash
-~/.pi/scripts/pi-sandbox.sh ~/Investment-Engine
-```
-(Create the script from ASSESSMENT.md Priority 1)
+1. Identify assets, trust boundaries, required network access, and irreversible commands.
+2. Prefer an OS sandbox (`bwrap`) with the project writable and unrelated paths read-only.
+3. Add project-local deny rules for destructive commands and external side effects.
+4. Keep credentials outside prompts and repositories; restrict secret-file permissions.
+5. Run the task in dry-run/staging mode before granting production access.
+6. Verify denied operations fail and required safe operations still work.
 
-### 2. Project-local permissions
-Create `~/Investment-Engine/.pi/permissions.json` with trading API deny rules (see ASSESSMENT.md Priority 2)
+## Boundaries
 
-### 3. Protect credentials
-```bash
-chmod 600 ~/Investment-Engine/.env ~/Investment-Engine/credentials/*
-```
-
-## What You Already Have
-- **lean-ctx** = better than SHaD's tool restriction (blocks interpreters, inline code, has allowlist)
-- **Skills are clean** — no dangerous patterns in ce-lite, harness-doctor, impeccable
-
-## What You're Missing
-- **OS sandboxing** — bwrap is installed but unused. Kernel-level protection is the only irreversible control.
-- **Project-local permissions** — no per-project deny rules for trading APIs
-- **Skill scanning** — defer unless installing untrusted skills
-
-## Source
-- Paper: arxiv.org/html/2607.25890v1
-- Repo: github.com/wrgore/shard-demo (research artifact, macOS-targeted, not for production)
+- lean-ctx handles general shell restrictions; project rules add domain-specific controls.
+- Never hard-code one project's paths, vendors, APIs, or credentials in this reusable skill.
+- Network isolation and API access are mutually constraining: authorize only the minimum needed route.
