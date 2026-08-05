@@ -73,6 +73,25 @@ Update the patch anchors in `patches/` and the version in `packages.lock.json`.
 ./bench/semantic-canary.sh
 ```
 
+## Token floor
+
+Measured with `Lilac/zai-org/glm-5.2` through a cold-gated capture proxy.
+"Reply with exactly: OK" single-request floor (input + cacheRead + cacheWrite).
+
+| Config | Tokens | Tools | Date | Source |
+|---|---|---|---|---|
+| OMP v16.4.3 | ~16,800 | 11 | 2026-07-22 | `docs/wayfinder-agents-optimization.md` |
+| Pi pre-CE-lite | 5,789 | ~25 | 2026-07-27 | commit `c9cd69f` message |
+| Pi CE-lite baseline | 4,014 | ~22 | 2026-07-27 | commit `c9cd69f` |
+| Pi drifted master | 5,750 | 31 | 2026-08-05 | commit `93ec746` |
+| **Pi optimized (this repo)** | **3,757** | **17** | **2026-08-05** | **commit `68a7080`** |
+
+OMP figure is per-request average across a 3-request task (different
+methodology — multi-request total / 3). All Pi figures are single-request
+floors with identical probe methodology.
+
+**Result: 3,757 tokens — 78% below OMP, 6% below prior CE-lite best, 35% below drifted master.**
+
 The probe writes raw captures and manifests under `.scratch/` (gitignored). It fails unless exactly one request succeeds and the payload excludes domain, research-profile, and context-admin schemas.
 
 ## Extensions
