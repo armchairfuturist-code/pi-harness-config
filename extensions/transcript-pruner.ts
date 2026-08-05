@@ -59,21 +59,24 @@ export default function transcriptPruner(pi: ExtensionAPI) {
  };
  const replaceText = (msg: any, text: string): boolean => {
   if (!msg || typeof msg !== "object") return false;
+  const original = textOf(msg.content);
+  if (original.length <= text.length) return false;
   if (Array.isArray(msg.content)) {
-   let replaced = false;
-   msg.content = msg.content.map((b: any) => {
-    if (b && typeof b === "object" && b.type === "text") {
-     replaced = true;
-     return { type: "text", text, textSignature: undefined };
-    }
-    return b;
-   });
-   if (!replaced) msg.content.push({ type: "text", text });
+    let replaced = false;
+    msg.content = msg.content.flatMap((block: any) => {
+      if (block && typeof block === "object" && block.type === "text") {
+        if (replaced) return [];
+        replaced = true;
+        return [{ type: "text", text, textSignature: undefined }];
+      }
+      return [block];
+    });
+    if (!replaced) msg.content.push({ type: "text", text });
   } else {
-   msg.content = [{ type: "text", text }];
+    msg.content = [{ type: "text", text }];
   }
   return true;
- };
+};
  const debug = (line: string): void => {
   const logPath = process.env.PI_PRUNE_LOG;
   if (!logPath) return;
@@ -245,8 +248,8 @@ export default function transcriptPruner(pi: ExtensionAPI) {
     normP = typeof rawPath === "string" ? normPath(rawPath, ctx?.cwd) : undefined;
     contentRead = name === "read" || name === "ctx_read" || name === "ctx_grep";
    }
-   if (stale && PATH_READ_TOOLS.has(name) && normP !== undefined && (lastWrite.get(normP) ?? -1) > i) {
-    if (replaceText(m, `[stale: ${normP} changed at msg ${(lastWrite.get(normP) ?? 0) + 1}; re-read]`)) {
+   if (stale && PATH_READ_TOOLS.has(name) && normP !== undefined && (lastWrite.get(normP) ?? -1) > i + 3) {
+    if (replaceText(m, `[stale: ${normP}; changed at msg ${(lastWrite.get(normP) ?? 0) + 1}; re-read]`)) {
      changed.push({ msg: m, idx: i, kind: "stale" });
     }
     continue;
