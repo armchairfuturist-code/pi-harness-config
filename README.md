@@ -39,22 +39,18 @@ Profiles are functional additions, not default-kernel claims. Re-run the probe a
 ```fish
 git clone https://github.com/armchairfuturist-code/pi-harness-config
 cd pi-harness-config
-
-# Install the pinned default package set once (see packages.lock.json).
-pi install npm:@ogulcancelik/pi-model-thinking@0.1.0 \
-  npm:@plannotator/pi-extension@0.25.1 npm:cc-safety-net@1.0.6 \
-  npm:context-mode@1.0.169 npm:pi-autoresearch@1.6.2 \
-  npm:pi-cache-graph@1.0.2 npm:pi-cache-optimizer@2.8.0 \
-  npm:pi-context-usage@1.0.2 npm:pi-continue@0.9.3 \
-  npm:pi-herdr-btw@0.3.0 npm:pi-lean-ctx@3.9.17 \
-  npm:pi-slim@0.2.1 npm:pi-tscg@0.2.4 \
-  npm:@quintinshaw/pi-dynamic-workflows@3.5.0 \
-  npm:@samfp/pi-essentials@0.2.3
-
-./install.sh                 # deploy generic kernel; preserve live provider/model
-./install.sh --settings      # use repo provider/model defaults too
+./install.sh                        # install packages + deploy kernel; preserve live provider/model
 ./scripts/harness-preflight.sh
 ```
+
+`install.sh` reads `packages.lock.json` and runs `pi install` with exact
+pinned versions, then copies all config, extensions, skills, and patches into
+`~/.pi/agent/`, removes obsolete files, and applies the version-gated patches.
+
+Flags:
+- `--settings` — also overwrite provider/model with repo defaults
+- `--skip-packages` — skip `pi install` (use when packages are already installed)
+- `--check` — dry-run: report drift without writing
 
 ## Verify
 

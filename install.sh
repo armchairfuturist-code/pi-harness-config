@@ -5,9 +5,33 @@ HOME_DIR="${HOME:?HOME not set}"
 AGENT="$HOME_DIR/.pi/agent"
 CHECK=false
 SETTINGS=false
+SKIP_PACKAGES=false
 for arg in "$@"; do
-  case "$arg" in --check) CHECK=true;; --settings) SETTINGS=true;; *) echo "usage: $0 [--check] [--settings]" >&2; exit 2;; esac
+  case "$arg" in
+    --check)          CHECK=true;;
+    --settings)       SETTINGS=true;;
+    --skip-packages)  SKIP_PACKAGES=true;;
+    *) echo "usage: $0 [--check] [--settings] [--skip-packages]" >&2; exit 2;;
+  esac
 done
+
+# --- Install pinned npm packages from packages.lock.json -------------------
+if ! $CHECK && ! $SKIP_PACKAGES; then
+  if ! command -v pi >/dev/null 2>&1; then
+    echo "[FAIL] pi not found on PATH — install pi first" >&2; exit 1
+  fi
+  PACKS=$(jq -r 'to_entries[] | "npm:\(.key)@\(.value)"' "$ROOT/packages.lock.json" | tr '\n' ' ')
+  if [[ -z "$PACKS" ]]; then
+    echo "[FAIL] packages.lock.json is empty" >&2; exit 1
+  fi
+  echo "[ .. ] installing $(echo "$PACKS" | wc -w) pinned packages…"
+  pi install $PACKS
+  echo "[ OK ] packages installed"
+elif $CHECK && ! $SKIP_PACKAGES; then
+  PI_AGENT_HOME="$AGENT" node "$ROOT/scripts/verify-package-lock.mjs" >/dev/null 2>&1 \
+    && echo "[ OK ] package versions" \
+    || { echo "[DIFF] package versions — run: ./install.sh"; fail=1; }
+fi
 
 # Always deploy/check the generic kernel. By default preserve machine-local
 # provider/model routing; --settings requests the repo defaults verbatim.
