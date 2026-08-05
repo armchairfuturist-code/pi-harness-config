@@ -5,6 +5,7 @@ MODEL="${PROBE_MODEL:-Lilac/zai-org/glm-5.2}"
 PORT="${PI_BENCH_PORT:-4599}"
 LABEL="semantic-$(date +%s)-$$"
 export PI_BENCH_PORT="$PORT" PI_BENCH_LABEL="$LABEL" PI_BENCH_CAPTURE_DIR="${PI_BENCH_CAPTURE_DIR:-$ROOT/.scratch/captures}"
+
 bash "$ROOT/bench/proxy.sh" ensure
 VAGENT=$(bash "$ROOT/bench/build-variant.sh")
 VHOME=$(cd "$VAGENT/../.." && pwd)
