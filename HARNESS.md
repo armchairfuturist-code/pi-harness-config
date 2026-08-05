@@ -1,36 +1,78 @@
 # Pi agent harness contract
 
-Installed to `~/.pi/agent/HARNESS.md`. Project-level guidance stays in `AGENTS.md` (workspace map).
+Source of truth for **agent-home** behavior. Installed/live path: `~/.pi/agent/HARNESS.md`.
+Project/workspace maps belong in `AGENTS.md` (short). `APPEND_SYSTEM.md` is a thin CE-lite strip only.
 
 ## Skills policy
 
-- On-disk skills under `skills/` are in-policy **except** `last30days` until its `SKILL.md` is slimmed (~217KB is too large to always-load).
-- `settings.json` → `skills: ["!**/last30days/**"]`. Do **not** reintroduce blanket `!**`.
-- CE-lite is the default orchestrator (`APPEND_SYSTEM.md` triggers).
-- last30days **tools** may still come from the package; deny only the fat skill entry until slimmed (~5–8KB top-level + `references/`).
+| Class | Rule |
+|-------|------|
+| **Always available** | All on-disk skills under `skills/` may load when invoked / matched |
+| **On-demand / manual** | Large skills (e.g. `last30days`) are **not always-on context**. They cost tokens only when the skill is actually loaded/used. Do not deny them solely for SKILL.md size. |
+| **Denied** | None by default. Prefer slim entry files over denylists when a skill is truly always-injected. |
+
+- CE-lite orchestrates triggers (`APPEND_SYSTEM.md`).
+- `last30days` tools also ship via package; skill entry is OK to enable because load is manual/on-demand.
+- Keep top-level `SKILL.md` files lean when practical; move bulk to `references/` for maintainability (not because idle size burns tokens).
+
+### Skill triage (high level)
+
+| Always useful | On-demand | Meta / audit |
+|---------------|-----------|--------------|
+| ce-lite, better-harness | last30days, invest-optimizer, research skills | harness-doctor, poor-mans-distill, context-rot-forensics, shard-security, graph-engineering |
+| pi-dynamic-workflows (pkg) | domain skills under skills/ | codebase-audit via workflow tool |
 
 ## Tool execution policy
 
 1. Prefer `ctx_read` / `ctx_edit` / `ctx_execute` / `ctx_batch_execute` / `ctx_grep` / `ctx_find` / `ctx_ls` over raw shell.
 2. Never `python -c`, `python3 -c`, or shell heredoc into interpreters. Write a script file, then run it.
-3. On edit "could not find" / context miss: **never** retry identical text. Re-read the exact slice, then edit; or fall back to `sed`/`perl` via shell only when policy allows.
-4. After multi-file edits: cheap verify (search, JSON parse, targeted test) before claiming done.
-5. After the first shell allowlist block: switch strategy; do not loop the same blocked shape.
+3. On edit "could not find": **never** retry identical text. Re-read the slice; or `sed`/`perl` via shell only when allowed.
+4. After multi-file edits: cheap verify (search, JSON parse, targeted test) before done.
+5. After first shell allowlist block: switch strategy; do not loop the same blocked shape.
 6. `lean-ctx allow` only for rare audited commands.
 
-## Git / versioning (this repo)
+## Extensions (enabled)
 
-Track harness **intent** in this repo; live machine paths are `~/.pi/agent` via `install.sh`.
+settings.extensions should include:
 
-| Track in repo | Do not commit |
-|---------------|---------------|
-| `APPEND_SYSTEM.md`, `HARNESS.md`, skills, extensions source | sessions, npm caches |
-| `settings.json` (template; install optional) | secrets, `models.json`, auth |
-| workflows, lean-ctx configs, memory notes | binary assets, `.env` |
+- pi-essentials: auto-session-name, auto-title, clipboard-image, compact-header, image-context-pruner, markdown-viewer
+- local: transcript-pruner, tool-trimmer, session-index, invest-tools
 
-`settings.json` is **optional** on install (`./install.sh --settings`) because provider/model differ per machine. Skills filter should stay shared.
+If an extension is documented here, it must appear in `settings.json`. No half-wired paths.
 
 ## Session hygiene
 
 - Sessions >60 minutes or 3+ compactions: mid-flight status + end checklist (done/blocked, files, verify).
 - Do not claim completion without a verification artifact when changes were made.
+- session-index writes extractive summaries under `memory/sessions/` on shutdown — keep that enabled.
+
+## Git / versioning
+
+Track harness **intent**, not runtime debris.
+
+| Track | Ignore |
+|-------|--------|
+| settings.json, HARNESS.md, AGENTS.md, APPEND_SYSTEM.md | sessions/ |
+| skills/** (text sources) | skills/**/assets/ (media binaries) |
+| agents/**, extensions source/config | npm/, node_modules/, .pi/, agent/git/ |
+| context-prune/** | .env*, logs, dist/build, __pycache__ |
+
+## Preflight
+
+Run before committing harness changes:
+
+```bash
+~/.pi/agent/scripts/harness-preflight.sh
+```
+
+Checks: settings.json parse, no blanket `!**` skills deny, HARNESS/APPEND present, extension paths resolve, skills dirs exist.
+
+## Inventory
+
+Regenerate after skill/extension/settings mutations:
+
+```bash
+python3 ~/.pi/agent/skills/harness-doctor/scripts/inventory.py
+```
+
+Writes `harness-inventory.json`. Optional — may be gitignored; command is the source of truth.

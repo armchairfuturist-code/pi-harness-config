@@ -28,3 +28,7 @@ npm/
 node_modules/
 **/__pycache__/
 **/*.py[cod]
+skills/**/assets/
+agent/git/
+memory/
+scripts/harness-preflight.sh.bak

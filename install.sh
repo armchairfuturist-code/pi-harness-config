@@ -37,6 +37,7 @@ done
 read -r -d '' MANIFEST <<'MANIFEST_EOF' || true
 APPEND_SYSTEM.md|PI_AGENT/APPEND_SYSTEM.md|
 HARNESS.md|PI_AGENT/HARNESS.md|
+scripts/harness-preflight.sh|PI_AGENT/scripts/harness-preflight.sh|
 tscg.json|PI_HOME/tscg.json|
 extensions/session-index.ts|PI_AGENT/extensions/session-index.ts|
 extensions/transcript-pruner.ts|PI_AGENT/extensions/transcript-pruner.ts|
