@@ -52,6 +52,18 @@ Flags:
 - `--skip-packages` — skip `pi install` (use when packages are already installed)
 - `--check` — dry-run: report drift without writing
 
+## After `pi update --all`
+
+`pi update` overwrites patched files in `node_modules/`. Re-apply patches:
+
+```fish
+./install.sh --skip-packages    # re-deploys config + re-applies patches
+./scripts/harness-preflight.sh  # verify patches are present
+```
+
+If preflight reports a missing patch, the upstream source shape changed.
+Update the patch anchors in `patches/` and the version in `packages.lock.json`.
+
 ## Verify
 
 ```fish
