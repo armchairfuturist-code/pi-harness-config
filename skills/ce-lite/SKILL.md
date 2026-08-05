@@ -1,6 +1,6 @@
 ---
 name: ce-lite
-description: Non-trivial work router: grill → contract → plan → execute → verify → compound. Trivial requests answered directly.
+description: "Non-trivial work router: grill, contract, plan, execute, verify, compound. Trivial requests answered directly."
 ---
 
 # CE-lite
@@ -30,9 +30,9 @@ Completion: every request has one base route plus every applicable overlay.
 
    | Context high | Action high | Topology |
    |---|---|---|
-   | ✓ | — | index/search, selective reading, proactive handoff |
-   | — | ✓ | workflow fan-out |
-   | ✓ | ✓ | isolated workers with separate context budgets + indexing/compaction |
+   | yes | — | index/search, selective reading, proactive handoff |
+   | — | yes | workflow fan-out |
+   | yes | yes | isolated workers with separate context budgets + indexing/compaction |
    | — | — | direct execution |
 
    Invoke a workflow when: two or more independent workstreams can run concurrently; a fresh-context reviewer/judge is required; or work crosses a handoff boundary. Otherwise execute directly.
@@ -40,7 +40,7 @@ Completion: every request has one base route plus every applicable overlay.
 5. **Execute** — route mechanical leaves to `small`, workers/reviewers to `medium`, hard synthesis to `big`. Use custom `agent()`/`parallel()`/`phase()` graphs only after reading `workflow-authoring`. Keep intermediate material in workflow variables.
    *Done*: every worker returns the six-field result contract (see `reference.md`); changed paths remain in scope.
 
-6. **Verify** — maintain one evidence matrix: term ID → current evidence → pass/fail. Give the complete matrix and deliverable to a reviewer. Fix failed terms and repeat affected checks.
+6. **Verify** — maintain one evidence matrix: term ID, current evidence, pass/fail. Give the complete matrix and deliverable to a reviewer. Fix failed terms and repeat affected checks.
    For judgment over gathered evidence, run gather-judge (see `gather-judge.md`).
    *Done*: every term row says pass and cites current evidence; unresolved risks named and reported as incomplete or qualified.
 
@@ -59,7 +59,7 @@ Completion: every request has one base route plus every applicable overlay.
 
 ## Context health
 
-Hand off while context is healthy when: a journaled workflow completes three phases with more remaining; context reaches ~28% with rot score ≥70 or 40% hard ceiling; the model changes; reasoning drifts; or two tool errors occur within five turns.
+Hand off while context is healthy when: a journaled workflow completes three phases with more remaining; context reaches ~28% with rot score >=70 or 40% hard ceiling; the model changes; reasoning drifts; or two tool errors occur within five turns.
 
 Write `.scratch/HANDOFF.md` per `context-health.md`. Consolidate memory first after memory-heavy work. Resume from the handoff and `resumeFromRunId`.
 
