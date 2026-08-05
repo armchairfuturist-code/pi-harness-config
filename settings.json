@@ -33,7 +33,8 @@
     "~/.pi/agent/extensions/transcript-pruner.ts",
     "~/.pi/agent/extensions/tool-trimmer.ts",
     "~/.pi/agent/extensions/session-index.ts",
-    "~/.pi/agent/extensions/invest-tools.ts"
+    "~/.pi/agent/extensions/invest-tools.ts",
+    "~/.pi/agent/extensions/runtime-discipline.ts"
   ],
   "defaultThinkingLevel": "high",
   "steeringMode": "all",
