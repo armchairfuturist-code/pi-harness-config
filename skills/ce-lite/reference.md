@@ -66,3 +66,16 @@ When in doubt during wayfinding, grill (see `grilling.md`) and model the domain 
 5. Still never name the skill to the operator.
 
 If no row matches: stay in ce-lite. Do not hunt the catalog mid-flight.
+
+## Worker result contract
+
+End every workflow worker prompt with this contract and pass the same shape as its schema when JavaScript consumes it:
+
+- `outcome` — 1–3 sentences
+- `evidence` — checkable excerpts, paths, or citations
+- `changes` — paths only
+- `decisions` — choice and reason, especially deviations
+- `failures_risks` — failed or unverified items
+- `new_tasks` — discovered follow-up work
+
+Keep transcripts in the workflow journal. Every worker returns all six fields; changed paths remain in scope; every deviation, failure, risk, and new task has a recorded destination.

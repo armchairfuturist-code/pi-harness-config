@@ -6,7 +6,11 @@ Source of truth for reusable agent-home behavior. Project rules belong in each p
 
 On-disk skills are lazy: they may load when invoked or matched, but their bodies do not belong in the fixed prompt. Keep entry metadata concise and move detail to references. Do not use skill denylists as a token optimization without a measured regression.
 
-CE-lite is the operator-facing orchestrator. Diagnostic and specialist skills remain on demand. Optional package profiles live under `~/.pi/profiles/`:
+CE-lite is the operator-facing orchestrator. Diagnostic and specialist skills remain on demand.
+
+**Maintenance rule:** any skill add, rename, or remove triggers a CE-lite routing review — check the route-selection table in `reference.md` and the specialist-references list in `SKILL.md`.
+
+Optional package profiles live under `~/.pi/profiles/`:
 
 - `research` — recent-discourse tools; adds fixed tool schemas while enabled.
 - `audit` — Better Harness slash-command review.
