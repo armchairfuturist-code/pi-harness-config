@@ -29,14 +29,15 @@
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts"
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts",
+    "~/.pi/agent/extensions/transcript-pruner.ts",
+    "~/.pi/agent/extensions/tool-trimmer.ts",
+    "~/.pi/agent/extensions/session-index.ts",
+    "~/.pi/agent/extensions/invest-tools.ts"
   ],
   "defaultThinkingLevel": "high",
   "steeringMode": "all",
   "hideThinkingBlock": true,
-  "skills": [
-    "!**/last30days/**"
-  ],
   "compaction": {
     "reserveTokens": 24000,
     "keepRecentTokens": 20000
