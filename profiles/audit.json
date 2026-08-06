@@ -2,6 +2,5 @@
   "name": "audit",
   "description": "Better Harness durable workflow review; optional slash-command capability.",
   "packages": [
-    "npm:@qoder-ai/better-harness@0.5.0"
   ]
 }
