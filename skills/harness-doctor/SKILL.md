@@ -42,12 +42,13 @@ Exit 0 = green, 1 = any FAIL. First run caught 4 broken shims.
 
 ### 4. Trajectory metrics — `scripts/trajectory_metrics.py`
 `--days N` / `--session FILE`: tool errors classified by harness layer (env_path /
-tool_interface / mcp_bridge / policy / other) + retry-loop count. Baseline 2026-07-30:
-903 errors/30d (env_path 203, tool_interface 166, policy 115, mcp_bridge 38).
+tool_interface / mcp_bridge / policy / other) + retry-loop count. Baseline 2026-08-07:
+1374 errors/30d (env_path 218, tool_interface 248, policy 214, mcp_bridge 96), retry_loops 6296.
+Prior baseline 2026-07-30: 903 errors/30d (env_path 203, tool_interface 166, policy 115, mcp_bridge 38).
 
 ### 5. Config hash — `scripts/config_hash.py`
 12-char hash over settings/models/APPEND_SYSTEM/tscg/package.json/extensions. Record in
-every benchmark result; any change = canary suite re-run (survey §8.6.1). Baseline: `bcb8dff8f834`.
+every benchmark result; any change = canary suite re-run (survey §8.6.1). Baseline: `7aec62dd4a62` (2026-08-07; prior `bcb8dff8f834`).
 
 ### 6. Prefix-stability audit — `scripts/prefix_audit.py`
 Reads `~/bench-systima/captures/<lane>/*.json`: per-lane distinct system-prefix hashes,
