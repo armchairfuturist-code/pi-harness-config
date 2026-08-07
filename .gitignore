@@ -1,6 +1,7 @@
 # Secrets — never commit
 auth.json
 models-store.json
+web-search.json
 *.key
 *.pem
 
@@ -26,6 +27,8 @@ models.json
 sessions/
 npm/
 node_modules/
+context-mode/
+workflows/projects/
 **/__pycache__/
 **/*.py[cod]
 skills/**/assets/
