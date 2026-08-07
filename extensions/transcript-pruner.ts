@@ -86,7 +86,23 @@ export default function transcriptPruner(pi: ExtensionAPI) {
    fs.appendFileSync(logPath, `${new Date().toISOString()} ${line}\n`);
   } catch { /* debug logging is best-effort */ }
  };
- const normPath = (p: string, cwd?: string): string => {
+ // Structured runtime-prune state sink. The CLEAR/DEDUP/STALE rewrites happen on a
+// context clone that is NEVER persisted to the saved JSONL, so a disk-scan metric
+// cannot see them and undercounts clearing. Emit one JSON line per pruning event here
+// so context_growth.py (or any audit) can read the true runtime clearing. (Measurement-
+// gap fix, 2026-08-07.)
+const sink = (line: string): void => {
+  const p = process.env.PI_PRUNE_STATE;
+  if (!p) return;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const fs = require("node:fs");
+    const pathMod = require("node:path");
+    fs.mkdirSync(pathMod.dirname(p), { recursive: true });
+    fs.appendFileSync(p, line + "\n");
+  } catch { /* best-effort */ }
+};
+const normPath = (p: string, cwd?: string): string => {
   try {
    return cwd ? path.resolve(cwd, p) : p;
   } catch {
@@ -311,6 +327,7 @@ export default function transcriptPruner(pi: ExtensionAPI) {
       if (replaceText(m, `[cleared: ${label} — ${n} chars; see earlier turns or re-read]`)) {
         changed.push({ msg: m, idx: i, kind: "clear" });
       }
+      sink(JSON.stringify({ ts: new Date().toISOString(), kind: "clear", count: 1, bytes: n }));
     }
   }
 

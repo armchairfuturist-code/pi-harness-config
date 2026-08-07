@@ -28,3 +28,4 @@ Authoritative sources on this machine:
 1. After any install/remove: re-run detection, update this file.
 2. Decline non-existent harness targets in installers (`.cursor` ghost made agents believe Cursor existed).
 3. npm uninstalls leave empty `@scope` dirs — ignore them, they are not tools.
+4. **Metrics baseline (2026-08-07 audit)**: config_hash `7aec62dd4a62` (was `bcb8dff8f834`); tool_errors 1374/30d (was 903, +52%); retry_loops 6296/30d; uncleared >2KB toolResults 2985 (disk metric — runtime clearing higher via transcript-pruner); `PI_PRUNE_KEEP=3` (was default 4). Canary re-run triggered by hash drift.

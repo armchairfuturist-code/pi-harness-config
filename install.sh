@@ -71,6 +71,7 @@ extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|
 extensions/runtime-discipline.ts|__AGENT__/extensions/runtime-discipline.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|
+lean-ctx/env.tuning.sh|__LEAN_HOME__/env.tuning.sh|
 workflows/model-tiers.json|__PI_HOME__/workflows/model-tiers.json|
 workflows/saved/memory-consolidate.json|__PI_HOME__/workflows/saved/memory-consolidate.json|
 workflows/saved/gather-judge-split.js|__PI_HOME__/workflows/saved/gather-judge-split.js|

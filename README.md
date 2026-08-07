@@ -52,6 +52,20 @@ Flags:
 - `--skip-packages` — skip `pi install` (use when packages are already installed)
 - `--check` — dry-run: report drift without writing
 
+### Editing this repo (sync direction)
+The **top level of this repo is the source of truth.** `install.sh` deploys it into
+`~/.pi/agent/` — the *live* harness runtime, which is not committed (it holds generated
+`sessions/`, `npm/`, `node_modules/`, etc.).
+
+- **To change config:** edit the top-level source (`extensions/`, `memory/`, `settings.json`,
+  `skills/`, …), re-deploy with `./install.sh --skip-packages`, verify with
+  `./scripts/harness-preflight.sh`, then commit + push. Do not edit `~/.pi/agent/` directly —
+  a later `install.sh` would overwrite it.
+- **If you edited `~/.pi/agent/` live:** copy the file back to the matching top-level path
+  first, then deploy. Example: `cp ~/.pi/agent/extensions/transcript-pruner.ts extensions/transcript-pruner.ts`
+- **Runtime env vars** (pruner + lean-ctx tuning) are machine-level shell exports, not agent
+  config — see [`lean-ctx/env.tuning.sh`](lean-ctx/env.tuning.sh).
+
 ## After `pi update --all`
 
 `pi update` overwrites patched files in `node_modules/`. Re-apply patches:
@@ -110,6 +124,8 @@ The probe writes raw captures and manifests under `.scratch/` (gitignored). It f
 - `APPEND_SYSTEM.md` — thin CE-lite hook
 - `HARNESS.md` — reusable policy source of truth
 - `extensions/` — generic local extensions only
+- `lean-ctx/` — lean-ctx config; `env.tuning.sh` holds the machine-level shell exports
+  (transcript-pruner + ephemeral-firewall tuning) applied via your shell rc
 - `scripts/` — install, patch, profile, and validation tools
 - `bench/` — isolated probe, capture proxy, and semantic canaries
 - `research/` — historical evidence; not injected into idle prompts
