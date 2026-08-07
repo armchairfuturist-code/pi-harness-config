@@ -85,7 +85,6 @@ skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
 skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 skills/poor-mans-distill|__AGENT__/skills/poor-mans-distill|dir
 skills/shard-security|__AGENT__/skills/shard-security|dir
-skills/workflow-authoring|__AGENT__/npm/node_modules/@quintinshaw/pi-dynamic-workflows/skills/workflow-authoring|dir
 scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
 scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
 EOF
