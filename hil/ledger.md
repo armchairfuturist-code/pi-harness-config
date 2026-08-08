@@ -381,3 +381,55 @@
 - **Learning:** (1) Variant assembly must copy extension *dependency dirs*, not a hardcoded `.ts` list — run a probe after any extension refactor as smoke test. (2) Live workload median carries ±25% run-to-run variance on live qwen-3-8-max; single-run workload deltas under ~8k tok are not evidence. (3) Absolute probe/workload numbers are comparable only within a config epoch; always re-baseline after pi upgrades or live-config drift.
 - **Open (next iter):** (a) live `tscg.json` missing → restore from repo (`cp tscg.json ~/.pi/agent/tscg.json`) and verify live tool-schema compression recovers ~1k tok/request; (b) auto-compaction characterization (Option B) still untouched; (c) consider a noise band for the workload gate in `verify.sh` (e.g. require Δ < −1500 tok or compare medians of ≥3 runs).
 - **Locked (unchanged):** KEEP=4, reserveTokens=24000, keepRecentTokens=20000, tscg aggressiveStripParamDesc (repo).
+
+## Iter 12 — TSCG strip efficacy + maxDescChars 30→20 (2026-08-08)
+
+### Change
+- **Measured** strip A/B on **repo** `tscg.json` (what `bench/build-variant.sh` copies — live `~/.pi/tscg.json` alone does **not** affect probe).
+- **One knob KEEP:** `aggressiveMaxDescChars: 30 → 20` (strip stays on). Repo + live updated.
+- **Not used:** `omitEmptyProperties` — **does not exist** in pi-tscg@0.1.5. Closest upstream is `pruneJsonOverhead` (default **true** already). HANDOFF candidate list was wrong on that name.
+
+### Strip efficacy (controlled probe A/B, same session)
+
+| config | toolSchemaChars | usage.total |
+|--------|-----------------|-------------|
+| strip ON, maxDesc=30 | **6701** | **2877** |
+| strip OFF, maxDesc=30 (truncate only) | 10682 | 3892 |
+| TSCG `enabled:false` | 36340 | 9683 |
+
+- strip ON vs OFF: **−3981 schema chars (−37%)**, **−1015 tok (−26%)** — confirms Iter 5 KEEP magnitude on current stack.
+- strip ON vs TSCG off: **−29639 schema (−81.5%)**, **−6806 tok (−70%)**.
+- Artifacts: `.scratch/bench-results/iter12-strip-ab-summary.json`, probes `hil-probe-iter12-strip-{on,off}`, `hil-probe-iter12-tscg-off`.
+
+### maxDescChars A/B (strip on)
+
+| maxDesc | toolSchemaChars | usage.total | systemChars |
+|---------|-----------------|-------------|-------------|
+| 30 | 6701 | 2876 | 3308 |
+| **20** | **6529** | **2834** | 3308 |
+
+- Δ: **−172 schema chars**, **−42 tok** (deterministic schema; token Δ small but same-session clean).
+- Artifact: `.scratch/bench-results/iter12-maxdesc-ab-summary.json`.
+
+### Observe / verify
+- Observe: `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` — probe 2832 / schema 6529 / system 3308; workload median **16364** (runs 21129, 16364, 16309).
+- Verify vs iter11 baseline: **ACCEPT** (`hil/verifications/20260808T071008-iter12-maxdesc20.json`) — probe Δ **+99** (system_chars noise 2876→3308 ate schema win on absolute total); workload Δ **−8592** (median noise; do not treat as causal maxDesc win).
+- Preflight: PASS. Patches present. KEEP=4 locked.
+
+### Verdict
+**KEEP** `aggressiveMaxDescChars: 20` on evidence of controlled A/B (schema −172). Gate ACCEPT is real but workload leg is noise-dominated; strip measurement is the main Iter 12 deliverable.
+
+### Learning
+1. **Probe reads repo `tscg.json` via build-variant**, not live home alone — always mutate both (or only repo) for bench A/B.
+2. `omitEmptyProperties` is a phantom knob; use real pi-tscg settings (`aggressiveMaxDescChars`, `aggressiveStripParamDesc`, `pruneJsonOverhead`, `profile`).
+3. Absolute probe totals swing with `systemChars` (~2876–3308); prefer `toolSchemaChars` + within-session A/B for TSCG knobs.
+4. Workload ±25% still true (24956 → 16364 without compaction change).
+
+### Open (next iter)
+- (a) auto-compaction characterization (Option B) still untouched.
+- (b) optional further maxDesc (20→0 or 10) only if tool-call quality canary stays green.
+- (c) verify.sh noise band still open (require multi-run median or ignore workload |Δ|<8k).
+- (d) document capture shape `request.body.tools` for future inspect scripts.
+
+### Locked (updated)
+KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · **aggressiveMaxDescChars=20** · path `~/.pi/tscg.json`

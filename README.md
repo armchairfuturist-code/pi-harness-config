@@ -57,6 +57,7 @@ set -gx LEAN_CTX_EPHEMERAL_MIN_TOKENS 1000
 | Compaction `reserveTokens` | **24000** | `settings.json` → `~/.pi/agent/settings.json` | Iter 7 left |
 | Compaction `keepRecentTokens` | **20000** | same | same |
 | TSCG aggressive strip | **true** | `tscg.json` → **`~/.pi/tscg.json`** (not under `agent/`) | Iter 5 KEEP |
+| TSCG `aggressiveMaxDescChars` | **20** | same | Iter 12 KEEP |
 | Extensions | pruner, session-index, runtime-discipline, **rot-sentinel** | `settings.json` + `extensions/*` | Iter 8–11 |
 | Packages | pins in `packages.lock.json` | `pi install` via install.sh | lockfile |
 
@@ -108,7 +109,7 @@ Packages list, extension paths, compaction, thinking level. Repo bench default p
 
 ### `tscg.json` — tool-schema compression
 
-**Path is `~/.pi/tscg.json`** (pi-tscg home root). Aggressive param-description strip is on.
+**Path is `~/.pi/tscg.json`** (pi-tscg home root). Aggressive param-description strip is on; `aggressiveMaxDescChars` **20** (Iter 12). Repo `tscg.json` is what probe/build-variant uses — keep live in sync.
 
 ### Extensions
 
@@ -133,13 +134,14 @@ Token-affecting changes: **observe → one change → verify → ledger**.
 | `hil/canaries/` | Quality canaries |
 | `bench/` | Probe, workload, det pruner, proxy |
 
-**Locked as of Iter 11 (2026-08-08):** KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on.
+**Locked as of Iter 12 (2026-08-08):** KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · maxDescChars=20.
 
 ### Token floor (variant probe)
 
 | When | total_tokens | Notes |
 |------|--------------|-------|
-| Iter 11 · 2026-08-08 | **2737** | glm-5.2 variant; trace `hil/traces/20260808T064135-iter11-baseline.json` |
+| Iter 12 · 2026-08-08 | **2832** / schema **6529** | maxDesc=20; trace `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` |
+| Iter 11 · 2026-08-08 | **2737** / schema **6701** | maxDesc=30; `hil/traces/20260808T064135-iter11-baseline.json` |
 | Older pi/provider epochs | various | **not comparable** — re-baseline after upgrades |
 
 Live multi-turn medians can swing ±25% on non-det models; do not promote on one noisy run.
