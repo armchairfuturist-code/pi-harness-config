@@ -433,3 +433,29 @@
 
 ### Locked (updated)
 KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · **aggressiveMaxDescChars=20** · path `~/.pi/tscg.json`
+
+## Iter 13 — Auto-compaction characterization (2026-08-08)
+
+### Change
+- **Observe only** — no unlock of reserveTokens / keepRecentTokens / KEEP.
+- Added `bench/auto-compact-char.mjs` (imports pi `shouldCompact`/`findCutPoint`) + `research/auto-compact-char-20260808.md`.
+- Offline threshold table + optional `--live` bash grow gap-to-trigger.
+
+### Findings
+- Formula: `contextTokens > contextWindow - reserveTokens` (keepRecent **not** in trigger).
+- Locked: reserve **24000**, keepRecent **20000**. Upstream default: reserve **16384**, keepRecent **20000** (keepRecent already equal).
+- Lilac `zai-org/glm-5.2` contextWindow **524288** → auto-compact only when tokens **> 500288** (95.4% of window).
+- Locked vs default reserve shifts trigger by **−7616** tokens only (~1.5% of window).
+- Live grow (~18k context after 6×12kB bash): **~482k** tokens until trigger; 0 compaction events.
+- Formula self-check PASS. compact-probe still healthy (manual `/compact` path).
+
+### Verdict
+**No unlock.** Auto-compaction is effectively dormant on this model stack. Day-to-day levers remain KEEP/TSCG/system. Revisit only with smaller-window models or measured OOM/truncation.
+
+### Artifacts
+- `.scratch/bench-results/iter13-auto-compact-char.json`
+- `research/auto-compact-char-20260808.md`
+- `bench/auto-compact-char.mjs`
+
+### Locked (unchanged)
+KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · maxDescChars=20

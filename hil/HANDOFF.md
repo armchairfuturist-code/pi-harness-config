@@ -1,99 +1,81 @@
-# HANDOFF — continue HIL (compaction / next knobs) — 2026-08-08
+# HANDOFF — continue HIL — 2026-08-08
 
-**Status:** Iter 12 done (strip measured + maxDescChars=20 KEEP). Ready for **Iter 13** in a fresh session.
-**Repo:** `/home/alex/Projects/pi-harness-config` · remote `origin/master` (push after this iter)
-**Shell for user-facing commands:** fish (`and`/`or`, `set -x`)
+**Status:** Iter 13 done (auto-compaction characterized; **no unlock**). Ready for **Iter 14**.
+**Repo:** `/home/alex/Projects/pi-harness-config` · `origin/master`
+**Shell for user-facing commands:** fish
 
 ## Do NOT redo
 
 | Iter | Result |
 |------|--------|
-| 5 | `aggressiveStripParamDesc` KEEP (−1025 tok/turn probe) |
-| 8 | rot-sentinel (parse fix 2026-08-08) |
-| 9 / 9b | prune-core + det gate; live-keep-ab → **KEEP=4** |
+| 5 | TSCG strip KEEP |
+| 8 | rot-sentinel |
+| 9 / 9b | prune-core + det gate; **KEEP=4** |
 | 10 | unattended-loop + fast-fail |
-| 11 | re-baseline; `build-variant.sh` copies `extensions/lib/`; ctx-tool canary PASS |
-| 12 | strip A/B measured; **maxDescChars 30→20 KEEP**; omitEmptyProperties is phantom |
+| 11 | re-baseline; build-variant copies extensions/lib |
+| 12 | strip A/B; **maxDescChars=20 KEEP** |
+| 13 | auto-compact char — trigger @ **>500288** on Lilac glm-5.2; **no unlock** |
 
-**Locked (no freestyle):** KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · **aggressiveMaxDescChars=20**
+**Locked:** KEEP=4 · reserve=24000 · keepRecent=20000 · tscg strip on · maxDescChars=20
 
-## Smoke first (fish)
+## Smoke (fish)
 
 ```fish
 cd ~/Projects/pi-harness-config
 node bench/workload-deterministic.mjs
-and node bench/live-keep-ab.mjs
+and node bench/auto-compact-char.mjs
 and ./scripts/harness-preflight.sh
 ```
 
-Optional: `bash hil/canaries/ctx-tool-exercise.sh` (proxy + Lilac).
+## Baseline
 
-## Baseline for Iter 13
+- Iter12: `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` (probe ~2832 / schema 6529)
+- Compaction evidence: `research/auto-compact-char-20260808.md` + `.scratch/bench-results/iter13-auto-compact-char.json`
 
-- Trace: `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json`
-- Probe: **2832** tok / 17 tools — schema **6529** chars, system 3308 (glm-5.2 variant)
-- Prior iter11 baseline still valid for cross-check: `hil/traces/20260808T064135-iter11-baseline.json` (probe 2737 / schema 6701)
-- Workload median ~**16–25k** (±25% LLM noise) — do not treat single-run Δ under ~8k as causal
-- **TSCG bench note:** mutate **repo** `tscg.json` (build-variant copies it). Live `~/.pi/tscg.json` alone does not move probe. Prefer keep both in sync (`cp tscg.json ~/.pi/tscg.json`).
+## Iter 13 takeaway (do not remeasure unless model window changes)
 
-```fish
-bash hil/observe.sh iter13-baseline
-# then one change →
-bash hil/verify.sh hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json iter13-<label>
+```
+shouldCompact = contextTokens > contextWindow - reserveTokens
 ```
 
-## Recommended next work (pick ONE change per HIL iter)
+- Lilac `zai-org/glm-5.2` window **524288** → fire only **> 500288** tokens
+- Locked reserve 24k vs default 16k: trigger **7.6k earlier** only; keepRecent already matches upstream (20k)
+- Auto-compact **dormant** for normal sessions; unlock not justified
 
-### A — Auto-compaction characterization (preferred)
+## Recommended next (pick ONE)
 
-Still untouched since Iter 9b lock.
+### A — Verify noise band (preferred)
 
-- Instrument / log when auto-compaction fires under locked 24k/20k.
-- Or dry-run threshold sensitivity **without** unlocking KEEP (observe only).
-- Goal: evidence pack for whether reserve/keepRecent need a later HIL unlock — **do not freestyle unlock**.
+Workload |Δ| still treated as signal (Iter12 ACCEPT was noise-heavy).
 
-### B — Further TSCG (optional, small)
+- Multi-run median gate, or ignore workload |Δ| < ~8k when lever is TSCG/schema
+- Touch only `hil/verify.sh` (+ tests if any); observe a no-op or known iter12 candidate re-check
 
-Only if compaction work blocked:
+### B — Further TSCG (small)
 
-- Real knobs in pi-tscg@0.1.5: `aggressiveMaxDescChars`, `aggressiveStripParamDesc`, `pruneJsonOverhead` (default true), `profile`, `enabled`.
-- **Not a knob:** `omitEmptyProperties` (does not exist).
-- Candidate: maxDesc **20→10 or 0** (top-level tool purpose only; params already stripped). Require probe A/B + tool-call quality smoke.
-- Strip already delivers the bulk (−37% schema vs truncate-only; −81% vs TSCG off). Diminishing returns below 20.
+- maxDesc **20→10 or 0** with probe A/B + tool-call quality smoke
+- Diminishing returns; strip already did the bulk
 
-### C — Verify noise band
+### C — Smaller-window model path (only if product needs it)
 
-- Workload gate still treats huge median swings as signal (Iter12 ACCEPT was workload-noise-heavy).
-- Consider: require ≥3-run median, or ignore workload |Δ| < 8k when probe schema is the intended lever.
+- If a ≤128k model becomes primary, re-run `bench/auto-compact-char.mjs` and reconsider reserve HIL
+- Do not freestyle unlock on glm-5.2 evidence alone
 
-## Iter 12 results (do not remeasure unless regression)
+## Method
 
-| config | toolSchemaChars | usage.total |
-|--------|-----------------|-------------|
-| strip ON maxDesc=30 | 6701 | ~2877 |
-| strip ON maxDesc=**20** (KEEP) | **6529** | ~2834 |
-| strip OFF maxDesc=30 | 10682 | 3892 |
-| TSCG off | 36340 | 9683 |
-
-Artifacts: `.scratch/bench-results/iter12-strip-ab-summary.json`, `iter12-maxdesc-ab-summary.json`
-Verify: `hil/verifications/20260808T071008-iter12-maxdesc20.json` ACCEPT
-
-## Method (every iter)
-
-1. Smoke / preflight
-2. **One** change only
-3. `hil/observe.sh` → `hil/verify.sh <baseline> <label>`
-4. Append `hil/ledger.md` (KEEP/REVERT + learning)
-5. Rewrite this HANDOFF + `~/.pi/.scratch/WORKSTATE.md`
-6. Commit + `git push origin master`
-7. Stop
+1. Smoke / preflight  
+2. **One** change  
+3. `hil/observe.sh` → `hil/verify.sh <baseline> <label>` (when knobs change)  
+4. Append `hil/ledger.md`  
+5. Rewrite this HANDOFF + `~/.pi/.scratch/WORKSTATE.md`  
+6. Commit + `git push origin master`  
+7. Stop  
 
 ## Paths
 
 | What | Where |
 |------|--------|
-| Live TSCG | `~/.pi/tscg.json` (**not** `agent/tscg.json`) |
-| Repo TSCG (probe source of truth) | `tscg.json` |
-| Patches | `patches/tscg/apply-patches.mjs` → after package install |
-| Capture tools path | `request.body.tools` |
-| Baseline iter12 | `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` |
+| Live TSCG | `~/.pi/tscg.json` |
+| Repo TSCG (probe SoT) | `tscg.json` |
+| Compaction settings | `settings.json` → `~/.pi/agent/settings.json` |
+| Auto-compact bench | `bench/auto-compact-char.mjs` |
