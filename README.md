@@ -1,133 +1,178 @@
 # Pi Harness Config
 
-A measured, generic Pi configuration that maximizes useful capability while minimizing fixed prompt cost. The default kernel contains tools used across ordinary coding sessions; domain research and deep harness auditing are optional profiles.
+Token-optimized, measurement-gated configuration for the [pi](https://github.com/badlogic/pi-mono) coding agent.
 
-## Design rules
+**This repo is the source of truth.** Other machines and agent homes should install from GitHub — do not hand-copy ad-hoc files from a live `~/.pi/agent`.
 
-1. Every fixed token must serve most sessions.
-2. Skills and documentation stay on disk and load lazily; registered tool schemas are the main idle cost.
-3. Event-specific guidance is injected only after the event, not carried in the permanent system prompt.
-4. Benchmarks use a temporary HOME, snapshotted pinned packages, a vendored capture proxy, and an exact tool inventory.
-5. Published numbers name commit, date, model/tokenizer, package lock, patch state, repetitions, and loaded tools.
+---
 
-## Default kernel
+## For other agents / machines
 
-- CE-lite: thin plain-language orchestrator.
-- context-mode + pi-lean-ctx: file, shell, execution, indexing, and retrieval.
-- pi-dynamic-workflows: research/review/fan-out when work genuinely decomposes.
-- pi-slim + pi-tscg: system/tool-schema compression. The default description floor is 30 characters; lower values require semantic-canary evidence.
-- transcript-pruner: DEDUP, STALE, and CLEAR; measured long-session savings with no fixed schema cost.
-- session-index: extractive cross-session summaries without an LLM call.
-- runtime-discipline: failure-triggered recovery guidance and a cache-stable UI handoff reminder.
-- small cache, continuation, safety, and usage packages listed in `settings.json`; six UI-only pi-essentials extensions are loaded by explicit path so its tool extensions do not auto-register.
+### Exact update sequence
 
-The default deliberately excludes recent-discourse schemas, durable harness-reporting packages, MCP expansion, context-mode admin tools, and every domain-specific tool.
+1. `git clone` or `git pull` https://github.com/armchairfuturist-code/pi-harness-config
+2. `./install.sh` — deploys every locked file (see table below)
+3. Source runtime env (KEEP=4 + lean-ctx thresholds)
+4. `./scripts/harness-preflight.sh` — fail closed if incomplete
+5. **Do not** change Locked knobs without HIL (`hil/ledger.md`)
 
-## Optional profiles
+Provider + model stay **machine-local** by default (`install.sh` merges live `defaultProvider` / `defaultModel` unless you pass `--settings`).
 
-```fish
-./scripts/profile.sh enable research  # last30days tools; adds fixed schemas
-./scripts/profile.sh disable research
-./scripts/profile.sh enable audit     # Better Harness slash-command review
-./scripts/profile.sh disable audit
-```
+### Install
 
-Profiles are functional additions, not default-kernel claims. Re-run the probe after enabling one.
-
-## Install
-
-```fish
-git clone https://github.com/armchairfuturist-code/pi-harness-config
+```bash
+git clone https://github.com/armchairfuturist-code/pi-harness-config.git
 cd pi-harness-config
-./install.sh                        # install packages + deploy kernel; preserve live provider/model
+./install.sh
+# optional: force repo provider/model defaults
+# ./install.sh --settings
+# optional: files only (skip `pi install` pins)
+# ./install.sh --skip-packages
+# drift check without writing:
+# ./install.sh --check
+```
+
+Apply runtime env (bash/zsh):
+
+```bash
+grep -q 'lean-ctx/env.tuning' ~/.bashrc 2>/dev/null \
+  || echo 'source "$HOME/.config/lean-ctx/env.tuning.sh"' >> ~/.bashrc
+source "$HOME/.config/lean-ctx/env.tuning.sh"
 ./scripts/harness-preflight.sh
 ```
 
-`install.sh` reads `packages.lock.json` and runs `pi install` with exact
-pinned versions, then copies all config, extensions, skills, and patches into
-`~/.pi/agent/`, removes obsolete files, and applies the version-gated patches.
-
-Flags:
-- `--settings` — also overwrite provider/model with repo defaults
-- `--skip-packages` — skip `pi install` (use when packages are already installed)
-- `--check` — dry-run: report drift without writing
-
-### Editing this repo (sync direction)
-The **top level of this repo is the source of truth.** `install.sh` deploys it into
-`~/.pi/agent/` — the *live* harness runtime, which is not committed (it holds generated
-`sessions/`, `npm/`, `node_modules/`, etc.).
-
-- **To change config:** edit the top-level source (`extensions/`, `memory/`, `settings.json`,
-  `skills/`, …), re-deploy with `./install.sh --skip-packages`, verify with
-  `./scripts/harness-preflight.sh`, then commit + push. Do not edit `~/.pi/agent/` directly —
-  a later `install.sh` would overwrite it.
-- **If you edited `~/.pi/agent/` live:** copy the file back to the matching top-level path
-  first, then deploy. Example: `cp ~/.pi/agent/extensions/transcript-pruner.ts extensions/transcript-pruner.ts`
-- **Runtime env vars** (pruner + lean-ctx tuning) are machine-level shell exports, not agent
-  config — see [`lean-ctx/env.tuning.sh`](lean-ctx/env.tuning.sh).
-
-## After `pi update --all`
-
-`pi update` overwrites patched files in `node_modules/`. Re-apply patches:
+Fish:
 
 ```fish
-./install.sh --skip-packages    # re-deploys config + re-applies patches
-./scripts/harness-preflight.sh  # verify patches are present
+set -gx PI_TRANSCRIPT_PRUNE 1
+set -gx PI_PRUNE_KEEP 4
+set -gx LEAN_CTX_EPHEMERAL_MIN_TOKENS 1000
 ```
 
-If preflight reports a missing patch, the upstream source shape changed.
-Update the patch anchors in `patches/` and the version in `packages.lock.json`.
+### Locked knobs (do not freestyle)
 
-## Verify
+| Knob | Value | Deployed from → to | Evidence |
+|------|-------|--------------------|----------|
+| `PI_PRUNE_KEEP` | **4** | `lean-ctx/env.tuning.sh` → `~/.config/lean-ctx/env.tuning.sh` (+ shell rc) | HIL Iter 9b |
+| Compaction `reserveTokens` | **24000** | `settings.json` → `~/.pi/agent/settings.json` | Iter 7 left |
+| Compaction `keepRecentTokens` | **20000** | same | same |
+| TSCG aggressive strip | **true** | `tscg.json` → **`~/.pi/tscg.json`** (not under `agent/`) | Iter 5 KEEP |
+| Extensions | pruner, session-index, runtime-discipline, **rot-sentinel** | `settings.json` + `extensions/*` | Iter 8–11 |
+| Packages | pins in `packages.lock.json` | `pi install` via install.sh | lockfile |
 
-```fish
-./install.sh --check --settings
+Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**.
+
+### What `install.sh` writes
+
+| Repo path | Live destination |
+|-----------|------------------|
+| `settings.json` | `~/.pi/agent/settings.json` (keeps live provider/model) |
+| `tscg.json` | `~/.pi/tscg.json` |
+| `packages.lock.json` | `~/.pi/agent/packages.lock.json` + pinned `pi install` |
+| `HARNESS.md`, `APPEND_SYSTEM.md`, `AGENTS.md` | `~/.pi/agent/` |
+| `extensions/*.ts`, `extensions/lib/prune-core.mjs` | `~/.pi/agent/extensions/` |
+| `skills/*` (ce-lite, harness-doctor, …) | `~/.pi/agent/skills/` |
+| `lean-ctx/env.tuning.sh` | `~/.config/lean-ctx/env.tuning.sh` |
+| `lean-ctx/config.toml` | `~/.config/lean-ctx/config.toml` |
+| `lean-ctx/pi-config.json` | `~/.pi/agent/extensions/pi-lean-ctx/config.json` |
+| `patches/**` + apply scripts | `~/.pi/agent/patches/` then applied into npm |
+| `scripts/harness-preflight.sh` + validators | `~/.pi/agent/scripts/` |
+| `workflows/**`, `memory/**` | under `~/.pi/` / `~/.pi/agent/` |
+
+Flags: `--check` (diff only), `--settings` (overwrite provider/model), `--skip-packages`.
+
+### Sanity after install
+
+```bash
 ./scripts/harness-preflight.sh
-./bench/probe.sh
-./bench/semantic-canary.sh
+node bench/workload-deterministic.mjs   # no LLM
+node bench/live-keep-ab.mjs             # needs pi + model
+# optional: bash hil/canaries/ctx-tool-exercise.sh  (proxy + Lilac path)
 ```
 
-## Token floor
+---
 
-Measured with `Lilac/zai-org/glm-5.2` through a cold-gated capture proxy.
-"Reply with exactly: OK" single-request floor (input + cacheRead + cacheWrite).
+## Design (why these files exist)
 
-| Config | Tokens | Tools | Date | Source |
-|---|---|---|---|---|
-| OMP v16.4.3 | ~16,800 | 11 | 2026-07-22 | `docs/wayfinder-agents-optimization.md` |
-| Pi pre-CE-lite | 5,789 | ~25 | 2026-07-27 | commit `c9cd69f` message |
-| Pi CE-lite baseline | 4,014 | ~22 | 2026-07-27 | commit `c9cd69f` |
-| Pi drifted master | 5,750 | 31 | 2026-08-05 | commit `93ec746` |
-| **Pi optimized (this repo)** | **3,757** | **17** | **2026-08-05** | **commit `68a7080`** |
+### `HARNESS.md` — runtime constitution
 
-OMP figure is per-request average across a 3-request task (different
-methodology — multi-request total / 3). All Pi figures are single-request
-floors with identical probe methodology.
+Stable rules re-read each turn. Keep short.
 
-**Result: 3,757 tokens — 78% below OMP, 6% below prior CE-lite best, 35% below drifted master.**
+### `APPEND_SYSTEM.md` — per-turn system append
 
-The probe writes raw captures and manifests under `.scratch/` (gitignored). It fails unless exactly one request succeeds and the payload excludes domain, research-profile, and context-admin schemas.
+Injected every turn (~187 bytes). Durable policy goes in `HARNESS.md` or skills, not here.
 
-## Extensions
+### `settings.json` — pi agent config
 
-| Extension | Fixed schema cost | Value |
-|---|---:|---|
-| transcript-pruner | none | Reduces repeated/stale/spent tool results in long sessions |
-| session-index | none | Cross-session retrieval pointers without model calls |
-| runtime-discipline | none until triggered | Recovery guidance after actual failures; UI-only long-session reminder |
+Packages list, extension paths, compaction, thinking level. Repo bench default provider is Lilac/glm-5.2; live installs preserve the machine’s model unless `--settings`.
 
-## Repository map
+### `tscg.json` — tool-schema compression
 
-- `settings.json` — generic default profile
-- `profiles/` — optional package profiles
-- `packages.lock.json` — expected package versions
-- `APPEND_SYSTEM.md` — thin CE-lite hook
-- `HARNESS.md` — reusable policy source of truth
-- `extensions/` — generic local extensions only
-- `lean-ctx/` — lean-ctx config; `env.tuning.sh` holds the machine-level shell exports
-  (transcript-pruner + ephemeral-firewall tuning) applied via your shell rc
-- `scripts/` — install, patch, profile, and validation tools
-- `bench/` — isolated probe, capture proxy, and semantic canaries
-- `research/` — historical evidence; not injected into idle prompts
+**Path is `~/.pi/tscg.json`** (pi-tscg home root). Aggressive param-description strip is on.
 
-Historical token figures in `research/` describe their recorded configuration. They are evidence, not promises for current master or another model.
+### Extensions
+
+| File | Role |
+|------|------|
+| `transcript-pruner.ts` + `lib/prune-core.mjs` | CLEAR/DEDUP/STALE; KEEP via `PI_PRUNE_KEEP` |
+| `session-index.ts` | Session indexing |
+| `runtime-discipline.ts` | Runtime discipline |
+| `rot-sentinel.ts` | Context-rot signals + handoff trigger |
+
+---
+
+## Measurement (HIL)
+
+Token-affecting changes: **observe → one change → verify → ledger**.
+
+| Path | Purpose |
+|------|---------|
+| `hil/ledger.md` | Decision log (closed iters — do not redo) |
+| `hil/HANDOFF.md` | Current next-iter instructions |
+| `hil/observe.sh` / `hil/verify.sh` | Baseline + gate |
+| `hil/canaries/` | Quality canaries |
+| `bench/` | Probe, workload, det pruner, proxy |
+
+**Locked as of Iter 11 (2026-08-08):** KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on.
+
+### Token floor (variant probe)
+
+| When | total_tokens | Notes |
+|------|--------------|-------|
+| Iter 11 · 2026-08-08 | **2737** | glm-5.2 variant; trace `hil/traces/20260808T064135-iter11-baseline.json` |
+| Older pi/provider epochs | various | **not comparable** — re-baseline after upgrades |
+
+Live multi-turn medians can swing ±25% on non-det models; do not promote on one noisy run.
+
+---
+
+## Repo map
+
+```
+settings.json          # agent config
+tscg.json              # → ~/.pi/tscg.json
+packages.lock.json     # npm pins
+HARNESS.md             # constitution
+APPEND_SYSTEM.md       # tiny per-turn append
+AGENTS.md              # pointer for agents reading this repo
+extensions/            # pruner, rot-sentinel, lib/prune-core.mjs
+skills/                # shipped skills
+lean-ctx/              # env.tuning + lean-ctx rules
+patches/               # post-install npm patches
+install.sh             # deploy
+scripts/               # preflight, validators, unattended-loop
+bench/                 # measurement
+hil/                   # HIL loop, ledger, canaries, traces
+docs/                  # design notes
+```
+
+## Auth (not in git)
+
+```bash
+pi auth login openai --api-key "$OPENAI_API_KEY"
+# other providers via pi auth / local models.json — never commit secrets
+```
+
+## License
+
+MIT

@@ -27,7 +27,8 @@
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts",
     "~/.pi/agent/extensions/transcript-pruner.ts",
     "~/.pi/agent/extensions/session-index.ts",
-    "~/.pi/agent/extensions/runtime-discipline.ts"
+    "~/.pi/agent/extensions/runtime-discipline.ts",
+    "~/.pi/agent/extensions/rot-sentinel.ts"
   ],
   "defaultThinkingLevel": "high",
   "steeringMode": "all",

@@ -17,15 +17,15 @@ done
 
 # --- Install pinned npm packages from packages.lock.json -------------------
 if ! $CHECK && ! $SKIP_PACKAGES; then
-  if ! command -v pi >/dev/null 2>&1; then
-    echo "[FAIL] pi not found on PATH — install pi first" >&2; exit 1
-  fi
-  PACKS=$(jq -r 'to_entries[] | "npm:\(.key)@\(.value)"' "$ROOT/packages.lock.json" | tr '\n' ' ')
-  if [[ -z "$PACKS" ]]; then
-    echo "[FAIL] packages.lock.json is empty" >&2; exit 1
-  fi
-  echo "[ .. ] installing $(echo "$PACKS" | wc -w) pinned packages…"
-  pi install $PACKS
+  if ! command -v pi >/dev/null 2>&1; then echo "[FAIL] pi not found on PATH — install pi first" >&2; exit 1; fi
+  mapfile -t PACKS < <(jq -r 'to_entries[] | "npm:\(.key)@\(.value)"' "$ROOT/packages.lock.json")
+  if [[ ${#PACKS[@]} -eq 0 ]]; then echo "[FAIL] packages.lock.json is empty" >&2; exit 1; fi
+  echo "[.. ] installing ${#PACKS[@]} pinned packages (one at a time)…"
+  # pi install accepts a single source per invocation.
+  for src in "${PACKS[@]}"; do
+    echo "  -> $src"
+    pi install "$src"
+  done
   echo "[ OK ] packages installed"
 elif $CHECK && ! $SKIP_PACKAGES; then
   PI_AGENT_HOME="$AGENT" node "$ROOT/scripts/verify-package-lock.mjs" >/dev/null 2>&1 \

@@ -14,7 +14,7 @@ Do NOT redo: Iter 5 (tscg strip), 8 (rot-sentinel), 9 (prune-core + det workload
 
 ## Why old numbers don't compare
 
-Live agent drifted since Iter 10 (2026-08-03): default model now `Venice/qwen-3-8-max`, live `settings.json` touched 2026-08-08, **live `~/.pi/agent/tscg.json` missing** (Iter 5 strip inactive live), live-only skill `action-context-axes`, pi upgraded to 0.84.1. Hence the full re-baseline.
+Live agent drifted since Iter 10 (2026-08-03): default model/provider machine-local (often Venice), live `settings.json` packages/extensions can lag repo until `./install.sh`, pi upgraded to 0.84.x. **TSCG path is `~/.pi/tscg.json`** (not `agent/tscg.json`) — install deploys there; strip is on when that file matches repo. Always re-baseline after pi/provider epochs change.
 
 ## Smoke before any new work
 
@@ -27,9 +27,13 @@ and bash hil/canaries/ctx-tool-exercise.sh
 
 ## Next iteration candidates (pick one change)
 
-- **a. Restore live tscg:** `cp tscg.json ~/.pi/agent/tscg.json`, then verify live tool-schema compression (expect ~1k tok/request back). Watch for interaction with the modified `patches/tscg/apply-patches.mjs` / `install.sh` in working tree (audit 2026-08-07 work, uncommitted).
+- **a. Reconcile live settings to repo:** run `./install.sh` on machines whose `~/.pi/agent/settings.json` packages/extensions lag (rot-sentinel + full package lock). Provider/model preserved unless `--settings`.
 - **b. Auto-compaction characterization:** loop `bench/compact-probe.mjs` over contextSizes 40000/80000/120000/160000/200000 with `PI_COMPACT_PROBE=1`; document trigger threshold; write `hil/findings/`.
 - **c. Verify gate noise band:** `hil/verify.sh` workload gate currently credits single-run LLM variance as improvement; require Δ < −1500 tok or compare medians of ≥3 runs.
+
+## Consumer docs
+
+`README.md` is the install + locked-knobs surface for other agents reading GitHub. Keep it in sync when knobs change.
 
 ## Unattended-loop usage (optional)
 
