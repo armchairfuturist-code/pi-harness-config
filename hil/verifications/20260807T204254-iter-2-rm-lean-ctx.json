@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-08-07T20:43:51Z",
+  "label": "iter-2-rm-lean-ctx",
+  "baseline_trace": "hil/traces/20260807T203747-iter-0-baseline.json",
+  "gate": "REJECT",
+  "baseline": {
+    "probe_total": 3759,
+    "workload_total": 21600,
+    "checks": 1,
+    "tool_count": 17
+  },
+  "current": {
+    "probe_total": 3758,
+    "workload_total": 53332,
+    "checks": 0,
+    "tool_count": 17
+  },
+  "delta": {
+    "probe_total": -1,
+    "workload_total": 31732
+  }
+}

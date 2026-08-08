@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-08-07T20:48:50Z",
+  "label": "iter-4-rm-workflows",
+  "baseline_trace": "hil/traces/20260807T203747-iter-0-baseline.json",
+  "gate": "ACCEPT",
+  "baseline": {
+    "probe_total": 3759,
+    "workload_total": 21600,
+    "checks": 1,
+    "tool_count": 17
+  },
+  "current": {
+    "probe_total": 3760,
+    "workload_total": 18796,
+    "checks": 1,
+    "tool_count": 17
+  },
+  "delta": {
+    "probe_total": 1,
+    "workload_total": -2804
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-08-08T06:47:18Z",
+  "label": "iter11-ctx-canary",
+  "baseline_trace": "hil/traces/20260808T064135-iter11-baseline.json",
+  "gate": "ACCEPT",
+  "baseline": {
+    "probe_total": 2737,
+    "workload_total": 24956,
+    "checks": 1,
+    "tool_count": 17
+  },
+  "current": {
+    "probe_total": 2733,
+    "workload_total": 17667,
+    "checks": 1,
+    "tool_count": 17
+  },
+  "delta": {
+    "probe_total": -4,
+    "workload_total": -7289
+  }
+}

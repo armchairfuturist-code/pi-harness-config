@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-08-07T20:38:16Z",
+  "label": "iter-0-baseline",
+  "phase": "observe",
+  "probe": {
+    "total_tokens": 3759,
+    "input_tokens": 3756,
+    "output_tokens": 3,
+    "tool_count": 17,
+    "tool_schema_chars": 10682,
+    "system_chars": 2876,
+    "model": "zai-org/glm-5.2",
+    "tool_names": ["ctx_batch_execute","ctx_edit","ctx_execute","ctx_execute_file","ctx_fetch_and_index","ctx_find","ctx_grep","ctx_index","ctx_ls","ctx_read","ctx_search","ctx_shell","edit","lean_ctx","workflow","workflow_control","write"]
+  },
+  "workload": {
+    "total_input_tokens_median": 21600,
+    "checks_pass": 1,
+    "runs_completed": 3,
+    "run_totals": "21767,15957,21600"
+  },
+  "canary_suite": null,
+  "manifest": {"commit":"de440a5a32f2c4f1a9f36156ba6a1d20e3addc80","configHash":"19e7ecbd9461","variantHome":"/tmp/pi-harness-home.zurrf1","settings":{"lastChangelogVersion":"0.83.0","theme":"dark","defaultProvider":"Lilac","defaultModel":"zai-org/glm-5.2","packages":["npm:@ogulcancelik/pi-model-thinking","npm:@plannotator/pi-extension","npm:cc-safety-net","npm:context-mode","npm:pi-autoresearch","npm:pi-cache-optimizer","npm:pi-context-usage","npm:pi-continue","npm:pi-herdr-btw","npm:pi-lean-ctx","npm:pi-slim","npm:pi-tscg","npm:@quintinshaw/pi-dynamic-workflows"],"extensions":["~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts","~/.pi/agent/extensions/transcript-pruner.ts","~/.pi/agent/extensions/session-index.ts","~/.pi/agent/extensions/runtime-discipline.ts"],"defaultThinkingLevel":"high","steeringMode":"all","hideThinkingBlock":true,"compaction":{"reserveTokens":24000,"keepRecentTokens":20000}},"packages":{"@ogulcancelik/pi-model-thinking":"0.1.0","@plannotator/pi-extension":"0.26.2","cc-safety-net":"1.0.6","context-mode":"1.0.169","pi-autoresearch":"1.6.2","pi-cache-optimizer":"2.8.0","pi-context-usage":"1.0.2","pi-continue":"0.9.3","pi-herdr-btw":"0.3.0","pi-lean-ctx":"3.9.17","pi-slim":"0.2.1","pi-tscg":"0.2.4","@quintinshaw/pi-dynamic-workflows":"3.5.1","@samfp/pi-essentials":"0.2.3"}}
+}

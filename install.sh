@@ -68,6 +68,8 @@ patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
 tscg.json|__PI_HOME__/tscg.json|
 extensions/session-index.ts|__AGENT__/extensions/session-index.ts|
 extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|
+extensions/lib/prune-core.mjs|__AGENT__/extensions/lib/prune-core.mjs|
+extensions/rot-sentinel.ts|__AGENT__/extensions/rot-sentinel.ts|
 extensions/runtime-discipline.ts|__AGENT__/extensions/runtime-discipline.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|
@@ -113,8 +115,7 @@ done <<< "$MANIFEST"
 OBSOLETE=(
   "$AGENT/extensions/invest-tools.ts"
   "$AGENT/extensions/tool-trimmer.ts"
-  "$AGENT/extensions/rot-sentinel.ts"
-  "$AGENT/model-agents.json"
+    "$AGENT/model-agents.json"
   "$AGENT/AGENTS_full.md"
   "$AGENT/AGENTS_terse.md"
   "$HOME_DIR/.pi/workflows/saved/investment-gather-judge.json"

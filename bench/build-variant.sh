@@ -21,6 +21,9 @@ cp -a "$ROOT/skills" "$VAGENT/skills"
 cp "$ROOT/lean-ctx/pi-config.json" "$VAGENT/extensions/pi-lean-ctx/config.json"
 cp "$ROOT/lean-ctx/config.toml" "$VHOME/.config/lean-ctx/config.toml"
 for file in transcript-pruner.ts session-index.ts runtime-discipline.ts; do cp "$ROOT/extensions/$file" "$VAGENT/extensions/$file"; done
+# Extension support files (e.g. lib/prune-core.mjs imported by transcript-pruner.ts).
+# Copy the whole lib/ dir so relative imports resolve in the variant home.
+if [[ -d "$ROOT/extensions/lib" ]]; then mkdir -p "$VAGENT/extensions/lib"; cp -R "$ROOT/extensions/lib/." "$VAGENT/extensions/lib/"; fi
 
 # Snapshot installed packages; never symlink mutable live node_modules.
 mkdir -p "$VAGENT/npm"

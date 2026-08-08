@@ -1,5 +1,6 @@
 {
   "enabled": true,
   "profile": "aggressive",
-  "aggressiveMaxDescChars": 30
+  "aggressiveMaxDescChars": 30,
+  "aggressiveStripParamDesc": true
 }
