@@ -41,8 +41,7 @@
 │   ├── AGENTS.md              # Project instructions (session guardrail)
 │   ├── extensions/
 │   │   ├── transcript-pruner.ts  # cross-message dedup/stale pruning (default ON; PI_TRANSCRIPT_PRUNE=0 disables)
-│   │   ├── session-index.ts      # session-end extractive summaries → memory/sessions/
-│   │   └── herdr-agent-state.ts  # herdr integration (installed by `herdr integration install pi`)
+│   │   └── session-index.ts      # session-end extractive summaries → memory/sessions/
 │   ├── lean-ctx/
 │   │   └── config.toml        # lean-ctx bridge config (replace mode, lean profile)
 │   ├── npm/node_modules/      # Installed Pi packages (15 packages)
@@ -84,7 +83,6 @@
     "npm:pi-cache-optimizer"
     "npm:pi-context-usage"
     "npm:pi-continue"
-    "npm:pi-herdr-btw"
     "npm:pi-lean-ctx"
     "npm:pi-slim"
     "npm:pi-tscg"
@@ -335,7 +333,6 @@ Installed via `packages` array in `settings.json`:
 | **pi-extension (plannotator)** | `@plannotator/pi-extension` | Plan annotation/review UI |
 | **cc-safety-net** | `cc-safety-net` | Command safety guardrails |
 | **pi-continue** | `pi-continue` | Session continuation helpers |
-| **pi-herdr-btw** | `pi-herdr-btw` | herdr integration bridge |
 | **pi-dynamic-workflows** | `@quintinshaw/pi-dynamic-workflows` | Dynamic multi-agent workflow orchestration |
 
 Additional npm packages installed as dependencies include: `@anthropic-ai`, `@aws`, `@aws-sdk`, `@clack`, `@earendil-works`, `@google`, `@hono`, `@mistralai`, `@modelcontextprotocol`, `@sinclair`, `better-sqlite3`, `ajv`, `bowser`, `context-mode`, and others.
@@ -695,7 +692,7 @@ pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflow
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
   npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking \
-  npm:cc-safety-net npm:pi-herdr-btw
+  npm:cc-safety-net
 
 set -gx LILAC_API_KEY "your-key-here"
 set -gx VENICE_API_KEY "your-venice-key-here"
