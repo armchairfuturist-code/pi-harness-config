@@ -8,6 +8,36 @@ Token-optimized, measurement-gated configuration for the [pi](https://github.com
 
 ## For other agents / machines
 
+
+## Skill paths (avoid collisions)
+
+Pi loads skills from **two** places and warns on name collisions:
+
+| Source | Path | When |
+|--------|------|------|
+| user (agent) | `~/.pi/agent/skills/<name>/SKILL.md` | always |
+| project | `<cwd>/.pi/skills/<name>/SKILL.md` | every session cwd |
+
+This repo ships skills under **`bundled-skills/`**. `install.sh` copies them **only** into `~/.pi/agent/skills/`.
+
+**Do not** keep harness skills at `~/.pi/skills/` — that path **is** project skills whenever Pi runs with `cwd=$HOME`, so it collides with the agent copy and one side is skipped.
+
+### Clone location
+
+- **Preferred:** clone outside Pi's config root, e.g. `~/pi-harness-config`, then `./install.sh`.
+- **If you clone to `~/.pi`:** this tree uses `bundled-skills/` (not `skills/`) so a checkout at `~/.pi` is not auto-loaded as project skills. Legacy `~/.pi/skills/` trees from older checkouts are pruned by `install.sh`.
+
+### After pull / if you see `[Skill conflicts]`
+
+```bash
+./install.sh
+# or only clear shadows:
+rm -rf ~/.pi/skills/{ce-lite,harness-doctor,context-rot-forensics,graph-engineering,poor-mans-distill,shard-security}
+```
+
+`./install.sh --check` and `scripts/harness-preflight.sh` fail on leftover project shadows for harness skill names.
+
+
 ### Exact update sequence
 
 1. `git clone` or `git pull` https://github.com/armchairfuturist-code/pi-harness-config
@@ -72,7 +102,7 @@ Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**.
 | `packages.lock.json` | `~/.pi/agent/packages.lock.json` + pinned `pi install` |
 | `HARNESS.md`, `APPEND_SYSTEM.md`, `AGENTS.md` | `~/.pi/agent/` |
 | `extensions/*.ts`, `extensions/lib/prune-core.mjs` | `~/.pi/agent/extensions/` |
-| `skills/*` (ce-lite, harness-doctor, …) | `~/.pi/agent/skills/` |
+| `bundled-skills/*` (ce-lite, harness-doctor, …) | `~/.pi/agent/skills/` only — never `~/.pi/skills/` |
 | `lean-ctx/env.tuning.sh` | `~/.config/lean-ctx/env.tuning.sh` |
 | `lean-ctx/config.toml` | `~/.config/lean-ctx/config.toml` |
 | `lean-ctx/pi-config.json` | `~/.pi/agent/extensions/pi-lean-ctx/config.json` |
@@ -165,7 +195,7 @@ HARNESS.md             # constitution
 APPEND_SYSTEM.md       # tiny per-turn append
 AGENTS.md              # pointer for agents reading this repo
 extensions/            # pruner, rot-sentinel, lib/prune-core.mjs
-skills/                # shipped skills
+bundled-skills/                         # shipped skills → ~/.pi/agent/skills only
 lean-ctx/              # env.tuning + lean-ctx rules
 patches/               # post-install npm patches
 install.sh             # deploy

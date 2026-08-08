@@ -82,12 +82,12 @@ memory/consolidated.md|__AGENT__/memory/consolidated.md|
 memory/harnesses.md|__AGENT__/memory/harnesses.md|
 memory/user-shell.md|__AGENT__/memory/user-shell.md|
 model-thinking.json|__AGENT__/model-thinking.json|
-skills/ce-lite|__AGENT__/skills/ce-lite|dir
-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
-skills/poor-mans-distill|__AGENT__/skills/poor-mans-distill|dir
-skills/shard-security|__AGENT__/skills/shard-security|dir
+bundled-skills/ce-lite|__AGENT__/skills/ce-lite|dir
+bundled-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
+bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
+bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
+bundled-skills/poor-mans-distill|__AGENT__/skills/poor-mans-distill|dir
+bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
 scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
 EOF
@@ -124,6 +124,39 @@ for path in "${OBSOLETE[@]}"; do
   if $CHECK; then [[ ! -e "$path" ]] || { echo "[STALE] $path"; fail=$((fail+1)); }
   else rm -f "$path"; fi
 done
+
+# Prune harness skill names from $HOME/.pi/skills so they cannot shadow
+# ~/.pi/agent/skills when cwd is $HOME (Pi loads <cwd>/.pi/skills as "project").
+# Happens if this repo was cloned at ~/.pi while source still lived at skills/.
+HARNESS_SKILLS=(ce-lite harness-doctor context-rot-forensics graph-engineering poor-mans-distill shard-security)
+PROJECT_SKILLS_DIR="$HOME_DIR/.pi/skills"
+if ! $CHECK; then
+  for name in "${HARNESS_SKILLS[@]}"; do
+    path="$PROJECT_SKILLS_DIR/$name"
+    [[ -e "$path" ]] || continue
+    # Do not delete live install source (bundled-skills/ or legacy skills/).
+    resolved="$(readlink -f "$path" 2>/dev/null || printf '%s' "$path")"
+    src_new="$(readlink -f "$ROOT/bundled-skills/$name" 2>/dev/null || true)"
+    src_old="$(readlink -f "$ROOT/skills/$name" 2>/dev/null || true)"
+    if [[ -n "$src_new" && "$resolved" == "$src_new" ]] || [[ -n "$src_old" && "$resolved" == "$src_old" ]]; then
+      echo "[WARN] $path is install source; not pruning (clone outside ~/.pi, or keep using agent/skills only)"
+      continue
+    fi
+    rm -rf "$path"
+    echo "[ OK ] pruned project skill shadow: $path"
+  done
+  if [[ -d "$PROJECT_SKILLS_DIR" ]] && [[ -z "$(ls -A "$PROJECT_SKILLS_DIR" 2>/dev/null || true)" ]]; then
+    rmdir "$PROJECT_SKILLS_DIR" 2>/dev/null || true
+  fi
+else
+  for name in "${HARNESS_SKILLS[@]}"; do
+    path="$PROJECT_SKILLS_DIR/$name"
+    if [[ -e "$path" ]]; then
+      echo "[STALE] project skill shadow $path (collides with agent/skills/$name)"
+      fail=$((fail+1))
+    fi
+  done
+fi
 
 if ! $CHECK; then
   PI_AGENT_HOME="$AGENT" bash "$AGENT/scripts/apply-package-patches.sh"
