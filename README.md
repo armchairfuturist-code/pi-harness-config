@@ -146,7 +146,8 @@ Token-affecting changes: **observe → one change → verify → ledger**.
 
 | When | total_tokens | Notes |
 |------|--------------|-------|
-| Iter 12 · 2026-08-08 | **2832** / schema **6529** | maxDesc=20; trace `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` |
+| Hygiene · 2026-08-08 | **2725** / schema **6529** | AGENTS.md 729B→319B (system prompt −408 chars); `.scratch/bench-results/hil-probe-systrim.json` |
+| Iter 12 · 2026-08-08 | 2832 / schema 6529 | maxDesc=20; trace `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` |
 | Iter 11 · 2026-08-08 | **2737** / schema **6701** | maxDesc=30; `hil/traces/20260808T064135-iter11-baseline.json` |
 | Older pi/provider epochs | various | **not comparable** — re-baseline after upgrades |
 

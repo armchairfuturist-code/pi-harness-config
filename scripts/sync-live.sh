@@ -24,6 +24,7 @@ sync_one() {
 }
 
 sync_one tscg.json            "$PI_HOME/tscg.json"
+sync_one AGENTS.md            "$AGENT/AGENTS.md"
 sync_one HARNESS.md           "$AGENT/HARNESS.md"
 sync_one APPEND_SYSTEM.md     "$AGENT/APPEND_SYSTEM.md"
 sync_one packages.lock.json   "$AGENT/packages.lock.json"

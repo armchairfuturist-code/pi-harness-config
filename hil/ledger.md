@@ -459,3 +459,14 @@ KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · **ag
 
 ### Locked (unchanged)
 KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · maxDescChars=20
+
+## Hygiene + system-prompt trim (2026-08-08, post-Iter 13)
+
+- **sync-live.sh** added: repo→live config sync (tscg/AGENTS/HARNESS/APPEND/lock) + drift report + preflight. Root-cause fix for Iter 12's repo-vs-live tscg desync.
+- **pre-push hook** runs preflight; `core.hooksPath` wired in install.sh (pre-commit secret guard was never wired — dead until now).
+- **#7 finding:** fixed system prompt (3308 chars) = lean-ctx injected policy + workflows gating (extension-owned, already lean config) + `AGENTS.md` 729B (ours). HARNESS.md is NOT in the fixed prompt (read on demand).
+- **Trim:** AGENTS.md 729B → 319B (dropped doc table — README has repo map; kept HIL no-freestyle rule). Probe: 2832→**2725** (−107 tok), systemChars 3308→**2900** (−408), schema unchanged 6529.
+- packages.lock bumped (plannotator 0.26.4, cache-optimizer 2.8.1 — live self-upgrade; patches re-applied clean).
+
+### Locked (unchanged)
+KEEP=4 · 24k/20k · strip on · maxDesc=20
