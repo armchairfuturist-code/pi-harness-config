@@ -93,6 +93,12 @@ node bench/live-keep-ab.mjs             # needs pi + model
 
 ---
 
+### Multi-machine memory
+
+`memory/*.md` ships with install and is the only context that crosses machines (lean-ctx indices are machine-local). Personal configs are identical across machines, so keep `memory/consolidated.md` current: run the `memory-consolidate` saved workflow and **commit the result** — otherwise a fresh machine starts amnesiac.
+
+---
+
 ## Design (why these files exist)
 
 ### `HARNESS.md` — runtime constitution

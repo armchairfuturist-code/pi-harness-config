@@ -70,6 +70,12 @@ HIL is intentionally **paused** — no pressing token levers remain. Only resume
 6. Commit + `git push origin master`  
 7. Stop  
 
+## Provider exit playbook
+
+- **If Lilac is dropped:** re-pin bench variant (`bench/build-variant.sh` / `probe.sh` glm-5.2 → a Venice model), then re-baseline — all probe/trace numbers reset (cross-model numbers are not comparable). Locked absolute-token knobs (KEEP=4, 24k/20k, tscg) carry over unchanged.
+- **Fallback providers:** Venice e2ee models; api.deepseek.com (v4 flash) per operator preference.
+- **Config sync after any repo config edit:** `bash scripts/sync-live.sh` (repo → live; probe reads repo, sessions read live — do not edit only one).
+
 ## Paths
 
 | What | Where |

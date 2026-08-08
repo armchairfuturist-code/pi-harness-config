@@ -128,5 +128,11 @@ done
 if ! $CHECK; then
   PI_AGENT_HOME="$AGENT" bash "$AGENT/scripts/apply-package-patches.sh"
 fi
+# Wire repo git hooks (secret guard pre-commit + pre-push preflight)
+if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git -C "$ROOT" config core.hooksPath .githooks
+  echo "[ok] git core.hooksPath -> .githooks"
+fi
+
 printf 'OK=%d FAIL=%d SKIP=%d\n' "$ok" "$fail" "$skip"
 [[ "$fail" -eq 0 ]] || exit 1

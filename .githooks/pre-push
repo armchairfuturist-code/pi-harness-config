@@ -1,0 +1,5 @@
+#!/bin/sh
+# pre-push: block pushes when the live harness is broken or drifted from lock.
+# Wired via: git config core.hooksPath .githooks (install.sh does this).
+ROOT="$(git rev-parse --show-toplevel)"
+exec "$ROOT/scripts/harness-preflight.sh"
