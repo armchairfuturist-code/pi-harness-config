@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+# probe.sh takes no arguments; output path is derived from PI_BENCH_LABEL.
+if [[ $# -gt 0 ]]; then
+  echo "probe.sh: takes no arguments (output: .scratch/bench-results/<PI_BENCH_LABEL>.json)" >&2
+  exit 2
+fi
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MODEL="${PROBE_MODEL:-Lilac/zai-org/glm-5.2}"
 PORT="${PI_BENCH_PORT:-4599}"

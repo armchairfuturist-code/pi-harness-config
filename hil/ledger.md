@@ -379,7 +379,7 @@
 - **Gate:** ACCEPT (effectively NEUTRAL) | Probe Δ −4 tok | Workload Δ = variance | Checks 1
 - **Verdict:** KEEP — closes Iter 8 OPEN item; measurement stack repaired and extended (probe repair + ctx-tool canary).
 - **Learning:** (1) Variant assembly must copy extension *dependency dirs*, not a hardcoded `.ts` list — run a probe after any extension refactor as smoke test. (2) Live workload median carries ±25% run-to-run variance on live qwen-3-8-max; single-run workload deltas under ~8k tok are not evidence. (3) Absolute probe/workload numbers are comparable only within a config epoch; always re-baseline after pi upgrades or live-config drift.
-- **Open (next iter):** (a) live `tscg.json` missing → restore from repo (`cp tscg.json ~/.pi/agent/tscg.json`) and verify live tool-schema compression recovers ~1k tok/request; (b) auto-compaction characterization (Option B) still untouched; (c) consider a noise band for the workload gate in `verify.sh` (e.g. require Δ < −1500 tok or compare medians of ≥3 runs).
+- **Open items (all closed):** (a) ~~restore from repo (`cp tscg.json ~/.pi/agent/tscg.json`)~~ — wrong path; live config is `~/.pi/tscg.json`, restored + synced Iter 12; (b) auto-compaction characterized, no unlock (Iter 13); (c) workload noise band ±8000 added to `verify.sh` (2026-08-08 hygiene, post-Iter 13).
 - **Locked (unchanged):** KEEP=4, reserveTokens=24000, keepRecentTokens=20000, tscg aggressiveStripParamDesc (repo).
 
 ## Iter 12 — TSCG strip efficacy + maxDescChars 30→20 (2026-08-08)
@@ -387,7 +387,7 @@
 ### Change
 - **Measured** strip A/B on **repo** `tscg.json` (what `bench/build-variant.sh` copies — live `~/.pi/tscg.json` alone does **not** affect probe).
 - **One knob KEEP:** `aggressiveMaxDescChars: 30 → 20` (strip stays on). Repo + live updated.
-- **Not used:** `omitEmptyProperties` — **does not exist** in pi-tscg@0.1.5. Closest upstream is `pruneJsonOverhead` (default **true** already). HANDOFF candidate list was wrong on that name.
+- **Not used:** `omitEmptyProperties` — **does not exist** in pi-tscg@0.2.4. Closest upstream is `pruneJsonOverhead` (default **true** already). HANDOFF candidate list was wrong on that name.
 
 ### Strip efficacy (controlled probe A/B, same session)
 

@@ -44,14 +44,13 @@ shouldCompact = contextTokens > contextWindow - reserveTokens
 
 ## Recommended next (pick ONE)
 
-### A — Verify noise band (preferred)
+HIL is intentionally **paused** — no pressing token levers remain. Only resume on regression or new evidence.
 
-Workload |Δ| still treated as signal (Iter12 ACCEPT was noise-heavy).
+### A — ~~Verify noise band~~ DONE (2026-08-08 hygiene)
 
-- Multi-run median gate, or ignore workload |Δ| < ~8k when lever is TSCG/schema
-- Touch only `hil/verify.sh` (+ tests if any); observe a no-op or known iter12 candidate re-check
+`hil/verify.sh` now has `WORKLOAD_NOISE=8000` + `PROBE_WORSE` guard: workload |Δ| < 8000 is neutral, and workload can no longer ACCEPT over a worse probe.
 
-### B — Further TSCG (small)
+### B — Further TSCG (small, optional)
 
 - maxDesc **20→10 or 0** with probe A/B + tool-call quality smoke
 - Diminishing returns; strip already did the bulk

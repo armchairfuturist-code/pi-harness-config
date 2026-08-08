@@ -65,6 +65,7 @@ GATE="UNKNOWN"
 DELTA_PROBE="null"
 DELTA_WORKLOAD="null"
 NOISE_THRESHOLD=10  # tokens: delta below this is considered noise
+WORKLOAD_NOISE=8000 # live workload run-to-run variance ~±25% (~±8k on ~25k median); single-run |Δ| below this is not evidence (ledger Iter 11/12)
 
 if [[ "$BASE_PROBE" != "null" && "$PROBE_TOTAL" != "null" ]]; then
   DELTA_PROBE=$((PROBE_TOTAL - BASE_PROBE))
@@ -78,26 +79,31 @@ fi
 if [[ "$WORKLOAD_CHECKS" == "1" || "$WORKLOAD_CHECKS" == "true" ]]; then
   PROBE_IMPROVED=false
   PROBE_NEUTRAL=false
+  PROBE_WORSE=false
   WORKLOAD_IMPROVED=false
-  
+  WORKLOAD_NEUTRAL=false
   # Probe assessment (with noise threshold)
   if [[ "$DELTA_PROBE" != "null" ]]; then
     if [[ "$DELTA_PROBE" -lt $NOISE_THRESHOLD && "$DELTA_PROBE" -gt $((0 - NOISE_THRESHOLD)) ]]; then
       PROBE_NEUTRAL=true
     elif [[ "$DELTA_PROBE" -lt 0 ]]; then
       PROBE_IMPROVED=true
+    else
+      PROBE_WORSE=true
     fi
   fi
-  
-  # Workload assessment
-  if [[ "$DELTA_WORKLOAD" != "null" && "$DELTA_WORKLOAD" -lt 0 ]]; then
-    WORKLOAD_IMPROVED=true
+  # Workload assessment (with noise band)
+  if [[ "$DELTA_WORKLOAD" != "null" ]]; then
+    if [[ "$DELTA_WORKLOAD" -le $((0 - WORKLOAD_NOISE)) ]]; then
+      WORKLOAD_IMPROVED=true
+    elif [[ "$DELTA_WORKLOAD" -lt $WORKLOAD_NOISE ]]; then
+      WORKLOAD_NEUTRAL=true
+    fi
   fi
-  
-  # Gate decision
-  if $PROBE_IMPROVED || $WORKLOAD_IMPROVED; then
+  # Gate: workload evidence only beyond noise band; never overrides a worse probe
+  if { $PROBE_IMPROVED || $WORKLOAD_IMPROVED; } && ! $PROBE_WORSE; then
     GATE="ACCEPT"
-  elif $PROBE_NEUTRAL; then
+  elif $PROBE_NEUTRAL && { $WORKLOAD_NEUTRAL || [[ "$DELTA_WORKLOAD" == "null" ]]; }; then
     GATE="NEUTRAL"
   else
     GATE="COST_POSITIVE"
