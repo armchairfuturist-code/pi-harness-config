@@ -2,7 +2,111 @@
 
 Token-optimized, measurement-gated configuration for the [pi](https://github.com/badlogic/pi-mono) coding agent.
 
-**This repo is the source of truth.** Other machines and agent homes should install from GitHub — do not hand-copy ad-hoc files from a live `~/.pi/agent`.
+**This repo is the source of truth.** Install from GitHub — never hand-copy ad-hoc files from a live `~/.pi/agent`.
+
+---
+
+## For humans — the 30-second pitch
+
+A drop-in config that makes `pi` cheaper and smarter to run:
+
+- **Token-optimized**: tool-schema compression, context pruning, and a slimmed `workflow` tool schema keep every session lean (~7.7% system-prompt savings measured, more with the workflow slim).
+- **Measurement-gated**: every token-affecting change goes through an observe → change → verify → ledger loop (`hil/`). No unproven tweaks.
+- **Self-orchestrating**: `ce-lite` decides when to fan out to parallel subagents and when to just answer directly — so you get multi-agent power without paying for it on simple tasks.
+- **Reproducible**: `install.sh` deploys every locked file, pins npm packages, and applies post-install patches. Same harness on every machine.
+
+**Install (after pi base install):**
+
+```bash
+git clone https://github.com/armchairfuturist-code/pi-harness-config.git
+cd pi-harness-config
+./install.sh
+```
+
+**Recommend it if:** you run pi daily, care about token spend, and want a harness that improves itself through measurement rather than vibes.
+
+---
+
+## For AI agents — onboarding checklist
+
+> Read this section first if you are an agent bootstrapping a machine. A human has already installed the **pi base install** (the `pi` binary + `~/.pi/agent` skeleton). Your job: deploy this harness on top, verify it, and confirm the machine is ready.
+
+### Step 0 — Confirm prerequisites
+
+```bash
+pi --version            # pi base install present?
+ls ~/.pi/agent          # exists (may be empty skeleton)
+```
+
+If `pi` is missing, stop and tell the human: the pi base install must come first.
+
+### Step 1 — Clone
+
+```bash
+git clone https://github.com/armchairfuturist-code/pi-harness-config.git
+cd pi-harness-config
+```
+
+**Clone location matters:** prefer a path outside Pi's config root (e.g. `~/pi-harness-config`). If you clone to `~/.pi`, this tree uses `bundled-skills/` (not `skills/`), so it is **not** auto-loaded as project skills — that is intentional and safe.
+
+### Step 2 — Install
+
+```bash
+./install.sh
+```
+
+What it does, in order:
+1. Deploys every locked file (see the install table below) to `~/.pi/agent/`, `~/.pi/tscg.json`, `~/.config/lean-ctx/`.
+2. Pins npm packages from `packages.lock.json` via `pi install`.
+3. Applies post-install patches (`patches/context-mode`, `patches/tscg`, `patches/dynamic-workflows`).
+4. Prunes legacy `~/.pi/skills/` shadows for harness skill names.
+
+Flags: `--check` (diff only, no writes) · `--settings` (overwrite provider/model with repo defaults) · `--skip-packages` (files only).
+
+### Step 3 — Verify
+
+```bash
+./install.sh --check            # expect: no unexpected DIFF/FAIL for locked files
+./scripts/harness-preflight.sh  # expect: exit 0, all OK
+```
+
+Apply runtime env (bash/zsh):
+
+```bash
+grep -q 'lean-ctx/env.tuning' ~/.bashrc 2>/dev/null \
+  || echo 'source "$HOME/.config/lean-ctx/env.tuning.sh"' >> ~/.bashrc
+source "$HOME/.config/lean-ctx/env.tuning.sh"
+./scripts/harness-preflight.sh
+```
+
+(Fish: `set -gx PI_TRANSCRIPT_PRUNE 1`, `set -gx PI_PRUNE_KEEP 4`, `set -gx LEAN_CTX_EPHEMERAL_MIN_TOKENS 1000`.)
+
+### Step 4 — Confirm the machine is ready
+
+You are **done** when:
+
+- [ ] `./install.sh --check` shows no FAIL for repo-managed files
+- [ ] `./scripts/harness-preflight.sh` exits 0
+- [ ] `pi` starts and loads the `workflow` tool (slimmed schema) + lean-ctx `ctx_*` tools
+- [ ] `~/.pi/agent/skills/ce-lite/SKILL.md` exists (the orchestrator)
+- [ ] No `~/.pi/skills/` shadows for harness skill names remain
+
+### Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Preflight: `BAD skill shadow` | stale `~/.pi/skills/<name>` collides with agent skills | `rm -rf ~/.pi/skills/{ce-lite,harness-doctor,context-rot-forensics,graph-engineering,poor-mans-distill,shard-security}` then re-run |
+| Preflight: `pi-lean-ctx expected X found Y` | live package ≠ lock | update `packages.lock.json` to the installed version (both repo **and** `~/.pi/agent/packages.lock.json`), commit |
+| `[Skill conflicts]` on pi start | project skills shadow agent skills | `./install.sh` (prunes shadows) |
+| Patches not applied | package version changed | run `node patches/*/apply-patches.mjs` (version-pinned — they refuse silently on mismatch) |
+| `--check` FAIL on `settings.json` | live provider/model differs by design | expected unless you pass `--settings` |
+
+### Where to look next
+
+- **`hil/HANDOFF.md`** — current next-iteration instructions (what the harness is working on).
+- **`hil/ledger.md`** — decision log; **do not redo** closed iterations.
+- **`HARNESS.md`** — runtime constitution, re-read each turn.
+- **`memory/consolidated.md`** — cross-machine context; keep current (run the `memory-consolidate` workflow and commit) or a fresh machine starts amnesiac.
 
 ---
 
@@ -38,7 +142,6 @@ Invoke a **workflow** only when: 2+ independent workstreams run concurrently, a 
 | **`@quintinshaw/pi-dynamic-workflows`** | the parallel execution engine (`workflow` tool: `agent()`/`parallel()`/`pipeline()`), journals, `resumeFromRunId` |
 | **lean-ctx MCP tools** | context I/O: `ctx_read`/`ctx_grep`/`ctx_search`/`ctx_index`, knowledge store, shell allowlist |
 | **wayfinder + tracker** | cross-session orientation (`.scratch/wayfinder/`) and ticket-based session-spanning work |
-| **intercom** (optional, not installed by default) | human/agent chat across *separate* pi sessions |
 
 ### Plan→Execute bridge (tickets → workflow)
 
@@ -53,10 +156,9 @@ That's the automation path from Plan (tickets) to Execute (parallel waves) — n
 
 ---
 
-## For other agents / machines
+## Configuration reference
 
-
-## Skill paths (avoid collisions)
+### Skill paths (avoid collisions)
 
 Pi loads skills from **two** places and warns on name collisions:
 
@@ -68,63 +170,6 @@ Pi loads skills from **two** places and warns on name collisions:
 This repo ships skills under **`bundled-skills/`**. `install.sh` copies them **only** into `~/.pi/agent/skills/`.
 
 **Do not** keep harness skills at `~/.pi/skills/` — that path **is** project skills whenever Pi runs with `cwd=$HOME`, so it collides with the agent copy and one side is skipped.
-
-### Clone location
-
-- **Preferred:** clone outside Pi's config root, e.g. `~/pi-harness-config`, then `./install.sh`.
-- **If you clone to `~/.pi`:** this tree uses `bundled-skills/` (not `skills/`) so a checkout at `~/.pi` is not auto-loaded as project skills. Legacy `~/.pi/skills/` trees from older checkouts are pruned by `install.sh`.
-
-### After pull / if you see `[Skill conflicts]`
-
-```bash
-./install.sh
-# or only clear shadows:
-rm -rf ~/.pi/skills/{ce-lite,harness-doctor,context-rot-forensics,graph-engineering,poor-mans-distill,shard-security}
-```
-
-`./install.sh --check` and `scripts/harness-preflight.sh` fail on leftover project shadows for harness skill names.
-
-
-### Exact update sequence
-
-1. `git clone` or `git pull` https://github.com/armchairfuturist-code/pi-harness-config
-2. `./install.sh` — deploys every locked file (see table below)
-3. Source runtime env (KEEP=4 + lean-ctx thresholds)
-4. `./scripts/harness-preflight.sh` — fail closed if incomplete
-5. **Do not** change Locked knobs without HIL (`hil/ledger.md`)
-
-Provider + model stay **machine-local** by default (`install.sh` merges live `defaultProvider` / `defaultModel` unless you pass `--settings`).
-
-### Install
-
-```bash
-git clone https://github.com/armchairfuturist-code/pi-harness-config.git
-cd pi-harness-config
-./install.sh
-# optional: force repo provider/model defaults
-# ./install.sh --settings
-# optional: files only (skip `pi install` pins)
-# ./install.sh --skip-packages
-# drift check without writing:
-# ./install.sh --check
-```
-
-Apply runtime env (bash/zsh):
-
-```bash
-grep -q 'lean-ctx/env.tuning' ~/.bashrc 2>/dev/null \
-  || echo 'source "$HOME/.config/lean-ctx/env.tuning.sh"' >> ~/.bashrc
-source "$HOME/.config/lean-ctx/env.tuning.sh"
-./scripts/harness-preflight.sh
-```
-
-Fish:
-
-```fish
-set -gx PI_TRANSCRIPT_PRUNE 1
-set -gx PI_PRUNE_KEEP 4
-set -gx LEAN_CTX_EPHEMERAL_MIN_TOKENS 1000
-```
 
 ### Locked knobs (do not freestyle)
 
@@ -138,7 +183,7 @@ set -gx LEAN_CTX_EPHEMERAL_MIN_TOKENS 1000
 | Extensions | pruner, session-index, runtime-discipline, **rot-sentinel** | `settings.json` + `extensions/*` | Iter 8–11 |
 | Packages | pins in `packages.lock.json` | `pi install` via install.sh | lockfile |
 
-Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**.
+Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**. **Do not** change Locked knobs without HIL.
 
 ### What `install.sh` writes
 
@@ -159,18 +204,14 @@ Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**.
 | `patches/dynamic-workflows/apply-patches.mjs` | `~/.pi/agent/patches/dynamic-workflows/` (then applied) |
 | `workflows/**`, `memory/**` | under `~/.pi/` / `~/.pi/agent/` |
 
-Flags: `--check` (diff only), `--settings` (overwrite provider/model), `--skip-packages`.
-
 ### Sanity after install
 
 ```bash
 ./scripts/harness-preflight.sh
-node bench/workload-deterministic.mjs   # no LLM
-node bench/live-keep-ab.mjs             # needs pi + model
-# optional: bash hil/canaries/ctx-tool-exercise.sh  (proxy + Lilac path)
+node bench/workload-deterministic.mjs # no LLM
+node bench/live-keep-ab.mjs # needs pi + model
+# optional: bash hil/canaries/ctx-tool-exercise.sh (proxy + Lilac path)
 ```
-
----
 
 ### Multi-machine memory
 
@@ -181,19 +222,15 @@ node bench/live-keep-ab.mjs             # needs pi + model
 ## Design (why these files exist)
 
 ### `HARNESS.md` — runtime constitution
-
 Stable rules re-read each turn. Keep short.
 
 ### `APPEND_SYSTEM.md` — per-turn system append
-
 Injected every turn (~187 bytes). Durable policy goes in `HARNESS.md` or skills, not here.
 
 ### `settings.json` — pi agent config
-
-Packages list, extension paths, compaction, thinking level. Repo bench default provider is Lilac/glm-5.2; live installs preserve the machine’s model unless `--settings`.
+Packages list, extension paths, compaction, thinking level. Repo bench default provider is Lilac/glm-5.2; live installs preserve the machine's model unless `--settings`.
 
 ### `tscg.json` — tool-schema compression
-
 **Path is `~/.pi/tscg.json`** (pi-tscg home root). Aggressive param-description strip is on; `aggressiveMaxDescChars` **20** (Iter 12). Repo `tscg.json` is what probe/build-variant uses — keep live in sync.
 
 ### Extensions
@@ -237,21 +274,21 @@ Live multi-turn medians can swing ±25% on non-det models; do not promote on one
 ## Repo map
 
 ```
-settings.json          # agent config
-tscg.json              # → ~/.pi/tscg.json
-packages.lock.json     # npm pins
-HARNESS.md             # constitution
-APPEND_SYSTEM.md       # tiny per-turn append
-AGENTS.md              # pointer for agents reading this repo
-extensions/            # pruner, rot-sentinel, lib/prune-core.mjs
-bundled-skills/                         # ce-lite orchestrator + shipped skills → ~/.pi/agent/skills only
-lean-ctx/              # env.tuning + lean-ctx rules
-patches/               # post-install npm patches (context-mode, tscg, dynamic-workflows)
-install.sh             # deploy
-scripts/               # preflight, validators, unattended-loop, tickets-to-workflow.mjs
-bench/                 # measurement
-hil/                   # HIL loop, ledger, canaries, traces
-docs/                  # design notes
+settings.json # agent config
+tscg.json # → ~/.pi/tscg.json
+packages.lock.json # npm pins
+HARNESS.md # constitution
+APPEND_SYSTEM.md # tiny per-turn append
+AGENTS.md # pointer for agents reading this repo
+extensions/ # pruner, rot-sentinel, lib/prune-core.mjs
+bundled-skills/ # ce-lite orchestrator + shipped skills → ~/.pi/agent/skills only
+lean-ctx/ # env.tuning + lean-ctx rules
+patches/ # post-install npm patches (context-mode, tscg, dynamic-workflows)
+install.sh # deploy
+scripts/ # preflight, validators, unattended-loop, tickets-to-workflow.mjs
+bench/ # measurement
+hil/ # HIL loop, ledger, canaries, traces
+docs/ # design notes
 ```
 
 ## Auth (not in git)
@@ -274,7 +311,6 @@ This harness configures, patches, and composes open-source projects. Sources:
 | **context-mode** | [github.com/mksglu/context-mode](https://github.com/mksglu/context-mode) | context-mode admin tools toggle (`patches/context-mode/`) |
 | **pi-dynamic-workflows** | [github.com/QuintinShaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) | `workflow` tool engine; slimmed by `patches/dynamic-workflows/` |
 | **Matt Pocock skills** | [github.com/mattpocock/skills](https://github.com/mattpocock/skills) (via `agent-skills` npm) | `ask-matt`, `grill-me`, `to-spec`, `to-tickets`, `tdd`, `code-review`, … |
-| **intercom** (optional) | [github.com/nicobailon/pi-intercom](https://github.com/nicobailon/pi-intercom) | cross-session chat; evaluated, not installed by default |
 
 ## License
 
