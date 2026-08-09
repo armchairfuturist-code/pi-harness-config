@@ -1,6 +1,6 @@
 ---
 name: ce-lite
-description: "Router for non-trivial work: multi-step, ambiguous, deliverable-shaped, or externally consequential requests. Use when: 2+ steps, unclear goal, cross-file or cross-session scope, needs review/verification, or a profile applies. Do NOT load for single-step lookups, direct answers, or pure questions. Runs grill → contract → plan → execute → verify → compound."
+description: "Non-trivial work router: grill, contract, plan, execute, verify, compound. Trivial requests answered directly."
 ---
 
 # CE-lite

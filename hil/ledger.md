@@ -470,3 +470,25 @@ KEEP=4 · reserveTokens=24000 · keepRecentTokens=20000 · tscg strip on · maxD
 
 ### Locked (unchanged)
 KEEP=4 · 24k/20k · strip on · maxDesc=20
+
+## ce-lite activation A/B (2026-08-09, Iter 14)
+
+**Problem:** ce-lite rarely activates — the model skips reading SKILL.md even for complex tasks. Measured on Lilac/glm-5.2, 7 briefs x 2 reps = 14 lanes per variant.
+
+**Variants tested:**
+1. **Baseline** (original APPEND_SYSTEM: "for non-trivial work read ce-lite/SKILL.md") -> ce-lite loaded on **3/14** lanes (s4 wayfinder, s5 multi-session only). All functional checks pass.
+2. **T1** (trigger-rich description: "Do NOT load for single-step lookups...") -> ce-lite loaded on **0/14** — **REGRESSION**. The negative trigger made the model too conservative, suppressing activation even for wayfinder and multi-session. **Reverted.**
+3. **Post-fix** (strengthened APPEND_SYSTEM: "you MUST first read" + concrete triggers: 2+ steps, file edits, new code, debugging, multi-file, deliverable artifact) -> ce-lite loaded on **10/14** non-trivial lanes, correctly **skipped s6 trivial (0/2)**. All functional checks pass.
+
+**Key finding:** The activation lever is **APPEND_SYSTEM.md imperativeness**, not the skill description. Advisory "read" -> 3/14; imperative "MUST first read" + concrete triggers -> 10/14. The skill description (frontmatter) is not the primary activation mechanism — the per-turn system append is.
+
+**Changes shipped:**
+- T1 reverted (description back to original)
+- T2-T5 kept (worker safety, fan-out guardrails, output footer, self-test gate — dormant, zero per-turn cost)
+- APPEND_SYSTEM.md: 187B -> 376B (imperative hook + concrete triggers + explicit skip clause)
+- Suite extended: s6 (trivial — T1 negative trigger), s7 (worker-safety trap)
+- run-suite-direct.sh: live-agent suite runner (no proxy/variant needed)
+- aggregate.js skill_loaded metric fixed (detects actual tool calls to ce-lite files, not system-prompt presence)
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
