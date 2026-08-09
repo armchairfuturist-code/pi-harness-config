@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-08-08T08:01:47Z",
+  "label": "verify-resume-20260808T080107Z",
+  "phase": "observe",
+  "probe": {
+    "total_tokens": 2728,
+    "input_tokens": 2725,
+    "output_tokens": 3,
+    "tool_count": 17,
+    "tool_schema_chars": 6529,
+    "system_chars": 2900,
+    "model": "zai-org/glm-5.2",
+    "tool_names": ["ctx_batch_execute","ctx_edit","ctx_execute","ctx_execute_file","ctx_fetch_and_index","ctx_find","ctx_grep","ctx_index","ctx_ls","ctx_read","ctx_search","ctx_shell","edit","lean_ctx","workflow","workflow_control","write"]
+  },
+  "workload": {
+    "total_input_tokens_median": 15471,
+    "checks_pass": 1,
+    "runs_completed": 3,
+    "run_totals": "15317,15488,15471"
+  },
+  "det_pruner": {"ok":true,"deterministic":true,"gate":{"all_paths_fire":true,"mono_keep_sweep":true,"scenario_pass":true},"scenarios":[{"name":"dedup","ok":true,"savedChars":1420,"savedTokensEst":355,"kinds":{"clear":0,"dup":4,"stale":0}},{"name":"cross_tool_dedup","ok":true,"savedChars":254,"savedTokensEst":64,"kinds":{"clear":0,"dup":1,"stale":0}},{"name":"stale","ok":true,"savedChars":248,"savedTokensEst":62,"kinds":{"clear":0,"dup":0,"stale":1}},{"name":"clear","ok":true,"savedChars":976,"savedTokensEst":244,"kinds":{"clear":8,"dup":0,"stale":0}},{"name":"combined","ok":true,"savedChars":2681,"savedTokensEst":670,"kinds":{"clear":6,"dup":4,"stale":1}}],"keep_sweep":[{"keep":2,"savedChars":2829,"savedTokensEst":707,"charsBefore":5554,"charsAfter":2725,"kinds":{"clear":7,"dup":4,"stale":1},"ok":true,"fails":[]},{"keep":3,"savedChars":2681,"savedTokensEst":670,"charsBefore":5554,"charsAfter":2873,"kinds":{"clear":6,"dup":4,"stale":1},"ok":true,"fails":[]},{"keep":4,"savedChars":2533,"savedTokensEst":633,"charsBefore":5554,"charsAfter":3021,"kinds":{"clear":5,"dup":4,"stale":1},"ok":true,"fails":[]},{"keep":6,"savedChars":2237,"savedTokensEst":559,"charsBefore":5554,"charsAfter":3317,"kinds":{"clear":3,"dup":4,"stale":1},"ok":true,"fails":[]}]},
+ "live_keep": {"ok":false,"error":"live_keep_failed"},
+ "canary_suite": null,
+  "manifest": {"commit":"7ec56c70c58310ad7dcac8c006c917584080919d","configHash":"629bf00fe0b8","variantHome":"/tmp/pi-harness-home.uTlnOY","settings":{"lastChangelogVersion":"0.83.0","theme":"dark","defaultProvider":"Lilac","defaultModel":"zai-org/glm-5.2","packages":["npm:@ogulcancelik/pi-model-thinking","npm:@plannotator/pi-extension","npm:cc-safety-net","npm:context-mode","npm:pi-autoresearch","npm:pi-cache-optimizer","npm:pi-context-usage","npm:pi-continue","npm:pi-herdr-btw","npm:pi-lean-ctx","npm:pi-slim","npm:pi-tscg","npm:@quintinshaw/pi-dynamic-workflows"],"extensions":["~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts","~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts","~/.pi/agent/extensions/transcript-pruner.ts","~/.pi/agent/extensions/session-index.ts","~/.pi/agent/extensions/runtime-discipline.ts","~/.pi/agent/extensions/rot-sentinel.ts"],"defaultThinkingLevel":"high","steeringMode":"all","hideThinkingBlock":true,"compaction":{"reserveTokens":24000,"keepRecentTokens":20000}},"packages":{"@ogulcancelik/pi-model-thinking":"0.1.0","@plannotator/pi-extension":"0.26.4","cc-safety-net":"1.0.6","context-mode":"1.0.169","pi-autoresearch":"1.6.2","pi-cache-optimizer":"2.8.1","pi-context-usage":"1.0.2","pi-continue":"0.9.3","pi-herdr-btw":"0.3.0","pi-lean-ctx":"3.9.17","pi-slim":"0.2.1","pi-tscg":"0.2.4","@quintinshaw/pi-dynamic-workflows":"3.5.1","@samfp/pi-essentials":"0.2.3"}}
+}

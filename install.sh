@@ -62,9 +62,11 @@ scripts/validate-live-settings.mjs|__AGENT__/scripts/validate-live-settings.mjs|
 scripts/validate-manifest.mjs|__AGENT__/scripts/validate-manifest.mjs|
 scripts/verify-package-lock.mjs|__AGENT__/scripts/verify-package-lock.mjs|
 scripts/apply-package-patches.sh|__AGENT__/scripts/apply-package-patches.sh|
+scripts/tickets-to-workflow.mjs|__AGENT__/scripts/tickets-to-workflow.mjs|
 scripts/profile.sh|__AGENT__/scripts/profile.sh|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
+patches/dynamic-workflows/apply-patches.mjs|__AGENT__/patches/dynamic-workflows/apply-patches.mjs|
 tscg.json|__PI_HOME__/tscg.json|
 extensions/session-index.ts|__AGENT__/extensions/session-index.ts|
 extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|

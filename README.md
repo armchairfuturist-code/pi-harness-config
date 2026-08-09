@@ -6,6 +6,53 @@ Token-optimized, measurement-gated configuration for the [pi](https://github.com
 
 ---
 
+## How ce-lite works (the orchestrator)
+
+**ce-lite** (ships as `bundled-skills/ce-lite`) is the harness's decision-and-execution orchestrator — everything a session does routes through its 7-stage loop:
+
+```
+Grill → Contract → Plan → Diagnose axes → Execute → Verify → Compound
+```
+
+- **Grill** (`grill-me`, `grill-with-docs`): up to 5 sharp questions before any Contract work — nail the real goal, constraints, and definition of done before spending tokens.
+- **Contract**: a 2–4 sentence scope contract the session stays on-the-hook for and later verifies against.
+- **Plan**: choose the route (`Lookup` / `Simple` / `Contract`) and whether it's one-answer-direct or multi-stage.
+- **Diagnose axes**: the routing decision. Two axes decide *how* work runs:
+  - **action complexity** high → workflow fan-out (parallel subagents)
+  - **context + action** high → isolated workers + indexing
+  - otherwise → execute directly in-session (keep tokens low)
+- **Execute**: route pieces to sized workers — mechanical leaves to small agents, workers/reviewers to medium, hard synthesis to a big agent. Custom `agent()` / `parallel()` / `phase()` scripts follow the `workflow-authoring` skill.
+- **Verify**: check the contract's acceptance criteria; use a fresh-context reviewer/judge when judgment matters.
+- **Compound**: update the skill shelf, refresh notes/indexes, append the lesson to memory so the next session is cheaper.
+
+### When ce-lite fans out (and when it mustn't)
+
+Invoke a **workflow** only when: 2+ independent workstreams run concurrently, a fresh-context reviewer/judge is required, or work crosses a handoff boundary. **Otherwise execute directly** — the whole point of "lite" is to *not* pay fan-out overhead for single-context work.
+
+### How it composes the stack
+
+| Layer | Role |
+|---|---|
+| **ce-lite** | orchestration policy (when to fan out, when not) |
+| **Matt Pocock skills** (`ask-matt`, `research`, `tdd`, `code-review`, `to-spec`, `to-tickets`, …) | specialist method per phase — load lazily, only when the branch applies |
+| **`@quintinshaw/pi-dynamic-workflows`** | the parallel execution engine (`workflow` tool: `agent()`/`parallel()`/`pipeline()`), journals, `resumeFromRunId` |
+| **lean-ctx MCP tools** | context I/O: `ctx_read`/`ctx_grep`/`ctx_search`/`ctx_index`, knowledge store, shell allowlist |
+| **wayfinder + tracker** | cross-session orientation (`.scratch/wayfinder/`) and ticket-based session-spanning work |
+| **intercom** (optional, not installed by default) | human/agent chat across *separate* pi sessions |
+
+### Plan→Execute bridge (tickets → workflow)
+
+`to-tickets` writes a dependency graph under `.scratch/<slug>/issues/`. `scripts/tickets-to-workflow.mjs` parses those tickets (title, status, blocked-by edges), builds dependency **waves**, and emits a saved workflow:
+
+```bash
+node scripts/tickets-to-workflow.mjs <feature-slug> [cwd]
+# → run the saved workflow via the workflow tool: name="<slug>-execute"
+```
+
+That's the automation path from Plan (tickets) to Execute (parallel waves) — no hand-transcribing ticket graphs into workflow scripts.
+
+---
+
 ## For other agents / machines
 
 
@@ -108,6 +155,8 @@ Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**.
 | `lean-ctx/pi-config.json` | `~/.pi/agent/extensions/pi-lean-ctx/config.json` |
 | `patches/**` + apply scripts | `~/.pi/agent/patches/` then applied into npm |
 | `scripts/harness-preflight.sh` + validators | `~/.pi/agent/scripts/` |
+| `scripts/tickets-to-workflow.mjs` | `~/.pi/agent/scripts/` |
+| `patches/dynamic-workflows/apply-patches.mjs` | `~/.pi/agent/patches/dynamic-workflows/` (then applied) |
 | `workflows/**`, `memory/**` | under `~/.pi/` / `~/.pi/agent/` |
 
 Flags: `--check` (diff only), `--settings` (overwrite provider/model), `--skip-packages`.
@@ -195,11 +244,11 @@ HARNESS.md             # constitution
 APPEND_SYSTEM.md       # tiny per-turn append
 AGENTS.md              # pointer for agents reading this repo
 extensions/            # pruner, rot-sentinel, lib/prune-core.mjs
-bundled-skills/                         # shipped skills → ~/.pi/agent/skills only
+bundled-skills/                         # ce-lite orchestrator + shipped skills → ~/.pi/agent/skills only
 lean-ctx/              # env.tuning + lean-ctx rules
-patches/               # post-install npm patches
+patches/               # post-install npm patches (context-mode, tscg, dynamic-workflows)
 install.sh             # deploy
-scripts/               # preflight, validators, unattended-loop
+scripts/               # preflight, validators, unattended-loop, tickets-to-workflow.mjs
 bench/                 # measurement
 hil/                   # HIL loop, ledger, canaries, traces
 docs/                  # design notes
@@ -211,6 +260,21 @@ docs/                  # design notes
 pi auth login openai --api-key "$OPENAI_API_KEY"
 # other providers via pi auth / local models.json — never commit secrets
 ```
+
+## Upstream projects & credits
+
+This harness configures, patches, and composes open-source projects. Sources:
+
+| Component | Upstream | Role here |
+|---|---|---|
+| **pi** (the agent) | [github.com/badlogic/pi-mono](https://github.com/badlogic/pi-mono) | the coding agent this configures |
+| **lean-ctx** (MCP context tools) | [github.com/yvgude/lean-ctx](https://github.com/yvgude/lean-ctx) · [leanctx.com](https://leanctx.com) | `ctx_*` tools, knowledge store, shell allowlist; pinned via `packages.lock.json` |
+| **pi-lean-ctx** bridge | [github.com/yvgude/lean-ctx](https://github.com/yvgude/lean-ctx) (npm `pi-lean-ctx`) | Pi extension wiring lean-ctx into the agent |
+| **pi-tscg** (tool-schema compression) | [github.com/Nick-Wolf-HLK/pi-tscg](https://github.com/Nick-Wolf-HLK/pi-tscg) | `tscg.json` + `patches/tscg/` |
+| **context-mode** | [github.com/mksglu/context-mode](https://github.com/mksglu/context-mode) | context-mode admin tools toggle (`patches/context-mode/`) |
+| **pi-dynamic-workflows** | [github.com/QuintinShaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) | `workflow` tool engine; slimmed by `patches/dynamic-workflows/` |
+| **Matt Pocock skills** | [github.com/mattpocock/skills](https://github.com/mattpocock/skills) (via `agent-skills` npm) | `ask-matt`, `grill-me`, `to-spec`, `to-tickets`, `tdd`, `code-review`, … |
+| **intercom** (optional) | [github.com/nicobailon/pi-intercom](https://github.com/nicobailon/pi-intercom) | cross-session chat; evaluated, not installed by default |
 
 ## License
 

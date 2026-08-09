@@ -10,7 +10,8 @@ Re-apply after `pi update --extensions` or `ctx_upgrade`.
 | Baseline (no patches) | 4,118 | — |
 | context-mode admin tools off | 3,851 | −267 (−6.5%) |
 | + TSCG recursive truncation | 3,802 | −49 (−1.2%) |
-| **Total** | **3,802** | **−316 (−7.7%)** |
+| + dynamic-workflows slim | 3,802* | est. −450–1,000 (not yet re-probed) |
+| **Total** | **3,802** | **−316 (−7.7%) +  slim** |
 
 Probe: `bench/probe.sh` through capture proxy, single request, no tool calls.
 Full workload: `bench/measure.sh` — 22,342 tokens median (replace mode) vs 24,856 (additive), −10.1%.
@@ -36,6 +37,16 @@ Also removes their references from the routing anchor injected via the `context`
 Patches `truncateLongDescriptions` in `pi-tscg/extensions/tscg.ts` to recurse into nested parameter descriptions (array items, nested objects). Previously only first-level parameter descriptions were truncated to `aggressiveMaxDescChars` (30). Now all levels are truncated.
 
 **Re-apply**: `node patches/tscg/apply-patches.mjs`
+
+## dynamic-workflows workflow-tool slim
+
+**File**: `dynamic-workflows/apply-patches.mjs`
+
+Slims the `workflow` tool's `script` parameter description in `@quintinshaw/pi-dynamic-workflows/dist/workflow-tool.js`. The package ships a ~1,000-token inline JavaScript authoring reference inside the always-on tool schema; this patch replaces it with a ~150-token compact pointer to the lazy-loaded `workflow-authoring` skill. The full reference is still available on demand — it just no longer taxes every request.
+
+**Version-pinned**: refuses to patch if the installed package version ≠ `3.5.1` (update the pin after intentional upgrades).
+
+**Re-apply**: `node patches/dynamic-workflows/apply-patches.mjs`
 
 ## Why these patches exist
 
