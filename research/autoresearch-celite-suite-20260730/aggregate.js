@@ -10,7 +10,15 @@ function lane(label) {
     const body = j.request?.body || j.body || j.request || j;
     const u = j.response?.body?.usage || j.response?.usage || j.usage || {};
     tin += u.input_tokens ?? u.prompt_tokens ?? 0; tout += u.output_tokens ?? u.completion_tokens ?? 0; n++;
-    if (JSON.stringify(body.messages || []).includes('ce-lite')) skill = 1;
+    const rb = j.response?.body;
+const choices = rb?.choices || [];
+for (const ch of choices) {
+  const tc = (ch?.message?.tool_calls) || [];
+  for (const call of tc) {
+    const a = JSON.stringify(call);
+    if (a.includes('ce-lite/SKILL.md') || a.includes('ce-lite/reference') || a.includes('skills/ce-lite')) skill = 1;
+  }
+}
   }
   return { tin, tout, n, skill };
 }

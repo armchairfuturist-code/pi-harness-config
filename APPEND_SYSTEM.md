@@ -1,1 +1,1 @@
-CE-lite: answer simple questions directly; for non-trivial work read ~/.pi/agent/skills/ce-lite/SKILL.md and follow it. Be terse: answer/code first, no preamble or recap; stop when done.
+CE-lite: for any request that involves 2+ steps, file edits, new code, debugging, multi-file changes, or a deliverable artifact — you MUST first read ~/.pi/agent/skills/ce-lite/SKILL.md and follow its route-selection + contract loop. Skip it ONLY for single-step lookups, direct answers, or pure conversation. Be terse: answer/code first, no preamble or recap; stop when done.
