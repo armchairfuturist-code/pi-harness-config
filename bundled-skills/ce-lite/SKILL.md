@@ -1,6 +1,6 @@
 ---
 name: ce-lite
-description: "Non-trivial work router: grill, contract, plan, execute, verify, compound. Trivial requests answered directly."
+description: "Router for non-trivial work: multi-step, ambiguous, deliverable-shaped, or externally consequential requests. Use when: 2+ steps, unclear goal, cross-file or cross-session scope, needs review/verification, or a profile applies. Do NOT load for single-step lookups, direct answers, or pure questions. Runs grill → contract → plan → execute → verify → compound."
 ---
 
 # CE-lite
@@ -37,6 +37,8 @@ Completion: every request has one base route plus every applicable overlay.
 
    Invoke a workflow when: two or more independent workstreams can run concurrently; a fresh-context reviewer/judge is required; or work crosses a handoff boundary. Otherwise execute directly.
 
+Fan-out guardrails (from `dispatching-parallel-agents`): parallelize only when the streams are independent — no shared mutable state, no coordination needed, each worker's brief is self-contained. If workers must coordinate or share mutable state, serialize instead. If coordination overhead would exceed the work itself, execute directly. Never fan out to parallelize a single sequential task.
+
 5. **Execute** — route mechanical leaves to `small`, workers/reviewers to `medium`, hard synthesis to `big`. Use custom `agent()`/`parallel()`/`phase()` graphs only after reading `workflow-authoring`. Keep intermediate material in workflow variables.
    *Done*: every worker returns the six-field result contract (see `reference.md`); changed paths remain in scope.
 
@@ -45,7 +47,17 @@ Completion: every request has one base route plus every applicable overlay.
    *Done*: every term row says pass and cites current evidence; unresolved risks named and reported as incomplete or qualified.
 
 7. **Deliver and compound** — report outcome against terms, artifact paths, verification status, surviving risks. Save reusable patterns, gotchas, preferences, and durable decisions to the knowledge store or project record.
+
+**Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). This makes Verify and cross-session handoffs parseable.
    *Done*: operator can locate every deliverable, see whether all terms passed, identify each residual risk; omit categories with no content.
+
+## Worker safety
+
+Workers (subagents, fan-out lanes, background agents) must not: perform destructive operations (delete, force-push, mass-rewrite) without explicit operator consent; read or write outside the agreed work scope (declared paths, workflow variables, indexed scope); access credentials, tokens, cookies, or browser state; post, like, reply, or modify remote content. Scope is declared in the contract or the worker brief. If a worker needs to exceed scope, it must stop and report back — it does not proceed on its own.
+
+## Self-test (first load)
+
+Before routing, verify the skill tree resolves: `reference.md`, `grilling.md`, `gather-judge.md`, `context-health.md`, `wayfinding.md` must exist under `SKILL_DIR`. If any reference is missing, fall back to the SKILL.md body alone and report the gap — do not route on a broken skill tree. This gate runs once per activation, not per turn.
 
 ## Operating rules
 
