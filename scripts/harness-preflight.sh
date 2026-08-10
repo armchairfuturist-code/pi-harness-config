@@ -47,5 +47,12 @@ else GOT_PROFILE=$(grep -E '^tool_profile' "$LIVE_TOML" 2>/dev/null | sed -E 's/
   fi
 fi
 
+# Extension drift (warn-only): surface available updates without blocking the
+# build. Pinned packages are flagged by the script itself.
+if command -v node >/dev/null 2>&1 && [[ -f "$ROOT/scripts/check-extension-updates.sh" ]]; then
+  DRIFT=$("$ROOT/scripts/check-extension-updates.sh" --json 2>/dev/null | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{try{const r=JSON.parse(s);const u=r.filter(x=>x.status==='UPDATE');if(u.length)console.log(u.map(x=>x.pkg+'@'+x.latest).join(', '))}catch(e){}})" 2>/dev/null)
+  [[ -n "$DRIFT" ]] && echo "note: extension updates available (warn-only): $DRIFT"
+fi
+
 [[ "$ERR" -eq 0 ]] || { echo "preflight FAILED" >&2; exit 1; }
 echo "preflight OK"

@@ -457,6 +457,36 @@ hil/ # HIL loop, ledger, canaries, traces
 docs/ # design notes
 ```
 
+## Tracking extension updates
+
+Extensions update often; `packages.lock.json` pins what we run, but we want to
+*notice* upstream changes deliberately rather than discover breakage later.
+
+```fish
+bash scripts/check-extension-updates.sh          # report: which pkgs have updates
+bash scripts/check-extension-updates.sh --notes  # + GitHub release notes for each
+bash scripts/check-extension-updates.sh --strict # exit 1 if any update (for CI)
+bash scripts/check-extension-updates.sh --json   # machine-readable
+```
+
+**Pinned packages need re-patching on update.** Three extensions are patched at
+an exact version and will refuse / misbehave if bumped blindly:
+
+| Package | Pin | Patch |
+|---------|-----|-------|
+| `context-mode` | 1.0.169 | removes admin tools (`ctx_stats`, `ctx_doctor`, …) |
+| `@quintinshaw/pi-dynamic-workflows` | 3.5.1 | slims workflow-tool schema (−450 to −1,000 tok) |
+| `pi-tscg` | 0.2.4 | recursive nested-descriptor truncation |
+
+The script flags these `[PINNED—re-patch required]`. To adopt an update: bump
+`packages.lock.json`, `npm i <pkg>@latest`, re-run `install.sh` (re-applies
+patches), then `./scripts/harness-preflight.sh` — it fails if a patch no longer
+matches. Preflight also surfaces available updates (warn-only) on every install,
+so drift is visible without a separate cron.
+
+**Recommended cadence:** run `--notes` weekly or before any token-affecting
+change; bump safe packages freely, re-verify pinned ones via the HIL loop.
+
 ## Auth (not in git)
 
 ```bash
