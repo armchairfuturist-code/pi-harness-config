@@ -62,6 +62,11 @@ tool-dominated vs conversation-dominated sessions. Baseline in script docstring.
 Ad-hoc: scan `~/.pi/agent/sessions/*/*.jsonl` for error taxonomies (see this session's
 2026-07-30 audit for the pattern). Known resolved classes in `memory/consolidated.md`.
 
+### 9. Read-cost panel — `scripts/read_cost.py`
+Count ctx_read calls, result bytes (raw vs post-compression), miss/error rate, binary/boring-format
+hit rate, extension distribution, top-read paths. Baseline: 3073 reads / 185 errors (6.0%) across
+all sessions (2026-08-10). Run before and after smart-read skill adoption to measure impact.
+
 ## Rules
 - After inventory mutations: update `memory/harnesses.md` (maintenance rule #1 there).
 - provider_ops never touches `auth.json`, never prints secret values.

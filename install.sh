@@ -90,6 +90,7 @@ bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
 bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/poor-mans-distill|__AGENT__/skills/poor-mans-distill|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
+bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
 scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
 scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
 EOF
@@ -130,7 +131,7 @@ done
 # Prune harness skill names from $HOME/.pi/skills so they cannot shadow
 # ~/.pi/agent/skills when cwd is $HOME (Pi loads <cwd>/.pi/skills as "project").
 # Happens if this repo was cloned at ~/.pi while source still lived at skills/.
-HARNESS_SKILLS=(ce-lite harness-doctor context-rot-forensics graph-engineering poor-mans-distill shard-security)
+HARNESS_SKILLS=(ce-lite harness-doctor context-rot-forensics graph-engineering poor-mans-distill shard-security smart-read)
 PROJECT_SKILLS_DIR="$HOME_DIR/.pi/skills"
 if ! $CHECK; then
   for name in "${HARNESS_SKILLS[@]}"; do

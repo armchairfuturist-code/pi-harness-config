@@ -64,6 +64,7 @@ Before routing, verify the skill tree resolves: `reference.md`, `grilling.md`, `
 - Effort proportional to consequence and uncertainty.
 - Show answers, blocker questions, terms, short plan, progress, findings, evidence. Keep routing vocabulary and worker transcripts internal.
 - Batch independent tool calls. Resume journaled work instead of repeating completed calls.
+- Before ctx_edit, hold a current ctx_read (post-last-edit) of the target file in-view; if pruned, re-read first.
 - Route side questions to the side thread so the active contract remains intact.
 - Before non-trivial decisions in a familiar area, search session summaries and the knowledge store, then read relevant ADRs/context docs, wayfinder decisions, and open tickets. State and record reversals.
 - Give work one home: tracker tickets for session-spanning tasks; workflow journals for within-session fan-out.

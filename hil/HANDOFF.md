@@ -1,6 +1,6 @@
-# HANDOFF — continue HIL — 2026-08-08
+# HANDOFF — continue HIL — 2026-08-10
 
-**Status:** Iter 13 done (auto-compaction characterized; **no unlock**). Ready for **Iter 14**.
+**Status:** Iter 15 done (smart-read skill + read-cost panel + read-before-edit invariant). HIL knob-tuning still paused — this was a capability addition driven by read-tool article + session audit.
 **Repo:** `/home/alex/Projects/pi-harness-config` · `origin/master`
 **Shell for user-facing commands:** fish
 
@@ -15,6 +15,7 @@
 | 11 | re-baseline; build-variant copies extensions/lib |
 | 12 | strip A/B; **maxDescChars=20 KEEP** |
 | 13 | auto-compact char — trigger @ **>500288** on Lilac glm-5.2; **no unlock** |
+| 15 | smart-read skill + read-cost panel + read-before-edit invariant (capability add, not knob) |
 
 **Locked:** KEEP=4 · reserve=24000 · keepRecent=20000 · tscg strip on · maxDescChars=20
 
@@ -44,7 +45,7 @@ shouldCompact = contextTokens > contextWindow - reserveTokens
 
 ## Recommended next (pick ONE)
 
-HIL is intentionally **paused** — no pressing token levers remain. Only resume on regression or new evidence.
+HIL knob-tuning remains **paused** — no pressing token levers remain. Iter 15 added smart-read + read-cost panel (capability, not knob). **Canary:** run `read_cost.py` in 2-4 weeks to measure smart-read impact on miss rate + boring hits. Only resume HIL on regression or new evidence.
 
 ### A — ~~Verify noise band~~ DONE (2026-08-08 hygiene)
 

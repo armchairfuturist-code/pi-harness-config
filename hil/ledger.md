@@ -492,3 +492,30 @@ KEEP=4 · 24k/20k · strip on · maxDesc=20
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
+
+## Iter 15 — 2026-08-10 — smart-read skill + read-cost panel + read-before-edit invariant
+
+**Trigger:** Article analysis (commandcode.ai/docs/harness-engineering/read-tool) + 30d session audit.
+Article benchmarks stock pi (missing: line-numbering, did-you-mean, boring-format extraction, device
+blocklist, read-before-write ledger). lean-ctx already delivers line-numbering + token compression +
+structural modes. Remaining gaps are policy-layer, not tool-layer.
+
+**Changes shipped (2 files created, 4 files edited):**
+- NEW `bundled-skills/smart-read/SKILL.md` — read-tool discipline: probe-before-dump, boring-format
+  extractors, skip-list, did-you-mean on miss, device blocklist, read-before-edit invariant
+- NEW `bundled-skills/harness-doctor/scripts/read_cost.py` — read-cost panel (count reads, bytes,
+  miss rate, boring hits, extension distribution, top paths, per-session counts, health verdict)
+- EDIT `APPEND_SYSTEM.md` — 376B -> ~630B: added read-discipline clause
+- EDIT `bundled-skills/ce-lite/SKILL.md` — Operating rules: +read-before-edit invariant
+- EDIT `bundled-skills/harness-doctor/SKILL.md` — +item #9 (read-cost panel registration)
+- EDIT `install.sh` — +smart-read in MANIFEST + HARNESS_SKILLS array
+
+**Baseline (read_cost.py, all sessions):**
+- 3073 ctx_read calls, 185 errors (6.0% miss rate), 10 binary hits detected
+- smart-read skill targets the 6% miss rate + boring-format bleed; read_cost.py canaries it
+
+**Not an A/B HIL experiment** — capability addition (new skill + measurement tool), not a
+knob. No verify.sh baseline needed. Impact measurable via read_cost.py before/after.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
