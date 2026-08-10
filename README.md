@@ -109,6 +109,23 @@ Toggle requires a new Pi session to take effect (schemas load at startup).
 The `lean-ctx/pi-config.json` in this repo sets `enableMcp: true` as the
 default; `install.sh` deploys it.
 
+#### Perceived speed (why it feels snappier)
+
+Output TPS is unchanged — same model, same generation rate. But total
+response time drops for two reasons:
+
+- **Fewer round-trips.** Each LLM turn carries fixed latency (network,
+  queue, prefill) before the first output token. Compressing 7 turns into 1
+  eliminates 6 latency penalties — seconds saved, not milliseconds.
+- **Slower context growth.** `ctx_search` returns 2 KB snippets instead of
+  20 KB files; `ctx_execute` keeps raw bytes in-sandbox. Later turns in a
+  long session prefill faster because the context window stays smaller.
+
+The +1,757 token schema overhead adds ~5 ms of prefill per turn — negligible
+against the seconds saved by eliminating round-trips.
+
+
+
 ### Embeddings
 
 Knowledge facts created before ONNX Runtime was provisioned have zero
