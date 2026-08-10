@@ -66,6 +66,8 @@ scripts/tickets-to-workflow.mjs|__AGENT__/scripts/tickets-to-workflow.mjs|
 scripts/profile.sh|__AGENT__/scripts/profile.sh|
 scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
+scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
+scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
 patches/dynamic-workflows/apply-patches.mjs|__AGENT__/patches/dynamic-workflows/apply-patches.mjs|
