@@ -49,11 +49,12 @@ themselves and then some:
 - **Sandbox execution.** `ctx_execute` runs code without putting raw bytes into the conversation. Processing a 700 KB log in-sandbox and printing a 3 KB summary costs 3 KB of context; reading it directly costs 700 KB.
 - **Semantic retrieval.** `ctx_knowledge` enables embeddings reindex for semantic/hybrid search — the only known path, since the CLI can't trigger it.
 
-#### Measured evidence — A/B test (Lilac GLM-5.2, same tasks, MCP off vs on)
+#### Measured evidence — A/B test (same tasks/backend, MCP off vs on)
 
 The rationale isn't theoretical. We ran the same benchmark tasks from the
-`bench-systima` gradient rig on the same model (Lilac GLM-5.2, no prompt
-caching) with MCP off (July 29 baseline) and MCP on (August 10):
+`bench-systima` gradient rig on the same model (prompt caching disabled, so
+every turn pays full cost) with MCP off (July 29 baseline) and MCP on
+(August 10):
 
 | Task | MCP off turns | MCP on turns | MCP off tokens | MCP on tokens | Savings |
 |------|--------------|-------------|----------------|---------------|---------|
@@ -68,7 +69,7 @@ to ~5,300 — projected savings become **−81%** (T1) and **−74%** (T3). The
 A/B test above was measured with `power`; the lean numbers are projected
 from the measured +2.9K injection.
 
-Per-turn overhead on Lilac (no prompt caching, full cost every turn):
+Per-turn overhead (no prompt caching — full cost on every turn):
 
 | Config | Tools | Per-turn overhead |
 |--------|-------|-------------------|
@@ -381,7 +382,7 @@ Decision log: **`hil/ledger.md`**. Next work: **`hil/HANDOFF.md`**. **Do not** c
 ./scripts/harness-preflight.sh
 node bench/workload-deterministic.mjs # no LLM
 node bench/live-keep-ab.mjs # needs pi + model
-# optional: bash hil/canaries/ctx-tool-exercise.sh (proxy + Lilac path)
+# optional: bash hil/canaries/ctx-tool-exercise.sh (proxy path)
 ```
 
 ### Multi-machine memory
@@ -400,6 +401,34 @@ node bench/live-keep-ab.mjs # needs pi + model
 | **Pi MCP on + power profile** | **~12,694** | **63** | **2026-08-10** | **pre-lean (A/B test)** |
 | **Pi MCP on + lean profile** | **~5,300** | **12+gateway** | **2026-08-10** | **commit (lean switch)** |
 
+### ce-lite-preload A/B (2026-08-10, 911 real sessions, no LLM)
+
+`extensions/ce-lite-preload.ts` deterministically injects the CE-lite routing
+contract once per session on non-trivial prompts (no more relying on the model
+voluntarily reading the skill). Measured against 911 historical sessions with
+`bench/ce-lite-preload-ab.mjs` (jiti-loads the *deployed* extension, replays
+each real first prompt, and checks each session's actual tool calls):
+
+| Metric | Value |
+|---|---|
+| Injected payload (stub) | **~267 tok** (1,067 chars) |
+| Injected payload (full SKILL body, opt-in) | ~1,623 tok (6,490 chars) |
+| Stub savings vs full body | **−84%** |
+| Heuristic match rate (real traffic) | 89% |
+| **Recall on genuinely multi-step sessions** (≥2 tool calls) | **93%** (718/774) |
+| Chat-like false matches (worst-case bloat) | 96/911 |
+| Worst-case bloat at match | ~25.6K tok over 911 sessions ≈ 28 tok/session |
+| Voluntary skill-read baseline (APPEND_SYSTEM only) | **18%** (167/911) |
+| Deterministic activation vs baseline | 18% → **93%** of multi-step sessions |
+| KV-cache impact (H4) | none — never touches `systemPrompt`; custom message → user role |
+
+**Read:** the preload turns a *fragile* 18% voluntary activation into a *deterministic*
+93% coverage of real multi-step sessions, at a payload ~1/6th the size of the
+skill body it replaces, with chat-like false matches bounded under ~28 tok/session
+average. Kill/force flags: `CE_LITE_PRELOAD=0|1|force`; full body via `CE_LITE_PRELOAD_FULL=1`.
+Re-run: `node bench/ce-lite-preload-ab.mjs`. Double-read (preload + later
+voluntary SKILL.md read) is measured post-deploy by the same harness.
+
 ## Design (why these files exist)
 
 **Result: ~4,003 tok/turn with MCP off; ~5,300 tok/turn with MCP on + `lean` profile (was ~12,694 with `power`). The `lean` profile was the single biggest win — −9.8K tok/turn vs `power` at zero capability cost (all 82 tools stay callable via `ctx_call`). MCP on + lean wins for any task ≥2 turns; toggle off only for single-turn requests.**
@@ -411,7 +440,11 @@ Stable rules re-read each turn. Keep short.
 Injected every turn (~187 bytes). Durable policy goes in `HARNESS.md` or skills, not here.
 
 ### `settings.json` — pi agent config
-Packages list, extension paths, compaction, thinking level. Repo bench default provider is Lilac/glm-5.2; live installs preserve the machine's model unless `--settings`.
+Packages list, extension paths, compaction, thinking level. **Provider-agnostic:** the repo ships a neutral template default; live installs
+preserve the machine's own provider/model/thinking/enabledModels (and the
+per-machine model-map files) unless you pass `--settings`. Do not hardcode any
+particular provider or model in this repo — operators rotate backends for
+cost, and the harness must not care which one is live.
 
 ### `tscg.json` — tool-schema compression
 **Path is `~/.pi/tscg.json`** (pi-tscg home root). Aggressive param-description strip is on; `aggressiveMaxDescChars` **20** (Iter 12). Repo `tscg.json` is what probe/build-variant uses — keep live in sync.
@@ -507,8 +540,10 @@ change; bump safe packages freely, re-verify pinned ones via the HIL loop.
 ## Auth (not in git)
 
 ```bash
-pi auth login openai --api-key "$OPENAI_API_KEY"
-# other providers via pi auth / local models.json — never commit secrets
+pi auth login   # CLI: select your provider + key interactively
+# or `pi auth login <provider> --api-key "$KEY"` for scripting.
+# Provider/model choice lives in live ~/.pi/agent/settings.json (or models.json),
+# never in this repo — and never commit secrets.
 ```
 
 ## Upstream projects & credits

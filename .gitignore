@@ -42,3 +42,6 @@ skills/poor-mans-distill/fewshot_digest.md
 skills/poor-mans-distill/route_shortcuts.md
 # iter11 observe/verify log leftovers
 hil/.scratch-*
+# Generated benchmark output (noise)
+bench/out/
+

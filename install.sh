@@ -38,10 +38,13 @@ fi
 EXPECTED_SETTINGS=$(mktemp)
 trap 'rm -f "$EXPECTED_SETTINGS"' EXIT
 if ! $SETTINGS && [[ -f "$AGENT/settings.json" ]]; then
-  jq -s '.[0] as $repo | .[1] as $live | $repo
-    | if ($live.defaultProvider // null) != null then .defaultProvider=$live.defaultProvider else . end
-    | if ($live.defaultModel // null) != null then .defaultModel=$live.defaultModel else . end' \
-    "$ROOT/settings.json" "$AGENT/settings.json" > "$EXPECTED_SETTINGS"
+  jq -s '.[0] as $repo |.[1] as $live | $repo
+  | if ($live.defaultProvider // null) != null then.defaultProvider=$live.defaultProvider else. end
+  | if ($live.defaultModel // null) != null then.defaultModel=$live.defaultModel else. end
+  | if ($live.defaultThinkingLevel // null) != null then.defaultThinkingLevel=$live.defaultThinkingLevel else. end
+  | if ($live.enabledModels // null) != null then.enabledModels=$live.enabledModels else. end
+  | if ($live.packages // null) != null then.packages=$live.packages else. end' \
+  "$ROOT/settings.json" "$AGENT/settings.json" > "$EXPECTED_SETTINGS"
 else
   cp "$ROOT/settings.json" "$EXPECTED_SETTINGS"
 fi
@@ -77,17 +80,18 @@ extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|
 extensions/lib/prune-core.mjs|__AGENT__/extensions/lib/prune-core.mjs|
 extensions/rot-sentinel.ts|__AGENT__/extensions/rot-sentinel.ts|
 extensions/runtime-discipline.ts|__AGENT__/extensions/runtime-discipline.ts|
+extensions/ce-lite-preload.ts|__AGENT__/extensions/ce-lite-preload.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|
 lean-ctx/env.tuning.sh|__LEAN_HOME__/env.tuning.sh|
-workflows/model-tiers.json|__PI_HOME__/workflows/model-tiers.json|
+workflows/model-tiers.json|__PI_HOME__/workflows/model-tiers.json|preserve
 workflows/saved/memory-consolidate.json|__PI_HOME__/workflows/saved/memory-consolidate.json|
 workflows/saved/gather-judge-split.js|__PI_HOME__/workflows/saved/gather-judge-split.js|
 workflows/saved/review-fix-graph.js|__PI_HOME__/workflows/saved/review-fix-graph.js|
 memory/consolidated.md|__AGENT__/memory/consolidated.md|
 memory/harnesses.md|__AGENT__/memory/harnesses.md|
 memory/user-shell.md|__AGENT__/memory/user-shell.md|
-model-thinking.json|__AGENT__/model-thinking.json|
+model-thinking.json|__AGENT__/model-thinking.json|preserve
 bundled-skills/ce-lite|__AGENT__/skills/ce-lite|dir
 bundled-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
 bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
@@ -101,11 +105,13 @@ EOF
 MANIFEST="${MANIFEST//__AGENT__/$AGENT}"
 MANIFEST="${MANIFEST//__PI_HOME__/$HOME_DIR/.pi}"
 MANIFEST="${MANIFEST//__LEAN_HOME__/$HOME_DIR/.config/lean-ctx}"
-
 fail=${fail_settings:-0}; ok=0; skip=0
 while IFS='|' read -r src dest flags; do
   [[ -z "$src" ]] && continue
-  [[ -e "$ROOT/$src" ]] || { echo "[FAIL] source missing: $src"; fail=$((fail+1)); continue; }
+  if [[ ! -e "$ROOT/$src" ]] && [[ "$flags" != *preserve* ]]; then echo "[FAIL] source missing: $src"; fail=$((fail+1)); continue; fi
+  # preserve flag = machine-local provider/model map (thinking/tiers):
+  # only deploy if destination absent, so monthly provider rotation survives reinstall.
+  if [[ "$flags" == *preserve* ]] && [[ -e "$dest" ]]; then echo "[KEEP] live $dest (preserve)"; skip=$((skip+1)); continue; fi
   if $CHECK; then
     same=false
     if [[ -d "$ROOT/$src" ]]; then diff -rq "$ROOT/$src" "$dest" >/dev/null 2>&1 && same=true

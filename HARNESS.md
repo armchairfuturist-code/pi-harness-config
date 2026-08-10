@@ -1,50 +1,46 @@
-# Pi agent harness contract
+# HARNESS — runtime policy (source of truth)
 
-Source of truth for reusable agent-home behavior. Project rules belong in each project's `AGENTS.md`. `APPEND_SYSTEM.md` stays a thin CE-lite dispatch hook.
+This file is the operator-facing contract for the deployed pi agent home.
+HIL changes go through `hil/HANDOFF.md` + `hil/ledger.md`. Do not freestyle
+KEEP / compaction / tscg knobs.
 
-## Skills
+## Goals
+- Cheaper turns (stable KV-cache prefix, lean tools, measured pruning)
+- Smarter routing (ce-lite for multi-step work; skip for lookups)
+- Measurement-gated changes only
 
-On-disk skills are lazy: they may load when invoked or matched, but their bodies do not belong in the fixed prompt. Keep entry metadata concise and move detail to references. Do not use skill denylists as a token optimization without a measured regression.
+## Locked posture (see HANDOFF)
+- KEEP=4, reserveTokens=24000, keepRecentTokens=20000
+- tscg strip on, maxDescChars=20 KEEP
+- HIL paused for knob churn; capability/measurement work still OK
 
-CE-lite is the operator-facing orchestrator. Diagnostic and specialist skills remain on demand.
+## Extensions (order matters for before_agent_start merges)
+1. `runtime-discipline.ts` — allowlist/edit recovery (may append system guidance on failure only)
+2. `ce-lite-preload.ts` — **H4-safe**: injects ce-lite contract as a *custom message* (LLM user role) once per session on non-trivial prompts; never mutates systemPrompt
+3. `session-index.ts` — session FTS index
+4. `rot-sentinel.ts` — long-session UI reminders (not system-prompt mutation)
+5. `transcript-pruner.ts` — transcript hygiene
 
-**Maintenance rule:** any skill add, rename, or remove triggers a CE-lite routing review — check the route-selection table in `reference.md` and the specialist-references list in `SKILL.md`.
+## Cache doctrine (progressive-disclosure H4)
+- Keep the **stable system prefix** byte-stable across turns
+- Do not prune or rewrite system prompt mid-session to "save" tokens — it kills cacheRead
+- Event-specific guidance → custom messages, UI notifications, or failure-only appends
+- Measure: `bench/probe.sh` emits `cache_hit_pct` = cacheRead/(cacheRead+input)
 
-Optional package profiles live under `~/.pi/profiles/`:
+## CE-lite activation
+- `APPEND_SYSTEM.md` — imperative one-liner (when to load)
+- `extensions/ce-lite-preload.ts` — mechanical preload of skill body on heuristic match
+- Kill switch: `CE_LITE_PRELOAD=0` · force: `CE_LITE_PRELOAD=force`
+- Trivial chat/lookups must still skip (suite s6)
 
-- `research` — recent-discourse tools; adds fixed tool schemas while enabled.
-- `audit` — Better Harness slash-command review.
+## Measurement
+- `bench/probe.sh` — tokens + cache hit rate
+- `bench/semantic-canary.sh` — skill semantics + preload H4/heuristics + optional session efficiency
+- `bench/test-ce-lite-preload.mjs` — unit heuristics
+- `bundled-skills/harness-doctor/scripts/trajectory_metrics.py` — per-session tool/error metrics
 
-## Tool execution
-
-1. Prefer `ctx_read`, `ctx_edit`, `ctx_execute`, `ctx_batch_execute`, `ctx_grep`, `ctx_find`, and `ctx_ls` over raw shell.
-
-**Tool gateway (lean profile):** only a lean core is schema-injected per turn. All other lean-ctx tools stay callable — reach them via `ctx_call(name, args)` (MCP) or `lean-ctx call <tool> --json '<args>'` (shell). High-value ones: `ctx_knowledge` (persistent memory), `ctx_fetch_and_index` (web→KB), `ctx_execute_file` (sandbox over files), `ctx_compose` (code Q&A), `ctx_batch_execute` (parallel cmds). Full list: `lean-ctx tools list --all`. If a tool you want isn't first-class, don't conclude it's unavailable — call it through the gateway.
-2. Never run inline interpreters or shell heredocs into interpreters; write a script, then run it.
-3. After an edit miss, re-read the exact slice and never retry identical stale text.
-4. Verify multi-file changes with the cheapest relevant parse, search, test, or build.
-5. After a shell policy block, change tool strategy instead of repeating it.
-
-`runtime-discipline.ts` injects recovery guidance only after an observed allowlist/edit failure. Long-session reminders use UI notifications rather than changing the system prompt.
-
-## Enabled local extensions
-
-- `transcript-pruner.ts` — DEDUP, STALE, and CLEAR transcript pruning.
-- `session-index.ts` — extractive cross-session summaries without an LLM call.
-- `runtime-discipline.ts` — event-driven recovery and one-shot long-session notification.
-
-Package-provided UI extensions are listed explicitly in `settings.json`. Domain-specific tools never belong in the generic default.
-
-## Context and session hygiene
-
-- Preserve the last few full tool results; prune older spent output without deleting final evidence.
-- Hand off before context health degrades; CE-lite owns thresholds and handoff content.
-- Keep the stable system prefix small. Event-specific guidance must not sit in `APPEND_SYSTEM.md`.
-
-## Deployment and proof
-
-- `settings.json`, `install.sh`, package lock, extension files, and benchmark inventory must agree.
-- Run `scripts/harness-preflight.sh` after settings, package, extension, or patch changes.
-- Run `bench/probe.sh` for fixed overhead and `bench/semantic-canary.sh` before changing TSCG compression.
-- Benchmark captures must record commit, config hash, package versions, effective TSCG config, and sorted tool names.
-- Package patches are version-gated and applied by `scripts/apply-package-patches.sh`; preflight fails when their signatures are missing.
+## Install
+```bash
+./install.sh
+# or INSTALL_TARGET=~/.pi/agent ./install.sh
+```

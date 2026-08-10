@@ -1,87 +1,33 @@
-# HANDOFF — continue HIL — 2026-08-10
+# HIL HANDOFF
 
-**Status:** Iter 15 done (smart-read skill + read-cost panel + read-before-edit invariant). HIL knob-tuning still paused — this was a capability addition driven by read-tool article + session audit.
-**Repo:** `/home/alex/Projects/pi-harness-config` · `origin/master`
-**Shell for user-facing commands:** fish
+**Status:** PAUSED for compaction/KEEP/tscg knob churn (2026-08-10)  
+**Allowed without reopen:** capability extensions, measurement/bench, docs, skill copy that does not touch locked knobs.
 
-## Do NOT redo
+## Locked knobs
+| Knob | Value | Notes |
+|------|-------|-------|
+| KEEP | 4 | |
+| reserveTokens | 24000 | |
+| keepRecentTokens | 20000 | |
+| tscg strip | on | |
+| maxDescChars | 20 | KEEP — do not reopen without canary + A/B |
 
-| Iter | Result |
-|------|--------|
-| 5 | TSCG strip KEEP |
-| 8 | rot-sentinel |
-| 9 / 9b | prune-core + det gate; **KEEP=4** |
-| 10 | unattended-loop + fast-fail |
-| 11 | re-baseline; build-variant copies extensions/lib |
-| 12 | strip A/B; **maxDescChars=20 KEEP** |
-| 13 | auto-compact char — trigger @ **>500288** on Lilac glm-5.2; **no unlock** |
-| 15 | smart-read skill + read-cost panel + read-before-edit invariant (capability add, not knob) |
+## Active capability (2026-08-10)
+- **ce-lite-preload** (`extensions/ce-lite-preload.ts`): deterministic turn-1 contract inject via custom message (not systemPrompt — H4-safe). Heuristics mirror APPEND_SYSTEM non-trivial triggers. Env: `CE_LITE_PRELOAD=0|1|force`.
+- **probe cache hit rate**: `bench/probe.sh` → `cache_hit_pct`, ledger one-liner.
+- **semantic-canary**: preload H4/heuristic unit tests + optional `CE_SESSION_JSONL` efficiency soft signal.
 
-**Locked:** KEEP=4 · reserve=24000 · keepRecent=20000 · tscg strip on · maxDescChars=20
+## Recommended next
+- **A/B ce-lite-preload** with suite / live sessions: skill_loaded turn index should drop toward 1 on multi-step prompts; s6 trivial skip must stay 0 preload (or harmless). Compare cache_hit_pct pre/post via probe (system prefix unchanged → no H4 regression expected).
+- **Tool profiles only where workers still get full schemas** — `gather-judge-split.js` already uses `tools: []`; focus ce-lite/workflow agents that still pass default tools.
+- **Do not** reopen KEEP/tscg/maxDesc; **do not** add LLM pre-router, E2B, or Redis.
 
-## Smoke (fish)
+## Pause rationale
+Diminishing returns on further token-knob iteration; measurement showed cache stability > aggressive dynamic pruning. Prefer capability gates + probe metrics.
 
-```fish
-cd ~/Projects/pi-harness-config
-node bench/workload-deterministic.mjs
-and node bench/auto-compact-char.mjs
-and ./scripts/harness-preflight.sh
-```
-
-## Baseline
-
-- Iter12: `hil/traces/20260808T070906-iter12-maxdesc20-20260808T070906Z.json` (probe ~2832 / schema 6529)
-- Compaction evidence: `research/auto-compact-char-20260808.md` + `.scratch/bench-results/iter13-auto-compact-char.json`
-
-## Iter 13 takeaway (do not remeasure unless model window changes)
-
-```
-shouldCompact = contextTokens > contextWindow - reserveTokens
-```
-
-- Lilac `zai-org/glm-5.2` window **524288** → fire only **> 500288** tokens
-- Locked reserve 24k vs default 16k: trigger **7.6k earlier** only; keepRecent already matches upstream (20k)
-- Auto-compact **dormant** for normal sessions; unlock not justified
-
-## Recommended next (pick ONE)
-
-HIL knob-tuning remains **paused** — no pressing token levers remain. Iter 15 added smart-read + read-cost panel (capability, not knob). **Canary:** run `read_cost.py` in 2-4 weeks to measure smart-read impact on miss rate + boring hits. Only resume HIL on regression or new evidence.
-
-### A — ~~Verify noise band~~ DONE (2026-08-08 hygiene)
-
-`hil/verify.sh` now has `WORKLOAD_NOISE=8000` + `PROBE_WORSE` guard: workload |Δ| < 8000 is neutral, and workload can no longer ACCEPT over a worse probe.
-
-### B — Further TSCG (small, optional)
-
-- maxDesc **20→10 or 0** with probe A/B + tool-call quality smoke
-- Diminishing returns; strip already did the bulk
-
-### C — Smaller-window model path (only if product needs it)
-
-- If a ≤128k model becomes primary, re-run `bench/auto-compact-char.mjs` and reconsider reserve HIL
-- Do not freestyle unlock on glm-5.2 evidence alone
-
-## Method
-
-1. Smoke / preflight  
-2. **One** change  
-3. `hil/observe.sh` → `hil/verify.sh <baseline> <label>` (when knobs change)  
-4. Append `hil/ledger.md`  
-5. Rewrite this HANDOFF + `~/.pi/.scratch/WORKSTATE.md`  
-6. Commit + `git push origin master`  
-7. Stop  
-
-## Provider exit playbook
-
-- **If Lilac is dropped:** re-pin bench variant (`bench/build-variant.sh` / `probe.sh` glm-5.2 → a Venice model), then re-baseline — all probe/trace numbers reset (cross-model numbers are not comparable). Locked absolute-token knobs (KEEP=4, 24k/20k, tscg) carry over unchanged.
-- **Fallback providers:** Venice e2ee models; api.deepseek.com (v4 flash) per operator preference.
-- **Config sync after any repo config edit:** `bash scripts/sync-live.sh` (repo → live; probe reads repo, sessions read live — do not edit only one).
-
-## Paths
-
-| What | Where |
-|------|--------|
-| Live TSCG | `~/.pi/tscg.json` |
-| Repo TSCG (probe SoT) | `tscg.json` |
-| Compaction settings | `settings.json` → `~/.pi/agent/settings.json` |
-| Auto-compact bench | `bench/auto-compact-char.mjs` |
+## How to reopen HIL
+1. Name the knob + hypothesis + metric
+2. Baseline probe + semantic-canary
+3. Single-variable change
+4. Verify + ledger row
+5. KEEP or revert

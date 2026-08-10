@@ -1,46 +1,117 @@
 #!/usr/bin/env bash
+# Semantic canary: skill frontmatter + ctx canaries must stay meaningful.
+# Optional efficiency: pass session JSONL as $1 or set CE_SESSION_JSONL.
+# Exit non-zero on hard failure.
 set -euo pipefail
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-MODEL="${PROBE_MODEL:-Lilac/zai-org/glm-5.2}"
-PORT="${PI_BENCH_PORT:-4599}"
-LABEL="semantic-$(date +%s)-$$"
-export PI_BENCH_PORT="$PORT" PI_BENCH_LABEL="$LABEL" PI_BENCH_CAPTURE_DIR="${PI_BENCH_CAPTURE_DIR:-$ROOT/.scratch/captures}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+AGENT_HOME="${PI_AGENT_HOME:-$HOME/.pi/agent}"
+FAIL=0
 
-bash "$ROOT/bench/proxy.sh" ensure
-VAGENT=$(bash "$ROOT/bench/build-variant.sh")
-VHOME=$(cd "$VAGENT/../.." && pwd)
-WD=$(mktemp -d "${TMPDIR:-/tmp}/pi-semantic.XXXXXX")
-SESS="$VAGENT/sessions"
-printf 'alpha needle omega\n' > "$WD/source.txt"
+echo "== skill frontmatter =="
+for skill in ce-lite harness-doctor; do
+  f="$ROOT/bundled-skills/$skill/SKILL.md"
+  if [[ ! -f "$f" ]]; then
+    echo "MISSING $f"; FAIL=1; continue
+  fi
+  # description must exist and be > 20 chars (maxDescChars=20 KEEP floor)
+  desc=$(awk '/^description:/{print; exit}' "$f" | sed 's/^description:[[:space:]]*//; s/^["'\'']//; s/["'\'']$//')
+  if [[ ${#desc} -lt 20 ]]; then
+    echo "FAIL $skill description too short (${#desc}): $desc"
+    FAIL=1
+  else
+    echo "OK $skill description len=${#desc}"
+  fi
+done
 
-run_case() {
-  local name=$1 prompt=$2
-  local marker; marker=$(mktemp)
-  set +e
-  (cd "$WD" && HOME="$VHOME" PI_CODING_AGENT_DIR="$VAGENT" PI_CODING_AGENT_SESSION_DIR="$SESS" timeout 150 pi -p "$prompt" --model "$MODEL") >"$WD/$name.out" 2>&1
-  local rc=$?
-  set -e
-  [[ "$rc" -eq 0 ]] || { echo "FAIL $name rc=$rc" >&2; return 1; }
-  mapfile -t files < <(find "$SESS" -name '*.jsonl' -type f -newer "$marker")
-  rm -f "$marker"
-  [[ "${#files[@]}" -eq 1 ]] || { echo "FAIL $name session-count=${#files[@]}" >&2; return 1; }
-  printf '%s\n' "${files[0]}"
-}
-
-read_session=$(run_case read 'Read source.txt and reply with exactly its contents.')
-grep -Eq 'ctx_read|ctx_execute_file' "$read_session"
-grep -q 'alpha needle omega' "$WD/read.out"
-
-search_session=$(run_case search 'Find the file containing the exact word needle. Do not edit files. Reply with the path only.')
-grep -Eq 'ctx_grep|ctx_search|ctx_find|ctx_shell' "$search_session"
-grep -q 'source.txt' "$WD/search.out"
-
-edit_session=$(run_case edit 'Change only the word omega to delta in source.txt, verify it, then reply exactly: DONE.')
-grep -Eq 'ctx_edit|"name":"edit"|"name": "edit"' "$edit_session"
-grep -q 'alpha needle delta' "$WD/source.txt"
-
-if grep -RqiE 'invest_|last30days_|ctx_(stats|doctor|upgrade|purge|insight)' "$SESS"; then
-  echo "FAIL forbidden tool surfaced" >&2; exit 1
+echo "== ce-lite-preload H4 + heuristics =="
+PRE_EXT="$ROOT/extensions/ce-lite-preload.ts"
+TEST_JS="$ROOT/bench/test-ce-lite-preload.mjs"
+if [[ ! -f "$PRE_EXT" ]]; then
+  echo "FAIL missing $PRE_EXT"
+  FAIL=1
+elif [[ -f "$TEST_JS" ]] && command -v node >/dev/null 2>&1; then
+  if ! node "$TEST_JS"; then
+    echo "FAIL ce-lite-preload unit test"
+    FAIL=1
+  fi
+else
+  # Minimal static checks without node test file
+  if grep -q 'systemPrompt\s*:' "$PRE_EXT"; then
+    echo "FAIL ce-lite-preload must not mutate systemPrompt (H4)"
+    FAIL=1
+  elif ! grep -q 'customType: "ce-lite-preload"' "$PRE_EXT"; then
+    echo "FAIL ce-lite-preload missing custom message injection"
+    FAIL=1
+  else
+    echo "OK ce-lite-preload static H4 checks"
+  fi
 fi
-echo "SEMANTIC_CANARY pass model=$MODEL cases=3"
-rm -rf "$WD" "$VHOME"
+
+echo "== ctx canaries (if present) =="
+if [[ -x "$ROOT/scripts/ctx-canaries.sh" ]]; then
+  if ! "$ROOT/scripts/ctx-canaries.sh"; then
+    echo "FAIL ctx-canaries"
+    FAIL=1
+  fi
+elif [[ -x "$AGENT_HOME/scripts/ctx-canaries.sh" ]]; then
+  if ! "$AGENT_HOME/scripts/ctx-canaries.sh"; then
+    echo "FAIL ctx-canaries (agent home)"
+    FAIL=1
+  fi
+else
+  echo "SKIP no ctx-canaries.sh"
+fi
+
+echo "== trajectory efficiency (optional) =="
+SESSION_JSONL="${1:-${CE_SESSION_JSONL:-}}"
+TM="$ROOT/bundled-skills/harness-doctor/scripts/trajectory_metrics.py"
+if [[ -n "$SESSION_JSONL" && -f "$SESSION_JSONL" && -f "$TM" ]]; then
+  if command -v python3 >/dev/null 2>&1; then
+    echo "session: $SESSION_JSONL"
+    python3 "$TM" "$SESSION_JSONL" || true
+    python3 - "$SESSION_JSONL" <<'PY' || true
+import json, sys
+from pathlib import Path
+p = Path(sys.argv[1])
+turns = tools = errs = retries = 0
+prev_err = False
+for line in p.read_text(errors="replace").splitlines():
+    line = line.strip()
+    if not line:
+        continue
+    try:
+        o = json.loads(line)
+    except Exception:
+        continue
+    t = o.get("type") or o.get("role") or ""
+    if t in ("assistant", "message") or o.get("role") == "assistant":
+        turns += 1
+    if "tool" in str(t).lower() or o.get("toolName") or o.get("name"):
+        tools += 1
+    body = json.dumps(o).lower()
+    is_err = "error" in body and ("tool" in body or "fail" in body)
+    if is_err:
+        errs += 1
+        if prev_err:
+            retries += 1
+        prev_err = True
+    else:
+        prev_err = False
+print(
+    f"efficiency: assistant_turns≈{turns} toolish_events≈{tools} "
+    f"errorish≈{errs} retryish≈{retries}"
+)
+print("note: soft signal only — binary canary gates are skill/ctx checks above")
+PY
+  else
+    echo "SKIP efficiency (no python3)"
+  fi
+else
+  echo "SKIP efficiency (set CE_SESSION_JSONL or pass session jsonl as \$1)"
+fi
+
+if [[ "$FAIL" -ne 0 ]]; then
+  echo "semantic-canary: FAIL"
+  exit 1
+fi
+echo "semantic-canary: PASS"

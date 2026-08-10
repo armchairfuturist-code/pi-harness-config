@@ -1,8 +1,7 @@
 {
   "lastChangelogVersion": "0.83.0",
   "theme": "dark",
-  "defaultProvider": "Lilac",
-  "defaultModel": "zai-org/glm-5.2",
+  "// provider-agnostic": "Provider/model/thinking intentionally NOT committed here. This repo is provider-agnostic: live machines pick a provider via `pi auth login` and store the choice in ~/.pi/agent/settings.json (defaultProvider, defaultModel, defaultThinkingLevel, enabledModels) plus model-thinking.json / workflows/model-tiers.json. install.sh preserves all of those on reinstall; repo values are first-run fallbacks only.",
   "packages": [
     "npm:@ogulcancelik/pi-model-thinking",
     "npm:@plannotator/pi-extension",
@@ -27,9 +26,9 @@
     "~/.pi/agent/extensions/transcript-pruner.ts",
     "~/.pi/agent/extensions/session-index.ts",
     "~/.pi/agent/extensions/runtime-discipline.ts",
-    "~/.pi/agent/extensions/rot-sentinel.ts"
+    "~/.pi/agent/extensions/rot-sentinel.ts",
+    "~/.pi/agent/extensions/ce-lite-preload.ts"
   ],
-  "defaultThinkingLevel": "high",
   "steeringMode": "all",
   "hideThinkingBlock": true,
   "compaction": {
