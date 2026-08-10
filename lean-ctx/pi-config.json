@@ -1,6 +1,6 @@
 {
   "mode": "replace",
   "toolProfile": "lean",
-  "enableMcp": false,
+  "enableMcp": true,
   "disableTools": ["ctx_doctor", "ctx_insight", "ctx_stats", "ctx_upgrade", "ctx_purge"]
 }

@@ -15,6 +15,66 @@ A drop-in config that makes `pi` cheaper and smarter to run:
 - **Self-orchestrating**: `ce-lite` decides when to fan out to parallel subagents and when to just answer directly — so you get multi-agent power without paying for it on simple tasks.
 - **Reproducible**: `install.sh` deploys every locked file, pins npm packages, and applies post-install patches. Same harness on every machine.
 
+## MCP expansion
+
+The `toolProfile: "lean"` floor always provides ctx_read, ctx_grep, ctx_find,
+ctx_ls, ctx_edit, and ctx_shell (~3,757 tokens/turn). Enabling MCP adds the
+expansion surface for ~+1,757 tokens/turn:
+
+| Tool | Capability | CLI equivalent? |
+|---|---|---|
+| `ctx_search` | BM25 + trigram + RRF knowledge retrieval | No (lean-ctx recall is simpler BM25) |
+| `ctx_fetch_and_index` | Web search + markdown indexing | No |
+| `ctx_batch_execute` | Parallel commands + auto-indexing | No |
+| `ctx_execute` | Sandbox code execution (Think-in-Code) | No |
+| `ctx_knowledge` | Knowledge base management + embeddings reindex | No (embeddings reindex is MCP-only) |
+
+### Why MCP is on by default
+
+Enabling MCP raises the fixed token cost per turn by ~1,757 — from 3,757
+to ~5,514. That's a real tax on every turn, including ones that never use
+these tools. So why ship it on?
+
+Because most sessions aren't one-off requests. In a typical coding or
+research session (5+ turns, moderate content), the expansion tools pay for
+themselves and then some:
+
+- **Fewer turns.** `ctx_batch_execute` runs 7 commands in one call instead of 7 sequential turns. Each avoided turn saves more tokens than the expansion costs for that turn.
+- **Smaller content.** `ctx_search` returns 2 KB of relevant results instead of dumping a 20 KB file into context. That 18 KB difference dwarfs the 1.7 KB tool-schema overhead.
+- **Web search.** `ctx_fetch_and_index` can pull web content into the knowledge base — there is no CLI equivalent. A task that requires web sources is simply impossible without it.
+- **Sandbox execution.** `ctx_execute` runs code without putting raw bytes into the conversation. Processing a 700 KB log in-sandbox and printing a 3 KB summary costs 3 KB of context; reading it directly costs 700 KB.
+- **Semantic retrieval.** `ctx_knowledge` enables embeddings reindex for semantic/hybrid search — the only known path, since the CLI can't trigger it.
+
+For the 27% of sessions that are quick one-offs ("fix this typo", "what does
+this function do"), the overhead is pure waste. Toggle off for those:
+
+```fish
+bash ~/.pi/agent/scripts/mcp-toggle.sh status  # show current state
+bash ~/.pi/agent/scripts/mcp-toggle.sh off       # lean floor only (~3,757 t/t)
+bash ~/.pi/agent/scripts/mcp-toggle.sh on        # +expansion (~5,514 t/t)
+```
+
+For most users and most sessions, the expanded capability is worth the
+cost. The toggle makes the trade-off explicit and reversible.
+
+Toggle requires a new Pi session to take effect. The `lean-ctx/pi-config.json`
+in this repo sets `enableMcp: true` as the default; `install.sh` deploys it.
+
+### Embeddings
+
+Knowledge facts created before ONNX Runtime was provisioned have zero
+embedding vectors, blocking semantic and hybrid retrieval. Fix:
+
+```fish
+bash ~/.pi/agent/scripts/fix-embeddings.sh   # check + instructions
+# Then in a Pi session with MCP enabled:
+#   ctx_knowledge(action="embeddings_reindex")
+# Verify: lean-ctx knowledge lifecycle
+```
+
+All embedding generation is local (ONNX Runtime). No API calls, no data leaves
+the machine.
+
 **Install (after pi base install):**
 
 ```bash
@@ -219,7 +279,18 @@ node bench/live-keep-ab.mjs # needs pi + model
 
 ---
 
+| Config | Tokens | Tools | Date | Source |
+|---|---|---|---|---|
+| OMP v16.4.3 | ~16,800 | 11 | 2026-07-22 | `docs/wayfinder-agents-optimization.md` |
+| Pi pre-CE-lite | 5,789 | ~25 | 2026-07-27 | commit `c9cd69f` message |
+| Pi CE-lite baseline | 4,014 | ~22 | 2026-07-27 | commit `c9cd69f` |
+| Pi drifted master | 5,750 | 31 | 2026-08-05 | commit `93ec746` |
+| **Pi optimized (MCP off)** | **3,757** | **17** | **2026-08-05** | **commit `68a7080`** |
+| **Pi optimized (MCP on)** | **~5,514** | **23** | **2026-08-10** | **commit (this change)** |
+
 ## Design (why these files exist)
+
+**Result: 3,757 tokens with MCP off (lean floor only); ~5,514 tokens with MCP on (full expansion). The +1,757 token/turn cost of MCP is worth it for most sessions — the tools it enables (web search, knowledge retrieval, batch execution, sandbox) save more tokens than they cost by reducing turns and compressing content. For one-off requests, toggle MCP off.**
 
 ### `HARNESS.md` — runtime constitution
 Stable rules re-read each turn. Keep short.
