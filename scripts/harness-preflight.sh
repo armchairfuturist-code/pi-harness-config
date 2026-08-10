@@ -34,16 +34,26 @@ done
 
 if grep -RqiE 'invest-tools|invest_pulse|invest_optimize|invest_risk|invest-optimizer' "$AGENT/settings.json" "$AGENT/APPEND_SYSTEM.md" "$AGENT/HARNESS.md" "$AGENT/extensions" 2>/dev/null; then bad "personal investment tooling present in active harness"; else ok "generic active harness"; fi
 
-# Daemon-phantom watchdog (#930): a fresh lean-ctx daemon booting on defaults
-# (tool_profile=power) balloons the tool surface ~12 -> ~82 schemas and adds
-# ~10k tok/turn. Verify the live config matches the repo's pinned profile.
+# Daemon-phantom watchdog (#930): the tool_profile controls how many tool
+# schemas are injected per turn (power=82 schemas ~+12.7k tok; lean=12 ~+2.9k).
+# lean-ctx persists the ACTIVE profile in its own state (not config.toml — the
+# config.toml key only accepts minimal|standard|power, so "lean"/"auto" there
+# would be ignored). The authoritative check is the runtime profile reported by
+# a fresh 'lean-ctx tools show'. We verify (a) the repo pins a profile, and
+# (b) the live runtime matches it.
 WANT_PROFILE=$(grep -E '^tool_profile' "$ROOT/lean-ctx/config.toml" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
-LIVE_TOML="$HOME/.config/lean-ctx/config.toml"
-if [[ -z "$WANT_PROFILE" ]]; then bad "repo tool_profile not pinned in lean-ctx/config.toml"
-elif [[ ! -f "$LIVE_TOML" ]]; then bad "live lean-ctx config.toml missing"
-else GOT_PROFILE=$(grep -E '^tool_profile' "$LIVE_TOML" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
-  if [[ "$GOT_PROFILE" == "$WANT_PROFILE" ]]; then ok "tool profile pinned: $GOT_PROFILE"
-  else bad "tool profile drift: live=$GOT_PROFILE repo=$WANT_PROFILE (daemon phantom #930)"
+if [[ -z "$WANT_PROFILE" ]]; then
+  bad "repo tool_profile not pinned in lean-ctx/config.toml"
+elif ! command -v lean-ctx >/dev/null 2>&1; then
+  bad "lean-ctx CLI not found (cannot verify tool profile)"
+else
+  RUNTIME_PROFILE=$(lean-ctx tools show 2>/dev/null | sed -nE 's/^Tool Profile: ([a-z]+).*/\1/p' | head -1)
+  if [[ -z "$RUNTIME_PROFILE" ]]; then
+    bad "could not read lean-ctx runtime tool profile"
+  elif [[ "$RUNTIME_PROFILE" == "$WANT_PROFILE" ]]; then
+    ok "tool profile pinned (runtime): $RUNTIME_PROFILE"
+  else
+    bad "tool profile drift: runtime=$RUNTIME_PROFILE repo=$WANT_PROFILE — run 'lean-ctx tools $WANT_PROFILE'"
   fi
 fi
 
