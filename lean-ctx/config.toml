@@ -18,7 +18,7 @@ shell_allowlist_extra = [
     "chmod",
     "dcp",
 ]
-tool_profile = "power"
+tool_profile = "lean"
 allow_ide_config_dirs = true
 
 

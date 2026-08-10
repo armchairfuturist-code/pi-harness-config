@@ -18,6 +18,8 @@ Optional package profiles live under `~/.pi/profiles/`:
 ## Tool execution
 
 1. Prefer `ctx_read`, `ctx_edit`, `ctx_execute`, `ctx_batch_execute`, `ctx_grep`, `ctx_find`, and `ctx_ls` over raw shell.
+
+**Tool gateway (lean profile):** only a lean core is schema-injected per turn. All other lean-ctx tools stay callable — reach them via `ctx_call(name, args)` (MCP) or `lean-ctx call <tool> --json '<args>'` (shell). High-value ones: `ctx_knowledge` (persistent memory), `ctx_fetch_and_index` (web→KB), `ctx_execute_file` (sandbox over files), `ctx_compose` (code Q&A), `ctx_batch_execute` (parallel cmds). Full list: `lean-ctx tools list --all`. If a tool you want isn't first-class, don't conclude it's unavailable — call it through the gateway.
 2. Never run inline interpreters or shell heredocs into interpreters; write a script, then run it.
 3. After an edit miss, re-read the exact slice and never retry identical stale text.
 4. Verify multi-file changes with the cheapest relevant parse, search, test, or build.

@@ -34,5 +34,18 @@ done
 
 if grep -RqiE 'invest-tools|invest_pulse|invest_optimize|invest_risk|invest-optimizer' "$AGENT/settings.json" "$AGENT/APPEND_SYSTEM.md" "$AGENT/HARNESS.md" "$AGENT/extensions" 2>/dev/null; then bad "personal investment tooling present in active harness"; else ok "generic active harness"; fi
 
+# Daemon-phantom watchdog (#930): a fresh lean-ctx daemon booting on defaults
+# (tool_profile=power) balloons the tool surface ~12 -> ~82 schemas and adds
+# ~10k tok/turn. Verify the live config matches the repo's pinned profile.
+WANT_PROFILE=$(grep -E '^tool_profile' "$ROOT/lean-ctx/config.toml" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
+LIVE_TOML="$HOME/.config/lean-ctx/config.toml"
+if [[ -z "$WANT_PROFILE" ]]; then bad "repo tool_profile not pinned in lean-ctx/config.toml"
+elif [[ ! -f "$LIVE_TOML" ]]; then bad "live lean-ctx config.toml missing"
+else GOT_PROFILE=$(grep -E '^tool_profile' "$LIVE_TOML" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
+  if [[ "$GOT_PROFILE" == "$WANT_PROFILE" ]]; then ok "tool profile pinned: $GOT_PROFILE"
+  else bad "tool profile drift: live=$GOT_PROFILE repo=$WANT_PROFILE (daemon phantom #930)"
+  fi
+fi
+
 [[ "$ERR" -eq 0 ]] || { echo "preflight FAILED" >&2; exit 1; }
 echo "preflight OK"

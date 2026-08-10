@@ -126,6 +126,35 @@ against the seconds saved by eliminating round-trips.
 
 
 
+### Tool profile (lean) — the bigger lever
+
+Separate from the MCP on/off toggle is **how many tool schemas are injected
+per turn** — and it dwarfs the MCP delta. lean-ctx has profiles:
+
+| Profile | Advertised tools | Injection/turn |
+|---------|-----------------|----------------|
+| `power` | 82 (all first-class) | ~+12.7K |
+| `lean` (ours) | 12 core + rest via gateway | ~+2.9K |
+| `auto` | 5→escalates with complexity | ~+1.9K start |
+
+The repo pins `lean` in `lean-ctx/config.toml` (deployed by `install.sh`).
+That's **~9.8K tok/turn saved** vs `power`, at zero capability cost: all 82
+tools remain callable through the gateway — `ctx_call(name, args)` (MCP) or
+`lean-ctx call <tool> --json '<args>'` (shell). `HARNESS.md` carries a
+routing anchor listing the high-value gateway tools so the model knows to
+reach for them despite not seeing their schemas.
+
+Why `lean` and not `auto`: `auto` starts cheapest but its escalation
+heuristic is undocumented, and its initial 5 omit the gateway (`ctx_call`)
+and editing (`ctx_patch`) — so the gateway is undiscoverable at start. `lean`
+is lean-ctx's own marked default, deterministic, and its 12 include
+`ctx_call` + `ctx_patch` + `ctx_compose`. Try `auto` via one env var:
+`LEAN_CTX_TOOL_PROFILE=auto`.
+
+A preflight watchdog (daemon phantom #930) fails the build if the live
+profile drifts from the repo pin — a fresh daemon booting on defaults would
+otherwise silently balloon the surface back to ~82.
+
 ### Embeddings
 
 Knowledge facts created before ONNX Runtime was provisioned have zero
