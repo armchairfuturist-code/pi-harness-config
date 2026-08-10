@@ -18,8 +18,10 @@ A drop-in config that makes `pi` cheaper and smarter to run:
 ## MCP expansion
 
 The `toolProfile: "lean"` floor always provides ctx_read, ctx_grep, ctx_find,
-ctx_ls, ctx_edit, and ctx_shell (~3,757 tokens/turn). Enabling MCP adds the
-expansion surface for ~+1,757 tokens/turn:
+ctx_ls, ctx_edit, and ctx_shell. With the `lean` tool profile pinned
+(see [Tool profile](#tool-profile-lean--the-bigger-lever) below), MCP on
+costs only ~+1,300 tok/turn over MCP off — the gateway keeps all 82 tools
+callable without paying their schema cost. MCP adds the expansion surface:
 
 | Tool | Capability | CLI equivalent? |
 |---|---|---|
@@ -31,9 +33,11 @@ expansion surface for ~+1,757 tokens/turn:
 
 ### Why MCP is on by default
 
-Enabling MCP raises the fixed token cost per turn by ~1,757 — from 3,757
-to ~5,514. That's a real tax on every turn, including ones that never use
-these tools. So why ship it on?
+With the `lean` tool profile, MCP on costs ~5,300 tok/turn — barely more
+than MCP off at ~4,003. The old `power` profile made MCP on cost ~12,694
+(see the [tool profile section](#tool-profile-lean--the-bigger-lever) for
+that discovery). At ~1,300 tok/turn overhead, MCP pays for itself by
+eliminating even a single extra turn. So why ship it on?
 
 Because most sessions aren't one-off requests. In a typical coding or
 research session (5+ turns, moderate content), the expansion tools pay for
@@ -53,34 +57,45 @@ caching) with MCP off (July 29 baseline) and MCP on (August 10):
 
 | Task | MCP off turns | MCP on turns | MCP off tokens | MCP on tokens | Savings |
 |------|--------------|-------------|----------------|---------------|---------|
+| Task | MCP off turns | MCP on turns | MCP off tokens | MCP on tokens (power) | Savings |
+|------|--------------|-------------|----------------|----------------------|---------|
 | T1: list files → files.txt | 7 | 1 | 28,021 | 12,694 | **−55%** |
 | T3: fix multiply bug + changelog | 5 | 1 | 20,015 | 12,694 | **−37%** |
 | **Combined** | **12** | **2** | **48,036** | **25,388** | **−47%** |
+
+With `lean` profile (current), the MCP-on per-turn cost drops from ~12,694
+to ~5,300 — projected savings become **−81%** (T1) and **−74%** (T3). The
+A/B test above was measured with `power`; the lean numbers are projected
+from the measured +2.9K injection.
 
 Per-turn overhead on Lilac (no prompt caching, full cost every turn):
 
 | Config | Tools | Per-turn overhead |
 |--------|-------|-------------------|
 | MCP off (lean floor) | 22 | ~4,003 tok |
-| MCP on (full expansion) | 63 | ~12,694 tok |
-| Delta | +41 | +8,691 tok |
+| MCP on + `lean` profile (current) | 12 + 70 via gateway | ~5,300 tok |
+| MCP on + `power` profile (old) | 63 | ~12,694 tok |
+
+With `lean`, MCP on costs only ~1,300 tok/turn more than off — and all 82
+tools remain callable via `ctx_call`. The old `power` config paid +8,691.
 
 #### Break-even point
 
-MCP's +8,691 tok/turn overhead is amortized when a task eliminates enough
-turns. The math:
+With `lean` profile, MCP's overhead is only ~1,300 tok/turn (was +8,691
+with `power`). The math:
 
 | Turns eliminated | Net token delta | Verdict |
 |-----------------|-----------------|---------|
-| 1 (7→6) | +4,691 | MCP loses |
-| 2 (7→5) | −690 | MCP wins |
-| 3 (7→4) | −3,099 | MCP wins |
-| 6 (7→1) | −15,327 | MCP wins big |
+| 0 (1→1) | +1,300 | MCP loses (trivial tasks) |
+| 1 (2→1) | −2,703 | MCP wins |
+| 3 (5→2) | −6,709 | MCP wins |
+| 6 (7→1) | −18,718 | MCP wins big |
 
-**Break-even: MCP wins when a task would take ≥5 turns without it**
-(eliminating ≥2 turns). 73% of this user's sessions are 40+ turns — well
-past the threshold. A 40-turn session compresses to ~10–15 turns with
-batch execution and content compression, saving 60%+ of total tokens.
+**Break-even: MCP wins when a task takes ≥2 turns without it** (eliminating
+≥1 turn). With `power` the threshold was ≥5 turns. 73% of this user's
+sessions are 40+ turns — far past either threshold. A 40-turn session
+compresses to ~10–15 turns with batch execution and content compression,
+saving 60%+ of total tokens.
 
 #### Why not auto-toggle per request?
 
@@ -96,13 +111,14 @@ batch/search/fan-out." For a "fix this typo" request, ce-lite never calls
 `ctx_edit`. You only pay the 1,757 token schema tax, not the tool-call
 cost.
 
-The manual toggle is the only lever for the schema cost. It's worth using
-when you know in advance the entire session will be <5 turns:
+The manual toggle is the only lever for the schema cost. With `lean`
+profile the overhead is small enough that toggling off is only worth it for
+single-turn requests (<2 turns):
 
 ```fish
 bash ~/.pi/agent/scripts/mcp-toggle.sh status   # show current state
-bash ~/.pi/agent/scripts/mcp-toggle.sh off       # lean floor only (~3,757 t/t)
-bash ~/.pi/agent/scripts/mcp-toggle.sh on        # +expansion (~5,514 t/t)
+bash ~/.pi/agent/scripts/mcp-toggle.sh off  # MCP off (~4,003 t/t)
+bash ~/.pi/agent/scripts/mcp-toggle.sh on   # MCP on + lean profile (~5,300 t/t)
 ```
 
 Toggle requires a new Pi session to take effect (schemas load at startup).
@@ -121,8 +137,8 @@ response time drops for two reasons:
   20 KB files; `ctx_execute` keeps raw bytes in-sandbox. Later turns in a
   long session prefill faster because the context window stays smaller.
 
-The +1,757 token schema overhead adds ~5 ms of prefill per turn — negligible
-against the seconds saved by eliminating round-trips.
+The ~1,300 token schema overhead (lean profile) adds ~3 ms of prefill per
+turn — negligible against the seconds saved by eliminating round-trips.
 
 
 
@@ -380,12 +396,13 @@ node bench/live-keep-ab.mjs # needs pi + model
 | Pi pre-CE-lite | 5,789 | ~25 | 2026-07-27 | commit `c9cd69f` message |
 | Pi CE-lite baseline | 4,014 | ~22 | 2026-07-27 | commit `c9cd69f` |
 | Pi drifted master | 5,750 | 31 | 2026-08-05 | commit `93ec746` |
-| **Pi optimized (MCP off)** | **3,757** | **17** | **2026-08-05** | **commit `68a7080`** |
-| **Pi optimized (MCP on)** | **~5,514** | **23** | **2026-08-10** | **commit (this change)** |
+| **Pi optimized (MCP off)** | **~4,003** | **22** | **2026-08-05** | **commit `68a7080`** |
+| **Pi MCP on + power profile** | **~12,694** | **63** | **2026-08-10** | **pre-lean (A/B test)** |
+| **Pi MCP on + lean profile** | **~5,300** | **12+gateway** | **2026-08-10** | **commit (lean switch)** |
 
 ## Design (why these files exist)
 
-**Result: 3,757 tokens with MCP off (lean floor only); ~5,514 tokens with MCP on (full expansion). The +1,757 token/turn cost of MCP is worth it for most sessions — the tools it enables (web search, knowledge retrieval, batch execution, sandbox) save more tokens than they cost by reducing turns and compressing content. For one-off requests, toggle MCP off.**
+**Result: ~4,003 tok/turn with MCP off; ~5,300 tok/turn with MCP on + `lean` profile (was ~12,694 with `power`). The `lean` profile was the single biggest win — −9.8K tok/turn vs `power` at zero capability cost (all 82 tools stay callable via `ctx_call`). MCP on + lean wins for any task ≥2 turns; toggle off only for single-turn requests.**
 
 ### `HARNESS.md` — runtime constitution
 Stable rules re-read each turn. Keep short.
