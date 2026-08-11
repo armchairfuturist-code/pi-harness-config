@@ -75,9 +75,8 @@
   "packages": [
     "npm:@ogulcancelik/pi-model-agents"
     "npm:@ogulcancelik/pi-model-thinking"
-    "npm:@plannotator/pi-extension"
-    "npm:cc-safety-net"
-    "npm:context-mode"
+"npm:@plannotator/pi-extension"
+"npm:context-mode"
     "npm:pi-autoresearch"
     "npm:pi-cache-graph"
     "npm:pi-cache-optimizer"
@@ -331,7 +330,6 @@ Installed via `packages` array in `settings.json`:
 | **pi-model-agents** | `@ogulcancelik/pi-model-agents` | Model-specific subagent definitions |
 | **pi-model-thinking** | `@ogulcancelik/pi-model-thinking` | Per-model thinking-level control |
 | **pi-extension (plannotator)** | `@plannotator/pi-extension` | Plan annotation/review UI |
-| **cc-safety-net** | `cc-safety-net` | Command safety guardrails |
 | **pi-continue** | `pi-continue` | Session continuation helpers |
 | **pi-dynamic-workflows** | `@quintinshaw/pi-dynamic-workflows` | Dynamic multi-agent workflow orchestration |
 
@@ -691,8 +689,7 @@ Also install the npm packages and set env vars (see README.md "Install / restore
 pi install npm:pi-lean-ctx npm:context-mode npm:@quintinshaw/pi-dynamic-workflows \
   npm:pi-tscg npm:pi-slim npm:pi-cache-optimizer npm:pi-cache-graph npm:pi-context-usage \
   npm:pi-continue npm:pi-autoresearch npm:@plannotator/pi-extension \
-  npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking \
-  npm:cc-safety-net
+npm:@ogulcancelik/pi-model-agents npm:@ogulcancelik/pi-model-thinking
 
 set -gx LILAC_API_KEY "your-key-here"
 set -gx VENICE_API_KEY "your-venice-key-here"
