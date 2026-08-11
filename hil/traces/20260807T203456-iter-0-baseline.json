@@ -11,10 +11,7 @@
     "workload_out": null,
     "workload_reqs": null,
     "skill_loaded": "null",
-    "checks_pass": "1
-1
-1
-1"
+ "checks_pass": "1\n1\n1\n1"
   },
   "canary_suite": null,
   "context_usage": {

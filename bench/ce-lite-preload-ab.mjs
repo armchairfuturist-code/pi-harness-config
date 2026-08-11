@@ -52,23 +52,39 @@ function parseArgs(argv) {
 
 function loadJiti() {
 	const require = createRequire(import.meta.url);
-	const paths = [
+	// Portable jiti resolution: env override -> agent npm dir -> pi runtime install (`pi -v`-style global) -> common global roots.
+	const roots = [
+		process.env.PI_NPM_ROOT,
 		path.join(os.homedir(), ".pi/agent/npm/node_modules"),
-		path.join(
-			os.homedir(),
-			".local/share/pi-node/node-v22.23.1-linux-x64/lib/node_modules/@earendil-works/pi-coding-agent/node_modules",
-		),
-		"/home/alex/.local/share/pi-node/node-v22.23.1-linux-x64/lib/node_modules/@earendil-works/pi-coding-agent/node_modules",
+		path.join(os.homedir(), ".pi/agent/node_modules"),
 	];
-	let jitiPath;
-	try {
-		jitiPath = require.resolve("jiti", { paths });
-	} catch (e) {
-		throw new Error(`jiti not found: ${e.message}`);
+	// locate the pi runtime global node_modules (version-agnostic), e.g.
+	// ~/.local/share/pi-node/node-v*/lib/node_modules — glob via fs.
+	const piShare = path.join(os.homedir(), ".local/share/pi-node");
+	if (fs.existsSync(piShare)) {
+		for (const v of fs.readdirSync(piShare)) {
+			const nm = path.join(piShare, v, "lib/node_modules");
+			if (fs.existsSync(nm)) roots.push(nm);
+		}
 	}
-	return require(jitiPath)(import.meta.url, { esmResolve: true, interopDefault: true });
-}
+	roots.push("/usr/lib/node_modules", "/usr/local/lib/node_modules");
 
+	// jiti may be hoisted at a root, or nested under the pi-coding-agent package.
+	const candidates = [
+		...roots.filter(Boolean).map((r) => path.join(r, "jiti")),
+		...roots
+			.filter(Boolean)
+			.map((r) => path.join(r, "@earendil-works/pi-coding-agent/node_modules/jiti")),
+	];
+	for (const cand of candidates) {
+		if (fs.existsSync(cand)) {
+			return require(cand)(import.meta.url, { esmResolve: true, interopDefault: true });
+		}
+	}
+	throw new Error(
+		"jiti not found. Set PI_NPM_ROOT or run pi with its bundled npm packages. Tried:\n  " + candidates.join("\n  "),
+	);
+}
 async function captureBeforeAgentStart(extPath, fakeEvent) {
 	if (!fs.existsSync(extPath)) throw new Error(`extension missing: ${extPath}`);
 	const jiti = loadJiti();

@@ -13,7 +13,8 @@
     "npm:pi-lean-ctx",
     "npm:pi-slim",
     "npm:pi-tscg",
-    "npm:@quintinshaw/pi-dynamic-workflows"
+    "npm:@quintinshaw/pi-dynamic-workflows",
+ "npm:@samfp/pi-essentials"
   ],
   "extensions": [
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
