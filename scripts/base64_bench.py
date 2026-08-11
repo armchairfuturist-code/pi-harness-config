@@ -275,15 +275,10 @@ class ProviderConfig:
 
 DEFAULT_PROVIDERS = [
     {
-        "base_url": os.environ.get("LILAC_BASE_URL", "https://api.getlilac.com/v1"),
-        "api_key_env": "LILAC_API_KEY",
-        "model": "zai-org/glm-5.2",
-    },
-    {
-        "name": "Venice-Mercury2",
+        "name": "Venice-DeepSeekV4Flash",
         "base_url": os.environ.get("VENICE_BASE_URL", "https://api.venice.ai/api/v1"),
         "api_key_env": "VENICE_API_KEY",
-        "model": "mercury-2:minimal",
+        "model": "deepseek-v4-flash-0731",
     },
     {
         "name": "Venice-Gemini35Flash",
