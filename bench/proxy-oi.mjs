@@ -13,7 +13,7 @@ import { mkdirSync, renameSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const port = Number(process.env.PROXY_PORT ?? 4599);
-const upstream = new URL(process.env.UPSTREAM_URL ?? "https://api.getlilac.com/v1");
+const upstream = new URL(process.env.UPSTREAM_URL ?? "https://api.venice.ai/api/v1");
 const captureRoot = process.env.CAPTURE_DIR ?? join(process.cwd(), "captures");
 const label = process.env.LABEL ?? "unlabelled";
 const coldBust = /^(1|true|yes)$/i.test(process.env.COLD_BUST ?? "0");

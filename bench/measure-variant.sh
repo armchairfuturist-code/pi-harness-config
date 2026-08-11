@@ -4,7 +4,7 @@
 set -uo pipefail
 AGENT_DIR="$(cd "$1" && pwd)"
 RUNS="${2:-1}"
-MODEL="${PROBE_MODEL:-Lilac/zai-org/glm-5.2}"
+MODEL="${PROBE_MODEL:-Venice/deepseek-v4-flash-0731}"
 BENCH_DIR="/tmp/pi-measure-variant-ws"
 SESS="$AGENT_DIR/sessions"
 mkdir -p "$SESS"

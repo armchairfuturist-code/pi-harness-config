@@ -275,7 +275,6 @@ class ProviderConfig:
 
 DEFAULT_PROVIDERS = [
     {
-        "name": "Lilac-GLM5.2",
         "base_url": os.environ.get("LILAC_BASE_URL", "https://api.getlilac.com/v1"),
         "api_key_env": "LILAC_API_KEY",
         "model": "zai-org/glm-5.2",

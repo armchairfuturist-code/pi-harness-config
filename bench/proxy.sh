@@ -4,7 +4,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PORT="${PI_BENCH_PORT:-4599}"
 PIDFILE="${TMPDIR:-/tmp}/pi-harness-proxy-$PORT.pid"
 CAPTURE_DIR="${PI_BENCH_CAPTURE_DIR:-$ROOT/.scratch/captures}"
-UPSTREAM_URL="${PI_BENCH_UPSTREAM_URL:-https://api.getlilac.com/v1}"
+UPSTREAM_URL="${PI_BENCH_UPSTREAM_URL:-https://api.venice.ai/api/v1}"
 case "${1:-ensure}" in
   ensure)
     # Every run gets its requested label/environment; do not reuse a process

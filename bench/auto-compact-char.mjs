@@ -363,10 +363,9 @@ async function main() {
   const models = readModelWindows();
   const rows = thresholdTable(shouldCompact, locked, DEFAULT_COMPACTION_SETTINGS);
 
-  // Primary stack: Lilac glm-5.2
-  const lilac = models.find((m) => m.provider === "Lilac" && /glm-5\.2/i.test(m.id));
-  const venice = models.find((m) => m.provider === "Venice" && /glm-5/i.test(m.id));
-  const primaryWindow = lilac?.contextWindow ?? 524288;
+  // Primary stack: Venice deepseek-v4-flash-0731 (1M ctx)
+  const primary = models.find((m) => m.provider === "Venice" && /deepseek-v4-flash-0731/i.test(m.id));
+  const primaryWindow = primary?.contextWindow ?? 1000000;
 
   const lockedRow = rows.find(
     (r) => r.profile === "locked" && r.contextWindow === primaryWindow,
@@ -391,7 +390,7 @@ async function main() {
     defaults: DEFAULT_COMPACTION_SETTINGS,
     modelsOfInterest: models.filter((m) => /glm-5|grok-4/i.test(m.id || "")),
     primary: {
-      model: lilac || { id: "zai-org/glm-5.2", contextWindow: primaryWindow, assumed: true },
+      model: primary || { id: "deepseek-v4-flash-0731", contextWindow: primaryWindow, assumed: true },
       locked_trigger_gt: lockedRow?.triggerWhenTokensGt ?? null,
       default_trigger_gt: defaultRow?.triggerWhenTokensGt ?? null,
       trigger_shift_tokens:
@@ -416,7 +415,7 @@ async function main() {
       unlock_reserve_recommended: false,
       unlock_keepRecent_recommended: false,
       reason:
-        "Trigger is so high on glm-5.2 (Lilac 524288) that locked 24k vs default 16k is noise-level for auto-fire. No HIL unlock without a smaller-window model or measured OOM/truncation evidence.",
+        "Trigger is so high on glm-5.2-class 1M windows that locked 24k vs default 16k is noise-level for auto-fire. No HIL unlock without a smaller-window model or measured OOM/truncation evidence.",
     },
   };
 

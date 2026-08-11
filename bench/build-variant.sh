@@ -32,7 +32,7 @@ cp "$LIVE_AGENT/models.json" "$VAGENT/models.json"
 cp "$LIVE_AGENT/auth.json" "$VAGENT/auth.json"
 chmod 600 "$VAGENT/auth.json" "$VAGENT/models.json"
 PORT="${PI_BENCH_PORT:-4599}"
-jq --arg url "http://127.0.0.1:$PORT/v1" '.providers.Lilac.baseUrl=$url' "$VAGENT/models.json" > "$VAGENT/models.tmp" && mv "$VAGENT/models.tmp" "$VAGENT/models.json"
+jq --arg url "http://127.0.0.1:$PORT/v1" '.providers.Venice.baseUrl=$url' "$VAGENT/models.json" > "$VAGENT/models.tmp" && mv "$VAGENT/models.tmp" "$VAGENT/models.json"
 
 # pi-lean-ctx #930 compatibility path.
 mkdir -p "$VAGENT/agent/extensions/pi-lean-ctx"

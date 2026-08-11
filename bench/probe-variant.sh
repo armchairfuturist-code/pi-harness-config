@@ -9,7 +9,7 @@
 # <agent-dir>/sessions (created if absent) via PI_CODING_AGENT_SESSION_DIR.
 set -uo pipefail
 AGENT_DIR="$(cd "$1" && pwd)"
-MODEL="${PROBE_MODEL:-Lilac/zai-org/glm-5.2}"
+MODEL="${PROBE_MODEL:-Venice/deepseek-v4-flash-0731}"
 WD="/tmp/pi-probe-variant-ws"
 SESS="$AGENT_DIR/sessions"
 mkdir -p "$SESS"
