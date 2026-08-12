@@ -10506,11 +10506,11 @@
       },
       "Venice/deepseek-v4-flash-0731": {
         "day": "2026-08-12",
-        "totalRequests": 239,
-        "hitRequests": 220,
-        "cachedInputTokens": 36700928,
+        "totalRequests": 244,
+        "hitRequests": 225,
+        "cachedInputTokens": 38037248,
         "cacheWriteInputTokens": 0,
-        "totalInputTokens": 43955736
+        "totalInputTokens": 45307992
       }
     },
     "ca80b5adb8b450bd": {
@@ -12332,6 +12332,16 @@
         "cacheWriteInputTokens": 0,
         "totalInputTokens": 5556
       }
+    },
+    "ab7387d723744e26": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5120,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5556
+      }
     }
   },
   "totalsByModel": {
@@ -12521,11 +12531,11 @@
     },
     "Venice/kimi-k3": {
       "day": "2026-08-12",
-      "totalRequests": 3,
-      "hitRequests": 2,
-      "cachedInputTokens": 10430,
+      "totalRequests": 1,
+      "hitRequests": 1,
+      "cachedInputTokens": 5120,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 16178
+      "totalInputTokens": 5556
     },
     "Venice/zai-org-glm-5-2": {
       "day": "2026-08-12",
@@ -12561,11 +12571,11 @@
     },
     "Venice/deepseek-v4-flash-0731": {
       "day": "2026-08-12",
-      "totalRequests": 280,
-      "hitRequests": 260,
-      "cachedInputTokens": 37051155,
+      "totalRequests": 285,
+      "hitRequests": 265,
+      "cachedInputTokens": 38388755,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 44695747
+      "totalInputTokens": 46044390
     },
     "Venice/openai-gpt-56-terra-pro": {
       "day": "2026-08-12",
