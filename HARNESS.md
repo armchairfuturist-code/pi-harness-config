@@ -45,7 +45,6 @@ Always-on contract is `APPEND_SYSTEM.md`. Asked-for writing (email, docs, copy) 
 - `bench/semantic-canary.sh` — skill semantics + preload H4/heuristics + optional session efficiency
 - `bench/test-ce-lite-preload.mjs` — unit heuristics
 - `bundled-skills/harness-doctor/scripts/trajectory_metrics.py` — per-session tool/error metrics
-- `scripts/skillopt-sleep-nightly.sh` — nightly validation-gated skill optimization (SkillOpt-Sleep; compound stage, human adopt)
 
 ## Install
 ```bash

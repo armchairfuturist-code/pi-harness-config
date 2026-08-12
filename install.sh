@@ -61,7 +61,6 @@ HARNESS.md|__AGENT__/HARNESS.md|
 packages.lock.json|__AGENT__/packages.lock.json|
 profiles|__AGENT__/profiles|dir
 scripts/harness-preflight.sh|__AGENT__/scripts/harness-preflight.sh|
-scripts/skillopt-sleep-nightly.sh|__AGENT__/scripts/skillopt-sleep-nightly.sh|
 scripts/validate-live-settings.mjs|__AGENT__/scripts/validate-live-settings.mjs|
 scripts/validate-manifest.mjs|__AGENT__/scripts/validate-manifest.mjs|
 scripts/verify-package-lock.mjs|__AGENT__/scripts/verify-package-lock.mjs|

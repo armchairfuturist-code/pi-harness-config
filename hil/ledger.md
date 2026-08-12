@@ -704,3 +704,19 @@ pi output on fail.
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20
+
+## Iter 22 — 2026-08-12 — remove SkillOpt entirely
+
+Sleep nights cannot score this harness (`pi --no-tools` + text judges).
+skillopt-pi eval saturated at 7/7 with no failing train signal. Operator
+decision: drop SkillOpt, do not ship it to other machines.
+
+**Removed:** `skillopt-pi/`, `scripts/skillopt-sleep-nightly.sh` (repo + live +
+agent mirror), install.sh MANIFEST line, HARNESS measurement row, ce-lite
+compound pointer. Deleted local checkout `~/Projects/skillopt` and
+`~/.skillopt-sleep`. Historical ledger rows left as-is.
+
+ce-lite compound is again in-session only (knowledge store / project record).
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20

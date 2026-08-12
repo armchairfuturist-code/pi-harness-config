@@ -46,7 +46,7 @@ Fan-out guardrails (from `dispatching-parallel-agents`): parallelize only when t
    For judgment over gathered evidence, run gather-judge (see `gather-judge.md`).
    *Done*: every term row says pass and cites current evidence; unresolved risks named and reported as incomplete or qualified.
 
-7. **Deliver and compound** — report outcome against terms, artifact paths, verification status, surviving risks. Save reusable patterns, gotchas, preferences, and durable decisions to the knowledge store or project record. Offline compound (across sessions): `scripts/skillopt-sleep-nightly.sh` stages a gated proposal; adopt is human.
+7. **Deliver and compound** — report outcome against terms, artifact paths, verification status, surviving risks. Save reusable patterns, gotchas, preferences, and durable decisions to the knowledge store or project record.
 
 **Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). This makes Verify and cross-session handoffs parseable.
    *Done*: operator can locate every deliverable, see whether all terms passed, identify each residual risk; omit categories with no content.
