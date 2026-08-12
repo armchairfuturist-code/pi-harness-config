@@ -76,6 +76,7 @@ scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
 patches/dynamic-workflows/apply-patches.mjs|__AGENT__/patches/dynamic-workflows/apply-patches.mjs|
+patches/auto-reasoning/apply-patches.mjs|__AGENT__/patches/auto-reasoning/apply-patches.mjs|
 tscg.json|__PI_HOME__/tscg.json|
 extensions/session-index.ts|__AGENT__/extensions/session-index.ts|
 extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|
