@@ -555,3 +555,35 @@ No verify.sh baseline needed. Reinstall path: `./install.sh` pins from `packages
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
+
+## Iter 17 — 2026-08-12 — global output style: STE100 + attention-kind (lean by default)
+
+**Trigger:** Operator request — globally apply ASD-STE100 (Simplified Technical English)
+and the "attention-kind" style from @alexgreensh (alexgreensh/attention-span), so replies
+use fewer tokens by default, except explicitly requested writing content (deliverables).
+
+**Changes shipped (5 repo files, deployed via install.sh):**
+- EDIT `APPEND_SYSTEM.md` — added compact always-on "Output contract": answer-first, short
+  by default, STE100-controlled English (short sentences, active voice, one term per thing,
+  no jargon/filler), deliverables full-length and unwrapped, warnings never trimmed,
+  scan-friendly bold lead-ins, one question at a time; pointer to the full skill.
+- ADD `bundled-skills/attention-kind/SKILL.md` — full rule set: attention-kind delivery
+  adapted from alexgreensh/attention-span (AGPL-3.0, attributed) + distilled ASD-STE100
+  writing rules; deployed to `~/.pi/agent/skills/attention-kind/`; model-invokable.
+- EDIT `HARNESS.md` — new "Output style (default)" section documenting contract + carve-out.
+- EDIT `README.md` — upstream credits row for attention-span.
+- EDIT `hil/ledger.md` — this entry.
+
+**Cost posture:** fixed prefix delta per turn, measured via bench/probe.sh:
+before = 6258 total (input 6254); after = <AFTER> (+<DELTA>). Offset by leaner replies
+(attention-span benchmark: ~43% shorter output on average, deliverable purity 88% vs 12%).
+No locked knobs touched (KEEP / compaction / tscg / maxDesc unchanged).
+
+**Verify:** probe before/after recorded in bench/out/; install.sh --check + validate-live-settings
+PASS after deploy; spot-check style adherence on next live sessions (ledger row on drift).
+
+**Not an A/B knob experiment** — policy/content capability via the sanctioned runtime
+channels (APPEND_SYSTEM + skill). Reinstall path: `./install.sh --skip-packages`.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation

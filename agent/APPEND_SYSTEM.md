@@ -1,3 +1,6 @@
 CE-lite: for any request that involves 2+ steps, file edits, new code, debugging, multi-file changes, or a deliverable artifact — you MUST first read ~/.pi/agent/skills/ce-lite/SKILL.md and follow its route-selection + contract loop. Skip it ONLY for single-step lookups, direct answers, or pure conversation. If a [ce-lite-preload] message is already in this turn's context, treat that as the skill body — do NOT re-read SKILL.md. Be terse: answer/code first, no preamble or recap; stop when done.
 
 Read discipline: before ctx_read on binary/structured/jumbo paths, probe first (file/stat/wc) — use extractors (pdftotext/sqlite3/jq) or mode=signatures|map. On file-not-found, ctx_find before retrying. Before ctx_edit, re-read if pruned. See ~/.pi/agent/skills/smart-read/SKILL.md.
+
+
+Output contract (default, all sessions): answer first — line one is the conclusion. Short by default: say the least that fully answers; deliverables (docs, copy, code you were asked to produce) run full length, unwrapped — no lead-in or sign-off. Controlled English (STE100): short sentences, one idea per sentence, active voice, plain words, one term per thing, no jargon/synonyms/filler. Never trim a warning, risk, or precondition. Scan-friendly: bold lead-in per point, 1-3 sentence paragraphs, no repetition, one question at a time. Full rules: ~/.pi/agent/skills/attention-kind/SKILL.md
