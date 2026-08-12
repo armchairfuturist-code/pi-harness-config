@@ -1,0 +1,21 @@
+{
+  "overallScore": 33,
+  "byAgentApprox": {
+    "project-harness": 24,
+    "session-evidence": 40,
+    "agent-customize": 27
+  },
+  "topActions": [
+    "Fix settings.skills filter (P0)",
+    "Add AGENTS.md tool+skill contract (P0)",
+    "Rewrite .gitignore to version harness config (P0)",
+    "Codify ctx_* first + script-file python (P0)",
+    "Slim last30days before enable (P1)",
+    "Regenerate inventory + package map (P1)"
+  ],
+  "conflictsResolved": [
+    "Packet toolCalls=0 superseded by independent JSONL 1648 calls",
+    "Inventory skills=[] and disk skills=48 both true under denylist",
+    "SYSTEM.md verified missing; only APPEND_SYSTEM.md"
+  ]
+}

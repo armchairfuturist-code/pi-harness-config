@@ -1,0 +1,455 @@
+{
+  "schemaVersion": 1,
+  "kind": "better-harness-pass-handoff",
+  "pass": "A",
+  "domain": "project-harness",
+  "generatedAt": "2026-08-04T21:10:00.000Z",
+  "project": {
+    "repoRoot": "/home/alex/.pi",
+    "analysisScope": {
+      "kind": "path",
+      "route": "agent",
+      "pathspecs": [
+        ":(top,literal)agent"
+      ]
+    },
+    "identity": {
+      "name": "agent",
+      "kind": "pi-coding-agent-harness-home",
+      "description": "Pi agent home under ~/.pi/agent: settings, extensions, skills, prompts, observability, and npm-installed agent packages — not a conventional application repo.",
+      "primaryLanguages": [
+        "markdown",
+        "typescript",
+        "python",
+        "json"
+      ],
+      "frameworks": [
+        "pi-coding-agent",
+        "better-harness",
+        "context-mode/lean-ctx"
+      ]
+    }
+  },
+  "evidenceBoundary": {
+    "mode": "static-local-git-and-file-analysis",
+    "packet": "packet-project.json",
+    "lead": [
+      "lead-summary.json",
+      "lead-evidence.md"
+    ],
+    "unverified": [
+      "runtime skill loading",
+      "CI status",
+      "tests passed",
+      "live tool availability"
+    ],
+    "leadContext": {
+      "evidenceMode": "session-rich",
+      "sessionsAnalyzed": 12,
+      "episodeCount": 4,
+      "note": "Lead is session-rich; Pass A stays project/static and only cross-checks lead friction against on-disk harness structure."
+    }
+  },
+  "packetFacts": {
+    "trackedFiles": 3,
+    "trackedPaths": [
+      "agent/settings.json",
+      "agent/context-prune/settings.json",
+      "agent/extensions/pi-lean-ctx/config.json"
+    ],
+    "diffSeverity": "critical",
+    "diffScore": 100,
+    "changedFiles": 453,
+    "changedLines": 266023,
+    "coreHits": 0,
+    "hotHits": 0,
+    "companionHits": 3,
+    "companionPaths": [
+      "agent/settings.json",
+      "agent/extensions/pi-lean-ctx/config.json",
+      "agent/context-prune/settings.json"
+    ],
+    "historyConfidence": "low",
+    "historyReasons": [
+      "only 3 commits were analyzed",
+      "history span is only 6 days"
+    ],
+    "agentInstructionsStatus": "none",
+    "sourceFilesMeasured": 0,
+    "reviewRecommended": false,
+    "attentionRequired": false
+  },
+  "diskFacts": {
+    "gitignore": {
+      "path": "/home/alex/.pi/.gitignore",
+      "policy": "deny-all then allow agent/skills only",
+      "lines": [
+        "*",
+        "!agent/",
+        "!agent/skills/",
+        "!agent/skills/**"
+      ],
+      "effect": "Most harness config is ignored; only skills tree is whitelist-eligible. Three config files remain tracked from earlier force-add/commit and are not newly addable under current ignore rules without -f."
+    },
+    "present": {
+      "settingsJson": true,
+      "appendSystemMd": true,
+      "harnessInventoryJson": true,
+      "observabilityHistoryJsonl": true,
+      "skillsDir": true,
+      "extensionsDir": true,
+      "agentsExploreMd": true,
+      "memoryDir": true,
+      "sessionsDir": true,
+      "hooksDir": true,
+      "workflowsDir": true,
+      "promptsDir": true
+    },
+    "absent": {
+      "AGENTS_md": true,
+      "SYSTEM_md": true,
+      "README_md": true,
+      "DESIGN_md": true,
+      "packageJson": true,
+      "justfileOrMakefile": true,
+      "githubWorkflows": true,
+      "preCommitConfig": true,
+      "githooks": true,
+      "coreHooksPath": true
+    },
+    "skills": {
+      "skillMdCount": 44,
+      "settingsFilter": [
+        "!**",
+        "**/ce-lite/**",
+        "**/better-harness/**"
+      ],
+      "ceLiteOnDisk": "agent/skills/ce-lite/SKILL.md",
+      "betterHarnessSkillPath": "agent/npm/node_modules/@qoder-ai/better-harness/skills/better-harness/SKILL.md",
+      "betterHarnessUnderSkillsDir": false,
+      "appendSystemTriggers": [
+        "harness-doctor",
+        "poor-mans-distill",
+        "shard-security",
+        "context-rot-forensics",
+        "graph-engineering",
+        "workflow:codebase-audit"
+      ],
+      "triggerSkillsOnDiskButFilteredOut": [
+        "harness-doctor",
+        "poor-mans-distill",
+        "shard-security",
+        "context-rot-forensics",
+        "graph-engineering"
+      ]
+    },
+    "inventory": {
+      "path": "agent/harness-inventory.json",
+      "generated": "2026-07-30T16:03:28+0100",
+      "gitStatus": "ignored-by-root-star",
+      "keys": [
+        "generated",
+        "harnesses",
+        "providers",
+        "credentials_env_d",
+        "npm_globals",
+        "pi_stack"
+      ],
+      "staleRelativeTo": "analysis datetime 2026-08-04"
+    },
+    "observability": {
+      "historyPath": "agent/observability/history.jsonl",
+      "lineCount": 4,
+      "shape": "session-end token/cost metrics only; no structured diagnostic events, correlation ids, or failure taxonomy"
+    },
+    "settingsHighlights": {
+      "defaultProvider": "Venice",
+      "defaultModel": "grok-4-5",
+      "packagesCount": 17,
+      "extensionsIncludeLocalTranscriptPruner": true,
+      "compaction": {
+        "reserveTokens": 24000,
+        "keepRecentTokens": 20000
+      }
+    },
+    "gitStatusSummary": {
+      "modifiedTracked": 3,
+      "untrackedSkillsTree": true,
+      "porcelainCountApprox": 469,
+      "note": "Packet 453 changed files dominated by untracked skills (incl. __pycache__); not a conventional app source delta."
+    }
+  },
+  "dimensionScores": [
+    {
+      "id": "task-understanding",
+      "score": 34,
+      "weight": 1,
+      "summary": "Operational rules exist in APPEND_SYSTEM.md and ce-lite, but there is no versioned AGENTS/SYSTEM/README/DESIGN contract; skill allowlist contradicts APPEND_SYSTEM triggers."
+    },
+    {
+      "id": "controlled-execution",
+      "score": 28,
+      "weight": 1,
+      "summary": "Rich package/extension stack and deny-by-default gitignore, but no command surface, hooks, or CI; triggered specialist skills are filtered out of loading."
+    },
+    {
+      "id": "change-validation",
+      "score": 14,
+      "weight": 1,
+      "summary": "No package scripts, tests, pre-commit, or CI. Critical-severity working tree (453 files / 266k lines) has no validation gate."
+    },
+    {
+      "id": "reliable-delivery",
+      "score": 24,
+      "weight": 1,
+      "summary": "Only 3 tracked files; harness-critical artifacts (APPEND_SYSTEM, inventory, agents, extensions code) are gitignored. Delivery and recovery surfaces are not versioned."
+    },
+    {
+      "id": "learning-capture",
+      "score": 38,
+      "weight": 1,
+      "summary": "memory/, sessions/, observability/, and harness-inventory exist, but inventory is stale/untracked and history.jsonl is metric-only (4 lines)."
+    }
+  ],
+  "overallScore": 28,
+  "findings": [
+    {
+      "id": "PH-A-001",
+      "severity": "high",
+      "dimension": "task-understanding",
+      "title": "No durable agent instruction contract (AGENTS/SYSTEM/README/DESIGN)",
+      "evidence": [
+        "packet projectProfile.agentInstructions.status=none, count=0",
+        "disk: no agent/AGENTS.md, agent/SYSTEM.md, agent/README.md, DESIGN.md",
+        "APPEND_SYSTEM.md exists and defines CE-lite + skill triggers, but is ignored by root gitignore '*'"
+      ],
+      "impact": "Agents restart without a versioned project contract; packet recommendedReads cannot anchor on instruction files; onboarding and multi-agent consistency rely on ephemeral/local-only files.",
+      "recommendation": "Add versioned agent/AGENTS.md (or SYSTEM.md) summarizing harness purpose, command surface, skill policy, and non-negotiables; whitelist it in .gitignore; keep APPEND_SYSTEM as thin overlay or merge into AGENTS.md."
+    },
+    {
+      "id": "PH-A-002",
+      "severity": "high",
+      "dimension": "controlled-execution",
+      "title": "settings.skills allowlist blocks APPEND_SYSTEM trigger skills",
+      "evidence": [
+        "settings.json skills: [\"!**\",\"**/ce-lite/**\",\"**/better-harness/**\"]",
+        "APPEND_SYSTEM.md triggers harness-doctor, poor-mans-distill, shard-security, context-rot-forensics, graph-engineering, workflow:codebase-audit",
+        "those skills exist under agent/skills/ (44 SKILL.md total) but do not match allowlist",
+        "better-harness SKILL.md only under npm/node_modules/@qoder-ai/better-harness/..., not under agent/skills/"
+      ],
+      "impact": "User phrases that APPEND_SYSTEM maps to specialist skills will fail closed or silently no-op if the runtime honors the allowlist — controlled execution path is self-contradictory.",
+      "recommendation": "Either expand skills allowlist to include every APPEND_SYSTEM trigger path, or remove/relocate those triggers; add a smoke check that each trigger resolves to a loadable SKILL.md."
+    },
+    {
+      "id": "PH-A-003",
+      "severity": "high",
+      "dimension": "reliable-delivery",
+      "title": "Root gitignore deny-all prevents versioning harness control plane",
+      "evidence": [
+        ".gitignore: * then only !agent/skills/**",
+        "tracked files only: settings.json, context-prune/settings.json, extensions/pi-lean-ctx/config.json",
+        "check-ignore: APPEND_SYSTEM.md, harness-inventory.json, agents/Explore.md, extensions/transcript-pruner.ts all ignored by '*'",
+        "git status shows ?? agent/skills/ plus 3 modified tracked configs; porcelain ~469"
+      ],
+      "impact": "Harness behavior is mostly non-reproducible across machines/clones; critical config and extension code cannot be reviewed or rolled back via git; packet under-reports real surface (0 sourceFiles) because ignore hides it.",
+      "recommendation": "Replace blanket * with an explicit allowlist for harness control plane: settings.json, APPEND_SYSTEM.md/AGENTS.md, agents/**, extensions/**, hooks/**, prompts/**, workflows/**, observability/.gitignore policy, harness-inventory.json — while still ignoring sessions/, memory/blobs, npm/, caches, __pycache__."
+    },
+    {
+      "id": "PH-A-004",
+      "severity": "high",
+      "dimension": "change-validation",
+      "title": "No validation command surface, hooks, or CI for harness changes",
+      "evidence": [
+        "no agent/package.json, no root justfile/Makefile",
+        "no .github/workflows, no .pre-commit-config.yaml, no core.hooksPath / .githooks",
+        "packet followUpActions validate-impact only cites a fixture example under graph-engineering",
+        "diffImpact severity=critical score=100 on 453 files / 266023 lines with zero tests"
+      ],
+      "impact": "Config and skill changes land without lint/load/smoke gates; skill __pycache__ and large trees enter the working tree unchecked.",
+      "recommendation": "Add a minimal harness doctor/smoke entrypoint (e.g. scripts/harness-smoke.sh or npm script) that validates settings.json JSON, skills filter vs on-disk triggers, extension paths exist, and inventory freshness; wire pre-commit or a documented manual gate before commit."
+    },
+    {
+      "id": "PH-A-005",
+      "severity": "medium",
+      "dimension": "learning-capture",
+      "title": "Observability and inventory are present but not operationalized",
+      "evidence": [
+        "observability/history.jsonl has 4 lines of session-end usage metrics only",
+        "harness-inventory.json generated 2026-07-30T16:03:28+0100 (stale vs 2026-08-04 analysis)",
+        "inventory gitignored; no scheduled refresh command in versioned docs",
+        "lead session-rich mode shows weak durable learning capture — aligns with missing project-side learning artifacts"
+      ],
+      "impact": "Cannot reconstruct failures, skill-load misses, or config drift from project artifacts; doctor/audit work lacks a fresh baseline.",
+      "recommendation": "Define a small observability schema (event type, correlation id, skill id, outcome) beyond token totals; version inventory generation command and refresh policy; keep redacted inventory snapshot trackable."
+    },
+    {
+      "id": "PH-A-006",
+      "severity": "medium",
+      "dimension": "controlled-execution",
+      "title": "Working tree is a large untracked skills dump, not a scoped change",
+      "evidence": [
+        "diffImpact reasons include wide file change count 453 and large changed-line count 266023",
+        "changeDrift sample dominated by untracked agent/skills/** including __pycache__ .pyc",
+        "history confidence low (3 commits / 6 days); only supporting hot files are the 3 tracked configs",
+        "coreAnalysis candidates=[] — no core boundary for this harness-home layout"
+      ],
+      "impact": "Review and delivery cannot distinguish intentional skill installs from noise; critical severity is mostly inventory/untracked bulk, which can mask real config regressions in settings.json.",
+      "recommendation": "Ignore **/__pycache__/** and *.pyc under skills; commit intentional skills in curated batches; treat settings.json / APPEND_SYSTEM / extensions as the true high-risk review set."
+    },
+    {
+      "id": "PH-A-007",
+      "severity": "medium",
+      "dimension": "task-understanding",
+      "title": "Project profile is empty because git tracking ≠ actual harness surface",
+      "evidence": [
+        "projectInfo.sourceFiles=0, languages=[], frameworks=[], manifests=[]",
+        "totals.trackedFiles=3 while disk has skills, extensions, prompts, workflows, npm packages",
+        "packet recommendedReads still points at the 3 tracked configs + untracked skills paths"
+      ],
+      "impact": "Static pack understates architecture; agents following only tracked profile miss the real control plane.",
+      "recommendation": "After gitignore allowlist fix, re-run project pack with path scope agent; optionally maintain a hand-written project overlay listing packages, extensions, and skill policy for better-harness."
+    },
+    {
+      "id": "PH-A-008",
+      "severity": "low",
+      "dimension": "reliable-delivery",
+      "title": "Local extension transcript-pruner.ts is runtime-critical but ignored",
+      "evidence": [
+        "settings.json extensions includes ~/.pi/agent/extensions/transcript-pruner.ts",
+        "git check-ignore marks agent/extensions/transcript-pruner.ts ignored by '*'",
+        "only extensions/pi-lean-ctx/config.json is tracked under extensions/"
+      ],
+      "impact": "Clone/restore loses transcript pruning behavior; settings will point at missing file.",
+      "recommendation": "Track agent/extensions/*.ts (or the specific pruner) and add a startup existence check."
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "PH-R-001",
+      "priority": "P0",
+      "title": "Fix skills filter ↔ APPEND_SYSTEM trigger alignment",
+      "relatedFindings": [
+        "PH-A-002"
+      ],
+      "action": "Update settings.json skills allowlist to include every triggered skill path, or narrow APPEND_SYSTEM triggers to ce-lite/better-harness only until others are allowed."
+    },
+    {
+      "id": "PH-R-002",
+      "priority": "P0",
+      "title": "Version the harness control plane via gitignore allowlist",
+      "relatedFindings": [
+        "PH-A-001",
+        "PH-A-003",
+        "PH-A-008"
+      ],
+      "action": "Whitelist settings, instruction docs, agents/, extensions/, hooks/, prompts/, workflows/, and inventory; keep sessions/memory/npm/cache ignored."
+    },
+    {
+      "id": "PH-R-003",
+      "priority": "P1",
+      "title": "Add harness smoke/doctor command and document it in AGENTS.md",
+      "relatedFindings": [
+        "PH-A-004",
+        "PH-A-001"
+      ],
+      "action": "Single entrypoint validating JSON configs, extension path existence, skill trigger resolution, inventory age; no full CI required initially."
+    },
+    {
+      "id": "PH-R-004",
+      "priority": "P1",
+      "title": "Reduce working-tree noise under skills",
+      "relatedFindings": [
+        "PH-A-006"
+      ],
+      "action": "gitignore __pycache__ and build artifacts; commit curated skills separately from experimental dumps."
+    },
+    {
+      "id": "PH-R-005",
+      "priority": "P2",
+      "title": "Operationalize observability + inventory refresh",
+      "relatedFindings": [
+        "PH-A-005"
+      ],
+      "action": "Refresh harness-inventory on a known cadence; extend history.jsonl beyond token totals for load/doctor/skill events."
+    }
+  ],
+  "softwareFluencyNarrative": {
+    "taskUnderstanding": "Weak formal contract; strong informal APPEND_SYSTEM/ce-lite voice. Skill policy and trigger table disagree.",
+    "controlledExecution": "Extension/package ecosystem is sophisticated, but execution control lacks gates and the skill allowlist fails closed against documented triggers.",
+    "changeValidation": "Essentially absent at repo level. Critical diff score is bulk untracked skills, not validated product change.",
+    "reliableDelivery": "Deny-by-default gitignore protects secrets/noise but blocks delivering the harness itself. Three tracked config files are an incomplete delivery unit.",
+    "learningCapture": "Directories exist (memory/sessions/observability/inventory) but content is thin/stale and not tied to a feedback loop."
+  },
+  "crossCheckWithLead": {
+    "aligned": [
+      "Lead session-rich friction around missing verification loops matches PH-A-004 (no validation surface).",
+      "Lead weak learning-capture facets match PH-A-005 thin observability/inventory.",
+      "Lead tool/skill routing complexity matches PH-A-002 allowlist vs triggers."
+    ],
+    "projectOnly": [
+      "gitignore control-plane hole",
+      "tracked-file under-count vs disk harness",
+      "stale harness-inventory.json timestamp"
+    ],
+    "doNotClaimFromLeadAlone": [
+      "runtime skill resolution outcomes",
+      "session quality scores as project defects without file evidence"
+    ]
+  },
+  "reviewMatrixLocal": [
+    {
+      "id": "instruction-contract",
+      "status": "gap",
+      "note": "No AGENTS/SYSTEM/README/DESIGN; APPEND_SYSTEM untracked"
+    },
+    {
+      "id": "skill-policy-coherence",
+      "status": "fail",
+      "note": "allowlist vs APPEND_SYSTEM triggers"
+    },
+    {
+      "id": "gitignore-delivery",
+      "status": "fail",
+      "note": "control plane ignored"
+    },
+    {
+      "id": "validation-gates",
+      "status": "fail",
+      "note": "no CI/hooks/scripts"
+    },
+    {
+      "id": "observability-minimum",
+      "status": "weak",
+      "note": "4 metric lines; no diagnostics schema"
+    },
+    {
+      "id": "core-boundary",
+      "status": "n/a",
+      "note": "coreCandidates empty — harness-home not app core"
+    },
+    {
+      "id": "history-confidence",
+      "status": "low",
+      "note": "3 commits / 6 days"
+    },
+    {
+      "id": "static-evidence-boundary",
+      "status": "ok",
+      "note": "runtime/CI/tests marked unverified"
+    }
+  ],
+  "openQuestions": [
+    "Does Pi skill loader match **/better-harness/** against npm/node_modules paths or only agent/skills?",
+    "Is root .gitignore * intentional hard isolation, or accidental over-lock after an early bootstrap?",
+    "Should agent/skills be a curated git tree or an install cache regenerated from a manifest?"
+  ],
+  "confidence": {
+    "overall": "medium-high",
+    "reasons": [
+      "Disk and git facts directly verified",
+      "Packet metrics consistent with git status",
+      "Runtime skill loading UNVERIFIED",
+      "History window too short for hotspot trends"
+    ]
+  }
+}

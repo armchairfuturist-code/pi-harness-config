@@ -1,0 +1,277 @@
+{
+  "pass": "C",
+  "domain": "agent-customize",
+  "status": "ok",
+  "summary": "Global Pi agent at ~/.pi/agent is extension-rich (18 packages, local guards) but rules-thin: no AGENTS.md despite Pi loading it first, only APPEND_SYSTEM.md (~1KB CE-lite routing). Skills filter is a hard allowlist (ce-lite + better-harness) over 48 on-disk skills (39 disable-model-invocation); last30days SKILL.md is 222KB. harness-inventory.json is stale vs settings. pi-essentials is registered both via packages and settings.extensions (double-load risk). Memory and Explore subagent are solid baselines.",
+  "dimensionScores": {
+    "A_rules": 3,
+    "B_skills_catalog": 4,
+    "C_skill_content": 5,
+    "D_prompts": 3,
+    "E_extensions": 6,
+    "F_memory_feedback": 6,
+    "G_agents_subagents": 4,
+    "H_packages_inventory": 3,
+    "I_operating_practice": 5
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "severity": "high",
+      "dimension": "A_rules",
+      "title": "Missing global AGENTS.md (Pi load order #1)",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/AGENTS.md",
+        "/home/alex/.pi/agent/APPEND_SYSTEM.md",
+        "/home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/references/agent-customize/platforms/pi.md"
+      ],
+      "evidence": "No ~/.pi/agent/AGENTS.md, SYSTEM.md, or CLAUDE.md. Pi platform doc loads global AGENTS.md first. Only APPEND_SYSTEM.md exists (1081 bytes): CE-lite routing, workflow triggers, terse style rules. Project AGENTS.md files exist under ~/Projects/* but do not substitute for the global agent file.",
+      "recommendation": "Create ~/.pi/agent/AGENTS.md with durable global defaults: identity/operating style, when to read ce-lite, tool-surface preferences (ctx_* / lean-ctx), safety boundaries, and pointers to memory/. Keep APPEND_SYSTEM.md as short always-on steers or merge into AGENTS.md if Pi does not natively load APPEND_SYSTEM."
+    },
+    {
+      "id": "C2",
+      "severity": "high",
+      "dimension": "H_packages_inventory",
+      "title": "harness-inventory.json stale vs live settings",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/harness-inventory.json",
+        "/home/alex/.pi/agent/settings.json"
+      ],
+      "evidence": "Inventory generatedAt 2026-07-30T14:52:23Z lists defaultModel Venice/kimi-k2.5 and a short packages list. Live settings.json has defaultModel grok-4-5, defaultProvider Venice, 18 packages (incl. pi-lean-ctx, context-mode, pi-dynamic-workflows, better-harness, last30days-pi, pi-essentials), skills allowlist [!** , **/ce-lite/** , **/better-harness/**], compaction reserveTokens 24000 / keepRecentTokens 20000.",
+      "recommendation": "Regenerate harness-inventory.json from current settings + on-disk scan (packages, extensions, skills filter, agents, memory). Add a doctor/hook step so inventory cannot drift more than one session behind settings."
+    },
+    {
+      "id": "C3",
+      "severity": "medium",
+      "dimension": "E_extensions",
+      "title": "pi-essentials double-registration via packages and settings.extensions",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/settings.json"
+      ],
+      "evidence": "packages includes npm:@samfp/pi-essentials (package.json pi.extensions lists 10 entrypoints). settings.extensions also lists 6 of those same files under ~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/* plus local transcript-pruner.ts. Risk: duplicate handlers for session-name/title/prune/clipboard on load.",
+      "recommendation": "Pick one registration path. Prefer packages-only for pi-essentials and keep settings.extensions for local-only files (transcript-pruner.ts, any path not in a package pi key). Verify load once after change."
+    },
+    {
+      "id": "C4",
+      "severity": "medium",
+      "dimension": "B_skills_catalog",
+      "title": "Skills disk catalog rot under intentional allowlist",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/settings.json",
+        "/home/alex/.pi/agent/skills/ce-lite/SKILL.md",
+        "/home/alex/.pi/agent/skills"
+      ],
+      "evidence": "settings.skills = [!** , **/ce-lite/** , **/better-harness/**]. On disk: 48 skill dirs under ~/.pi/agent/skills; 39 SKILL.md set disable-model-invocation: true. Only ce-lite matches local allow path; better-harness comes from package path. Package-declared skills (context-mode ~8, pi-autoresearch, workflow-authoring/patterns, last30days-pi) are also denied by !** unless path matches allow globs. leadSummaryFacts.usageActivity.skills.total = 0.",
+      "recommendation": "Either (1) archive/remove unused skill dirs into a cold store and document the allowlist policy in AGENTS.md, or (2) widen allow globs only for skills that must be model-selectable (e.g. workflow-authoring, harness-doctor) and keep the rest slash-only/dmi. Do not leave 48 live dirs if only two patterns are intentional."
+    },
+    {
+      "id": "C5",
+      "severity": "medium",
+      "dimension": "C_skill_content",
+      "title": "last30days SKILL.md fails progressive disclosure (222KB)",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/skills/last30days/SKILL.md"
+      ],
+      "evidence": "skills/last30days/SKILL.md is 221800 bytes; skill dir ~19MB. skill-eval progressive-disclosure guidance expects thin SKILL.md with refs. Skill is currently filter-blocked but still pollutes inventory and any future allowlist mistake would dump huge body into context.",
+      "recommendation": "Split to a short SKILL.md (name/description/when-to-use + steps) and move bulk into references/. Prefer package skill at git/github.com/gvkhosla/last30days-pi/pi-skills over a duplicated fat local copy, or delete the local duplicate if package path is canonical."
+    },
+    {
+      "id": "C6",
+      "severity": "medium",
+      "dimension": "D_prompts",
+      "title": "No user-level prompts/ library",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/prompts",
+        "/home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/prompts"
+      ],
+      "evidence": "No ~/.pi/agent/prompts directory. Only package prompt found: better-harness/prompts/Better-harness.md. Recurring workflows (review, research brief, invest posture) have no slash-prompt surface at user level.",
+      "recommendation": "Add ~/.pi/agent/prompts/ for high-frequency slash templates (e.g. code-review, research-brief, portfolio-check) that expand to structured instructions without opening full skills."
+    },
+    {
+      "id": "C7",
+      "severity": "low",
+      "dimension": "G_agents_subagents",
+      "title": "Subagent fleet is a single Explore specialist",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/agents/Explore.md"
+      ],
+      "evidence": "agents/ contains only Explore.md (2205 bytes): read-only search agent, tools read/bash/grep/find/ls, model Venice/gemini-3-5-flash, prompt_mode replace, glla-managed pin note. No planner/reviewer/implementer/verifier agents. Subagent runtime also provided by pi-essentials.",
+      "recommendation": "Keep Explore as leaf search. Add 1–2 named agents only if usage shows repeated multi-role fan-out (e.g. reviewer with git-diff scope, or implementer with write tools). Avoid fleet sprawl."
+    },
+    {
+      "id": "C8",
+      "severity": "medium",
+      "dimension": "B_skills_catalog",
+      "title": "Package skills likely invisible under !** allowlist",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/settings.json",
+        "/home/alex/.pi/agent/npm/node_modules/@quintinshaw/pi-dynamic-workflows/package.json",
+        "/home/alex/.pi/agent/npm/node_modules/context-mode/package.json"
+      ],
+      "evidence": "APPEND_SYSTEM tells agents to read pi-dynamic-workflows workflow-authoring skill before custom scripts; package declares skills workflow-authoring and workflow-patterns. context-mode declares ./skills (ctx-doctor, ctx-index, …). skills filter starts with !** so these paths do not match **/ce-lite/** or **/better-harness/** and are excluded from the skill catalog.",
+      "recommendation": "Add explicit allow globs for required package skills (e.g. **/workflow-authoring/** , **/workflow-patterns/** , **/context-mode/**/skills/**) or document that those flows must use direct path reads / slash commands only. Align APPEND_SYSTEM claims with filter reality."
+    },
+    {
+      "id": "C9",
+      "severity": "info",
+      "dimension": "F_memory_feedback",
+      "title": "Memory surface present and populated",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/memory/consolidated.md",
+        "/home/alex/.pi/agent/memory/harnesses.md",
+        "/home/alex/.pi/agent/memory/user-shell.md"
+      ],
+      "evidence": "memory/ has consolidated.md (7903B), harnesses.md (2591B), user-shell.md (357B), plus better-harness/ run artifacts. daily-log available via pi-essentials package entry.",
+      "recommendation": "Reference memory/ from AGENTS.md (when to read consolidated vs harnesses). Keep better-harness artifacts out of always-on context; load on demand."
+    },
+    {
+      "id": "C10",
+      "severity": "low",
+      "dimension": "C_skill_content",
+      "title": "Allowed orchestrator skill ce-lite is well-structured",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/skills/ce-lite/SKILL.md",
+        "/home/alex/.pi/agent/APPEND_SYSTEM.md"
+      ],
+      "evidence": "ce-lite SKILL.md ~4892B, disable-model-invocation absent (model-selectable), clear description, progressive refs under skills/ce-lite/references/, workflow routing. APPEND_SYSTEM always-on pointer matches allowlist. Counter-example: grill-me SKILL.md is a 297B stub with disable-model-invocation true.",
+      "recommendation": "Treat ce-lite as canonical entry skill. Promote any newly allowed skill to the same progressive-disclosure bar before adding allow globs."
+    },
+    {
+      "id": "C11",
+      "severity": "info",
+      "dimension": "E_extensions",
+      "title": "Local extension + package stack is capability-heavy",
+      "evidencePaths": [
+        "/home/alex/.pi/agent/extensions",
+        "/home/alex/.pi/agent/settings.json"
+      ],
+      "evidence": "Local extensions/: goal-list-loop-audit.ts, glla-subagent-strategy-guard.ts, invest-optimizer/ (tools), transcript-pruner.ts. Packages resolve all 18 entries with pi keys (lean-ctx, cache-optimizer, continue, model-agents/thinking, dynamic-workflows, context-mode, last30days-pi, better-harness, etc.). Compaction configured. Architecture envelopes empty so this pass rebuilt inventory from disk.",
+      "recommendation": "After fixing double-registration (C3), document the extension intent map in AGENTS.md or harness-inventory (why each package is installed). Prune packages with no observed session value."
+    }
+  ],
+  "inventory": {
+    "root": "/home/alex/.pi/agent",
+    "platform": "pi",
+    "settingsPath": "/home/alex/.pi/agent/settings.json",
+    "defaultProvider": "Venice",
+    "defaultModel": "grok-4-5",
+    "defaultThinkingLevel": "high",
+    "steeringMode": "all",
+    "compaction": {
+      "reserveTokens": 24000,
+      "keepRecentTokens": 20000
+    },
+    "rules": {
+      "AGENTS.md": false,
+      "SYSTEM.md": false,
+      "CLAUDE.md": false,
+      "APPEND_SYSTEM.md": true,
+      "appendSystemBytes": 1081
+    },
+    "skills": {
+      "filter": ["!**", "**/ce-lite/**", "**/better-harness/**"],
+      "onDiskDirs": 48,
+      "disableModelInvocationTrue": 39,
+      "modelSelectableLocal": [
+        "ce-lite",
+        "context-rot-forensics",
+        "graph-engineering",
+        "grilling",
+        "harness-doctor",
+        "impeccable",
+        "implement",
+        "poor-mans-distill",
+        "shard-security"
+      ],
+      "allowMatchObserved": [
+        "/home/alex/.pi/agent/skills/ce-lite",
+        "/home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/skills/better-harness"
+      ],
+      "largeSkillsBytes": {
+        "last30days": 221800,
+        "ai-consultant-career": 32451,
+        "calibrate-longevity": 15826,
+        "invest-optimizer": 15485
+      }
+    },
+    "prompts": {
+      "userPromptsDir": false,
+      "packagePrompts": [
+        "@qoder-ai/better-harness/prompts/Better-harness.md"
+      ]
+    },
+    "agents": [
+      {
+        "path": "/home/alex/.pi/agent/agents/Explore.md",
+        "model": "Venice/gemini-3-5-flash",
+        "tools": ["read", "bash", "grep", "find", "ls"],
+        "prompt_mode": "replace"
+      }
+    ],
+    "memory": {
+      "dir": "/home/alex/.pi/agent/memory",
+      "files": [
+        "consolidated.md",
+        "harnesses.md",
+        "user-shell.md"
+      ],
+      "totalBytesMd": 10851
+    },
+    "packages": {
+      "count": 18,
+      "allResolved": true,
+      "entries": [
+        "npm:@ogulcancelik/pi-model-agents",
+        "npm:@ogulcancelik/pi-model-thinking",
+        "npm:@plannotator/pi-extension",
+        "npm:cc-safety-net",
+        "npm:context-mode",
+        "npm:pi-autoresearch",
+        "npm:pi-cache-graph",
+        "npm:pi-cache-optimizer",
+        "npm:pi-context-usage",
+        "npm:pi-continue",
+        "npm:pi-herdr-btw",
+        "npm:pi-lean-ctx",
+        "npm:pi-slim",
+        "npm:pi-tscg",
+        "npm:@quintinshaw/pi-dynamic-workflows",
+        "https://github.com/gvkhosla/last30days-pi",
+        "npm:@samfp/pi-essentials",
+        "npm:@qoder-ai/better-harness"
+      ],
+      "declaredExtensionEntries": 26,
+      "declaredSkillEntries": 6
+    },
+    "extensions": {
+      "settingsExtensionsCount": 7,
+      "localDir": [
+        "goal-list-loop-audit.ts",
+        "glla-subagent-strategy-guard.ts",
+        "invest-optimizer/",
+        "transcript-pruner.ts"
+      ],
+      "piEssentialsDoubleListed": true
+    },
+    "harnessInventoryFile": {
+      "path": "/home/alex/.pi/agent/harness-inventory.json",
+      "generatedAt": "2026-07-30T14:52:23.882Z",
+      "stale": true
+    },
+    "architectureEnvelopes": {
+      "lint": "empty",
+      "inventory": "empty",
+      "integrity": "empty",
+      "note": "Pass C rebuilt light inventory from disk; did not execute extensions"
+    }
+  },
+  "openedAssets": [
+    "/home/alex/.pi/agent/settings.json",
+    "/home/alex/.pi/agent/APPEND_SYSTEM.md",
+    "/home/alex/.pi/agent/skills/ce-lite/SKILL.md",
+    "/home/alex/.pi/agent/agents/Explore.md",
+    "/home/alex/.pi/agent/harness-inventory.json"
+  ],
+  "blockers": [],
+  "notesForOrchestrator": "Architecture packet envelopes (lint/inventory/integrity) were empty objects — inventory rebuilt from ~/.pi/agent disk + settings.json only; no extension code executed. Usage sample shows skills.total=0 and heavy ctx_*/lean_ctx tool use, consistent with allowlist + APPEND_SYSTEM. Highest-leverage fixes: write AGENTS.md (C1), refresh harness-inventory (C2), dedupe pi-essentials registration (C3), reconcile skills filter with package skills referenced by APPEND_SYSTEM (C8). Did not write report.md/html."
+}

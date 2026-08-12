@@ -1,0 +1,325 @@
+{
+  "agent": "agent-customize",
+  "status": "partial",
+  "scope": "remaining-after-P0",
+  "workspace": "/home/alex/.pi/agent",
+  "observedAt": "2026-08-05T07:10:00Z",
+  "p0_baseline": {
+    "landed": [
+      "AGENTS.md present (2867B) — skills policy, tool execution, git intent table",
+      "HARNESS.md present (2045B) — skills/tool policy contract",
+      "settings.skills = [\"!**/last30days/**\"] (deny-only; no blanket !**)",
+      "settings.extensions pi-essentials entries use absolute full paths (no dual relative/npm clash)",
+      "CE-lite default orchestrator via APPEND_SYSTEM.md; trigger map retained",
+      "Parent repo /home/alex/.pi/.gitignore whitelist tracks harness intent; ignores sessions/npm/.pi"
+    ],
+    "incomplete_or_regressed": [
+      {
+        "id": "P0-last30days-slim",
+        "claim": "last30days SKILL.md slimmed to ~5–8KB + references/",
+        "disk": "skills/last30days/SKILL.md still 222272 bytes; references/ exists but top-level not slimmed",
+        "mitigation": "settings deny !**/last30days/** still correct; tools may load from package"
+      },
+      {
+        "id": "P0-inventory-regen",
+        "claim": "harness-inventory.json regenerated",
+        "disk": "harness-inventory.json generated=2026-07-30T22:24:18.990Z (stale vs 2026-08-05 P0 edits)"
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "high",
+      "title": "last30days skill body still ~217KB (P0 slim unfinished)",
+      "detail": "skills/last30days/SKILL.md = 222272B. Deny filter prevents load, but AGENTS/HARNESS still document pending slim; dead weight and doc drift until top-level cut to 5–8KB with body moved under references/.",
+      "evidence": [
+        "skills/last30days/SKILL.md",
+        "settings.json#skills",
+        "AGENTS.md",
+        "HARNESS.md"
+      ],
+      "recommendation": "Slim SKILL.md to frontmatter + short router; keep depth in references/; then reconsider deny or keep deny until verified.",
+      "priority": "P1"
+    },
+    {
+      "id": "R2",
+      "severity": "high",
+      "title": "Four local extensions present on disk but not in settings.extensions",
+      "detail": "settings.extensions wires only extensions/transcript-pruner.ts plus package paths. Unwired local: extensions/tool-trimmer.ts, extensions/session-index.ts, extensions/invest-tools.ts, extensions/pi-lean-ctx/ (config.json mode=replace, toolProfile=lean). AGENTS.md lists all five as local extensions — config/docs mismatch. Session may still expose invest_* via another path (open question); durable settings do not pin them.",
+      "evidence": [
+        "settings.json#extensions",
+        "extensions/",
+        "AGENTS.md",
+        "extensions/pi-lean-ctx/config.json"
+      ],
+      "recommendation": "Decide wire vs delete vs document-as-optional for each; if keep, add to settings.extensions with stable paths; if drop, remove from AGENTS map.",
+      "priority": "P1"
+    },
+    {
+      "id": "R3",
+      "severity": "medium",
+      "title": "harness-inventory.json stale",
+      "detail": "Inventory timestamp 2026-07-30 predates AGENTS/HARNESS/settings P0. Operators and better-harness runs will under-report current surface (packet lint also showed skills:0).",
+      "evidence": [
+        "harness-inventory.json"
+      ],
+      "recommendation": "Regenerate inventory after extension/skill decisions; commit or gitignore deliberately.",
+      "priority": "P1"
+    },
+    {
+      "id": "R4",
+      "severity": "medium",
+      "title": "SYSTEM.md missing while contract surface expects it",
+      "detail": "No SYSTEM.md on disk. APPEND_SYSTEM.md (1333B) holds CE-lite orchestrator. Root .gitignore whitelists agent/SYSTEM.md; AGENTS refers to SYSTEM.md in track table. Empty/missing base system blob vs append-only is an ambiguous split.",
+      "evidence": [
+        "SYSTEM.md (absent)",
+        "APPEND_SYSTEM.md",
+        "AGENTS.md",
+        "/home/alex/.pi/.gitignore"
+      ],
+      "recommendation": "Either add minimal SYSTEM.md (identity/non-negotiables) or strike SYSTEM.md from AGENTS track table and gitignore whitelist.",
+      "priority": "P1"
+    },
+    {
+      "id": "R5",
+      "severity": "medium",
+      "title": "Triple policy surface drift risk (APPEND_SYSTEM + HARNESS + AGENTS)",
+      "detail": "Skills policy and tool-execution rules duplicated across HARNESS.md and AGENTS.md; runtime inject is APPEND_SYSTEM.md. last30days 217KB note already shows dual-doc sync cost. No single owner doc marked canonical for conflicts.",
+      "evidence": [
+        "APPEND_SYSTEM.md",
+        "HARNESS.md",
+        "AGENTS.md"
+      ],
+      "recommendation": "Canonicalize: APPEND_SYSTEM = runtime triggers only; HARNESS = contract; AGENTS = human git/ops map. Cross-link one line each; avoid copying long policy twice.",
+      "priority": "P1"
+    },
+    {
+      "id": "R6",
+      "severity": "medium",
+      "title": "Skill sprawl without triage index (48 skills)",
+      "detail": "48 skill dirs under skills/. Fat always-candidate bodies (if not denied): writing-great-skills 33499, research 26348, gsd-plan-phase 24618, gsd-execute-phase 24310, gsd-debug 21948, domain-modeling 19358, prompt-sharpen 18790, wayfinder 18634. Clusters: ponytail×6, grill×3, gsd-* multiphase. triage/SKILL.md exists but is issue-triage (GitHub), not harness skill-routing. APPEND_SYSTEM trigger map covers only a few CE-lite hooks.",
+      "evidence": [
+        "skills/",
+        "skills/triage/SKILL.md",
+        "APPEND_SYSTEM.md"
+      ],
+      "recommendation": "Add skills/_index or AGENTS skill-routing table (trigger → skill); mark rare skills disable-model-invocation; consider denylisting or nesting gsd/ponytail packs.",
+      "priority": "P2"
+    },
+    {
+      "id": "R7",
+      "severity": "medium",
+      "title": "Custom agents underused (Explore only)",
+      "detail": "agents/Explore.md is sole specialized agent (read-only codebase explorer, Thoroughness med/very). No review/research/invest/harness-doctor agent bindings despite heavy skill/extension surface. Workflow agentType option unused.",
+      "evidence": [
+        "agents/Explore.md",
+        "agents/"
+      ],
+      "recommendation": "Add agents only after skills load cleanly: e.g. Review, HarnessAudit, Invest — each with tool binds + short role. Keep Explore as template.",
+      "priority": "P2"
+    },
+    {
+      "id": "R8",
+      "severity": "low",
+      "title": "No prompts/ library",
+      "detail": "No prompts/ directory for reusable prompt templates. Repeat workflows rely on skills or chat paste.",
+      "evidence": [
+        "prompts/ (absent)"
+      ],
+      "recommendation": "Optional prompts/ for high-frequency stubs (PR review, harness audit, invest pulse) if not skill-covered.",
+      "priority": "P3"
+    },
+    {
+      "id": "R9",
+      "severity": "low",
+      "title": "No MEMORY.md / SOUL.md persona layer",
+      "detail": "memory/ holds operational logs (consolidated.md, better-harness run notes) only. No durable persona/preferences MEMORY.md or SOUL.md. Acceptable if intentional minimalism; AGENTS does not declare the choice.",
+      "evidence": [
+        "memory/",
+        "MEMORY.md (absent)",
+        "SOUL.md (absent)"
+      ],
+      "recommendation": "Document \"no persona files by design\" in AGENTS, or add thin MEMORY.md for user prefs only.",
+      "priority": "P3"
+    },
+    {
+      "id": "R10",
+      "severity": "medium",
+      "title": "No package-lock / npm tree untracked",
+      "detail": "npm/package.json lists 18 deps (@qoder-ai/better-harness, context-mode, pi-lean-ctx, pi-essentials, pi-dynamic-workflows, etc.) but no package-lock.json under agent/ or npm/. Root gitignore ignores agent/npm/ entirely — supply-chain and replay opacity.",
+      "evidence": [
+        "npm/package.json",
+        "package-lock.json (absent)",
+        "/home/alex/.pi/.gitignore"
+      ],
+      "recommendation": "Generate npm/package-lock.json; either whitelist lockfile in gitignore or snapshot package versions in AGENTS packages map.",
+      "priority": "P2"
+    },
+    {
+      "id": "R11",
+      "severity": "low",
+      "title": "No .env.example despite secret surface",
+      "detail": "gitignore allows .env.example and ignores .env*. last30days/invest/API tools imply keys; no template documents required vars.",
+      "evidence": [
+        ".env.example (absent)",
+        "/home/alex/.pi/.gitignore"
+      ],
+      "recommendation": "Add .env.example with dummy keys for last30days backends, any market data APIs — no secrets.",
+      "priority": "P2"
+    },
+    {
+      "id": "R12",
+      "severity": "low",
+      "title": "models.json exists but undocumented in harness map",
+      "detail": "models.json present; AGENTS/HARNESS package/extension maps omit model routing. Operators may not know override surface.",
+      "evidence": [
+        "models.json",
+        "AGENTS.md",
+        "HARNESS.md"
+      ],
+      "recommendation": "One-line AGENTS note: models.json = model routing; do not commit secrets.",
+      "priority": "P3"
+    },
+    {
+      "id": "R13",
+      "severity": "medium",
+      "title": "Dual skill trees: workspace skills/ vs package-shipped skills",
+      "detail": "On-disk skills/ coexists with package skills (e.g. better-harness under npm; last30days-pi package tools while workspace skill denied). Risk of version skew and “which SKILL.md wins” confusion. settings deny only last30days path pattern.",
+      "evidence": [
+        "skills/",
+        "npm/package.json",
+        "settings.json#packages"
+      ],
+      "recommendation": "Document precedence in HARNESS: workspace skills/ overrides; packages supply tools/extensions only unless explicitly enabled.",
+      "priority": "P2"
+    },
+    {
+      "id": "R14",
+      "severity": "low",
+      "title": "Architecture packet inventory under-counts assets",
+      "detail": "packet-architecture lint assetInventory summary: skills 0, agents 0, plugins 0 — only AGENTS.md as owner route. Customize lane cannot trust packet alone; disk probe required (done).",
+      "evidence": [
+        "packet-architecture.json"
+      ],
+      "recommendation": "Upstream: fix inventory envelope to enumerate skills/extensions/agents; out of customize apply scope.",
+      "priority": "P3"
+    },
+    {
+      "id": "R15",
+      "severity": "low",
+      "title": "context-prune/ present, not in settings.extensions narrative",
+      "detail": "context-prune/ directory exists; AGENTS git table tracks it. Not an extension entry — confirm whether runtime auto-loads or is manual tooling only.",
+      "evidence": [
+        "context-prune/",
+        "AGENTS.md"
+      ],
+      "recommendation": "Label as tracked utility dir vs extension in AGENTS packages map.",
+      "priority": "P3"
+    }
+  ],
+  "residual_risks": [
+    "last30days deny hides a 217KB skill that may re-enter if settings.skills is edited carelessly",
+    "Unwired local extensions may be half-active via session/global override — non-reproducible harness",
+    "Stale harness-inventory + empty packet skill counts → false “clean” audits",
+    "Policy triplication (APPEND/HARNESS/AGENTS) will drift after next edit",
+    "Unlocked npm deps (no lockfile, npm/ gitignored) → non-reproducible package behavior",
+    "Skill sprawl increases accidental skill injection and token pressure on discovery"
+  ],
+  "open_questions": [
+    "How are invest_pulse/optimize/risk tools loaded in live sessions if invest-tools.ts is not in settings.extensions?",
+    "Should pi-lean-ctx be driven solely by npm:pi-lean-ctx package entry, with extensions/pi-lean-ctx/config.json as overlay — or wire the local dir explicitly?",
+    "Is SYSTEM.md intentionally omitted (append-only design) or an oversight after P0?",
+    "Keep last30days deny permanently even after slim, or enable workspace skill once ≤8KB?",
+    "Should ponytail/* and gsd-* be packaged as optional skill packs rather than always-on tree members?",
+    "Commit harness-inventory.json or treat as ephemeral under .pi/?"
+  ],
+  "recommended_next": [
+    {
+      "order": 1,
+      "priority": "P1",
+      "action": "Slim skills/last30days/SKILL.md to 5–8KB router; verify deny still desired"
+    },
+    {
+      "order": 2,
+      "priority": "P1",
+      "action": "Resolve local extension set: wire tool-trimmer, session-index, invest-tools, pi-lean-ctx OR remove from disk/AGENTS"
+    },
+    {
+      "order": 3,
+      "priority": "P1",
+      "action": "Regenerate harness-inventory.json; fix SYSTEM.md presence vs AGENTS track table"
+    },
+    {
+      "order": 4,
+      "priority": "P1",
+      "action": "De-dupe policy: HARNESS canonical contract, AGENTS ops/git, APPEND_SYSTEM triggers only"
+    },
+    {
+      "order": 5,
+      "priority": "P2",
+      "action": "Skill routing index + cluster denylist/pack for ponytail/gsd; npm lockfile or version pin table"
+    },
+    {
+      "order": 6,
+      "priority": "P2",
+      "action": "Add .env.example; optional agents (Review/HarnessAudit) after skill load is clean"
+    },
+    {
+      "order": 7,
+      "priority": "P3",
+      "action": "prompts/ if needed; document models.json; MEMORY/SOUL decision one-liner"
+    }
+  ],
+  "evidence_paths": [
+    "/home/alex/.pi/agent/settings.json",
+    "/home/alex/.pi/agent/AGENTS.md",
+    "/home/alex/.pi/agent/HARNESS.md",
+    "/home/alex/.pi/agent/APPEND_SYSTEM.md",
+    "/home/alex/.pi/agent/harness-inventory.json",
+    "/home/alex/.pi/agent/skills/last30days/SKILL.md",
+    "/home/alex/.pi/agent/extensions/",
+    "/home/alex/.pi/agent/agents/Explore.md",
+    "/home/alex/.pi/agent/npm/package.json",
+    "/home/alex/.pi/agent/extensions/pi-lean-ctx/config.json",
+    "/home/alex/.pi/.gitignore",
+    "/home/alex/.pi/agent/.pi/better-harness-work/run-20260805T070410Z/lead-summary.json",
+    "/home/alex/.pi/agent/.pi/better-harness-work/run-20260805T070410Z/lead-evidence.md",
+    "/home/alex/.pi/agent/.pi/better-harness-work/run-20260805T070410Z/packet-architecture.json"
+  ],
+  "stats": {
+    "skills_on_disk": 48,
+    "last30days_skill_bytes": 222272,
+    "settings_extensions_count": 10,
+    "local_extensions_unwired": [
+      "tool-trimmer.ts",
+      "session-index.ts",
+      "invest-tools.ts",
+      "pi-lean-ctx/"
+    ],
+    "agents_count": 1,
+    "packages_in_settings": 17,
+    "npm_package_json_deps": 18,
+    "inventory_generated": "2026-07-30T22:24:18.990Z",
+    "system_md": false,
+    "prompts_dir": false,
+    "memory_md": false,
+    "env_example": false,
+    "package_lock": false,
+    "models_json": true
+  },
+  "content_open_budget": {
+    "max": 5,
+    "opened": [
+      "agents/Explore.md",
+      "extensions/tool-trimmer.ts",
+      "extensions/session-index.ts",
+      "memory/consolidated.md",
+      "skills/triage/SKILL.md"
+    ],
+    "note": "Metadata/size probes do not count against content-open budget"
+  },
+  "mode": "remaining-improvements-after-P0",
+  "no_report": true,
+  "no_apply": true
+}

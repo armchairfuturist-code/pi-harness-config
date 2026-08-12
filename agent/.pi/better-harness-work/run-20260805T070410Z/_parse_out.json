@@ -1,0 +1,1995 @@
+{
+  "totalFiles": 469,
+  "eligibleCount": 469,
+  "withToolsCount": 411,
+  "zeroToolEligible": 58,
+  "totalsAllFiles": {
+    "totalToolCalls": 11388,
+    "totalToolResults": 0,
+    "isErrorTrue": 0,
+    "allowlistBlocks": 0,
+    "editMisses": 0,
+    "readMisses": 0,
+    "editCalls": 752,
+    "shellCalls": 5146,
+    "compactions": 8,
+    "identicalRetryHints": 18
+  },
+  "eligibleTotals": {
+    "eToolCalls": 11388,
+    "eToolResults": 0,
+    "eAllow": 0,
+    "eEditMiss": 0,
+    "eReadMiss": 0,
+    "eErr": 0,
+    "eEdit": 752,
+    "errorRate": null,
+    "topTools": [
+      [
+        "ctx_shell",
+        4016
+      ],
+      [
+        "ctx_read",
+        1617
+      ],
+      [
+        "bash",
+        1005
+      ],
+      [
+        "write",
+        848
+      ],
+      [
+        "edit",
+        608
+      ],
+      [
+        "ctx_batch_execute",
+        480
+      ],
+      [
+        "ctx_execute",
+        457
+      ],
+      [
+        "read",
+        386
+      ],
+      [
+        "ctx_execute_file",
+        245
+      ],
+      [
+        "ctx_grep",
+        205
+      ],
+      [
+        "ctx_ls",
+        195
+      ],
+      [
+        "ctx_edit",
+        144
+      ],
+      [
+        "web_search",
+        137
+      ],
+      [
+        "ctx_search",
+        128
+      ],
+      [
+        "shell",
+        124
+      ]
+    ]
+  },
+  "topToolsAll": [
+    [
+      "ctx_shell",
+      4016
+    ],
+    [
+      "ctx_read",
+      1617
+    ],
+    [
+      "bash",
+      1005
+    ],
+    [
+      "write",
+      848
+    ],
+    [
+      "edit",
+      608
+    ],
+    [
+      "ctx_batch_execute",
+      480
+    ],
+    [
+      "ctx_execute",
+      457
+    ],
+    [
+      "read",
+      386
+    ],
+    [
+      "ctx_execute_file",
+      245
+    ],
+    [
+      "ctx_grep",
+      205
+    ],
+    [
+      "ctx_ls",
+      195
+    ],
+    [
+      "ctx_edit",
+      144
+    ],
+    [
+      "web_search",
+      137
+    ],
+    [
+      "ctx_search",
+      128
+    ],
+    [
+      "shell",
+      124
+    ],
+    [
+      "ctx_fetch_and_index",
+      98
+    ],
+    [
+      "ctx_find",
+      92
+    ],
+    [
+      "herdr_agent",
+      81
+    ],
+    [
+      "fetch_content",
+      81
+    ],
+    [
+      "workflow",
+      51
+    ]
+  ],
+  "topFails": [],
+  "longSessions": [
+    {
+      "file": "--home-alex-Projects-CIARAN Website--/2026-07-30T12-50-20-461Z_019fb313-64ad-7ae7-a2ce-9473a26d2833.jsonl",
+      "durationMin": 2660.2,
+      "toolCalls": 67,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-30T12:50:20.461Z",
+      "lastTs": "2026-08-01T09:10:30.444Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          27
+        ],
+        [
+          "write",
+          11
+        ],
+        [
+          "ctx_read",
+          10
+        ],
+        [
+          "edit",
+          8
+        ],
+        [
+          "ctx_execute_file",
+          6
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+      "durationMin": 2273.8,
+      "toolCalls": 514,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": true,
+      "firstTs": "2026-07-29T06:48:50.329Z",
+      "lastTs": "2026-07-30T20:42:35.726Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          300
+        ],
+        [
+          "write",
+          63
+        ],
+        [
+          "ctx_read",
+          46
+        ],
+        [
+          "edit",
+          41
+        ],
+        [
+          "ctx_grep",
+          21
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-rooted-leader-site--/2026-07-23T08-27-21-898Z_019f8e16-1daa-7cdf-ac75-aac2dbb60aa2.jsonl",
+      "durationMin": 1981,
+      "toolCalls": 255,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": true,
+      "firstTs": "2026-07-23T08:27:21.898Z",
+      "lastTs": "2026-07-24T17:28:20.326Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          113
+        ],
+        [
+          "ctx_read",
+          52
+        ],
+        [
+          "write",
+          41
+        ],
+        [
+          "herdr_agent",
+          16
+        ],
+        [
+          "edit",
+          10
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects--/2026-07-13T08-16-26-877Z_019f5a8c-86fd-7fb4-ad87-45bd25f30cb1.jsonl",
+      "durationMin": 1755.8,
+      "toolCalls": 392,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": true,
+      "firstTs": "2026-07-13T08:16:26.877Z",
+      "lastTs": "2026-07-14T13:32:17.460Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          117
+        ],
+        [
+          "ctx_batch_execute",
+          42
+        ],
+        [
+          "read",
+          34
+        ],
+        [
+          "write",
+          27
+        ],
+        [
+          "edit",
+          26
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex--/2026-07-24T09-13-47-326Z_019f9366-fa3e-7cd7-b13a-544fdb86c028.jsonl",
+      "durationMin": 1239.8,
+      "toolCalls": 146,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-24T09:13:47.326Z",
+      "lastTs": "2026-07-25T05:53:34.784Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          75
+        ],
+        [
+          "ctx_grep",
+          15
+        ],
+        [
+          "read_symbol",
+          14
+        ],
+        [
+          "ctx_read",
+          13
+        ],
+        [
+          "fetch_content",
+          7
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-23T14-09-49-448Z_019f8f4f-a588-7338-abd1-acc04b3bdaaf.jsonl",
+      "durationMin": 1004.8,
+      "toolCalls": 27,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-23T14:09:49.448Z",
+      "lastTs": "2026-07-24T06:54:37.879Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          10
+        ],
+        [
+          "ctx_grep",
+          7
+        ],
+        [
+          "ctx_edit",
+          5
+        ],
+        [
+          "ctx_read",
+          2
+        ],
+        [
+          "ctx_execute_file",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-08-02T06-25-57-087Z_019fc126-8d5f-7f6a-bd90-8423188134c9.jsonl",
+      "durationMin": 836.9,
+      "toolCalls": 215,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-08-02T06:25:57.087Z",
+      "lastTs": "2026-08-02T20:22:52.842Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          107
+        ],
+        [
+          "ctx_read",
+          37
+        ],
+        [
+          "ctx_execute",
+          28
+        ],
+        [
+          "edit",
+          13
+        ],
+        [
+          "ctx_batch_execute",
+          5
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-SBPS--/2026-07-31T20-39-54-345Z_019fb9e7-a6e9-7e33-bfda-ef6b60278f13.jsonl",
+      "durationMin": 784.5,
+      "toolCalls": 187,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-31T20:39:54.345Z",
+      "lastTs": "2026-08-01T09:44:26.209Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          115
+        ],
+        [
+          "ctx_read",
+          29
+        ],
+        [
+          "write",
+          12
+        ],
+        [
+          "edit",
+          9
+        ],
+        [
+          "workflow",
+          7
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex--/2026-07-14T19-22-27-128Z_019f6214-a1b8-730a-aa7f-be074ee98678.jsonl",
+      "durationMin": 656.9,
+      "toolCalls": 166,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-14T19:22:27.128Z",
+      "lastTs": "2026-07-15T06:19:22.095Z",
+      "topTools": [
+        [
+          "ctx_read",
+          43
+        ],
+        [
+          "ctx_shell",
+          31
+        ],
+        [
+          "read",
+          25
+        ],
+        [
+          "edit",
+          20
+        ],
+        [
+          "bash",
+          18
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl",
+      "durationMin": 612,
+      "toolCalls": 180,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": true,
+      "hasCompaction": false,
+      "firstTs": "2026-08-04T20:56:07.280Z",
+      "lastTs": "2026-08-05T07:08:06.670Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          95
+        ],
+        [
+          "ctx_read",
+          30
+        ],
+        [
+          "write",
+          26
+        ],
+        [
+          "subagent_status",
+          12
+        ],
+        [
+          "subagent",
+          6
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-21T20-57-43-512Z_019f8678-5f58-7178-9313-aaa85634d3f4.jsonl",
+      "durationMin": 544.6,
+      "toolCalls": 114,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-21T20:57:43.512Z",
+      "lastTs": "2026-07-22T06:02:17.402Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          39
+        ],
+        [
+          "read",
+          16
+        ],
+        [
+          "ctx_read",
+          14
+        ],
+        [
+          "write",
+          14
+        ],
+        [
+          "bash",
+          9
+        ]
+      ]
+    },
+    {
+      "file": "----/2026-07-25T13-00-46-179Z_019f995d-24e3-78c1-bbb1-a857e4275e7c.jsonl",
+      "durationMin": 470.6,
+      "toolCalls": 9,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-25T13:00:46.179Z",
+      "lastTs": "2026-07-25T20:51:23.391Z",
+      "topTools": [
+        [
+          "ctx_read",
+          6
+        ],
+        [
+          "ctx_ls",
+          2
+        ],
+        [
+          "fetch_content",
+          1
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex--/2026-07-21T07-58-10-666Z_019f83ae-acea-7d01-a404-cd77c46c5cd3.jsonl",
+      "durationMin": 405.6,
+      "toolCalls": 184,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-21T07:58:10.666Z",
+      "lastTs": "2026-07-21T14:43:45.714Z",
+      "topTools": [
+        [
+          "bash",
+          81
+        ],
+        [
+          "ctx_read",
+          28
+        ],
+        [
+          "ctx_edit",
+          18
+        ],
+        [
+          "write",
+          15
+        ],
+        [
+          "read",
+          13
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-28T09-00-39-366Z_019fa7f4-6446-7ca4-b4f3-67279a87d7a6.jsonl",
+      "durationMin": 341.6,
+      "toolCalls": 32,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T09:00:39.366Z",
+      "lastTs": "2026-07-28T14:42:15.172Z",
+      "topTools": [
+        [
+          "ctx_batch_execute",
+          22
+        ],
+        [
+          "ctx_shell",
+          6
+        ],
+        [
+          "ctx_grep",
+          2
+        ],
+        [
+          "ctx_read",
+          1
+        ],
+        [
+          "write",
+          1
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-21T08-15-47-365Z_019f83be-cca5-7e21-9d76-af5fa8a6739f.jsonl",
+      "durationMin": 325.8,
+      "toolCalls": 168,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": true,
+      "firstTs": "2026-07-21T08:15:47.365Z",
+      "lastTs": "2026-07-21T13:41:33.147Z",
+      "topTools": [
+        [
+          "shell",
+          67
+        ],
+        [
+          "bash",
+          38
+        ],
+        [
+          "write",
+          26
+        ],
+        [
+          "ctx_batch_execute",
+          11
+        ],
+        [
+          "ctx_execute",
+          10
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-28T09-18-08-991Z_019fa804-685f-741c-a712-6f1483e08d08.jsonl",
+      "durationMin": 322.7,
+      "toolCalls": 52,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T09:18:08.991Z",
+      "lastTs": "2026-07-28T14:40:53.549Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          21
+        ],
+        [
+          "ctx_batch_execute",
+          10
+        ],
+        [
+          "write",
+          7
+        ],
+        [
+          "edit",
+          6
+        ],
+        [
+          "ctx_read",
+          4
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-mindscape-site--/2026-07-28T06-28-09-427Z_019fa768-c653-7c24-ba4d-8cdfaa314727.jsonl",
+      "durationMin": 305.1,
+      "toolCalls": 458,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T06:28:09.427Z",
+      "lastTs": "2026-07-28T11:33:13.293Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          276
+        ],
+        [
+          "write",
+          105
+        ],
+        [
+          "ctx_read",
+          40
+        ],
+        [
+          "workflow",
+          9
+        ],
+        [
+          "workflow_control",
+          9
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-pi-harness-config--/2026-07-28T09-56-13-511Z_019fa827-4447-7563-b200-5da2224b939b.jsonl",
+      "durationMin": 302.8,
+      "toolCalls": 70,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T09:56:13.511Z",
+      "lastTs": "2026-07-28T14:59:01.819Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          35
+        ],
+        [
+          "ctx_read",
+          16
+        ],
+        [
+          "ctx_grep",
+          7
+        ],
+        [
+          "edit",
+          5
+        ],
+        [
+          "write",
+          4
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-29T08-34-17-905Z_019fad02-9eb1-7ea0-98fd-e70459138790.jsonl",
+      "durationMin": 292,
+      "toolCalls": 131,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-29T08:34:17.905Z",
+      "lastTs": "2026-07-29T13:26:15.177Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          45
+        ],
+        [
+          "ctx_edit",
+          28
+        ],
+        [
+          "ctx_url_read",
+          15
+        ],
+        [
+          "ctx_read",
+          13
+        ],
+        [
+          "write",
+          12
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-rooted-leader-site--/2026-07-30T11-09-58-865Z_019fb2b7-82d1-705c-909c-ec716c516541.jsonl",
+      "durationMin": 285.7,
+      "toolCalls": 127,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-30T11:09:58.865Z",
+      "lastTs": "2026-07-30T15:55:42.263Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          82
+        ],
+        [
+          "ctx_execute",
+          17
+        ],
+        [
+          "edit",
+          6
+        ],
+        [
+          "write",
+          5
+        ],
+        [
+          "ctx_fetch_and_index",
+          4
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-ArmchairFuturistLanding--/2026-07-13T15-56-29-198Z_019f5c31-b48e-7c26-80a8-4882d0c608b2.jsonl",
+      "durationMin": 272.2,
+      "toolCalls": 86,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-13T15:56:29.198Z",
+      "lastTs": "2026-07-13T20:28:39.600Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          57
+        ],
+        [
+          "ctx_read",
+          11
+        ],
+        [
+          "ctx_execute",
+          8
+        ],
+        [
+          "ctx_find",
+          4
+        ],
+        [
+          "edit",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-08-01T07-19-34-309Z_019fbc31-48a5-7485-a78c-80d6b62885bd.jsonl",
+      "durationMin": 260,
+      "toolCalls": 74,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-08-01T07:19:34.309Z",
+      "lastTs": "2026-08-01T11:39:37.038Z",
+      "topTools": [
+        [
+          "ctx_batch_execute",
+          23
+        ],
+        [
+          "ctx_read",
+          18
+        ],
+        [
+          "ctx_shell",
+          12
+        ],
+        [
+          "edit",
+          9
+        ],
+        [
+          "ctx_edit",
+          6
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex--/2026-07-13T09-31-02-060Z_019f5ad0-d02c-7255-8722-0bde54632569.jsonl",
+      "durationMin": 252.6,
+      "toolCalls": 65,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-13T09:31:02.060Z",
+      "lastTs": "2026-07-13T13:43:35.771Z",
+      "topTools": [
+        [
+          "bash",
+          35
+        ],
+        [
+          "read",
+          15
+        ],
+        [
+          "ctx_execute",
+          4
+        ],
+        [
+          "write",
+          3
+        ],
+        [
+          "ctx_search",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-27T11-46-47-592Z_019fa366-22a8-7b02-902d-113be402a889.jsonl",
+      "durationMin": 249.8,
+      "toolCalls": 0,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-27T11:46:47.592Z",
+      "lastTs": "2026-07-27T15:56:35.758Z",
+      "topTools": []
+    },
+    {
+      "file": "--home--/2026-07-26T07-30-06-898Z_019f9d54-c7b2-7e93-a23e-e231d1774494.jsonl",
+      "durationMin": 240.4,
+      "toolCalls": 192,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-26T07:30:06.898Z",
+      "lastTs": "2026-07-26T11:30:29.055Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          120
+        ],
+        [
+          "ctx_read",
+          20
+        ],
+        [
+          "edit",
+          20
+        ],
+        [
+          "write",
+          14
+        ],
+        [
+          "ctx_execute",
+          11
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl",
+      "durationMin": 233.6,
+      "toolCalls": 80,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-08-04T08:06:44.570Z",
+      "lastTs": "2026-08-04T12:00:22.719Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          40
+        ],
+        [
+          "ctx_execute",
+          17
+        ],
+        [
+          "ctx_batch_execute",
+          9
+        ],
+        [
+          "ctx_read",
+          5
+        ],
+        [
+          "ctx_fetch_and_index",
+          3
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-15T07-28-26-041Z_019f64ad-49b9-7a4b-8cd6-73e653427eaf.jsonl",
+      "durationMin": 215.5,
+      "toolCalls": 252,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": true,
+      "firstTs": "2026-07-15T07:28:26.041Z",
+      "lastTs": "2026-07-15T11:03:57.076Z",
+      "topTools": [
+        [
+          "bash",
+          119
+        ],
+        [
+          "edit",
+          29
+        ],
+        [
+          "read",
+          21
+        ],
+        [
+          "write",
+          14
+        ],
+        [
+          "run_experiment",
+          14
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-28T11-09-09-605Z_019fa86a-0a65-74d5-b047-45c5aaad858b.jsonl",
+      "durationMin": 211.9,
+      "toolCalls": 1,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T11:09:09.605Z",
+      "lastTs": "2026-07-28T14:41:04.155Z",
+      "topTools": [
+        [
+          "ctx_read",
+          1
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex--/2026-07-22T17-39-25-038Z_019f8ae9-2cee-7f17-a9c6-ba5744e03fa8.jsonl",
+      "durationMin": 203.9,
+      "toolCalls": 58,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-22T17:39:25.038Z",
+      "lastTs": "2026-07-22T21:03:16.733Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          28
+        ],
+        [
+          "ctx_read",
+          14
+        ],
+        [
+          "ctx_execute",
+          7
+        ],
+        [
+          "ctx_find",
+          3
+        ],
+        [
+          "edit",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl",
+      "durationMin": 167.8,
+      "toolCalls": 127,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-30T14:23:08.320Z",
+      "lastTs": "2026-07-30T17:10:57.868Z",
+      "topTools": [
+        [
+          "ctx_batch_execute",
+          43
+        ],
+        [
+          "ctx_shell",
+          26
+        ],
+        [
+          "edit",
+          23
+        ],
+        [
+          "ctx_read",
+          13
+        ],
+        [
+          "ctx_execute",
+          11
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-27T07-13-28-666Z_019fa26b-e85a-7f7a-8b3d-bfa0cf2601da.jsonl",
+      "durationMin": 157.9,
+      "toolCalls": 62,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-27T07:13:28.666Z",
+      "lastTs": "2026-07-27T09:51:22.494Z",
+      "topTools": [
+        [
+          "ctx_read",
+          21
+        ],
+        [
+          "ctx_shell",
+          12
+        ],
+        [
+          "get_search_content",
+          7
+        ],
+        [
+          "ctx_batch_execute",
+          5
+        ],
+        [
+          "ctx_execute",
+          5
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-ArmchairFuturistLanding--/2026-07-15T05-12-59-241Z_019f6431-4869-750f-8b01-e6f4ec697c4a.jsonl",
+      "durationMin": 135.2,
+      "toolCalls": 161,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-15T05:12:59.241Z",
+      "lastTs": "2026-07-15T07:28:09.955Z",
+      "topTools": [
+        [
+          "bash",
+          83
+        ],
+        [
+          "read",
+          42
+        ],
+        [
+          "edit",
+          30
+        ],
+        [
+          "ctx_tree",
+          2
+        ],
+        [
+          "write",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-mindscape-site--/2026-07-14T13-32-05-644Z_019f60d3-de8c-7573-9e09-8fc44dfdfcd8.jsonl",
+      "durationMin": 111.6,
+      "toolCalls": 213,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-14T13:32:05.644Z",
+      "lastTs": "2026-07-14T15:23:41.573Z",
+      "topTools": [
+        [
+          "bash",
+          129
+        ],
+        [
+          "read",
+          41
+        ],
+        [
+          "edit",
+          21
+        ],
+        [
+          "ctx_read",
+          12
+        ],
+        [
+          "ctx_ls",
+          3
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-27T10-00-19-050Z_019fa304-a76a-7149-a4ec-fabff764535c.jsonl",
+      "durationMin": 105.4,
+      "toolCalls": 213,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-27T10:00:19.050Z",
+      "lastTs": "2026-07-27T11:45:43.334Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          148
+        ],
+        [
+          "ctx_read",
+          28
+        ],
+        [
+          "write",
+          18
+        ],
+        [
+          "edit",
+          13
+        ],
+        [
+          "ctx_ls",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl",
+      "durationMin": 100.2,
+      "toolCalls": 139,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-08-04T12:02:09.776Z",
+      "lastTs": "2026-08-04T13:42:21.689Z",
+      "topTools": [
+        [
+          "ctx_read",
+          55
+        ],
+        [
+          "ctx_shell",
+          35
+        ],
+        [
+          "write",
+          14
+        ],
+        [
+          "ctx_grep",
+          10
+        ],
+        [
+          "edit",
+          9
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-26T07-34-41-621Z_019f9d58-f8d5-7417-a0a5-b8988856856e.jsonl",
+      "durationMin": 95.1,
+      "toolCalls": 116,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-26T07:34:41.621Z",
+      "lastTs": "2026-07-26T09:09:49.344Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          69
+        ],
+        [
+          "ctx_read",
+          15
+        ],
+        [
+          "write",
+          9
+        ],
+        [
+          "edit",
+          6
+        ],
+        [
+          "ctx_execute_file",
+          6
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl",
+      "durationMin": 85.8,
+      "toolCalls": 257,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-08-03T05:19:41.001Z",
+      "lastTs": "2026-08-03T06:45:27.845Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          137
+        ],
+        [
+          "ctx_read",
+          44
+        ],
+        [
+          "write",
+          22
+        ],
+        [
+          "ctx_execute",
+          18
+        ],
+        [
+          "ctx_batch_execute",
+          11
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-28T06-46-51-576Z_019fa779-e5b8-7a23-b36a-30bc7692d9aa.jsonl",
+      "durationMin": 81.7,
+      "toolCalls": 160,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T06:46:51.576Z",
+      "lastTs": "2026-07-28T08:08:33.224Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          121
+        ],
+        [
+          "write",
+          23
+        ],
+        [
+          "ctx_batch_execute",
+          8
+        ],
+        [
+          "ctx_read",
+          5
+        ],
+        [
+          "ctx_search",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-FALA--/2026-07-14T07-03-52-812Z_019f5f70-72ec-749c-9432-c7f100217991.jsonl",
+      "durationMin": 80.5,
+      "toolCalls": 197,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-14T07:03:52.812Z",
+      "lastTs": "2026-07-14T08:24:25.038Z",
+      "topTools": [
+        [
+          "bash",
+          57
+        ],
+        [
+          "edit",
+          33
+        ],
+        [
+          "ctx_read",
+          31
+        ],
+        [
+          "ctx_shell",
+          29
+        ],
+        [
+          "write",
+          15
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-ArmchairFuturistLanding--/2026-08-01T08-41-37-460Z_019fbc7c-67b4-7724-8e2e-b568cb733e64.jsonl",
+      "durationMin": 75.1,
+      "toolCalls": 223,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-08-01T08:41:37.460Z",
+      "lastTs": "2026-08-01T09:56:42.570Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          111
+        ],
+        [
+          "edit",
+          35
+        ],
+        [
+          "ctx_read",
+          34
+        ],
+        [
+          "write",
+          20
+        ],
+        [
+          "ctx_grep",
+          9
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-28T06-49-32-236Z_019fa77c-594c-7983-bbd6-53aa0e8c567a.jsonl",
+      "durationMin": 74.5,
+      "toolCalls": 121,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": true,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-28T06:49:32.236Z",
+      "lastTs": "2026-07-28T08:04:02.886Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          59
+        ],
+        [
+          "edit",
+          23
+        ],
+        [
+          "ctx_execute",
+          13
+        ],
+        [
+          "ctx_read",
+          12
+        ],
+        [
+          "ctx_fetch_and_index",
+          4
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-Dashboard_SI--/2026-07-27T07-10-49-285Z_019fa269-79c5-7ed8-82bd-ebf5d3cd53e5.jsonl",
+      "durationMin": 71.7,
+      "toolCalls": 0,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-27T07:10:49.285Z",
+      "lastTs": "2026-07-27T08:22:31.493Z",
+      "topTools": []
+    },
+    {
+      "file": "--home--/2026-07-23T09-19-41-029Z_019f8e46-03e5-70ab-8c8f-4e5d6df71c23.jsonl",
+      "durationMin": 62.7,
+      "toolCalls": 132,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-23T09:19:41.029Z",
+      "lastTs": "2026-07-23T10:22:20.730Z",
+      "topTools": [
+        [
+          "web_search",
+          100
+        ],
+        [
+          "fetch_content",
+          22
+        ],
+        [
+          "subagent",
+          8
+        ],
+        [
+          "write",
+          2
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl",
+      "durationMin": 62.4,
+      "toolCalls": 83,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-31T06:20:32.495Z",
+      "lastTs": "2026-07-31T07:22:58.025Z",
+      "topTools": [
+        [
+          "write",
+          24
+        ],
+        [
+          "ctx_shell",
+          18
+        ],
+        [
+          "edit",
+          12
+        ],
+        [
+          "ctx_read",
+          10
+        ],
+        [
+          "ctx_fetch_and_index",
+          6
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-mindscape-site--/2026-07-26T11-45-22-285Z_019f9e3e-796d-76bf-8788-88add144bec5.jsonl",
+      "durationMin": 61.5,
+      "toolCalls": 250,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-26T11:45:22.285Z",
+      "lastTs": "2026-07-26T12:46:53.525Z",
+      "topTools": [
+        [
+          "ctx_shell",
+          148
+        ],
+        [
+          "write",
+          46
+        ],
+        [
+          "ctx_execute",
+          19
+        ],
+        [
+          "ctx_read",
+          17
+        ],
+        [
+          "edit",
+          6
+        ]
+      ]
+    },
+    {
+      "file": "--home--/2026-07-21T07-14-03-783Z_019f8386-4987-7b66-ad60-77b9ca79a9ee.jsonl",
+      "durationMin": 61.4,
+      "toolCalls": 127,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-21T07:14:03.783Z",
+      "lastTs": "2026-07-21T08:15:28.430Z",
+      "topTools": [
+        [
+          "bash",
+          62
+        ],
+        [
+          "read",
+          11
+        ],
+        [
+          "ctx_read",
+          11
+        ],
+        [
+          "ctx_shell",
+          9
+        ],
+        [
+          "ctx_batch_execute",
+          5
+        ]
+      ]
+    },
+    {
+      "file": "--home-alex-Projects-mindscape-site--/2026-07-14T14-41-00-133Z_019f6112-f4e5-7b82-9528-94b4faba2083.jsonl",
+      "durationMin": 60.8,
+      "toolCalls": 91,
+      "allowN": 0,
+      "editMissN": 0,
+      "errN": 0,
+      "hasOutcomeReview": false,
+      "hasMidFlight": false,
+      "hasCompaction": false,
+      "firstTs": "2026-07-14T14:41:00.133Z",
+      "lastTs": "2026-07-14T15:41:47.090Z",
+      "topTools": [
+        [
+          "bash",
+          49
+        ],
+        [
+          "ctx_read",
+          16
+        ],
+        [
+          "ctx_execute",
+          7
+        ],
+        [
+          "read",
+          6
+        ],
+        [
+          "write",
+          4
+        ]
+      ]
+    }
+  ],
+  "postP0": {
+    "count": 1,
+    "sessions": [
+      {
+        "file": "--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl",
+        "toolCalls": 180,
+        "allowN": 0,
+        "editMissN": 0,
+        "durationMin": 612,
+        "lastTs": "2026-08-05T07:08:06.670Z",
+        "firstTs": "2026-08-04T20:56:07.280Z"
+      }
+    ],
+    "allowSum": 0,
+    "editMissSum": 0,
+    "toolSum": 180
+  },
+  "frictionLeaders": [],
+  "sampleEligible": [
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl",
+      "durationMin": 612,
+      "toolCalls": 180,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 333,
+      "lastTs": "2026-08-05T07:08:06.670Z"
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl",
+      "durationMin": 6.4,
+      "toolCalls": 50,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 80,
+      "lastTs": "2026-08-04T15:48:43.901Z"
+    },
+    {
+      "file": "--home-alex--/2026-08-04T15-16-37-257Z_019fcd59-1d09-76d2-bd62-75a63f00c6a7.jsonl",
+      "durationMin": 14.2,
+      "toolCalls": 18,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 46,
+      "lastTs": "2026-08-04T15:30:49.526Z"
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl",
+      "durationMin": 17.1,
+      "toolCalls": 68,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 117,
+      "lastTs": "2026-08-04T14:29:44.769Z"
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl",
+      "durationMin": 100.2,
+      "toolCalls": 139,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 218,
+      "lastTs": "2026-08-04T13:42:21.689Z"
+    },
+    {
+      "file": "--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl",
+      "durationMin": 233.6,
+      "toolCalls": 80,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 191,
+      "lastTs": "2026-08-04T12:00:22.719Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-41-02-565Z_019fcbee-f365-7baf-ad0d-8e2cc96aece6.jsonl",
+      "durationMin": 0.4,
+      "toolCalls": 11,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 29,
+      "lastTs": "2026-08-04T08:41:28.228Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-40-38-947Z_019fcbee-9723-7ea1-abfa-8d3cb7a2df44.jsonl",
+      "durationMin": 0.4,
+      "toolCalls": 10,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 27,
+      "lastTs": "2026-08-04T08:41:02.135Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-40-05-698Z_019fcbee-1542-7532-a30c-8d53a1898801.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 11,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 29,
+      "lastTs": "2026-08-04T08:40:38.546Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-39-35-681Z_019fcbed-a001-73ba-8b6a-91954ea34bad.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 12,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 31,
+      "lastTs": "2026-08-04T08:40:05.306Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-39-00-001Z_019fcbed-14a1-7703-af11-9df823facf7d.jsonl",
+      "durationMin": 0.6,
+      "toolCalls": 12,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 31,
+      "lastTs": "2026-08-04T08:39:35.288Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-38-30-844Z_019fcbec-a2bc-7d03-b5e5-4bc4c355fd4f.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 13,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 33,
+      "lastTs": "2026-08-04T08:38:59.552Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-37-59-634Z_019fcbec-28d2-7d18-a406-1882daceb614.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 12,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 31,
+      "lastTs": "2026-08-04T08:38:30.445Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-37-25-972Z_019fcbeb-a554-7989-bd9c-fa4c4f27cb8d.jsonl",
+      "durationMin": 0.6,
+      "toolCalls": 9,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 25,
+      "lastTs": "2026-08-04T08:37:59.248Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-36-56-267Z_019fcbeb-314b-70b9-8225-637717d18ee1.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 11,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 29,
+      "lastTs": "2026-08-04T08:37:25.559Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-36-15-649Z_019fcbea-92a1-78ab-8545-18b0bc9f0136.jsonl",
+      "durationMin": 0.7,
+      "toolCalls": 19,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 45,
+      "lastTs": "2026-08-04T08:36:55.819Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-34-55-167Z_019fcbe9-583f-73a5-bd32-750e8e5861f2.jsonl",
+      "durationMin": 0.4,
+      "toolCalls": 11,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 29,
+      "lastTs": "2026-08-04T08:35:21.743Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-34-16-817Z_019fcbe8-c271-7bed-a721-dcb132efd68b.jsonl",
+      "durationMin": 0.6,
+      "toolCalls": 12,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 31,
+      "lastTs": "2026-08-04T08:34:54.770Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-33-45-158Z_019fcbe8-46c6-7519-99ae-a3b0922b2fd9.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 10,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 27,
+      "lastTs": "2026-08-04T08:34:16.420Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-33-17-660Z_019fcbe7-db5c-760c-8e9e-e42d0663a0a6.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 10,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 27,
+      "lastTs": "2026-08-04T08:33:44.756Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-32-41-269Z_019fcbe7-4d35-7cf0-a5aa-30165b82b2ce.jsonl",
+      "durationMin": 0.6,
+      "toolCalls": 13,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 33,
+      "lastTs": "2026-08-04T08:33:17.259Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-32-34-283Z_019fcbe7-31eb-7d19-bb7d-1b63d1607371.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 12,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 30,
+      "lastTs": "2026-08-04T08:33:05.120Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-32-10-167Z_019fcbe6-d3b7-7632-9524-eb58108e3b25.jsonl",
+      "durationMin": 0.4,
+      "toolCalls": 12,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 31,
+      "lastTs": "2026-08-04T08:32:33.832Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-31-42-362Z_019fcbe6-671a-7aaa-9180-84034dd073cf.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 10,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 27,
+      "lastTs": "2026-08-04T08:32:09.763Z"
+    },
+    {
+      "file": "--home-alex-pi-bench-ws--/2026-08-04T08-31-11-748Z_019fcbe5-ef84-7f9c-bebc-ebd5f144d9ec.jsonl",
+      "durationMin": 0.5,
+      "toolCalls": 10,
+      "allowN": 0,
+      "editMissN": 0,
+      "lines": 27,
+      "lastTs": "2026-08-04T08:31:41.957Z"
+    }
+  ]
+}

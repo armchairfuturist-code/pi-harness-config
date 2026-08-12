@@ -1,0 +1,2 @@
+[2026-08-04T12:11:54.186Z] [ERROR] agent fit attempt 1/1 failed: Subagent produced no assistant output
+[2026-08-04T12:11:54.186Z] [INFO] agent "fit" exhausted 1 attempt: AGENT_EMPTY_OUTPUT Subagent produced no assistant output

@@ -1,0 +1,368 @@
+{
+  "reportData": {
+    "mode": "markdown",
+    "language": "en",
+    "dataPath": "/home/alex/.pi/agent/.pi/better-harness/findings.json",
+    "target": {
+      "name": "agent",
+      "path": "/home/alex/.pi/agent"
+    },
+    "summary": {
+      "projectName": "pi-agent",
+      "locale": "en",
+      "modelId": "agent-work-loop-v4",
+      "reportContractVersion": 26,
+      "overview": "Re-audit after P0 harness fixes. Overall about 43/100. Skills unlock, HARNESS/AGENTS, and tool-policy text landed and remote master merged — prior critical denylist is fixed. Remaining weight is enforcement and runtime: no validation gate, last30days still fat/denied, shell allowlist and edit misses still show in sessions, long sessions still unreviewed, inventory stale, and policy split across three files. Next gains come from slim+enable last30days, preflight hooks, extension alignment, and operational session-close discipline.",
+      "strengths": [
+        "Blanket skills denylist removed; only last30days remains denied until slimmed.",
+        "HARNESS.md + AGENTS.md + tightened APPEND_SYSTEM.md give a real written contract.",
+        "Remote pi-harness-config master includes the skills unlock and HARNESS install path.",
+        "Local git now tracks hundreds of agent intent files (skills/settings/extensions source) instead of a near-empty tree.",
+        "CE-lite triggers and better-harness remain available as the audit/optimize spine."
+      ],
+      "dimensions": [
+        {
+          "id": "task-understanding",
+          "label": "Task Understanding",
+          "score": 55,
+          "summary": "AGENTS.md and HARNESS.md now exist and skills are unlocked, so entry guidance is much better than the prior audit. Residual gaps: HARNESS tracking/install consistency, triple policy surfaces, and thin skill triage.",
+          "findingRefs": [
+            "R1",
+            "R7",
+            "R8",
+            "R10"
+          ]
+        },
+        {
+          "id": "controlled-execution",
+          "label": "Controlled Execution",
+          "score": 45,
+          "summary": "Blanket skill deny is gone, but sessions remain shell-heavy with allowlist friction and local extensions half-wired. Policy text is ahead of proven runtime behavior change.",
+          "findingRefs": [
+            "R2",
+            "R4",
+            "R6"
+          ]
+        },
+        {
+          "id": "change-validation",
+          "label": "Change Validation",
+          "score": 32,
+          "summary": "Still the weakest area: no preflight/CI/hooks for harness edits, and edit-context misses continue in session evidence without a forced verify step.",
+          "findingRefs": [
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "id": "reliable-delivery",
+          "label": "Reliable Delivery",
+          "score": 40,
+          "summary": "Long sessions still lack outcome review; last30days remains a denied fat skill; git/disk bloat risks remain around mirrors and media assets.",
+          "findingRefs": [
+            "R1",
+            "R2",
+            "R5",
+            "R9"
+          ]
+        },
+        {
+          "id": "learning-capture",
+          "label": "Learning Capture",
+          "score": 42,
+          "summary": "Contracts improved capture of intent, but inventory is stale, long-session reviews are still required/unreviewed, and policy ownership across three files risks drift.",
+          "findingRefs": [
+            "R5",
+            "R7",
+            "R8"
+          ]
+        }
+      ],
+      "aiAgentPractice": {
+        "inspectedSurfaces": [
+          "Rules",
+          "Skills",
+          "Commands",
+          "Custom Agents",
+          "MCP",
+          "Plugins",
+          "Session Insights"
+        ],
+        "coverageRows": [
+          {
+            "surface": "Rules",
+            "scopes": [
+              "Project"
+            ],
+            "count": 3,
+            "paths": [
+              "agent/AGENTS.md",
+              "agent/HARNESS.md",
+              "agent/APPEND_SYSTEM.md"
+            ]
+          },
+          {
+            "surface": "Skills",
+            "scopes": [
+              "Project",
+              "Global"
+            ],
+            "count": 44,
+            "paths": [
+              "agent/skills/"
+            ]
+          },
+          {
+            "surface": "Commands",
+            "scopes": [
+              "Project"
+            ],
+            "count": 0,
+            "paths": []
+          },
+          {
+            "surface": "Custom Agents",
+            "scopes": [
+              "Project"
+            ],
+            "count": 1,
+            "paths": [
+              "agent/agents/Explore.md"
+            ]
+          },
+          {
+            "surface": "MCP",
+            "scopes": [
+              "Project"
+            ],
+            "count": 0,
+            "paths": []
+          },
+          {
+            "surface": "Plugins",
+            "scopes": [
+              "Project"
+            ],
+            "count": 24,
+            "paths": [
+              "agent/settings.json",
+              "agent/extensions/"
+            ]
+          },
+          {
+            "surface": "Session Insights",
+            "scopes": [
+              "Global"
+            ],
+            "count": 20,
+            "paths": [
+              "agent/sessions/"
+            ]
+          }
+        ]
+      },
+      "assignmentSummaries": []
+    },
+    "findings": [
+      {
+        "id": "R1",
+        "title": "HARNESS.md is live contract but not tracked or installed from local gitignore",
+        "severity": "High",
+        "reason": "HARNESS.md exists on the live agent and is referenced by APPEND_SYSTEM.md, and the remote repo install path ships it, but the local home-relative-path gitignore/tracking still leaves HARNESS.md out of the nested agent tree commit surface. Clone/install consumers can drift from the machine that authored the P0 fix.",
+        "aiFixPrompt": "Ensure agent/HARNESS.md is allowlisted in the local repo gitignore if using the nested agent/ layout, git add and commit it with the APPEND_SYSTEM.md pointer. On machines using pi-harness-config, run install.sh so HARNESS.md is deployed. Do not leave the contract only on one live disk.",
+        "dimensionRefs": [
+          "task-understanding",
+          "reliable-delivery"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R2",
+        "title": "last30days skill still huge and still denied — slim unfinished",
+        "severity": "High",
+        "reason": "skills/last30days/SKILL.md remains about 217KB and settings still deny the tree. Project pass also flagged a large last30days asset tree tracked in git (media/binaries on the order of megabytes). Enabling without slim will blow context; keeping denied blocks CE-lite last30days workflows that expect the skill.",
+        "aiFixPrompt": "Slim agent/skills/last30days/SKILL.md to about 5–8KB with triggers and tool names; move bulk into references/. Remove or gitignore binary/media assets under that skill. Then remove the last30days deny from settings.json skills and verify a session can load it without a context spike.",
+        "dimensionRefs": [
+          "reliable-delivery",
+          "controlled-execution"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R3",
+        "title": "No harness validation gate (hooks/CI/preflight) for settings and skills",
+        "severity": "High",
+        "reason": "P0 fixed content but not enforcement. There is still no CI, core.hooksPath, Makefile check, or package test wiring for harness changes. A bad skills filter or broken extension path can ship again without a gate. harness-doctor exists as a skill only.",
+        "aiFixPrompt": "Add a small preflight script that validates settings.json JSON, skills filter does not contain blanket deny-all, referenced extensions paths exist, and HARNESS.md/APPEND_SYSTEM.md are present. Wire it as a git pre-commit or npm/make check and document the command in HARNESS.md.",
+        "dimensionRefs": [
+          "change-validation"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R4",
+        "title": "Shell allowlist friction and edit misses persist in session evidence",
+        "severity": "High",
+        "reason": "Independent session sampling still shows shell-heavy traffic (ctx_shell leading), dozens of allowlist-style blocks, and edit-context misses across the window. Policy text now exists, but runtime behavior has not yet proven a sustained drop—only one short post-fix sample window is available.",
+        "aiFixPrompt": "After a few real work sessions under the new AGENTS/HARNESS rules, re-sample JSONL for allowlist_block and edit miss rates. If still high, add a CE-lite or skill nudge that fires after the first allowlist block and forbids identical edit retries. Optionally allowlist only a few audited script-file patterns in lean-ctx.",
+        "dimensionRefs": [
+          "controlled-execution",
+          "change-validation"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R5",
+        "title": "Long sessions still unreviewed with high failure mass",
+        "severity": "High",
+        "reason": "Lead and session evidence still mark outcome review required: multiple long sessions (including multi-hour threads with dozens of failures) and reviewedActiveLongCount=0. Structured completion evidence remains weak versus conversational handoffs.",
+        "aiFixPrompt": "Enforce the HARNESS.md session hygiene rule operationally: for sessions over 60 minutes or after 3+ compactions, require mid-flight status and an end checklist (done/blocked, files, verify). Use auto-session-name/title extensions already installed. Optionally add a lightweight session-close skill.",
+        "dimensionRefs": [
+          "reliable-delivery",
+          "learning-capture"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R6",
+        "title": "Local extensions on disk are not enabled in settings.extensions",
+        "severity": "Medium",
+        "reason": "agent/extensions contains tool-trimmer, session-index, invest-tools, pi-lean-ctx and others, while settings.extensions mostly points at pi-essentials under npm plus transcript-pruner. AGENTS.md documents local extensions that are not actually enabled—dead surface and dual-path confusion.",
+        "aiFixPrompt": "Either add the local extension entrypoints you want to settings.extensions with absolute/tilde paths that resolve, or stop documenting them as active. Prefer one ownership path: settings.extensions OR package-provided extensions, not both half-wired.",
+        "dimensionRefs": [
+          "controlled-execution"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R7",
+        "title": "harness-inventory.json stale since 2026-07-30",
+        "severity": "Medium",
+        "reason": "Architecture inventory on disk is still timestamped 2026-07-30, before the skills unlock and HARNESS addition. Evidence packets under-count assets relative to the live tree, which misleads optimize/audit loops.",
+        "aiFixPrompt": "Regenerate harness-inventory.json after this audit (harness-doctor or better-harness inventory path). Commit or intentionally gitignore it; if ignored, document the regenerate command in HARNESS.md.",
+        "dimensionRefs": [
+          "learning-capture",
+          "task-understanding"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R8",
+        "title": "Triple policy surface risk: APPEND_SYSTEM + HARNESS + AGENTS",
+        "severity": "Medium",
+        "reason": "Three durable prose surfaces now describe overlapping policy. Without a single source of truth, future edits will drift (already seen when HARNESS landed on remote while local AGENTS also holds tool rules).",
+        "aiFixPrompt": "Make HARNESS.md the agent-home contract, AGENTS.md the project/workspace map only (or a short pointer), and APPEND_SYSTEM.md a thin CE-lite trigger strip that links to HARNESS. Remove duplicated tool-policy paragraphs from two of the three files.",
+        "dimensionRefs": [
+          "task-understanding",
+          "learning-capture"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R9",
+        "title": "Untracked nested agent/git mirror and last30days media risk disk/git bloat",
+        "severity": "Medium",
+        "reason": "Project pass reported an untracked agent/git nested mirror on the order of hundreds of MB and last30days asset weight in tracking. This threatens backups, git operations, and accidental commits.",
+        "aiFixPrompt": "Add agent/git/ to gitignore if it is a local mirror. Audit last30days for binaries/media; gitignore or delete assets not needed at runtime. Keep only text skill sources in version control.",
+        "dimensionRefs": [
+          "reliable-delivery"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      },
+      {
+        "id": "R10",
+        "title": "Custom agents and skill triage still thin relative to 48 skills",
+        "severity": "Low",
+        "reason": "agents/ still only has Explore.md while about 48 skills sit on disk. Without a short triage index (always-on vs on-demand vs denied), routing stays CE-lite-trigger-only and generalist.",
+        "aiFixPrompt": "Add a skill triage table to HARNESS.md (always/on-demand/denied). After skills load cleanly in real sessions, add at most one specialized agent for session-forensics or skill-maintainer.",
+        "dimensionRefs": [
+          "task-understanding"
+        ],
+        "target": {
+          "kind": "repo-subtree",
+          "packageRoute": null,
+          "ownerRoute": "agent"
+        }
+      }
+    ]
+  },
+  "runDir": "/home/alex/.pi/agent/.pi/better-harness",
+  "artifacts": [
+    {
+      "name": "findings.json",
+      "path": "/home/alex/.pi/agent/.pi/better-harness/findings.json"
+    },
+    {
+      "name": "report.md",
+      "path": "/home/alex/.pi/agent/.pi/better-harness/report.md"
+    }
+  ],
+  "validation": {
+    "status": "fail",
+    "checks": [
+      {
+        "id": "run-directory-artifacts",
+        "status": "fail",
+        "errors": [
+          "unexpected run-directory artifact: report.html"
+        ],
+        "warnings": [],
+        "summary": {
+          "expectedNames": [
+            "findings.json",
+            "report.md"
+          ]
+        }
+      }
+    ],
+    "errors": [
+      "run-directory-artifacts: unexpected run-directory artifact: report.html"
+    ],
+    "warnings": []
+  },
+  "kind": "harness-report-render",
+  "status": "fail",
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "run-directory-artifacts: unexpected run-directory artifact: report.html",
+    "details": [
+      "run-directory-artifacts: unexpected run-directory artifact: report.html"
+    ]
+  }
+}

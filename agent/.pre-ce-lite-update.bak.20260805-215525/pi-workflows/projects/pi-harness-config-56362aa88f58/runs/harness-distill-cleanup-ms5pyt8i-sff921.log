@@ -1,0 +1,4 @@
+[2026-07-29T06:51:49.371Z] [INFO] Extraction coverage: {"repo-sessions":"ok","home-sessions":"ok","projects-sessions":"ok","roothome-sessions":"ok","bench-sessions":"ok","disk-docs":"ok"}
+[2026-07-29T06:51:49.842Z] [ERROR] agent synthesize-summary attempt 1/1 failed: Subagent produced no assistant output
+[2026-07-29T06:51:49.842Z] [INFO] agent "synthesize-summary" exhausted 1 attempt: AGENT_EMPTY_OUTPUT Subagent produced no assistant output
+[2026-07-29T06:52:31.328Z] [INFO] Logs persisted to /home/alex/.pi/workflows/projects/pi-harness-config-56362aa88f58/runs/harness-distill-cleanup-ms5pyt8i-sff921.log

@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 1,
+  "kind": "better-harness-pass-handoff",
+  "pass": "A",
+  "domain": "project-harness",
+  "generatedAt": "2026-08-05T07:09:23.000Z",
+  "project": {
+    "repoRoot": "/home/alex/.pi",
+    "analysisScope": {
+      "kind": "path",
+      "route": "agent",
+      "pathspecs": [
+        ":(top,literal)agent"
+      ]
+    },
+    "identity": {
+      "name": "agent",
+      "kind": "pi-coding-agent-harness-home",
+      "description": "Pi agent home under ~/.pi/agent: settings, extensions, skills, agents, observability, and npm-installed packages — not a conventional application repo.",
+      "primaryLanguages": [
+        "markdown",
+        "typescript",
+        "python",
+        "json"
+      ],
+      "frameworks": [
+        "pi-coding-agent",
+        "better-harness",
+        "context-mode/lean-ctx"
+      ]
+    }
+  },
+  "evidenceBoundary": {
+    "mode": "static-local-git-and-file-analysis",
+    "packet": "packet-project.json",
+    "lead": [
+      "lead-summary.json",
+      "lead-evidence.md"
+    ],
+    "unverified": [
+      "runtime skill loading",
+      "whether settings.extensions paths resolve at session start",
+      "CI status (none configured)",
+      "live tool availability",
+      "whether denied last30days skill entry still loads via package tools only"
+    ],
+    "leadContext": {
+      "evidenceMode": "session-rich",
+      "sessionsAnalyzed": 17,
+      "episodeCount": 5,
+      "note": "Lead is session-rich; Pass A stays project/static and cross-checks lead friction against post-P0 on-disk harness structure."
+    },
+    "p0Context": {
+      "note": "Disk advanced after packet snapshot. P0 commits bef82d7 (unlock skills, AGENTS.md, gitignore whitelist) and 9398367 (drop __pycache__). Uncommitted: APPEND_SYSTEM.md → HARNESS.md pointer; untracked agent/git/.",
+      "packetTrackedAtCapture": 3,
+      "diskTrackedNow": 395
+    }
+  },
+  "packetFacts": {
+    "trackedFilesAtPacket": 3,
+    "trackedPathsAtPacket": [
+      "agent/settings.json",
+      "agent/context-prune/settings.json",
+      "agent/extensions/pi-lean-ctx/config.json"
+    ],
+    "diffSeverity": "critical",
+    "diffScore": 100,
+    "changedFiles": 453,
+    "changedLines": 266023,
+    "coreHits": 0,
+    "hotHits": 0,
+    "companionHits": 3,
+    "historyConfidence": "low",
+    "historyReasons": [
+      "only a handful of commits",
+      "history span ~1 week"
+    ],
+    "agentInstructionsStatusAtPacket": "none",
+    "sourceFilesMeasured": 0,
+    "reviewRecommended": false,
+    "attentionRequired": false,
+    "note": "Packet is pre-P0 snapshot; diskFacts supersede for residual scoring."
+  },
+  "diskFacts": {
+    "gitignore": {
+      "path": "/home/alex/.pi/.gitignore",
+      "policy": "deny-all then whitelist harness intent",
+      "allowlisted": [
+        "agent/settings.json",
+        "agent/AGENTS.md",
+        "agent/APPEND_SYSTEM.md",
+        "agent/SYSTEM.md",
+        "agent/skills/**",
+        "agent/agents/**",
+        "agent/extensions/**",
+        "agent/context-prune/**",
+        "README.md"
+      ],
+      "stillDeniedNotable": [
+        "agent/HARNESS.md",
+        "agent/harness-inventory.json",
+        "agent/observability/**",
+        "agent/memory/**"
+      ],
+      "reIgnored": [
+        "agent/sessions/",
+        "agent/npm/",
+        "agent/**/node_modules/",
+        "agent/.pi/",
+        "**/__pycache__/",
+        "**/.env*"
+      ]
+    },
+    "trackedAgentFiles": 395,
+    "git": {
+      "branch": "master",
+      "remote": "origin → github.com:AlexAndradeGit/pi-agent-home.git",
+      "recentCommits": [
+        "9398367 chore(agent): drop __pycache__ from tracked skills",
+        "bef82d7 fix(agent): unlock skills, add AGENTS.md, version harness intent"
+      ],
+      "dirty": {
+        "modified": [
+          "agent/APPEND_SYSTEM.md"
+        ],
+        "untracked": [
+          "agent/git/"
+        ]
+      },
+      "hooksPath": null,
+      "coreHooksPathSet": false
+    },
+    "instructionSurfaces": {
+      "AGENTS.md": {
+        "exists": true,
+        "tracked": true,
+        "bytes": 2887
+      },
+      "HARNESS.md": {
+        "exists": true,
+        "tracked": false,
+        "gitignored": true,
+        "bytes": 2061
+      },
+      "APPEND_SYSTEM.md": {
+        "exists": true,
+        "tracked": true,
+        "dirty": true,
+        "pointsTo": "HARNESS.md"
+      },
+      "SYSTEM.md": {
+        "exists": false,
+        "allowlisted": true
+      },
+      "README.md": {
+        "exists": false,
+        "allowlisted": true
+      }
+    },
+    "settings": {
+      "path": "agent/settings.json",
+      "skillsFilter": [
+        "!**/last30days/**"
+      ],
+      "packagesCount": 18,
+      "extensionsEnabled": [
+        "pi-essentials/* (6)",
+        "extensions/transcript-pruner.ts"
+      ],
+      "extensionsOnDiskNotEnabled": [
+        "extensions/tool-trimmer.ts",
+        "extensions/session-index.ts",
+        "extensions/invest-tools.ts"
+      ],
+      "piLeanCtx": "package-installed; local config under extensions/pi-lean-ctx/; not listed in settings.extensions array"
+    },
+    "skills": {
+      "skillMdCount": 44,
+      "last30days": {
+        "skillMdBytes": 222272,
+        "trackedFiles": 124,
+        "approxTreeBytesNonPycache": 16644705,
+        "trackedBinaries": [
+          "assets/dog-original.jpeg (~4.0MB)",
+          "assets/aging-portrait.jpeg (~2.8MB)",
+          "assets/swimmom-mockup.jpeg (~2.8MB)",
+          "assets/dog-as-human.png (~2.5MB)",
+          "assets/claude-code-rap.mp3 (~2.4MB)"
+        ],
+        "policy": "denied via settings.skills; AGENTS/HARNESS require slim ~5–8KB top-level"
+      }
+    },
+    "agents": [
+      "Explore.md"
+    ],
+    "inventory": {
+      "path": "agent/harness-inventory.json",
+      "exists": true,
+      "tracked": false,
+      "gitignored": true,
+      "generated": "2026-07-30T16:03:28+0100",
+      "staleRelativeTo": "P0 commits 2026-08-04/05 and current settings"
+    },
+    "observability": {
+      "historyJsonl": "agent/observability/history.jsonl",
+      "lines": 4,
+      "shape": "token_metrics only",
+      "gitignored": true
+    },
+    "validationSurface": {
+      "ci": false,
+      "preCommit": false,
+      "makefile": false,
+      "packageJsonScripts": false,
+      "hooksDir": false,
+      "harnessDoctorSkill": true,
+      "automatedGate": false
+    },
+    "noiseRisks": {
+      "agentGitNestedMirrorBytes": 231735296,
+      "agentGitIgnored": false,
+      "memoryBetterHarnessWorkdir": "agent/memory/better-harness (analyze/checkup dumps; untracked)"
+    },
+    "p0Status": {
+      "skillsUnlock": "done",
+      "agentsMd": "done (tracked)",
+      "gitignoreWhitelistSkillsAgentsExtensions": "done",
+      "pycacheDropped": "done",
+      "harnessMdVersioned": "NOT done",
+      "inventoryVersionedOrRefreshed": "NOT done",
+      "appendSystemHandoffToHarness": "done on disk, uncommitted"
+    }
+  },
+  "dimensionScores": {
+    "taskUnderstanding": {
+      "score": 3,
+      "max": 5,
+      "rationale": "AGENTS.md + HARNESS.md + dirty APPEND_SYSTEM form a coherent contract (skills policy, tool execution, git track table). Gap: HARNESS.md not in git so clone/install consumers only see AGENTS; SYSTEM.md/README allowlisted but absent."
+    },
+    "controlledExecution": {
+      "score": 3,
+      "max": 5,
+      "rationale": "skills filter no longer blankets deny; CE-lite triggers reachable. Residual: 3 local extensions documented in AGENTS but not enabled; no hooks/CI to enforce policy; last30days still a load footgun if filter regresses."
+    },
+    "changeValidation": {
+      "score": 1,
+      "max": 5,
+      "rationale": "Unchanged by P0. No CI, pre-commit, core.hooksPath, Makefile, or package test script. harness-doctor exists as a skill only. Lead observed rare node --test — not wired as harness gate."
+    },
+    "reliableDelivery": {
+      "score": 3,
+      "max": 5,
+      "rationale": "395 agent paths tracked; remote present; P0 whitelist real. Residual delivery holes: HARNESS.md ignored; inventory ignored/stale; ~16MB last30days binaries tracked; 221MB untracked agent/git/ commit risk; dirty APPEND."
+    },
+    "learningCapture": {
+      "score": 2,
+      "max": 5,
+      "rationale": "observability/history.jsonl has 4 token_metrics lines; no skill-load, doctor, or install events. harness-inventory.json stale since 2026-07-30 and not versioned. memory/ holds ad-hoc dumps, not a curated loop."
+    }
+  },
+  "overallScore": 2.4,
+  "findings": [
+    {
+      "id": "PH-A-001",
+      "severity": "resolved",
+      "title": "No durable agent instruction contract",
+      "status": "mitigated",
+      "evidence": "agent/AGENTS.md tracked (2887B); agent/HARNESS.md exists on disk (2061B); APPEND_SYSTEM points at HARNESS.md (dirty).",
+      "residual": "HARNESS.md still gitignored — see PH-A-009."
+    },
+    {
+      "id": "PH-A-002",
+      "severity": "resolved",
+      "title": "settings.skills blanket deny blocked CE-lite",
+      "status": "fixed",
+      "evidence": "settings.skills == [\"!**/last30days/**\"] only; 44 skill SKILL.md on disk."
+    },
+    {
+      "id": "PH-A-003",
+      "severity": "resolved",
+      "title": "Root gitignore denied almost all harness intent",
+      "status": "mostly-fixed",
+      "evidence": ".gitignore whitelists settings, AGENTS, APPEND_SYSTEM, skills/**, agents/**, extensions/**, context-prune/**.",
+      "residual": "HARNESS.md and harness-inventory.json still under deny-all; SYSTEM.md/README allowlisted but missing."
+    },
+    {
+      "id": "PH-A-004",
+      "severity": "high",
+      "title": "No validation command surface, hooks, or CI for harness changes",
+      "status": "open",
+      "dimension": "changeValidation",
+      "evidence": [
+        "core.hooksPath unset",
+        "no .github/workflows, .pre-commit-config.yaml, Makefile, or agent/package.json",
+        "harness-doctor skill present but not an automated gate",
+        "lead saw only opportunistic node --test, not a harness check"
+      ],
+      "impact": "P0-class settings/gitignore regressions can ship without a mechanical check.",
+      "remediation": "Add a minimal doctor/preflight script + optional pre-commit or CI job: validate settings.json JSON, skills filter does not contain !**, required files tracked, extensions paths exist."
+    },
+    {
+      "id": "PH-A-005",
+      "severity": "medium",
+      "title": "Observability and inventory not operationalized",
+      "status": "open",
+      "dimension": "learningCapture",
+      "evidence": [
+        "observability/history.jsonl: 4 lines, token_metrics only",
+        "harness-inventory.json generated 2026-07-30T16:03:28+0100, gitignored, not refreshed after P0"
+      ],
+      "impact": "Cannot verify skill-load health or package drift from repo history.",
+      "remediation": "Refresh inventory post-P0; whitelist or export a slim inventory artifact; emit skill-load/doctor events into history or a tracked summary."
+    },
+    {
+      "id": "PH-A-006",
+      "severity": "resolved",
+      "title": "Working tree was an untracked skills dump",
+      "status": "mostly-fixed",
+      "evidence": "395 agent paths tracked after bef82d7/9398367; __pycache__ removed from index.",
+      "residual": "last30days bulk binaries still tracked — PH-A-010."
+    },
+    {
+      "id": "PH-A-007",
+      "severity": "resolved",
+      "title": "Project profile empty because tracking ≠ harness surface",
+      "status": "mitigated",
+      "evidence": "skills/agents/extensions now visible to git; packet profile emptiness is stale relative to disk."
+    },
+    {
+      "id": "PH-A-008",
+      "severity": "resolved",
+      "title": "transcript-pruner.ts untracked",
+      "status": "fixed",
+      "evidence": "extensions/** whitelisted; transcript-pruner.ts tracked and listed in settings.extensions."
+    },
+    {
+      "id": "PH-A-009",
+      "severity": "high",
+      "title": "HARNESS.md is live contract but still gitignored and untracked",
+      "status": "open",
+      "dimension": "reliableDelivery",
+      "evidence": [
+        "git check-ignore -v agent/HARNESS.md → .gitignore:2:*",
+        "git ls-files agent/HARNESS.md empty",
+        "APPEND_SYSTEM.md (dirty) and AGENTS.md both declare HARNESS.md as harness contract",
+        "HARNESS.md itself says track HARNESS.md in repo"
+      ],
+      "impact": "Fresh clone/install misses the tool-execution and skills-policy contract APPEND_SYSTEM points at.",
+      "remediation": "Add !agent/HARNESS.md to .gitignore and git add -f agent/HARNESS.md; commit with APPEND_SYSTEM.md pointer change.",
+      "priority": "P0-residual"
+    },
+    {
+      "id": "PH-A-010",
+      "severity": "high",
+      "title": "last30days skill tree ~16MB tracked including media binaries",
+      "status": "open",
+      "dimension": "reliableDelivery",
+      "evidence": [
+        "124 tracked files under agent/skills/last30days",
+        "SKILL.md 222272 bytes",
+        "tracked assets: dog-original.jpeg 4.0MB, aging-portrait.jpeg 2.8MB, swimmom-mockup.jpeg 2.8MB, dog-as-human.png 2.5MB, claude-code-rap.mp3 2.4MB",
+        "settings denies skill load; AGENTS/HARNESS require slim ~5–8KB top-level + references/"
+      ],
+      "impact": "Repo bloat, noisy diffs, accidental context load if skills filter regresses to allow-all.",
+      "remediation": "Untrack assets/* and non-essential scripts from this harness repo (or replace with package dependency); slim SKILL.md; keep settings deny until slim.",
+      "priority": "P1"
+    },
+    {
+      "id": "PH-A-011",
+      "severity": "medium",
+      "title": "Local extensions claimed in AGENTS but not enabled in settings",
+      "status": "open",
+      "dimension": "controlledExecution",
+      "evidence": [
+        "On disk: tool-trimmer.ts, session-index.ts, invest-tools.ts, transcript-pruner.ts, pi-lean-ctx/",
+        "settings.extensions enables only transcript-pruner.ts among local paths",
+        "AGENTS.md lists tool-trimmer, session-index, invest-tools as Local extensions without enablement caveat"
+      ],
+      "impact": "Operators believe trim/index/invest hooks are active; sessions may lack them.",
+      "remediation": "Either enable the three TS extensions in settings.extensions or mark them optional/disabled in AGENTS.md; document pi-lean-ctx load path (package vs local)."
+    },
+    {
+      "id": "PH-A-012",
+      "severity": "medium",
+      "title": "gitignore allowlists missing SYSTEM.md and README.md",
+      "status": "open",
+      "dimension": "taskUnderstanding",
+      "evidence": [
+        "!.gitignore entries for agent/SYSTEM.md and README.md",
+        "neither file exists on disk"
+      ],
+      "impact": "Dead allowlist entries; no root README for clone consumers.",
+      "remediation": "Add a short root README describing install/intent track table, or drop dead allowlist lines; only add SYSTEM.md if it has a distinct role from HARNESS/AGENTS."
+    },
+    {
+      "id": "PH-A-013",
+      "severity": "medium",
+      "title": "Untracked agent/git/ nested mirror (~221MB) not ignored",
+      "status": "open",
+      "dimension": "reliableDelivery",
+      "evidence": [
+        "?? agent/git/ in status",
+        "du -sh agent/git → 221M",
+        "git check-ignore does not ignore agent/git (directory traversal !*/)"
+      ],
+      "impact": "Accidental git add agent/git would explode the config repo.",
+      "remediation": "Add agent/git/ to .gitignore; delete or relocate the mirror outside the repo."
+    },
+    {
+      "id": "PH-A-014",
+      "severity": "low",
+      "title": "P0 APPEND_SYSTEM→HARNESS pointer uncommitted",
+      "status": "open",
+      "dimension": "reliableDelivery",
+      "evidence": [
+        "git status: M agent/APPEND_SYSTEM.md",
+        "diff changes harness contract path from AGENTS.md to HARNESS.md"
+      ],
+      "impact": "Tracked APPEND still points at AGENTS.md while live file points at untracked HARNESS.md — split-brain for anyone reading HEAD vs worktree.",
+      "remediation": "Commit APPEND_SYSTEM.md together with HARNESS.md whitelist+add (PH-A-009)."
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "PH-A-R1",
+      "priority": "P0-residual",
+      "title": "Version HARNESS.md and commit APPEND_SYSTEM pointer",
+      "actions": [
+        "Add !agent/HARNESS.md to .gitignore",
+        "git add agent/HARNESS.md agent/APPEND_SYSTEM.md .gitignore",
+        "Verify git check-ignore agent/HARNESS.md is empty and ls-files shows it"
+      ],
+      "closes": [
+        "PH-A-009",
+        "PH-A-014"
+      ]
+    },
+    {
+      "id": "PH-A-R2",
+      "priority": "P1",
+      "title": "Purge last30days media and slim skill entry",
+      "actions": [
+        "git rm -r --cached agent/skills/last30days/assets (or whole non-slim tree)",
+        "Ignore assets binaries; keep deny in settings until SKILL.md ≤ ~8KB",
+        "Prefer package-provided last30days tools over vendored tree in this repo"
+      ],
+      "closes": [
+        "PH-A-010"
+      ]
+    },
+    {
+      "id": "PH-A-R3",
+      "priority": "P1",
+      "title": "Wire a harness preflight gate",
+      "actions": [
+        "Script: JSON-parse settings.json; assert skills filter has no blanket !**; assert AGENTS.md+HARNESS.md tracked; assert each settings.extensions path exists",
+        "Optional: pre-commit hook or gh workflow on agent/** paths",
+        "Document one command in AGENTS.md (e.g. harness-doctor / npm script)"
+      ],
+      "closes": [
+        "PH-A-004"
+      ]
+    },
+    {
+      "id": "PH-A-R4",
+      "priority": "P2",
+      "title": "Resolve extension enablement drift",
+      "actions": [
+        "Enable tool-trimmer/session-index/invest-tools or document as disabled",
+        "Align AGENTS.md Local extensions list with settings.extensions"
+      ],
+      "closes": [
+        "PH-A-011"
+      ]
+    },
+    {
+      "id": "PH-A-R5",
+      "priority": "P2",
+      "title": "Ignore agent/git; refresh or drop inventory artifact",
+      "actions": [
+        "gitignore agent/git/",
+        "Regenerate harness-inventory.json after P0; whitelist !agent/harness-inventory.json if it is a delivery artifact, else treat as local-only and document"
+      ],
+      "closes": [
+        "PH-A-013",
+        "PH-A-005"
+      ]
+    },
+    {
+      "id": "PH-A-R6",
+      "priority": "P3",
+      "title": "Fill or remove dead allowlists; thin README",
+      "actions": [
+        "Add root README.md for clone/install map or remove !README.md",
+        "Drop !agent/SYSTEM.md unless a distinct SYSTEM surface is planned"
+      ],
+      "closes": [
+        "PH-A-012"
+      ]
+    }
+  ],
+  "softwareFluencyNarrative": {
+    "summary": "Post-P0 the harness crossed from 'invisible config dump' to a partially versioned agent home: skills unlocked, AGENTS.md present, gitignore whitelist real, 395 paths tracked, remote set. Fluency is still mid-low because the declared contract file (HARNESS.md) is not delivered via git, validation is absent, last30days binaries dominate weight, and learning signals (inventory/obs) are stale or token-only.",
+    "byDimension": {
+      "taskUnderstanding": "Contract docs exist and cross-link; delivery incomplete without tracked HARNESS.md.",
+      "controlledExecution": "Policy filter fixed; enablement drift and no enforcement gate remain.",
+      "changeValidation": "Still the weakest dimension — doctor skill ≠ gate.",
+      "reliableDelivery": "Much improved tracking; residual ignore holes and bulk skill tree.",
+      "learningCapture": "Minimal; inventory pre-dates P0."
+    }
+  },
+  "crossCheckWithLead": {
+    "leadMode": "session-rich",
+    "aligned": [
+      "Lead validation-behavior (rare node --test) matches absence of harness CI/hooks (PH-A-004).",
+      "Lead friction around skills/policy is explained by pre-P0 blanket deny; disk now open except last30days.",
+      "Session-rich lead cannot substitute for missing project validation surface."
+    ],
+    "diverged": [
+      "Packet trackedFiles=3 and agentInstructions=none are stale vs disk (395 tracked, AGENTS+HARNESS present).",
+      "Lead does not surface HARNESS.md gitignore hole or last30days binary bulk — Pass A disk-only findings."
+    ],
+    "useLeadFor": "Session friction and observed tool habits only; do not score delivery from lead alone."
+  },
+  "reviewMatrixLocal": {
+    "instructionContract": "partial — AGENTS tracked; HARNESS untracked",
+    "skillsPolicy": "good — deny only last30days",
+    "gitignoreIntent": "partial — whitelist broad; HARNESS/inventory holes",
+    "extensionsAlignment": "partial — 1/4 local TS enabled",
+    "validationGate": "missing",
+    "observability": "thin",
+    "bulkAssets": "last30days media tracked",
+    "nestedCloneRisk": "agent/git 221MB untracked"
+  },
+  "openQuestions": [
+    "Should last30days live only as npm package (last30days-pi) with zero vendored tree in this repo?",
+    "Are tool-trimmer/session-index/invest-tools intentionally disabled or an incomplete rollout?",
+    "Is harness-inventory.json meant to be committed or purely local doctor output?",
+    "What is agent/git/ for (offline mirror?) and can it move outside ~/.pi?"
+  ],
+  "confidence": {
+    "overall": "high",
+    "scoring": "medium-high",
+    "notes": [
+      "Static git+filesystem evidence strong for residual P0 holes",
+      "Did not execute pi session or harness-doctor live",
+      "Packet metrics intentionally discounted where disk advanced"
+    ]
+  },
+  "agentId": "project-harness",
+  "status": "completed",
+  "topActions": [
+    "Whitelist+track HARNESS.md and commit APPEND_SYSTEM.md pointer (PH-A-R1)",
+    "Remove/untrack last30days assets and slim skill (PH-A-R2)",
+    "Add settings/extensions/skills preflight gate (PH-A-R3)",
+    "Align or enable local extensions; gitignore agent/git (PH-A-R4/R5)"
+  ],
+  "evidenceGaps": [
+    "Runtime confirmation that settings.extensions paths load",
+    "Whether lean-ctx tools bind without local extensions entry",
+    "Actual install.sh / clone path for pi-agent-home consumers"
+  ],
+  "blockedReason": null,
+  "scoreDeltaVsPriorPassA": {
+    "priorOverall": 1.6,
+    "currentOverall": 2.4,
+    "note": "Prior handoff pre- or mid-P0; scores raised on taskUnderstanding, controlledExecution, reliableDelivery after skills unlock + AGENTS + whitelist. changeValidation and learningCapture flat."
+  }
+}

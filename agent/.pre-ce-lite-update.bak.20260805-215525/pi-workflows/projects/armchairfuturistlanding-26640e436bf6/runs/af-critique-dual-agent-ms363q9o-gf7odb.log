@@ -1,0 +1,2 @@
+[2026-07-27T12:02:45.762Z] [ERROR] agent Assessment B: Detector + Browser Evidence agent 2 attempt 1/1 failed: Agent "Assessment B: Detector + Browser Evidence agent 2" timed out after 600000ms; raise or omit timeoutMs/agentTimeoutMs to allow longer runs
+[2026-07-27T12:02:45.762Z] [INFO] agent "Assessment B: Detector + Browser Evidence agent 2" exhausted 1 attempt: AGENT_TIMEOUT Agent "Assessment B: Detector + Browser Evidence agent 2" timed out after 600000ms; raise or omit timeoutMs/agentTimeoutMs to allow longer runs

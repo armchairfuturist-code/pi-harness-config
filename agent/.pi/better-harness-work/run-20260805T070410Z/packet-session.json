@@ -1,0 +1,583 @@
+{
+  "laneStatus": "available",
+  "data": {
+    "schemaVersion": 3,
+    "kind": "session-core-facts",
+    "scope": {
+      "platform": "pi",
+      "workspace": "agent",
+      "until": "2026-08-05T00:00:00.000Z",
+      "selection": "all-eligible",
+      "eligibleSessions": 17,
+      "selectedSessions": 17,
+      "sampled": false
+    },
+    "candidateSelection": {
+      "strategy": "agent-work-loop-portfolio-v1",
+      "availableClasses": {
+        "validation-repair": 2,
+        "boundary-change": 21,
+        "lifecycle-demand": 3,
+        "operation-control": 21,
+        "read-only-work": 20
+      },
+      "emittedClasses": {
+        "validation-repair": 2,
+        "boundary-change": 5,
+        "lifecycle-demand": 1,
+        "operation-control": 5,
+        "read-only-work": 5
+      }
+    },
+    "admission": {
+      "taskEpisodes": 31,
+      "candidateEpisodes": 22,
+      "distinctRequests": 22,
+      "emittedCandidates": 5
+    },
+    "populationCoverage": {
+      "withChanges": 0,
+      "withChecks": 2,
+      "withReviewedRelevantCheck": 0,
+      "withResultSignal": 20,
+      "withAssistantHandoff": 20,
+      "withStructuredCompletion": 0,
+      "withUserCorrection": 0,
+      "withExecutionFriction": 21,
+      "withFrictionConsequence": 0
+    },
+    "observationCoverage": {
+      "withChanges": 0,
+      "withChecks": 2,
+      "withReviewedRelevantCheck": 0,
+      "withResultSignal": 5,
+      "withAssistantHandoff": 5,
+      "withStructuredCompletion": 0,
+      "withUserCorrection": 0,
+      "withExecutionFriction": 5,
+      "withFrictionConsequence": 0
+    },
+    "admissionSupport": {
+      "semanticGuardrails": [
+        "occurrences-not-distinct-episodes",
+        "coverage-not-suggestion",
+        "omitted-details-not-signal-evidence",
+        "project-capability-inventory-unobserved"
+      ],
+      "sharedFrictionConsequences": []
+    },
+    "candidates": [
+      {
+        "ref": "E1",
+        "contextGroup": "G1",
+        "request": {
+          "summary": "do it.",
+          "key": "req:f51c362d5cc7",
+          "occurrences": 1,
+          "intermediate": "ok, lets ensure this change is applied to this current pi configuration, then lets update the remote repo master abd rea…",
+          "followUp": "test b first to test if its actuslly a better connected ce-flow, then lets decide on a or b",
+          "observedTurns": 3,
+          "omittedTurns": 0
+        },
+        "changes": {
+          "edits": 0,
+          "files": 0
+        },
+        "evidenceClasses": [
+          "validation-repair",
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ],
+        "acceptanceSignals": [
+          "check-observed",
+          "assistant-handoff"
+        ],
+        "acceptanceEvidenceCeiling": "lead",
+        "frictionConsequenceSignals": [],
+        "activity": {
+          "toolCalls": 19
+        },
+        "workTrace": {
+          "steps": [
+            "change",
+            "check",
+            "handoff"
+          ]
+        },
+        "checks": [
+          {
+            "kind": "node---test",
+            "status": "passed",
+            "relation": "no-change-context"
+          },
+          {
+            "kind": "node---test",
+            "status": "passed",
+            "relation": "no-change-context"
+          }
+        ],
+        "friction": {
+          "executionFailures": 5,
+          "permissionDenials": 0
+        },
+        "closure": "no-change-observed",
+        "result": {
+          "assistantHandoffObserved": true
+        }
+      },
+      {
+        "ref": "E2",
+        "contextGroup": "G2",
+        "request": {
+          "summary": "/skill:autoresearch-create audit existing autoresearch and review the latest harness engineering techniques and lets improve our existing configuration in token efficiency,accuracy, tool calls, memory etc - review existing plugins and consi…",
+          "key": "req:6a6e01ef6893",
+          "occurrences": 1,
+          "intermediate": "lets actualy audit context-mode - its clearly a big part of the token savings we are lookig for (ref: https://github.com…",
+          "followUp": "ok - the changes should be active now - is there anything else that can be audited via ponytail that can be compressed further? Any system prompts native to pi …",
+          "observedTurns": 7,
+          "omittedTurns": 4
+        },
+        "changes": {
+          "edits": 0,
+          "files": 0
+        },
+        "evidenceClasses": [
+          "validation-repair",
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ],
+        "acceptanceSignals": [
+          "check-observed",
+          "assistant-handoff"
+        ],
+        "acceptanceEvidenceCeiling": "lead",
+        "frictionConsequenceSignals": [],
+        "activity": {
+          "toolCalls": 17
+        },
+        "workTrace": {
+          "steps": [
+            "change",
+            "check",
+            "handoff"
+          ]
+        },
+        "checks": [
+          {
+            "kind": "lint",
+            "status": "passed",
+            "relation": "no-change-context"
+          }
+        ],
+        "friction": {
+          "executionFailures": 11,
+          "permissionDenials": 0
+        },
+        "closure": "no-change-observed",
+        "result": {
+          "assistantHandoffObserved": true
+        }
+      },
+      {
+        "ref": "E3",
+        "contextGroup": "G3",
+        "request": {
+          "summary": "completely remove the OMP agent harness from this system, including all associated plugins. Ask questions if yo uare unsure of what to remove",
+          "key": "req:8b79c326a373",
+          "occurrences": 1,
+          "intermediate": "1. if the <path> harness binary doesnt use RTK or headroom - lets remove them both. If I want to install them for anothe…",
+          "followUp": "great- lets continue harness improvements with this: ~/Projects/pi-harness-config/research/harness-survey-actions-20260730.md",
+          "observedTurns": 8,
+          "omittedTurns": 5
+        },
+        "changes": {
+          "edits": 0,
+          "files": 0
+        },
+        "evidenceClasses": [
+          "boundary-change",
+          "lifecycle-demand",
+          "operation-control",
+          "read-only-work"
+        ],
+        "acceptanceSignals": [
+          "assistant-handoff"
+        ],
+        "acceptanceEvidenceCeiling": "lead",
+        "frictionConsequenceSignals": [],
+        "activity": {
+          "toolCalls": 26
+        },
+        "workTrace": {
+          "steps": [
+            "change",
+            "handoff"
+          ]
+        },
+        "checks": [],
+        "friction": {
+          "executionFailures": 7,
+          "permissionDenials": 0
+        },
+        "closure": "no-change-observed",
+        "lifecycle": [
+          {
+            "intent": "documentation-maintenance",
+            "family": "documentation-maintenance",
+            "dimensionId": "reliable-delivery",
+            "checkId": "acceptance-evidence",
+            "confidence": "High"
+          }
+        ],
+        "result": {
+          "assistantHandoffObserved": true
+        }
+      },
+      {
+        "ref": "E4",
+        "contextGroup": "G4",
+        "request": {
+          "summary": "could I use https://github.com/QoderAI/better-harness repo to improve my harness performance via autoresearch or some other way? thoughts?",
+          "key": "req:1ba6f21ebe07",
+          "occurrences": 1,
+          "followUp": "yes",
+          "observedTurns": 2,
+          "omittedTurns": 0
+        },
+        "changes": {
+          "edits": 0,
+          "files": 0
+        },
+        "evidenceClasses": [
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ],
+        "acceptanceSignals": [
+          "assistant-handoff"
+        ],
+        "acceptanceEvidenceCeiling": "lead",
+        "frictionConsequenceSignals": [],
+        "activity": {
+          "toolCalls": 1
+        },
+        "workTrace": {
+          "steps": [
+            "change",
+            "handoff"
+          ]
+        },
+        "checks": [],
+        "friction": {
+          "executionFailures": 5,
+          "permissionDenials": 0
+        },
+        "closure": "no-change-observed",
+        "result": {
+          "assistantHandoffObserved": true
+        }
+      },
+      {
+        "ref": "E5",
+        "contextGroup": "G5",
+        "request": {
+          "summary": "If you had to pick one obvious low hanging fruit from all my pi sessions that has still gone unaddressed in the last 30 days - what might it be?",
+          "key": "req:7268214f91c4",
+          "occurrences": 1,
+          "intermediate": "1. We can likely remove RTK entirely since it was only for OMP, or is another harness using it? if now - yeah, remove se…",
+          "followUp": "only commit if the master isn't updated: https://github.com/armchairfuturist-code/pi-harness-config",
+          "observedTurns": 6,
+          "omittedTurns": 3
+        },
+        "changes": {
+          "edits": 0,
+          "files": 0
+        },
+        "evidenceClasses": [
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ],
+        "acceptanceSignals": [
+          "assistant-handoff"
+        ],
+        "acceptanceEvidenceCeiling": "lead",
+        "frictionConsequenceSignals": [],
+        "activity": {
+          "toolCalls": 2
+        },
+        "workTrace": {
+          "steps": [
+            "change",
+            "handoff"
+          ]
+        },
+        "checks": [],
+        "friction": {
+          "executionFailures": 8,
+          "permissionDenials": 0
+        },
+        "closure": "no-change-observed",
+        "result": {
+          "assistantHandoffObserved": true
+        }
+      }
+    ],
+    "omitted": {
+      "noRequest": 1,
+      "selfAnalysis": 0,
+      "lowSignal": 8,
+      "duplicateRequests": 0,
+      "candidateBudget": 17,
+      "checkBudget": 0,
+      "activeSessions": 0,
+      "homeSessionOnly": 0
+    },
+    "warningCodes": [],
+    "excludes": [
+      "assistantText",
+      "rawPrompts",
+      "commands",
+      "toolOutput",
+      "paths",
+      "rawIds",
+      "secrets"
+    ],
+    "diagnosticFlags": [
+      "portfolio-truncated",
+      "population-portfolio-divergence",
+      "no-change-evidence",
+      "no-reviewed-relevant-check-evidence"
+    ],
+    "cost": {
+      "serializedBytes": 6893,
+      "estimatedTokens": 1725
+    },
+    "sessionWorkspaceMatch": {
+      "kind": "better-harness.session-workspace-match",
+      "schemaVersion": 1,
+      "preflight": {
+        "basis": "workspace-match-aggregate",
+        "sessions": 17,
+        "qualified": {
+          "directCwd": 17,
+          "rootCwd": 0
+        },
+        "omitted": {
+          "unmatchedCwd": 0,
+          "noTargetActivity": 0,
+          "mixedActivity": 0,
+          "ambiguousActivity": 0,
+          "truncatedPreflight": 0
+        }
+      },
+      "hydration": {
+        "basis": "workspace-match-aggregate",
+        "sessions": 0,
+        "qualified": {
+          "directCwd": 0,
+          "rootCwd": 0
+        },
+        "omitted": {
+          "unmatchedCwd": 0,
+          "noTargetActivity": 0,
+          "mixedActivity": 0,
+          "ambiguousActivity": 0,
+          "truncatedPreflight": 0
+        }
+      }
+    },
+    "populationBinding": {
+      "schemaVersion": 1,
+      "kind": "session-population-binding",
+      "scopeFingerprint": "74969dba1b6104a5",
+      "policyFingerprint": "d3fab89d54cbb03b",
+      "omission": {
+        "exactIdentityAvailable": true,
+        "activeSessions": 0,
+        "homeSessionOnly": 0,
+        "recencyInference": "disabled-frozen-until"
+      },
+      "eligible": {
+        "count": 17,
+        "fingerprint": "d33a3de45894cfc8"
+      }
+    },
+    "selectionBinding": {
+      "schemaVersion": 1,
+      "kind": "session-selection-binding",
+      "parentPopulationFingerprint": "d33a3de45894cfc8",
+      "strategy": "all-eligible",
+      "selected": {
+        "count": 17,
+        "fingerprint": "d33a3de45894cfc8"
+      },
+      "projectionPolicyFingerprint": "efaf47eb0decc0c8"
+    },
+    "admissionBinding": {
+      "schemaVersion": 1,
+      "kind": "session-admission-binding",
+      "projectionPolicyFingerprint": "efaf47eb0decc0c8",
+      "taskEpisodes": 31,
+      "candidateEpisodes": 22,
+      "distinctRequests": 22,
+      "emittedCandidates": 5,
+      "noRequest": 1,
+      "selfAnalysis": 0,
+      "lowSignal": 8,
+      "duplicateRequests": 0,
+      "candidateBudget": 17
+    }
+  },
+  "context": {
+    "workspace": "/home/alex/.pi/agent",
+    "provider": "pi",
+    "language": "en",
+    "depth": "normal",
+    "window": {
+      "since": "2026-07-06T00:00:00.000Z",
+      "until": "2026-08-05T00:00:00.000Z"
+    },
+    "topology": {
+      "kind": "better-harness.workspace-topology",
+      "schemaVersion": 1,
+      "status": "complete",
+      "requestedWorkspace": "/home/alex/.pi/agent",
+      "gitRoot": "/home/alex/.pi",
+      "target": {
+        "kind": "repo-subtree",
+        "route": "agent",
+        "memberRoute": null,
+        "memberMatch": "none"
+      },
+      "members": {
+        "items": [
+          {
+            "route": "agent/skills/last30days/scripts/lib/vendor/bird-search",
+            "kind": "convention",
+            "discoveredBy": [
+              "nested-package-manifest"
+            ],
+            "manifestRoute": null
+          }
+        ],
+        "total": 1,
+        "omitted": 0,
+        "truncated": false
+      },
+      "instructionScopes": {
+        "items": [
+          {
+            "route": "agent/AGENTS.md",
+            "provider": "codex",
+            "activation": "effective"
+          },
+          {
+            "route": "agent/AGENTS.md",
+            "provider": "copilot",
+            "activation": "effective"
+          },
+          {
+            "route": "agent/AGENTS.md",
+            "provider": "cursor",
+            "activation": "candidate"
+          },
+          {
+            "route": "agent/AGENTS.md",
+            "provider": "pi",
+            "activation": "effective"
+          },
+          {
+            "route": "agent/AGENTS.md",
+            "provider": "qoder",
+            "activation": "candidate"
+          },
+          {
+            "route": "agent/AGENTS.md",
+            "provider": "qwen",
+            "activation": "effective"
+          }
+        ],
+        "total": 6,
+        "omitted": 0,
+        "truncated": false
+      },
+      "discovery": {
+        "inventoryMode": "git",
+        "ignoreMode": "git-index",
+        "tracked": 397,
+        "untracked": 1,
+        "scanned": 398,
+        "omitted": 0,
+        "truncated": false,
+        "warnings": []
+      }
+    }
+  },
+  "diagnostics": {
+    "collectionMode": "frozen-context-multi-owner",
+    "requiredLanes": [
+      "sessionEvidence",
+      "projectHarness",
+      "agentCustomize"
+    ],
+    "incompleteLanes": [],
+    "unavailableLanes": [],
+    "partialLanes": [],
+    "leadRequired": true,
+    "topologyRequired": true,
+    "topologyStatus": "complete",
+    "topologyIncomplete": false,
+    "individualCommandsRemainDiagnostic": true,
+    "sessionPopulationBinding": {
+      "status": "bound",
+      "population": {
+        "schemaVersion": 1,
+        "kind": "session-population-binding",
+        "scopeFingerprint": "74969dba1b6104a5",
+        "policyFingerprint": "d3fab89d54cbb03b",
+        "omission": {
+          "exactIdentityAvailable": true,
+          "activeSessions": 0,
+          "homeSessionOnly": 0,
+          "recencyInference": "disabled-frozen-until"
+        },
+        "eligible": {
+          "count": 17,
+          "fingerprint": "d33a3de45894cfc8"
+        }
+      },
+      "sessionSelection": {
+        "schemaVersion": 1,
+        "kind": "session-selection-binding",
+        "parentPopulationFingerprint": "d33a3de45894cfc8",
+        "strategy": "all-eligible",
+        "selected": {
+          "count": 17,
+          "fingerprint": "d33a3de45894cfc8"
+        },
+        "projectionPolicyFingerprint": "efaf47eb0decc0c8"
+      },
+      "leadSelection": {
+        "schemaVersion": 1,
+        "kind": "session-selection-binding",
+        "parentPopulationFingerprint": "d33a3de45894cfc8",
+        "strategy": "all-eligible",
+        "selected": {
+          "count": 17,
+          "fingerprint": "d33a3de45894cfc8"
+        },
+        "projectionPolicyFingerprint": "8bb4426daa034174"
+      },
+      "episodes": {
+        "comparison": "not-comparable-selection-or-policy",
+        "sessionTaskEpisodes": 31,
+        "leadProjectedEpisodes": 31,
+        "leadRetainedEpisodes": 5,
+        "leadZeroSignalDiscardedEpisodes": 26
+      }
+    }
+  }
+}

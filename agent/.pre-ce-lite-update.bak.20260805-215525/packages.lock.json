@@ -1,0 +1,17 @@
+{
+  "@ogulcancelik/pi-model-thinking": "0.1.0",
+  "@plannotator/pi-extension": "0.25.1",
+  "cc-safety-net": "1.0.6",
+  "context-mode": "1.0.169",
+  "pi-autoresearch": "1.6.2",
+  "pi-cache-graph": "1.0.2",
+  "pi-cache-optimizer": "2.8.0",
+  "pi-context-usage": "1.0.2",
+  "pi-continue": "0.9.3",
+  "pi-herdr-btw": "0.3.0",
+  "pi-lean-ctx": "3.9.17",
+  "pi-slim": "0.2.1",
+  "pi-tscg": "0.2.4",
+  "@quintinshaw/pi-dynamic-workflows": "3.5.0",
+  "@samfp/pi-essentials": "0.2.3"
+}

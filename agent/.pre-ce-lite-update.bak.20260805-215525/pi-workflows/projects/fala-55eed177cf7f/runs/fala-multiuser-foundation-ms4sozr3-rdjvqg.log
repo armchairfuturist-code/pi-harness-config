@@ -1,0 +1,8 @@
+[2026-07-28T15:12:56.023Z] [ERROR] agent foundation-impl attempt 1/2 failed: Subagent produced no assistant output
+[2026-07-28T15:12:56.023Z] [INFO] agent "foundation-impl" attempt 1/2 failed: AGENT_EMPTY_OUTPUT Subagent produced no assistant output; retrying
+[2026-07-28T15:12:56.583Z] [ERROR] agent foundation-impl attempt 2/2 failed: Subagent produced no assistant output
+[2026-07-28T15:12:56.583Z] [INFO] agent "foundation-impl" exhausted 2 attempts: AGENT_EMPTY_OUTPUT Subagent produced no assistant output
+[2026-07-28T15:13:45.537Z] [ERROR] agent foundation-impl attempt 1/2 failed: Subagent produced no assistant output
+[2026-07-28T15:13:45.537Z] [INFO] agent "foundation-impl" attempt 1/2 failed: AGENT_EMPTY_OUTPUT Subagent produced no assistant output; retrying
+[2026-07-28T15:18:33.284Z] [ERROR] agent foundation-impl attempt 2/2 failed: Subagent produced no assistant output
+[2026-07-28T15:18:33.284Z] [INFO] agent "foundation-impl" exhausted 2 attempts: AGENT_EMPTY_OUTPUT Subagent produced no assistant output

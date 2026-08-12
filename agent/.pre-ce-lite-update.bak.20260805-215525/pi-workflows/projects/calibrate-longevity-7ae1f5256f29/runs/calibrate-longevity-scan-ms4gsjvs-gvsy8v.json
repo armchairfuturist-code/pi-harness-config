@@ -1,0 +1,154 @@
+{
+  "runId": "calibrate-longevity-scan-ms4gsjvs-gvsy8v",
+  "workflowName": "calibrate-longevity-scan",
+  "script": "export const meta = {\n  name: \"calibrate-longevity-scan\",\n  description: \"2024-2026 literature + repo scan for calibrate-longevity skill updates\",\n  phases: [{ title: \"research\" }, { title: \"report\" }],\n};\n\nphase(\"research\");\nlog(\"Fanning out 3 research agents\");\n\nconst COMMON = `You are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.`;\n\nconst interventionsPrompt = `${COMMON}\n\nThe skill currently covers ONLY: T1 (magnesium, creatine, zone 2 cardio, time-restricted eating); T2 (NAD+ precursors NR/NMN, low-dose rapamycin, apigenin, glycine); T3 peptides (BPC-157, TB-500, SS-31, MOTS-c, sermorelin, ipamorelin); T3 cognition compounds (semax, noopept, dihexa, phenylpiracetam, modafinil/armodafinil). Retatrutide/GLP-1 appears only in one interaction note.\n\nResearch 2024-2026 evidence for at least:\n- GLP-1/GIP/glucagon agonists in non-diabetic longevity use (semaglutide SELECT, tirzepatide, retatrutide; lean-mass loss; microdosing trend)\n- Rapamycin: PEARL trial results, current weekly dosing consensus, ITP acarbose/canagliflozin results through 2025\n- NAD+ space: NMN regulatory status, NR vs NMN efficacy data, NAD IV evidence quality\n- Senolytics: fisetin human trials, dasatinib+quercetin status\n- Taurine (post-2023 Science aging paper human data), urolithin A, spermidine, GlyNAC RCTs\n- Metformin: TAME trial status, current consensus for non-diabetic longevity (did the 2024-2025 community shift against it?)\n- ITP pipeline results 2024-2026 (17a-estradiol, canagliflozin, anything new)\n- Peptides newly common in biohacker circulation: epitalon, GHK-Cu, thymosin alpha-1, KPV, humanin, DSIP, selank, CJC-1295, tesamorelin, 5-Amino-1MQ, SLU-PP-332, BAM-15\n- Creatine for cognition (2024-2025 RCTs), omega-3 index-targeted dosing, vitamin D VITAL follow-ups\n- Bryan Johnson Blueprint changes 2024-2026 (added/dropped and why) as community bellwether; notable Peter Attia / Huberman protocol shifts reflecting new evidence\n- Anything else a top-tier biohacker in mid-2026 considers table stakes that a 2023 protocol lacks\n\nReturn markdown, 15-25 findings, format:\n### [Intervention]\n- Status 2024-2026: ...\n- Evidence: (RCT/meta/ITP/preprint/anecdote) + effect size if known\n- Source: PMID/DOI/URL or (knowledge-only)\n- Skill delta: ADD as T1/T2/T3 / UPDATE / REMOVE-or-downgrade / IGNORE + one-line why\nEnd with \"## Priority deltas\": the 10 most important concrete changes, ranked.`;\n\nconst biomarkersPrompt = `${COMMON}\n\nThe skill currently: (a) computes PhenoAge from 9 routine blood markers with the Levine 2018 formula; (b) claims a \"GrimAge surrogate\" estimated from routine blood (no DNAm) — methodologically dubious, assess it; (c) has a coverage-targets marker table (ApoB, Lp(a), fasting insulin, hs-CRP, homocysteine, ferritin, vit D, thyroid, hormones, RBC Mg, NLR, VO2max, HRV...); (d) has optimal ranges stricter than lab ranges; (e) no epigenetic-clock, proteomic-clock, or imaging guidance.\n\nResearch 2024-2026 developments in at least:\n- Epigenetic clocks: DunedinPACE adoption, GrimAge v2/OMICmAge, causality-based clocks (AdaptAge/CausAge), and especially TEST-RETEST RELIABILITY / technical-noise critiques — can clocks detect N-of-1 intervention effects at all? (key 2024-2025 papers on measurement error vs effect size)\n- Proteomic aging clocks: organ-specific clocks (Oh et al Nature 2023 follow-ups), Argentieri et al 2024 Nature Medicine proteomic age clock, commercial availability (SomaLogic/Olink panels)\n- Standardization tooling: Biomarkers of Aging Consortium, biolearn, bioage R package — what is the community-standard way to compute clocks now?\n- New/ascendant blood markers: suPAR, GDF-15, GlycA, ceramide scores, omega-3 index, uACR, cystatin-C eGFR vs creatinine eGFR, ApoB (2024 NLA statement), Lp(a) one-time-lifetime-testing consensus and 2024-2026 Lp(a)-lowering drug trial readouts (pelacarsen/olpasiran/muvalaplin)\n- CGM in non-diabetics: what did 2024-2026 evidence do to its longevity use?\n- Imaging/screening: full-body MRI (Prenuvo) evidence debate, CCTA + Cleerly plaque AI, DEXA, multi-cancer early detection (Galleri) status\n- Functional markers: VO2max as vital sign updates, grip strength, home BP monitoring guidance, wearable HRV/sleep-staging validity studies 2024-2026\n- Gut microbiome consumer tests: current validity consensus\n- PhenoAge: any updated coefficients / PhenoAgeAccel practice; Klemera-Doubal status\n\nReturn markdown, 12-20 findings, format:\n### [Topic]\n- Status 2024-2026: ...\n- Evidence: ...\n- Source: PMID/DOI/URL or (knowledge-only)\n- Skill delta: ADD (which file/section) / UPDATE (what changes) / REMOVE-or-downgrade / IGNORE + why\nEnd with \"## Priority deltas\": the 10 most important concrete changes, ranked.`;\n\nconst reposPrompt = `${COMMON}\n\nTask: find ACTIVE open-source code repos (commits within ~18 months of 2026-07) that a longevity-calibration skill could reference or learn from. The skill today is pure prompt/markdown, zero code deps; it parses lab PDFs via an LLM extraction prompt and computes PhenoAge inline.\n\nCategories to scan (GitHub):\n(a) Biological age / aging-clock computation: pyaging, biolearn (Biomarkers of Aging Consortium), bioage R package (DunedinPACE/PhenoAge/GrimAge), methylclock, dnaMethyAge, ClockFoundation — which is the community standard now? Activity and maintenance status?\n(b) Lab-result parsing/digitization: OCR/PDF-to-structured lab extractors, HL7/FHIR personal-health tooling, open-source lab report parsers\n(c) Wearable data pipelines: Oura/Whoop/Garmin/Apple Health exporters and APIs; HRV/sleep analysis libs (hrv-analysis, NeuroKit2, etc.)\n(d) N-of-1 / self-experiment analysis tools (ABA design stats, personal analytics)\n(e) Longevity/biohacker dashboards, personal health data aggregators, awesome-longevity lists\n\nFor each repo: name, URL, one-line what-it-does, activity signal (last commit / stars if known), and \"Skill delta:\" — how the skill should reference it (e.g., \"point users with DNAm data at biolearn for a real GrimAge instead of the blood surrogate\"). Verify via web fetch if tools are available; tag (knowledge-only) otherwise. Prefer quality over quantity: 10-18 repos.\n\nReturn a markdown table, then \"## Recommended references\": top 5 with one-line justification each, then \"## Dead/abandoned to avoid\": anything that looks relevant but is unmaintained.`;\n\nconst results = await parallel([\n  () => agent(interventionsPrompt, { label: \"interventions-lit\", tier: \"medium\" }),\n  () => agent(biomarkersPrompt, { label: \"biomarkers-clocks-lit\", tier: \"medium\" }),\n  () => agent(reposPrompt, { label: \"code-repos\", tier: \"medium\" }),\n]);\n\nphase(\"report\");\n\nconst [interventions, biomarkers, repos] = results;\nconst missing = [];\nif (interventions == null) missing.push(\"interventions-lit\");\nif (biomarkers == null) missing.push(\"biomarkers-clocks-lit\");\nif (repos == null) missing.push(\"code-repos\");\nif (missing.length) log(\"Missing coverage: \" + missing.join(\", \"));\n\nreturn { interventions, biomarkers, repos, missing };",
+  "sessionId": "019fa813-8aa5-7cb7-851f-204ad9d7164e",
+  "status": "completed",
+  "tokenBudget": null,
+  "maxAgents": 3,
+  "agentTimeoutMs": 600000,
+  "concurrency": 3,
+  "agentRetries": 1,
+  "phases": [
+    "research",
+    "report"
+  ],
+  "currentPhase": "report",
+  "agents": [
+    {
+      "id": 1,
+      "callId": "calibrate-longevity-scan-ms4gsjvs-gvsy8v:0",
+      "label": "interventions-lit",
+      "phase": "research",
+      "prompt": "You are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.\n\nThe skill currently covers ONLY: T1 (magnesium, creatine, zone 2 cardio, time-restricted eating); T2 (NAD+ precursors NR/NMN, low-dose rapamycin, apigenin, glycine); T3 peptides (BPC-157, TB-500, SS-31, MOTS-c, sermorelin, ipamorelin); T3 cognition compounds (semax, noopept, dihexa, phenylpiracetam, modafinil/armodafinil). Retatrutide/GLP-1 appears only in one interaction note.\n\nResearch 2024-2026 evidence for at least:\n- GLP-1/GIP/glucagon agonists in non-diabetic longevity use (semaglutide SELECT, tirzepatide, retatrutide; lean-mass loss; microdosing trend)\n- Rapamycin: PEARL trial results, current weekly dosing consensus, ITP acarbose/canagliflozin results through 2025\n- NAD+ space: NMN regulatory status, NR vs NMN efficacy data, NAD IV evidence quality\n- Senolytics: fisetin human trials, dasatinib+quercetin status\n- Taurine (post-2023 Science aging paper human data), urolithin A, spermidine, GlyNAC RCTs\n- Metformin: TAME trial status, current consensus for non-diabetic longevity (did the 2024-2025 community shift against it?)\n- ITP pipeline results 2024-2026 (17a-estradiol, canagliflozin, anything new)\n- Peptides newly common in biohacker circulation: epitalon, GHK-Cu, thymosin alpha-1, KPV, humanin, DSIP, selank, CJC-1295, tesamorelin, 5-Amino-1MQ, SLU-PP-332, BAM-15\n- Creatine for cognition (2024-2025 RCTs), omega-3 index-targeted dosing, vitamin D VITAL follow-ups\n- Bryan Johnson Blueprint changes 2024-2026 (added/dropped and why) as community bellwether; notable Peter Attia / Huberman protocol shifts reflecting new evidence\n- Anything else a top-tier biohacker in mid-2026 considers table stakes that a 2023 protocol lacks\n\nReturn markdown, 15-25 findings, format:\n### [Intervention]\n- Status 2024-2026: ...\n- Evidence: (RCT/meta/ITP/preprint/anecdote) + effect size if known\n- Source: PMID/DOI/URL or (knowledge-only)\n- Skill delta: ADD as T1/T2/T3 / UPDATE / REMOVE-or-downgrade / IGNORE + one-line why\nEnd with \"## Priority deltas\": the 10 most important concrete changes, ranked.",
+      "status": "error",
+      "model": "Venice/kimi-k3",
+      "history": [
+        {
+          "role": "user",
+          "kind": "text",
+          "text": "Workflow phase: research\n\nTask label: interventions-lit\n\nYou are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.\n\nThe skill currently covers ONLY: T1 (magnesium, creatine, zone 2 cardio, time-restricted eating); T2 (NAD+ precursors NR/NMN, low-dose rapamycin, apigenin, glycine); T3 peptides (BPC-157, TB-500, SS-31, MOTS-c, sermorelin, ipamorelin); T3 cognition compounds (semax, noopept, dihexa, phenylpiracetam, modafinil/armodafinil). Retatrutide/GLP-1 appears only in one interaction note.\n\nResearch 2024-2026 evidence for at least:\n- GLP-1/GIP/glucagon agonists in non-diabetic longevity use (semaglutide SELECT, tirzepatide, retatrutide; lean-mass loss; microdosing trend)\n- Rapamycin: PEARL trial results, current weekly dosing consensus, ITP acarbose/canagliflozin results through 2025\n- NAD+ space: NMN regulatory status, NR vs NMN efficacy data, NAD IV evidence quality\n- Senolytics: fisetin human trials, dasatinib+quercetin status\n- Taurine (post-2023 Science aging paper human data), urolithin A, spermidine, GlyNAC RCTs\n- Metformin: TAME trial status, current consensus for non-diabetic longevity (did the 2024-2025 community shift against it?)\n- ITP pipeline results 2024-2026 (17a-estradiol, canagliflozin, anything new)\n- Peptides... [truncated]",
+          "timestamp": 1785231880791
+        },
+        {
+          "role": "assistant",
+          "kind": "error",
+          "text": "400 \"Extra inputs are not permitted, field: 'prompt_cache_retention', value: '24h'\"",
+          "isError": true,
+          "timestamp": 1785231880791
+        }
+      ],
+      "resultPreview": "null",
+      "error": "Subagent produced no assistant output",
+      "errorCode": "AGENT_EMPTY_OUTPUT",
+      "recoverable": true,
+      "tokens": 711,
+      "result": null,
+      "startedAt": "2026-07-28T09:39:46.220Z",
+      "endedAt": "2026-07-28T09:44:41.473Z"
+    },
+    {
+      "id": 2,
+      "callId": "calibrate-longevity-scan-ms4gsjvs-gvsy8v:1",
+      "label": "biomarkers-clocks-lit",
+      "phase": "research",
+      "prompt": "You are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.\n\nThe skill currently: (a) computes PhenoAge from 9 routine blood markers with the Levine 2018 formula; (b) claims a \"GrimAge surrogate\" estimated from routine blood (no DNAm) — methodologically dubious, assess it; (c) has a coverage-targets marker table (ApoB, Lp(a), fasting insulin, hs-CRP, homocysteine, ferritin, vit D, thyroid, hormones, RBC Mg, NLR, VO2max, HRV...); (d) has optimal ranges stricter than lab ranges; (e) no epigenetic-clock, proteomic-clock, or imaging guidance.\n\nResearch 2024-2026 developments in at least:\n- Epigenetic clocks: DunedinPACE adoption, GrimAge v2/OMICmAge, causality-based clocks (AdaptAge/CausAge), and especially TEST-RETEST RELIABILITY / technical-noise critiques — can clocks detect N-of-1 intervention effects at all? (key 2024-2025 papers on measurement error vs effect size)\n- Proteomic aging clocks: organ-specific clocks (Oh et al Nature 2023 follow-ups), Argentieri et al 2024 Nature Medicine proteomic age clock, commercial availability (SomaLogic/Olink panels)\n- Standardization tooling: Biomarkers of Aging Consortium, biolearn, bioage R package — what is the community-standard way to compute clocks now?\n- New/ascendant blood markers: suPAR, GDF-15, GlycA, ceramide scores, omega-3 index, uACR, cystatin-C eGFR vs creatinine eGFR, ApoB (2024 NLA statement), Lp(a) one-time-lifetime-testing consensus and 2024-2026 Lp(a)-lowering drug trial readouts (pelacarsen/olpasiran/muvalaplin)\n- CGM in non-diabetics: what did 2024-2026 evidence do to its longevity use?\n- Imaging/screening: full-body MRI (Prenuvo) evidence debate, CCTA + Cleerly plaque AI, DEXA, multi-cancer early detection (Galleri) status\n- Functional markers: VO2max as vital sign updates, grip strength, home BP monitoring guidance, wearable HRV/sleep-staging validity studies 2024-2026\n- Gut microbiome consumer tests: current validity consensus\n- PhenoAge: any updated coefficients / PhenoAgeAccel practice; Klemera-Doubal status\n\nReturn markdown, 12-20 findings, format:\n### [Topic]\n- Status 2024-2026: ...\n- Evidence: ...\n- Source: PMID/DOI/URL or (knowledge-only)\n- Skill delta: ADD (which file/section) / UPDATE (what changes) / REMOVE-or-downgrade / IGNORE + why\nEnd with \"## Priority deltas\": the 10 most important concrete changes, ranked.",
+      "status": "error",
+      "model": "Venice/kimi-k3",
+      "history": [
+        {
+          "role": "user",
+          "kind": "text",
+          "text": "Workflow phase: research\n\nTask label: biomarkers-clocks-lit\n\nYou are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.\n\nThe skill currently: (a) computes PhenoAge from 9 routine blood markers with the Levine 2018 formula; (b) claims a \"GrimAge surrogate\" estimated from routine blood (no DNAm) — methodologically dubious, assess it; (c) has a coverage-targets marker table (ApoB, Lp(a), fasting insulin, hs-CRP, homocysteine, ferritin, vit D, thyroid, hormones, RBC Mg, NLR, VO2max, HRV...); (d) has optimal ranges stricter than lab ranges; (e) no epigenetic-clock, proteomic-clock, or imaging guidance.\n\nResearch 2024-2026 developments in at least:\n- Epigenetic clocks: DunedinPACE adoption, GrimAge v2/OMICmAge, causality-based clocks (AdaptAge/CausAge), and especially TEST-RETEST RELIABILITY / technical-noise critiques — can clocks detect N-of-1 intervention effects at all? (key 2024-2025 papers on measurement error vs effect size)\n- Proteomic aging clocks: organ-specific clocks (Oh et al Nature 2023 follow-ups), Argentieri et al 2024 Nature Medicine proteomic age clock, commercial availability (SomaLogic/Olink panels)\n- Standardization tooling: Biomarkers of Aging Consortium, biolearn, bioage R package — what is the community-standard w... [truncated]",
+          "timestamp": 1785231817610
+        },
+        {
+          "role": "assistant",
+          "kind": "error",
+          "text": "400 \"Extra inputs are not permitted, field: 'prompt_cache_retention', value: '24h'\"",
+          "isError": true,
+          "timestamp": 1785231817610
+        }
+      ],
+      "resultPreview": "null",
+      "error": "Subagent produced no assistant output",
+      "errorCode": "AGENT_EMPTY_OUTPUT",
+      "recoverable": true,
+      "tokens": 773,
+      "result": null,
+      "startedAt": "2026-07-28T09:39:46.220Z",
+      "endedAt": "2026-07-28T09:43:38.223Z"
+    },
+    {
+      "id": 3,
+      "callId": "calibrate-longevity-scan-ms4gsjvs-gvsy8v:2",
+      "label": "code-repos",
+      "phase": "research",
+      "prompt": "You are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.\n\nTask: find ACTIVE open-source code repos (commits within ~18 months of 2026-07) that a longevity-calibration skill could reference or learn from. The skill today is pure prompt/markdown, zero code deps; it parses lab PDFs via an LLM extraction prompt and computes PhenoAge inline.\n\nCategories to scan (GitHub):\n(a) Biological age / aging-clock computation: pyaging, biolearn (Biomarkers of Aging Consortium), bioage R package (DunedinPACE/PhenoAge/GrimAge), methylclock, dnaMethyAge, ClockFoundation — which is the community standard now? Activity and maintenance status?\n(b) Lab-result parsing/digitization: OCR/PDF-to-structured lab extractors, HL7/FHIR personal-health tooling, open-source lab report parsers\n(c) Wearable data pipelines: Oura/Whoop/Garmin/Apple Health exporters and APIs; HRV/sleep analysis libs (hrv-analysis, NeuroKit2, etc.)\n(d) N-of-1 / self-experiment analysis tools (ABA design stats, personal analytics)\n(e) Longevity/biohacker dashboards, personal health data aggregators, awesome-longevity lists\n\nFor each repo: name, URL, one-line what-it-does, activity signal (last commit / stars if known), and \"Skill delta:\" — how the skill should reference it (e.g., \"point users with DNAm data at biolearn for a real GrimAge instead of the blood surrogate\"). Verify via web fetch if tools are available; tag (knowledge-only) otherwise. Prefer quality over quantity: 10-18 repos.\n\nReturn a markdown table, then \"## Recommended references\": top 5 with one-line justification each, then \"## Dead/abandoned to avoid\": anything that looks relevant but is unmaintained.",
+      "status": "error",
+      "model": "Venice/kimi-k3",
+      "history": [
+        {
+          "role": "user",
+          "kind": "text",
+          "text": "Workflow phase: research\n\nTask label: code-repos\n\nYou are a researcher feeding findings to an editor who maintains an AI skill called \"calibrate-longevity\" (turns bloodwork/DNA/tracker data into a ranked longevity plan: supplements, peptides, research compounds). Today is 2026-07-28. Focus ONLY on 2024-2026 developments — what is NEW, CHANGED, or DEBUNKED versus a 2023-era state of the art. Use web search and page-fetch tools if available to verify against primary sources (PubMed/clinicaltrials.gov/ITP publications/GitHub); prefer peer-reviewed over community claims. If web tools are unavailable, use training knowledge and tag those items \"(knowledge-only)\". Every finding must end with a \"Skill delta:\" line: ADD / UPDATE (what changes) / REMOVE-or-downgrade (why) / IGNORE (hype, why). Cite a source (PMID/DOI/URL) per finding.\n\nTask: find ACTIVE open-source code repos (commits within ~18 months of 2026-07) that a longevity-calibration skill could reference or learn from. The skill today is pure prompt/markdown, zero code deps; it parses lab PDFs via an LLM extraction prompt and computes PhenoAge inline.\n\nCategories to scan (GitHub):\n(a) Biological age / aging-clock computation: pyaging, biolearn (Biomarkers of Aging Consortium), bioage R package (DunedinPACE/PhenoAge/GrimAge), methylclock, dnaMethyAge, ClockFoundation — which is the community standard now? Activity and maintenance status?\n(b) Lab-result parsing/digitization: OCR/PDF-to-structured lab extractors, HL7/FHIR personal-health tooling, open-source lab report parsers\n(c) Wearable data pipelines: Oura/Whoop/Garmin/Apple Health exporters and APIs; HRV/sleep analysis libs (hrv-analysis, NeuroKit2, etc.)\n(d) N-of-1 / self-experiment analysis tools (ABA design stats, personal analytics)\n(e) Longevity/biohacker dashboards, personal health data aggregators, awesome-longevity lists\n\nFor each repo: name, URL, one-line what-it-does, activity signal (last commit / stars if known), and \"Skill delta:\"... [truncated]",
+          "timestamp": 1785231596517
+        },
+        {
+          "role": "assistant",
+          "kind": "error",
+          "text": "400 \"Extra inputs are not permitted, field: 'prompt_cache_retention', value: '24h'\"",
+          "isError": true,
+          "timestamp": 1785231596517
+        }
+      ],
+      "resultPreview": "null",
+      "error": "Subagent produced no assistant output",
+      "errorCode": "AGENT_EMPTY_OUTPUT",
+      "recoverable": true,
+      "tokens": 601,
+      "result": null,
+      "startedAt": "2026-07-28T09:39:46.220Z",
+      "endedAt": "2026-07-28T09:39:56.938Z"
+    }
+  ],
+  "logs": [
+    "Fanning out 3 research agents",
+    "agent code-repos attempt 1/2 failed: Subagent produced no assistant output",
+    "agent \"code-repos\" attempt 1/2 failed: AGENT_EMPTY_OUTPUT Subagent produced no assistant output; retrying",
+    "agent code-repos attempt 2/2 failed: Subagent produced no assistant output",
+    "agent \"code-repos\" exhausted 2 attempts: AGENT_EMPTY_OUTPUT Subagent produced no assistant output",
+    "agent biomarkers-clocks-lit attempt 1/2 failed: Subagent produced no assistant output",
+    "agent \"biomarkers-clocks-lit\" attempt 1/2 failed: AGENT_EMPTY_OUTPUT Subagent produced no assistant output; retrying",
+    "agent biomarkers-clocks-lit attempt 2/2 failed: Subagent produced no assistant output",
+    "agent \"biomarkers-clocks-lit\" exhausted 2 attempts: AGENT_EMPTY_OUTPUT Subagent produced no assistant output",
+    "agent interventions-lit attempt 1/2 failed: Subagent produced no assistant output",
+    "agent \"interventions-lit\" attempt 1/2 failed: AGENT_EMPTY_OUTPUT Subagent produced no assistant output; retrying",
+    "agent interventions-lit attempt 2/2 failed: Subagent produced no assistant output",
+    "agent \"interventions-lit\" exhausted 2 attempts: AGENT_EMPTY_OUTPUT Subagent produced no assistant output",
+    "Missing coverage: interventions-lit, biomarkers-clocks-lit, code-repos",
+    "Logs persisted to /home/alex/.pi/workflows/projects/calibrate-longevity-7ae1f5256f29/runs/calibrate-longevity-scan-ms4gsjvs-gvsy8v.log"
+  ],
+  "result": {
+    "interventions": null,
+    "biomarkers": null,
+    "repos": null,
+    "missing": [
+      "interventions-lit",
+      "biomarkers-clocks-lit",
+      "code-repos"
+    ]
+  },
+  "tokenUsage": {
+    "input": 41234,
+    "output": 14935,
+    "total": 81294,
+    "cost": 0,
+    "cacheRead": 23040,
+    "cacheWrite": 0
+  },
+  "startedAt": "2026-07-28T09:39:46.217Z",
+  "updatedAt": "2026-07-28T09:44:41.474Z",
+  "completedAt": "2026-07-28T09:44:41.474Z",
+  "durationMs": 295256
+}

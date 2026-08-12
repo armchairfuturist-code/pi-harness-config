@@ -1,0 +1,11 @@
+[2026-08-01T09:02:32.705Z] [ERROR] agent agent 1 attempt 1/1 failed: No API key found for amazon-bedrock.
+
+Use /login to log into a provider via OAuth or API key. See:
+  /home/alex/.local/share/fnm/node-versions/v24.17.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/docs/providers.md
+  /home/alex/.local/share/fnm/node-versions/v24.17.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/docs/models.md
+[2026-08-01T09:02:32.708Z] [INFO] agent "agent 1" exhausted 1 attempt: AGENT_EXECUTION_ERROR No API key found for amazon-bedrock.
+
+Use /login to log into a provider via OAuth or API key. See:
+  /home/alex/.local/share/fnm/node-versions/v24.17.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/docs/providers.md
+  /home/alex/.local/share/fnm/node-versions/v24.17.0/installation/lib/node_modules/@earendil-works/pi-coding-agent/docs/models.md
+[2026-08-01T09:02:32.708Z] [INFO] Logs persisted to /home/alex/.pi/workflows/projects/armchairfuturistlanding-26640e436bf6/runs/finish-review-msa58359-jbawd6.log

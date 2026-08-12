@@ -1,0 +1,71 @@
+{
+  "runId": "probe2-ms4agchm-q0dftb",
+  "workflowName": "probe2",
+  "script": "export const meta = { name: \"probe2\", description: \"probe file-reading agent\", phases: [{ id: \"p\", title: \"probe\" }] };\nphase(\"p\");\nconst r = await agent(\"Read the file /home/alex/Projects/mindscape-site/package.json and reply with the value of its 'name' field only.\", { label: \"probe2\", phase: \"p\" });\nreturn { r };",
+  "sessionId": "019fa768-c653-7c24-ba4d-8cdfaa314727",
+  "status": "completed",
+  "tokenBudget": null,
+  "maxAgents": 1,
+  "agentTimeoutMs": null,
+  "concurrency": 8,
+  "agentRetries": 0,
+  "phases": [
+    "probe",
+    "p"
+  ],
+  "currentPhase": "p",
+  "agents": [
+    {
+      "id": 1,
+      "callId": "probe2-ms4agchm-q0dftb:0",
+      "label": "probe2",
+      "phase": "p",
+      "prompt": "Read the file /home/alex/Projects/mindscape-site/package.json and reply with the value of its 'name' field only.",
+      "status": "error",
+      "model": "Venice/kimi-k3",
+      "history": [
+        {
+          "role": "user",
+          "kind": "text",
+          "text": "Workflow phase: p\n\nTask label: probe2\n\nRead the file /home/alex/Projects/mindscape-site/package.json and reply with the value of its 'name' field only.",
+          "timestamp": 1785220939078
+        },
+        {
+          "role": "assistant",
+          "kind": "error",
+          "text": "400 \"Extra inputs are not permitted, field: 'prompt_cache_retention', value: '24h'\"",
+          "isError": true,
+          "timestamp": 1785220939080
+        }
+      ],
+      "resultPreview": "null",
+      "error": "Subagent produced no assistant output",
+      "errorCode": "AGENT_EMPTY_OUTPUT",
+      "recoverable": true,
+      "tokens": 30,
+      "result": null,
+      "startedAt": "2026-07-28T06:42:19.068Z",
+      "endedAt": "2026-07-28T06:42:19.709Z"
+    }
+  ],
+  "logs": [
+    "agent probe2 attempt 1/1 failed: Subagent produced no assistant output",
+    "agent \"probe2\" exhausted 1 attempt: AGENT_EMPTY_OUTPUT Subagent produced no assistant output",
+    "Logs persisted to /home/alex/.pi/workflows/projects/mindscape-site-5d152b0e7015/runs/probe2-ms4agchm-q0dftb.log"
+  ],
+  "result": {
+    "r": null
+  },
+  "tokenUsage": {
+    "input": 0,
+    "output": 0,
+    "total": 30,
+    "cost": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+  },
+  "startedAt": "2026-07-28T06:42:19.067Z",
+  "updatedAt": "2026-07-28T06:42:19.709Z",
+  "completedAt": "2026-07-28T06:42:19.709Z",
+  "durationMs": 642
+}

@@ -1,0 +1,77 @@
+{
+  "runId": "ssb-brief-ms347m9o-b434fr",
+  "workflowName": "ssb-brief",
+  "script": "export const meta = {\n  name: \"ssb-brief\",\n  description: \"3-paragraph brief on solid-state batteries\",\n  phases: [\n    { name: \"research\", title: \"Parallel research on commercialization, technology, and market\" },\n    { name: \"synthesis\", title: \"Synthesize into 3-paragraph brief with sources\" }\n  ]\n};\n\nconst research = await parallel(\n  agent({\n    prompt: `Research the latest commercialization progress for solid-state batteries as of 2024-2025. Key companies (Toyota, QuantumScape, Solid Power, Samsung SDI, CATL, Factorial), announced timelines, pilot/production milestones, and any vehicles or products using solid-state cells. Return 4-6 concise bullet points WITH specific source URLs (news articles, press releases, reputable outlets).`,\n    tools: [\"ctx_fetch_and_index\", \"ctx_search\"]\n  }),\n  agent({\n    prompt: `Research the core technical advances and remaining challenges in solid-state battery technology as of 2024-2025. Cover: solid electrolyte chemistries (sulfide, oxide, polymer), lithium-metal anode issues (dendrites, interface resistance), manufacturing/scalability hurdles, and recent lab breakthroughs. Return 4-6 concise bullet points WITH specific source URLs (journal summaries, reputable tech/news outlets).`,\n    tools: [\"ctx_fetch_and_index\", \"ctx_search\"]\n  }),\n  agent({\n    prompt: `Research the market outlook and competitive landscape for solid-state batteries: projected market size, cost trajectory vs. conventional Li-ion, automotive OEM partnerships, and analyst forecasts for mainstream adoption. Return 4-6 concise bullet points WITH specific source URLs (analyst reports, reputable business/energy outlets).`,\n    tools: [\"ctx_fetch_and_index\", \"ctx_search\"]\n  })\n);\n\nconst brief = await agent({\n  prompt: `Synthesize the following research into a 3-paragraph brief on the current state of solid-state batteries. Paragraph 1: commercialization progress & timelines. Paragraph 2: technical advances & remaining challenges. Paragraph 3: market outlook & adoption forecast. Keep it tight, factual, non-hyped. After the three paragraphs, list a \"Sources\" section with the URLs provided, deduplicated. Research:\\n\\n${JSON.stringify(research, null, 2)}`\n});\n\nreturn brief;",
+  "args": {
+    "topic": "current state of solid-state batteries 2024-2025"
+  },
+  "sessionId": "019fa33a-d0e0-70fe-8fa2-091a0ea36984",
+  "journal": [],
+  "status": "failed",
+  "tokenBudget": null,
+  "agentTimeoutMs": null,
+  "concurrency": 8,
+  "agentRetries": 0,
+  "phases": [
+    "Parallel research on commercialization, technology, and market",
+    "Synthesize into 3-paragraph brief with sources"
+  ],
+  "agents": [
+    {
+      "id": 1,
+      "callId": "ssb-brief-ms347m9o-b434fr:0",
+      "label": "Parallel research on commercialization, technology, and market agent 1",
+      "phase": "Parallel research on commercialization, technology, and market",
+      "prompt": {
+        "prompt": "Research the latest commercialization progress for solid-state batteries as of 2024-2025. Key companies (Toyota, QuantumScape, Solid Power, Samsung SDI, CATL, Factorial), announced timelines, pilot/production milestones, and any vehicles or products using solid-state cells. Return 4-6 concise bullet points WITH specific source URLs (news articles, press releases, reputable outlets).",
+        "tools": [
+          "ctx_fetch_and_index",
+          "ctx_search"
+        ]
+      },
+      "status": "running",
+      "model": "Lilac/zai-org/glm-5.2",
+      "history": [],
+      "startedAt": "2026-07-27T10:59:47.967Z"
+    },
+    {
+      "id": 2,
+      "callId": "ssb-brief-ms347m9o-b434fr:1",
+      "label": "Parallel research on commercialization, technology, and market agent 2",
+      "phase": "Parallel research on commercialization, technology, and market",
+      "prompt": {
+        "prompt": "Research the core technical advances and remaining challenges in solid-state battery technology as of 2024-2025. Cover: solid electrolyte chemistries (sulfide, oxide, polymer), lithium-metal anode issues (dendrites, interface resistance), manufacturing/scalability hurdles, and recent lab breakthroughs. Return 4-6 concise bullet points WITH specific source URLs (journal summaries, reputable tech/news outlets).",
+        "tools": [
+          "ctx_fetch_and_index",
+          "ctx_search"
+        ]
+      },
+      "status": "running",
+      "model": "Lilac/zai-org/glm-5.2",
+      "history": [],
+      "startedAt": "2026-07-27T10:59:47.968Z"
+    },
+    {
+      "id": 3,
+      "callId": "ssb-brief-ms347m9o-b434fr:2",
+      "label": "Parallel research on commercialization, technology, and market agent 3",
+      "phase": "Parallel research on commercialization, technology, and market",
+      "prompt": {
+        "prompt": "Research the market outlook and competitive landscape for solid-state batteries: projected market size, cost trajectory vs. conventional Li-ion, automotive OEM partnerships, and analyst forecasts for mainstream adoption. Return 4-6 concise bullet points WITH specific source URLs (analyst reports, reputable business/energy outlets).",
+        "tools": [
+          "ctx_fetch_and_index",
+          "ctx_search"
+        ]
+      },
+      "status": "running",
+      "model": "Lilac/zai-org/glm-5.2",
+      "history": [],
+      "startedAt": "2026-07-27T10:59:47.968Z"
+    }
+  ],
+  "logs": [
+    "waiting for 3 outstanding agent() call(s) to settle before this run completes"
+  ],
+  "startedAt": "2026-07-27T10:59:47.964Z",
+  "updatedAt": "2026-07-27T10:59:47.981Z"
+}

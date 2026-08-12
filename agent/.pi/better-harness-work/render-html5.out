@@ -1,0 +1,37 @@
+{
+  "kind": "harness-report-render",
+  "status": "pass",
+  "mode": "html",
+  "language": "en",
+  "target": {
+    "name": "agent",
+    "path": "/home/alex/.pi/agent"
+  },
+  "runDir": "/home/alex/.pi/agent/.pi/better-harness",
+  "outputLocation": {
+    "requestedOut": "/home/alex/.pi/agent/.pi/better-harness",
+    "requestedRunDir": ".",
+    "resolvedOutDir": "/home/alex/.pi/agent/.pi/better-harness",
+    "resolvedRunDir": "/home/alex/.pi/agent/.pi/better-harness",
+    "policy": "relative-below-out"
+  },
+  "artifacts": [
+    {
+      "name": "findings.json",
+      "path": "/home/alex/.pi/agent/.pi/better-harness/findings.json"
+    },
+    {
+      "name": "report.md",
+      "path": "/home/alex/.pi/agent/.pi/better-harness/report.md"
+    },
+    {
+      "name": "report.html",
+      "path": "/home/alex/.pi/agent/.pi/better-harness/report.html"
+    }
+  ],
+  "repair": {
+    "changed": false,
+    "changeCount": 0
+  },
+  "validation": null
+}

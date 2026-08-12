@@ -1,0 +1,283 @@
+{
+  "schemaVersion": "better-harness.handoff/v1",
+  "agentId": "session-evidence",
+  "status": "completed",
+  "confidence": "medium",
+  "generatedAt": "2026-08-05T07:15:00.000Z",
+  "window": {
+    "start": "2026-07-05T00:00:00.000Z",
+    "end": "2026-08-05T07:04:10.000Z",
+    "p0AllowlistDocsAt": "2026-08-05T06:56:00.000Z",
+    "postP0MinutesInWindow": 8
+  },
+  "coverage": {
+    "eligibleSessions": 17,
+    "analyzedSessions": 17,
+    "selectionStrategy": "all-eligible",
+    "complete": true,
+    "packetCandidatesRetained": 5,
+    "packetCandidatesDiscarded": 26,
+    "independentParse": {
+      "scope": "sessions/--home-alex-.pi-agent-- JSONL, primary_dir_overlap",
+      "matchedEligibleCount": 17,
+      "withToolCalls": 16,
+      "toolCalls": 1778,
+      "toolResults": 1778,
+      "isError": 169,
+      "errorRate": 0.095,
+      "allowlistEvents": 143,
+      "editMissEvents": 11,
+      "editCalls": 119,
+      "readMissEvents": 42,
+      "longSessionsGte60m": 7,
+      "longWithoutOutcomeReview": 7
+    },
+    "packetPopulation": {
+      "eligibleSessions": 20,
+      "withExecutionFriction": 21,
+      "withPermissionFriction": 0,
+      "withFrictionConsequence": 0,
+      "withStructuredCompletion": 0,
+      "withChanges": 0
+    },
+    "leadUsageEfficiency": {
+      "eligibleSessionCount": 17,
+      "analyzedSessionCount": 17,
+      "activeLongCount": 7,
+      "longestActiveMinutes": 498,
+      "activeRatio": 0.4118,
+      "outcomeReviewStatus": "required",
+      "reviewedActiveLongCount": 0,
+      "failedEventCountLead": 142
+    }
+  },
+  "dimensionScores": null,
+  "focus": "remaining-improvements-after-P0",
+  "p0Context": {
+    "p0Item": "allowlist friction — policy/docs surface (AGENTS.md / HARNESS.md tool-execution policy)",
+    "p0LandedAt": "2026-08-05T06:56:00.000Z",
+    "postP0Evidence": "Insufficient. Window end is ~8 minutes after P0; one long primary session (S1-class) remains open through 07:04Z carrying pre-existing allowlist load. No clean post-fix cohort to claim P0 reduced allowlist blocks."
+  },
+  "findings": [
+    {
+      "id": "SE-R1-allowlist-residual",
+      "title": "Allowlist friction remains dominant after P0 docs",
+      "severity": "high",
+      "dimensionIds": ["session-friction", "tool-reliability"],
+      "summary": "Independent JSONL parse of the 17 primary eligible sessions finds 143 allowlist-classified toolResult failures (≈85% of 169 isError). Lead census reports 142 failed-event total. Dominant residual patterns are shell pipelines and interpreter one-liners blocked by lean-ctx allowlist (python3/node -e, pipes into interpreters, command-substitution shapes), plus repeated ctx_shell retries after first block. P0 documented policy/strategy; runtime allowlist and agent behavior still produce the same failure class.",
+      "evidence": [
+        "independent parse primary_dir_overlap: allowN=143, errN=169, toolResults=1778, topErrTools ctx_shell=143",
+        "allowlist sample texts: \"Command blocked by shell allowlist: python3 /tmp/analyze_sessions.py | …\"; \"Command blocked by shell allowlist: cat … | python3 -c …\"; node -e blocked as permanent restriction",
+        "packet candidates E1–E5 still carry executionFailures 5/11/7/5/8 on 19/17/26/1/2 toolCalls",
+        "post-P0 slice too short (~8m) to measure fix efficacy; S1-class session lastTs 2026-08-05T07:04:07Z with 41 failures / 34 allowlist (session totals, not pure post-P0)"
+      ],
+      "attribution": "runtime-allowlist + agent-shell-strategy (not docs gap alone)",
+      "residualAfterP0": true,
+      "uncertainty": "Exact post-P0-only allowlist delta not separable without time-sliced failure stamps on the open long session; treat residual as pre-P0 stock plus unverified post-P0."
+    },
+    {
+      "id": "SE-R2-edit-miss-residual",
+      "title": "Native edit misses remain material; packet under-reports edits",
+      "severity": "medium",
+      "dimensionIds": ["session-friction", "tool-reliability"],
+      "summary": "Independent parse: 119 edit toolCalls, 11 edit-miss toolResults (\"Could not found the exact text\" / exact-text mismatch class) ≈9.2% of edits. Lead evidence claims \"No edit event was observed\" — false negative vs raw JSONL. Identical oldText retry count observed at least once in parse heuristics. Residual improvement: edit strategy (re-read slice, sed/perl fallback, no identical retry) is still not consistently followed under friction.",
+      "evidence": [
+        "independent: editCalls=119, editMissN=11, topErrTools edit=11",
+        "edit miss sample: \"Could not find the exact text in /home/alex/.pi/agent/…\"",
+        "lead-evidence.md: \"No edit event was observed in the analyzed sample\" — conflicts with JSONL",
+        "identicalEditRetry heuristic >0 on primary tools set"
+      ],
+      "attribution": "agent-edit-workflow + insights-adapter-under-count",
+      "residualAfterP0": true,
+      "uncertainty": "medium — miss classifier is string-based; some edit isError may be non-miss."
+    },
+    {
+      "id": "SE-R3-long-session-outcome-review",
+      "title": "Long-session outcome review still fully open",
+      "severity": "high",
+      "dimensionIds": ["long-session-efficiency", "observability"],
+      "summary": "7/17 (41.2%) sessions exceed active-long threshold (longest 498m). reviewedActiveLongCount=0; outcomeReview.status=required; recommendation controlled-a-b-required. Lead samples S1–S4 carry 41/9/13/13 failure events. Independent parse confirms 7 long sessions and 0 with mid-flight/end-checklist outcome language. This is an investigation lead, not a confirmed decomposition/model defect — but it blocks efficiency claims and is unchanged by allowlist P0.",
+      "evidence": [
+        "lead usageEfficiency.longSessions.activeCount=7, longestActiveMinutes=498, activeRatio=0.4118",
+        "lead outcomeReview.reviewedActiveLongCount=0, status=required",
+        "independent longSessions: 498.1m (41 err), 97.2m (9), 80.9m (13), 65.8m (13), 62.7m (6), 61.4m (1), 60.3m (9) — all hasOutcomeReview=false",
+        "reviewLead id session-usage-outcome-review-gap present in lead-summary"
+      ],
+      "attribution": "process-gap (no bounded outcome labeling yet)",
+      "residualAfterP0": true,
+      "uncertainty": "low on counts; high on whether duration is waste vs legitimate deep work."
+    },
+    {
+      "id": "SE-R4-secondary-tool-reliability",
+      "title": "Non-allowlist tool failures: ctx_find and ctx_edit bridge",
+      "severity": "medium",
+      "dimensionIds": ["tool-reliability", "session-friction"],
+      "summary": "Beyond allowlist, independent parse attributes isError to ctx_find (8) and ctx_edit (5). Samples show lean-ctx find glob failures and \"MCP error -32602: Tool ctx_edit not connected\". These are separate residual reliability tracks from P0 allowlist docs.",
+      "evidence": [
+        "topErrTools: ctx_find=8, ctx_edit=5",
+        "fail samples: \"lean-ctx failed: find **/*session* …\"; \"MCP error -32602: Tool ctx_edit not connected\"",
+        "read_miss=42 secondary path-friction (ENOENT/not-found class) on read/ctx_read paths"
+      ],
+      "attribution": "tooling-bridge + path-hygiene",
+      "residualAfterP0": true,
+      "uncertainty": "medium — need per-tool error taxonomy in insights to confirm rates."
+    },
+    {
+      "id": "SE-R5-observation-consequence-gap",
+      "title": "Friction has no structured consequence/completion linkage",
+      "severity": "medium",
+      "dimensionIds": ["observability"],
+      "summary": "Packet populationCoverage.withFrictionConsequence=0, withStructuredCompletion=0, withChanges=0 despite withExecutionFriction=21 and heavy tool activity. Failures are counted but not tied to task outcome, repair, or change sets — so residual improvements cannot be ranked by user-visible impact from packet alone.",
+      "evidence": [
+        "packet populationCoverage withFrictionConsequence=0, withStructuredCompletion=0, withChanges=0, withExecutionFriction=21",
+        "candidates closure mostly open/not-applicable; changes.edits=0 on all retained candidates in packet",
+        "lead: 0 change events on top episodes despite 69–196 toolCalls"
+      ],
+      "attribution": "instrumentation/adapter gap",
+      "residualAfterP0": true,
+      "uncertainty": "low on zeros; impact ranking blocked until consequence linkage exists."
+    }
+  ],
+  "signals": [
+    {
+      "id": "SIG-allowlist-share",
+      "kind": "friction-share",
+      "value": { "allowlistEvents": 143, "isError": 169, "share": 0.85 },
+      "note": "Allowlist dominates residual failures after P0 docs."
+    },
+    {
+      "id": "SIG-edit-miss-rate",
+      "kind": "tool-miss-rate",
+      "value": { "editCalls": 119, "editMisses": 11, "rate": 0.092 },
+      "note": "Independent JSONL; insights under-count edits."
+    },
+    {
+      "id": "SIG-long-unreviewed",
+      "kind": "outcome-gap",
+      "value": { "activeLong": 7, "reviewed": 0, "longestMin": 498 }
+    },
+    {
+      "id": "SIG-adapter-edit-blindspot",
+      "kind": "measurement-gap",
+      "value": "lead says no edit events; JSONL shows 119 edit calls",
+      "note": "Do not trust packet/lead edit-habit claims until adapter fixed."
+    },
+    {
+      "id": "SIG-post-p0-window",
+      "kind": "verification-gap",
+      "value": { "postP0Minutes": 8, "cleanPostFixCohort": false }
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "NA1",
+      "priority": 1,
+      "title": "Expand lean-ctx allowlist / force strategy-switch after first block",
+      "why": "143 residual allowlist events; P0 docs did not remove pipe/interpreter failure class.",
+      "ownerHint": "harness-runtime",
+      "acceptance": "Post-fix cohort ≥5 sessions shows allowlist error share <25% of isError and no identical blocked command loops after first deny."
+    },
+    {
+      "id": "NA2",
+      "priority": 1,
+      "title": "Bounded outcome review for 7 active-long sessions (S1–S7)",
+      "why": "Blocks efficiency/model claims; 0/7 reviewed; S1 alone 498m + 41 failures.",
+      "ownerHint": "session-analysis/usage-review-packet",
+      "acceptance": "Each active-long session labeled taskFamily, outcome, frictionPrimary, wastedMinutesEstimate; reviewLead closed or split."
+    },
+    {
+      "id": "NA3",
+      "priority": 2,
+      "title": "Fix insights/packet edit+consequence adapters",
+      "why": "Lead blind to 119 edits and 11 misses; withFrictionConsequence=0 hides impact.",
+      "ownerHint": "session-insights adapter",
+      "acceptance": "Packet reports nonzero edit activity matching JSONL ±10%; frictionConsequence populated when failures precede retries/aborts."
+    },
+    {
+      "id": "NA4",
+      "priority": 2,
+      "title": "Harden edit workflow against identical retry + ctx_edit bridge",
+      "why": "11 edit misses + ctx_edit not connected + identical oldText retries.",
+      "ownerHint": "agent-policy + MCP bridge",
+      "acceptance": "Edit miss rate <3% on next 50 edit calls; ctx_edit connected or removed from default tool surface."
+    },
+    {
+      "id": "NA5",
+      "priority": 3,
+      "title": "ctx_find/lean-ctx glob failure pass",
+      "why": "8 ctx_find isError; noisy research loops.",
+      "ownerHint": "lean-ctx",
+      "acceptance": "Glob edge cases return structured empty result not hard fail; error rate <1% of ctx_find calls."
+    }
+  ],
+  "openQuestions": [
+    "What fraction of the 143 allowlist blocks occur after the agent already saw one deny in-session (strategy-switch compliance)?",
+    "Of 7 long sessions, how many are harness-audit meta work vs user product work?",
+    "Why does session-insights report zero edit events while JSONL toolCall name=edit is abundant?",
+    "Is read_miss=42 mostly stale paths from compaction/reordering or real missing files?"
+  ],
+  "assumptions": [
+    "primary_dir_overlap under sessions/--home-alex-.pi-agent-- is the correct eligible set matching lead’s 17 sessions.",
+    "role=toolResult + isError + allowlist/exact-text classifiers are sufficient for residual friction ranking.",
+    "P0 at 2026-08-05T06:56Z is allowlist policy/docs only (no allowlist binary expansion proven in-window)."
+  ],
+  "limitations": [
+    "Domain skill prefers packet-only; this pass also did independent JSONL per user Pass B instructions because packet edit/tool metrics conflict with raw sessions.",
+    "Post-P0 verification window ≈8 minutes — no efficacy claim on P0.",
+    "Outcome quality not judged; long-session finding is review-needed not proven waste.",
+    "Permission denials in packet=0; classifier may fold some permission text into allowlist.",
+    "Child-agent sessions: roles.childAgentCandidateCount=0 in lead; not separately scored."
+  ],
+  "evidenceRefs": [
+    "packet-session.json",
+    "lead-summary.json#summaryFacts.usageEfficiency",
+    "lead-evidence.md",
+    "sessions/--home-alex-.pi-agent--/*.jsonl (independent parse)",
+    "npm/node_modules/@qoder-ai/better-harness/skills/better-harness/references/session-evidence.md",
+    "npm/node_modules/@qoder-ai/better-harness/references/session-evidence/"
+  ],
+  "evidenceGaps": [
+    "No time-sliced post-P0 failure cohort",
+    "No friction→consequence edges in packet",
+    "No structured completion/outcome labels on long sessions",
+    "Insights edit-event under-count",
+    "No skill invocation census (usageActivity.skills=[])"
+  ],
+  "claimsLeadMustNotMake": [
+    "Do not claim allowlist P0 fixed session friction — residual allowlist events still dominate and post-fix window is too short.",
+    "Do not claim there are no edit events or no edit friction — independent JSONL shows 119 edits and 11 misses.",
+    "Do not claim long sessions are inefficient or need model change without finishing the 7-session outcome review.",
+    "Do not claim permission-denial class is a top issue — packet permission friction=0; allowlist/shell is the class.",
+    "Do not present packet withChanges=0 as proof agents made no file edits — change adapter is empty while edit toolCalls exist."
+  ],
+  "runtimeMetrics": {
+    "eligibleSessions": 17,
+    "toolCallsIndependent": 1778,
+    "isErrorIndependent": 169,
+    "allowlistIndependent": 143,
+    "editMissIndependent": 11,
+    "editCallsIndependent": 119,
+    "readMissIndependent": 42,
+    "failedEventLead": 142,
+    "activeLong": 7,
+    "longestActiveMinutes": 498,
+    "outcomeReviewedActiveLong": 0,
+    "topToolsIndependent": [
+      ["ctx_shell", 1552],
+      ["edit", 119],
+      ["read", 55],
+      ["ctx_read", 18],
+      ["write", 12]
+    ],
+    "topErrToolsIndependent": [
+      ["ctx_shell", 143],
+      ["edit", 11],
+      ["ctx_find", 8],
+      ["ctx_edit", 5],
+      ["read", 2]
+    ],
+    "packetCandidateExecutionFailures": [5, 11, 7, 5, 8],
+    "errorRateIndependent": 0.095
+  },
+  "narrative": "Pass B session-evidence on remaining improvements after allowlist P0 (docs at 06:56Z). Eligible set is complete (17/17). Residual stack is clear: (1) allowlist/shell still ≈85% of failures — docs did not clear behavioral residual; (2) edit-miss ~9% of edit calls, invisible to lead/packet; (3) 7 long sessions still unreviewed for outcome; (4) ctx_find/ctx_edit bridge errors; (5) zero friction-consequence linkage so impact ranking is blocked. Post-P0 window is only ~8 minutes — no fix validation. Highest leverage next: runtime allowlist/strategy-switch, bounded S1–S7 outcome review, and insights adapter repair for edits+consequences."
+}

@@ -1,0 +1,4539 @@
+{
+  "schemaVersion": 1,
+  "pass": "B",
+  "lane": "session-evidence",
+  "window": {
+    "start": "2026-07-05",
+    "end": "2026-08-04",
+    "until": "2026-08-04T00:00:00.000Z"
+  },
+  "packetScope": {
+    "eligibleSessions": 12,
+    "selectedSessions": 12,
+    "platform": "pi",
+    "workspace": "agent",
+    "selection": "all-eligible"
+  },
+  "inventory": {
+    "inWindowJsonl": 469,
+    "workspaceSessionsInWindow": 17,
+    "primaryScanned": 12,
+    "expandedScanned": 25,
+    "primaryPaths": [
+      "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+      "--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl",
+      "--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl",
+      "--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl",
+      "--home-alex-.pi-agent--/2026-08-04T07-28-21-799Z_019fcbac-6927-75ff-a6a9-bd3037a0c294.jsonl",
+      "--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl",
+      "--home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl",
+      "--home-alex-.pi-agent--/2026-08-03T06-46-22-885Z_019fc65f-9da5-77b5-9847-81e5548830ed.jsonl",
+      "--home-alex-.pi-agent--/2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl",
+      "--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl",
+      "--home-alex-.pi-agent--/2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl",
+      "--home-alex-.pi-agent--/2026-08-03T06-46-55-539Z_019fc660-1d33-7e9b-a2ce-cd5ed8aa2b31.jsonl"
+    ]
+  },
+  "aggregatePrimary12": {
+    "n": 12,
+    "toolCalls": 1648,
+    "toolResults": 1647,
+    "isErrorTrue": 153,
+    "allowlist": 61,
+    "compactions": 2,
+    "retries": 1,
+    "editMisses": 42,
+    "readMisses": 8,
+    "userMsgs": 138,
+    "assistantMsgs": 1379,
+    "bytes": 9281521,
+    "lines": 3294,
+    "episodesWithTools": 1227,
+    "sessionsWithTools": 12,
+    "sessionsIdle": 0,
+    "longSessions": 8,
+    "errorRate": 0.0929,
+    "topTools": [
+      [
+        "ctx_shell",
+        796
+      ],
+      [
+        "ctx_read",
+        248
+      ],
+      [
+        "write",
+        152
+      ],
+      [
+        "edit",
+        96
+      ],
+      [
+        "ctx_batch_execute",
+        88
+      ],
+      [
+        "ctx_execute",
+        52
+      ],
+      [
+        "ctx_grep",
+        49
+      ],
+      [
+        "ctx_fetch_and_index",
+        34
+      ],
+      [
+        "ctx_search",
+        27
+      ],
+      [
+        "ctx_ls",
+        24
+      ],
+      [
+        "ctx_edit",
+        19
+      ],
+      [
+        "ctx_find",
+        18
+      ],
+      [
+        "workflow",
+        10
+      ],
+      [
+        "daily_log",
+        10
+      ],
+      [
+        "workflow_control",
+        6
+      ],
+      [
+        "subagent_status",
+        5
+      ],
+      [
+        "ctx_execute_file",
+        3
+      ],
+      [
+        "subagent",
+        3
+      ],
+      [
+        "ctx_index",
+        2
+      ],
+      [
+        "ctx_git_read",
+        2
+      ]
+    ],
+    "failReasons": [
+      [
+        "isError",
+        153
+      ],
+      [
+        "allowlist_block",
+        61
+      ],
+      [
+        "timeout",
+        43
+      ],
+      [
+        "enoent",
+        39
+      ],
+      [
+        "soft_error_text",
+        29
+      ],
+      [
+        "edit_context_miss",
+        23
+      ],
+      [
+        "context_overflow",
+        20
+      ],
+      [
+        "exception",
+        19
+      ],
+      [
+        "rate_limit",
+        16
+      ],
+      [
+        "lean_ctx_failed",
+        14
+      ],
+      [
+        "empty_dir_listing",
+        13
+      ],
+      [
+        "command_not_found",
+        8
+      ],
+      [
+        "not_a_directory",
+        1
+      ],
+      [
+        "permission_denied",
+        1
+      ],
+      [
+        "eacces",
+        1
+      ]
+    ],
+    "toolErrors": [
+      [
+        "ctx_shell:isError",
+        74
+      ],
+      [
+        "ctx_shell:allowlist_block",
+        39
+      ],
+      [
+        "ctx_shell:enoent",
+        20
+      ],
+      [
+        "ctx_read:timeout",
+        19
+      ],
+      [
+        "ctx_edit:isError",
+        19
+      ],
+      [
+        "ctx_shell:soft_error_text",
+        19
+      ],
+      [
+        "edit:isError",
+        18
+      ],
+      [
+        "edit:edit_context_miss",
+        18
+      ],
+      [
+        "ctx_read:allowlist_block",
+        14
+      ],
+      [
+        "ctx_find:isError",
+        14
+      ],
+      [
+        "ctx_find:lean_ctx_failed",
+        14
+      ],
+      [
+        "ctx_shell:timeout",
+        11
+      ],
+      [
+        "ctx_ls:empty_dir_listing",
+        10
+      ],
+      [
+        "ctx_shell:rate_limit",
+        10
+      ],
+      [
+        "ctx_read:context_overflow",
+        9
+      ],
+      [
+        "ctx_read:isError",
+        8
+      ],
+      [
+        "ctx_read:enoent",
+        8
+      ],
+      [
+        "ctx_read:exception",
+        8
+      ],
+      [
+        "ctx_batch_execute:enoent",
+        8
+      ],
+      [
+        "ctx_shell:context_overflow",
+        7
+      ],
+      [
+        "ctx_batch_execute:timeout",
+        5
+      ],
+      [
+        "ctx_execute:isError",
+        5
+      ],
+      [
+        "ctx_execute:exception",
+        5
+      ],
+      [
+        "ctx_fetch_and_index:isError",
+        5
+      ],
+      [
+        "workflow:isError",
+        4
+      ]
+    ],
+    "models": [
+      [
+        "kimi-k3",
+        535
+      ],
+      [
+        "zai-org/glm-5.2",
+        451
+      ],
+      [
+        "grok-4-5",
+        280
+      ],
+      [
+        "deepseek-v4-flash-free",
+        110
+      ],
+      [
+        "deepseek-v4-flash",
+        17
+      ],
+      [
+        "laguna-s-2.1-free",
+        5
+      ],
+      [
+        "moonshotai/kimi-k2.6",
+        3
+      ],
+      [
+        "zai-org-glm-5-2",
+        1
+      ]
+    ],
+    "providers": [
+      [
+        "Venice",
+        818
+      ],
+      [
+        "Lilac",
+        454
+      ],
+      [
+        "opencode",
+        115
+      ],
+      [
+        "deepseek",
+        15
+      ]
+    ],
+    "stopReasons": [
+      [
+        "toolUse",
+        1227
+      ],
+      [
+        "stop",
+        135
+      ],
+      [
+        "error",
+        15
+      ],
+      [
+        "aborted",
+        2
+      ]
+    ],
+    "shellCmds": [
+      [
+        "cd",
+        218
+      ],
+      [
+        "#",
+        128
+      ],
+      [
+        "ls",
+        68
+      ],
+      [
+        "grep",
+        51
+      ],
+      [
+        "sleep",
+        44
+      ],
+      [
+        "echo",
+        26
+      ],
+      [
+        "node",
+        25
+      ],
+      [
+        "cat",
+        24
+      ],
+      [
+        "find",
+        18
+      ],
+      [
+        "python3",
+        18
+      ],
+      [
+        "sed",
+        16
+      ],
+      [
+        "bash",
+        13
+      ],
+      [
+        "rm",
+        13
+      ],
+      [
+        "for",
+        10
+      ],
+      [
+        "curl",
+        10
+      ]
+    ]
+  },
+  "aggregateExpanded": {
+    "n": 25,
+    "toolCalls": 4005,
+    "toolResults": 4000,
+    "isErrorTrue": 357,
+    "allowlist": 131,
+    "compactions": 7,
+    "retries": 9,
+    "editMisses": 86,
+    "readMisses": 18,
+    "userMsgs": 314,
+    "assistantMsgs": 3596,
+    "bytes": 64616215,
+    "lines": 9369,
+    "episodesWithTools": 3189,
+    "sessionsWithTools": 25,
+    "sessionsIdle": 0,
+    "longSessions": 21,
+    "errorRate": 0.0892,
+    "topTools": [
+      [
+        "ctx_shell",
+        1497
+      ],
+      [
+        "ctx_read",
+        444
+      ],
+      [
+        "write",
+        379
+      ],
+      [
+        "bash",
+        355
+      ],
+      [
+        "edit",
+        228
+      ],
+      [
+        "read",
+        166
+      ],
+      [
+        "ctx_batch_execute",
+        149
+      ],
+      [
+        "ctx_execute",
+        114
+      ],
+      [
+        "web_search",
+        110
+      ],
+      [
+        "ctx_grep",
+        75
+      ],
+      [
+        "ctx_edit",
+        45
+      ],
+      [
+        "ctx_fetch_and_index",
+        45
+      ],
+      [
+        "ctx_ls",
+        41
+      ],
+      [
+        "run_experiment",
+        38
+      ],
+      [
+        "fetch_content",
+        37
+      ]
+    ],
+    "failReasons": [
+      [
+        "isError",
+        357
+      ],
+      [
+        "soft_error_text",
+        139
+      ],
+      [
+        "allowlist_block",
+        131
+      ],
+      [
+        "enoent",
+        78
+      ],
+      [
+        "timeout",
+        68
+      ],
+      [
+        "exception",
+        53
+      ],
+      [
+        "command_not_found",
+        51
+      ],
+      [
+        "edit_context_miss",
+        48
+      ],
+      [
+        "context_overflow",
+        43
+      ],
+      [
+        "rate_limit",
+        41
+      ],
+      [
+        "lean_ctx_failed",
+        21
+      ],
+      [
+        "permission_denied",
+        18
+      ],
+      [
+        "empty_dir_listing",
+        17
+      ],
+      [
+        "eacces",
+        14
+      ],
+      [
+        "not_a_directory",
+        3
+      ]
+    ],
+    "toolErrors": [
+      [
+        "ctx_shell:isError",
+        147
+      ],
+      [
+        "ctx_shell:allowlist_block",
+        78
+      ],
+      [
+        "edit:isError",
+        54
+      ],
+      [
+        "edit:edit_context_miss",
+        43
+      ],
+      [
+        "bash:command_not_found",
+        42
+      ],
+      [
+        "ctx_shell:soft_error_text",
+        41
+      ],
+      [
+        "web_search:soft_error_text",
+        38
+      ],
+      [
+        "bash:isError",
+        34
+      ],
+      [
+        "ctx_shell:enoent",
+        29
+      ],
+      [
+        "ctx_edit:isError",
+        27
+      ],
+      [
+        "ctx_shell:exception",
+        26
+      ],
+      [
+        "bash:soft_error_text",
+        26
+      ],
+      [
+        "ctx_read:allowlist_block",
+        25
+      ],
+      [
+        "ctx_read:timeout",
+        22
+      ],
+      [
+        "ctx_find:isError",
+        20
+      ],
+      [
+        "ctx_find:lean_ctx_failed",
+        20
+      ],
+      [
+        "ctx_ls:empty_dir_listing",
+        14
+      ],
+      [
+        "ctx_read:context_overflow",
+        14
+      ],
+      [
+        "ctx_shell:timeout",
+        14
+      ],
+      [
+        "ctx_read:isError",
+        12
+      ]
+    ]
+  },
+  "clusters": [
+    {
+      "id": "friction-tool-errors",
+      "title": "High tool isError volume concentrated on shell and edit surfaces",
+      "severity": "high",
+      "sessionCount": 12,
+      "metric": {
+        "isErrorTrue": 153,
+        "toolResults": 1647,
+        "errorRate": 0.0929,
+        "top": [
+          [
+            "ctx_shell:isError",
+            74
+          ],
+          [
+            "ctx_shell:allowlist_block",
+            39
+          ],
+          [
+            "ctx_shell:enoent",
+            20
+          ],
+          [
+            "ctx_read:timeout",
+            19
+          ],
+          [
+            "ctx_edit:isError",
+            19
+          ],
+          [
+            "ctx_shell:soft_error_text",
+            19
+          ],
+          [
+            "edit:isError",
+            18
+          ],
+          [
+            "edit:edit_context_miss",
+            18
+          ]
+        ]
+      },
+      "evidence": [
+        [
+          {
+            "tool": "ctx_read",
+            "reasons": [
+              "isError",
+              "enoent"
+            ],
+            "isError": true,
+            "snippet": "Error: could not read /home/alex/.pi/agent/~/.pi/agent/skills/ce-lite/SKILL.md"
+          },
+          {
+            "tool": "ctx_ls",
+            "reasons": [
+              "empty_dir_listing"
+            ],
+            "isError": false,
+            "snippet": "/home/alex/.pi/agent/ (empty directory, depth=3) Compressed 12 \u2192 12 tokens (0%)."
+          }
+        ],
+        [
+          {
+            "tool": "ctx_read",
+            "reasons": [
+              "isError",
+              "enoent"
+            ],
+            "isError": true,
+            "snippet": "Error: could not read /home/alex/.pi/agent/.auto/prompt.md"
+          },
+          {
+            "tool": "ctx_ls",
+            "reasons": [
+              "enoent",
+              "not_a_directory",
+              "soft_error_text"
+            ],
+            "isError": false,
+            "snippet": "ERROR: /home/alex/.pi/agent/.auto does not exist or is not a directory Compressed 18 \u2192 18 tokens (0%)."
+          }
+        ],
+        [
+          {
+            "tool": "ctx_read",
+            "reasons": [
+              "rate_limit"
+            ],
+            "isError": false,
+            "snippet": ".bashrc [56L] lines:14-41 14| alias grep='grep --color=auto' 15| PS1='[\\u@\\h \\W]\\$ ' 16| 17| export PATH=\"$HOME/.local/bin:$PATH\" 18| 19| # >>> headroom persistent env >>> 20| export HEADROOM_PORT=\"8787\" 21| export HEADROOM_HOST=\"127.0.0.1\""
+          },
+          {
+            "tool": "edit",
+            "reasons": [
+              "isError",
+              "edit_context_miss"
+            ],
+            "isError": true,
+            "snippet": "Could not find the exact text in /home/alex/.bashrc. The old text must match exactly including all whitespace and newlines."
+          }
+        ],
+        [
+          {
+            "tool": "ctx_find",
+            "reasons": [
+              "isError",
+              "lean_ctx_failed"
+            ],
+            "isError": true,
+            "snippet": "lean-ctx failed: find **/writing-great-skills/**/* /home/alex/.pi/agent"
+          },
+          {
+            "tool": "ctx_find",
+            "reasons": [
+              "isError",
+              "lean_ctx_failed"
+            ],
+            "isError": true,
+            "snippet": "lean-ctx failed: find **/ce-lite/**/* /home/alex/.pi/agent"
+          }
+        ],
+        [
+          {
+            "tool": "ctx_find",
+            "reasons": [
+              "isError",
+              "lean_ctx_failed"
+            ],
+            "isError": true,
+            "snippet": "lean-ctx failed: find *no-ai-slop* /home/alex/.pi"
+          },
+          {
+            "tool": "ctx_find",
+            "reasons": [
+              "isError",
+              "lean_ctx_failed"
+            ],
+            "isError": true,
+            "snippet": "lean-ctx failed: find *no-ai-slop* /home/alex/.pi/agent/skills"
+          }
+        ]
+      ],
+      "signals": [
+        "failed-event",
+        "repair-loop"
+      ],
+      "recommendation": "Tighten tool preconditions (path existence, edit uniqueness) and route shell through allowlisted patterns; prefer ctx_* over raw bash where failures cluster."
+    },
+    {
+      "id": "friction-allowlist",
+      "title": "Shell allowlist / security blocks mid-task",
+      "severity": "high",
+      "sessionCount": 11,
+      "metric": {
+        "allowlistBlocks": 61,
+        "shellBlocks": 61
+      },
+      "evidence": [
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block"
+          ],
+          "isError": false,
+          "snippet": "--- name: wayfinder description: Plan a huge chunk of work \u2014 more than one agent session can hold \u2014 as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear. disable"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block",
+            "exception"
+          ],
+          "isError": false,
+          "snippet": "--- name: to-tickets description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker \u2014 edges as text in one file per ticket locally, or"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-07-29T06:51:32.125085Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'python3' with inline code execution"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-07-29T07:05:08.208246Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'node' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'node' with inline code execution flag "
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block",
+            "context_overflow"
+          ],
+          "isError": false,
+          "snippet": "--- name: ce-lite description: CE-lite orchestrator \u2014 the single entrypoint for non-trivial work. Answers simple questions directly; otherwise grills only blocking questions, writes contract terms, executes with dynamic-workflow subagents, "
+        },
+        {
+          "tool": "ctx_execute",
+          "reasons": [
+            "allowlist_block",
+            "command_not_found",
+            "permission_denied",
+            "eacces",
+            "enoent",
+            "timeout",
+            "rate_limit",
+            "exception"
+          ],
+          "isError": false,
+          "snippet": "```python import json, glob, re from collections import Counter files = glob.glob(\"/home/alex/.pi/agent/sessions/*/*.jsonl\") err_by_tool = Counter() err_sig = Counter() retries = 0 retry_pairs = Counter() last_call = None for fp in files: t"
+        }
+      ],
+      "signals": [
+        "allowlist-block",
+        "boundary-friction"
+      ],
+      "recommendation": "Pre-declare needed interpreters/commands in allowlist or force write-script-then-run pattern in skill instructions to avoid blocked heredoc python."
+    },
+    {
+      "id": "friction-edit-miss",
+      "title": "Edit/ctx_edit context misses and failed patches",
+      "severity": "medium",
+      "sessionCount": 12,
+      "metric": {
+        "editMisses": 42
+      },
+      "evidence": [
+        {
+          "tool": "edit",
+          "reasons": [
+            "isError",
+            "edit_context_miss"
+          ],
+          "isError": true,
+          "snippet": "Could not find the exact text in /home/alex/.bashrc. The old text must match exactly including all whitespace and newlines."
+        },
+        {
+          "tool": "edit",
+          "reasons": [
+            "isError",
+            "edit_context_miss"
+          ],
+          "isError": true,
+          "snippet": "Could not find edits[1] in /home/alex/.bashrc. The oldText must match exactly including all whitespace and newlines."
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "Validation failed for tool \"ctx_edit\":   - new_string: must have required properties new_string  Received arguments: {   \"path\": \"/home/alex/Documents/macuhealth-agent-playbook/index.html\",   \"old_string\": \"<strong>Lesson 1 \u2014 The idea\ufffd\ufffdship"
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "Validation failed for tool \"ctx_edit\":   - new_string: must have required properties new_string  Received arguments: {   \"path\": \"/home/alex/Documents/macuhealth-agent-playbook/index.html\",   \"old_string\": \"<strong>Lesson 1 \u2014 The idea\ufffd\ufffdship"
+        }
+      ],
+      "signals": [
+        "edit-miss",
+        "repair-loop"
+      ],
+      "recommendation": "Re-read target span immediately before edit; on miss fall back to sed/perl via shell once; avoid identical retry."
+    },
+    {
+      "id": "friction-read-miss",
+      "title": "Read path misses (enoent / could not read)",
+      "severity": "medium",
+      "sessionCount": 5,
+      "metric": {
+        "readMisses": 8
+      },
+      "evidence": [
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "isError",
+            "enoent"
+          ],
+          "isError": true,
+          "snippet": "Error: could not read /home/alex/.pi/agent/~/.pi/agent/skills/ce-lite/SKILL.md"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "enoent"
+          ],
+          "isError": false,
+          "snippet": "Rg: /home/alex/.pi/agent/npm/node_modules/@quintinshaw/pi-dynamic-workflows/dist/register-saved-workflows.js: IO error for operation on /home/alex/.pi/agent/npm/node_modules/@quintinshaw/pi-dynamic-workflows/dist/register-saved-workflows.js"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "isError",
+            "enoent"
+          ],
+          "isError": true,
+          "snippet": "Error: could not read /home/alex/.pi/agent/.auto/prompt.md"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "enoent",
+            "not_a_directory",
+            "soft_error_text"
+          ],
+          "isError": false,
+          "snippet": "ERROR: /home/alex/.pi/agent/.auto does not exist or is not a directory Compressed 18 \u2192 18 tokens (0%)."
+        },
+        {
+          "tool": "ctx_batch_execute",
+          "reasons": [
+            "enoent"
+          ],
+          "isError": false,
+          "snippet": "Executed 2 commands (22 lines, 2.9KB). Indexed 2 sections. Searched 2 queries. ## Commands - Verify all gone: `ls /home/alex/.omp /home/alex/.rtk-data /home/alex/.config/rtk /home/alex/.headroom /home/alex/.pi/agent/skills/system-health-che"
+        }
+      ],
+      "signals": [
+        "path-miss",
+        "discovery-waste"
+      ],
+      "recommendation": "ls/find before read; expand ~ and relative paths against session cwd; cache discovered roots."
+    },
+    {
+      "id": "lifecycle-compaction",
+      "title": "Compaction events in long agent sessions",
+      "severity": "medium",
+      "sessionCount": 1,
+      "metric": {
+        "compactions": 2,
+        "tokensBefore": [
+          132707,
+          296535
+        ]
+      },
+      "evidence": [
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+          "compactions": 2,
+          "tokensBefore": [
+            132707,
+            296535
+          ]
+        }
+      ],
+      "signals": [
+        "compaction",
+        "lifecycle-demand"
+      ],
+      "recommendation": "Ensure compaction + continue hooks remain error-free; keep task state in durable files outside context."
+    },
+    {
+      "id": "friction-identical-retry",
+      "title": "Identical tool-call retries detected",
+      "severity": "low",
+      "sessionCount": 1,
+      "metric": {
+        "retryPairs": 1
+      },
+      "evidence": [
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+          "retries": 1,
+          "maxStreak": 29
+        }
+      ],
+      "signals": [
+        "retry-loop"
+      ],
+      "recommendation": "After one failure, change args or strategy; never identical retry on blocked/edit-miss."
+    },
+    {
+      "id": "ops-model-churn",
+      "title": "Multi-model switching within sessions",
+      "severity": "low",
+      "sessionCount": 5,
+      "metric": {
+        "sessions": 5,
+        "models": [
+          [
+            "kimi-k3",
+            535
+          ],
+          [
+            "zai-org/glm-5.2",
+            451
+          ],
+          [
+            "grok-4-5",
+            280
+          ],
+          [
+            "deepseek-v4-flash-free",
+            110
+          ],
+          [
+            "deepseek-v4-flash",
+            17
+          ],
+          [
+            "laguna-s-2.1-free",
+            5
+          ],
+          [
+            "moonshotai/kimi-k2.6",
+            3
+          ],
+          [
+            "zai-org-glm-5-2",
+            1
+          ]
+        ]
+      },
+      "evidence": [
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+          "models": [
+            [
+              "kimi-k3",
+              444
+            ],
+            [
+              "zai-org/glm-5.2",
+              60
+            ],
+            [
+              "laguna-s-2.1-free",
+              5
+            ]
+          ],
+          "changes": 4
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl",
+          "models": [
+            [
+              "zai-org/glm-5.2",
+              236
+            ],
+            [
+              "deepseek-v4-flash",
+              2
+            ],
+            [
+              "deepseek-v4-flash-free",
+              1
+            ]
+          ],
+          "changes": 3
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl",
+          "models": [
+            [
+              "kimi-k3",
+              91
+            ],
+            [
+              "zai-org/glm-5.2",
+              17
+            ],
+            [
+              "deepseek-v4-flash",
+              15
+            ],
+            [
+              "moonshotai/kimi-k2.6",
+              3
+            ]
+          ],
+          "changes": 5
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl",
+          "models": [
+            [
+              "grok-4-5",
+              74
+            ],
+            [
+              "zai-org-glm-5-2",
+              1
+            ]
+          ],
+          "changes": 2
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl",
+          "models": [
+            [
+              "grok-4-5",
+              46
+            ],
+            [
+              "zai-org/glm-5.2",
+              1
+            ]
+          ],
+          "changes": 2
+        }
+      ],
+      "signals": [
+        "model-switch",
+        "operation-control"
+      ],
+      "recommendation": "Pin model per task class when switching correlates with repair loops; log why switches happen."
+    },
+    {
+      "id": "pattern-tool-mix",
+      "title": "Dominant tool mix led by ctx_shell",
+      "severity": "info",
+      "sessionCount": 12,
+      "metric": {
+        "topTools": [
+          [
+            "ctx_shell",
+            796
+          ],
+          [
+            "ctx_read",
+            248
+          ],
+          [
+            "write",
+            152
+          ],
+          [
+            "edit",
+            96
+          ],
+          [
+            "ctx_batch_execute",
+            88
+          ],
+          [
+            "ctx_execute",
+            52
+          ],
+          [
+            "ctx_grep",
+            49
+          ],
+          [
+            "ctx_fetch_and_index",
+            34
+          ],
+          [
+            "ctx_search",
+            27
+          ],
+          [
+            "ctx_ls",
+            24
+          ]
+        ],
+        "shellCmds": [
+          [
+            "cd",
+            218
+          ],
+          [
+            "#",
+            128
+          ],
+          [
+            "ls",
+            68
+          ],
+          [
+            "grep",
+            51
+          ],
+          [
+            "sleep",
+            44
+          ],
+          [
+            "echo",
+            26
+          ],
+          [
+            "node",
+            25
+          ],
+          [
+            "cat",
+            24
+          ],
+          [
+            "find",
+            18
+          ],
+          [
+            "python3",
+            18
+          ]
+        ]
+      },
+      "evidence": [
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+          "top": [
+            [
+              "ctx_shell",
+              300
+            ],
+            [
+              "write",
+              63
+            ],
+            [
+              "ctx_read",
+              46
+            ],
+            [
+              "edit",
+              41
+            ],
+            [
+              "ctx_grep",
+              21
+            ]
+          ]
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl",
+          "top": [
+            [
+              "ctx_shell",
+              137
+            ],
+            [
+              "ctx_read",
+              44
+            ],
+            [
+              "write",
+              22
+            ],
+            [
+              "ctx_execute",
+              18
+            ],
+            [
+              "ctx_batch_execute",
+              11
+            ]
+          ]
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl",
+          "top": [
+            [
+              "ctx_batch_execute",
+              43
+            ],
+            [
+              "ctx_shell",
+              26
+            ],
+            [
+              "edit",
+              23
+            ],
+            [
+              "ctx_read",
+              13
+            ],
+            [
+              "ctx_execute",
+              11
+            ]
+          ]
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl",
+          "top": [
+            [
+              "ctx_read",
+              55
+            ],
+            [
+              "ctx_shell",
+              35
+            ],
+            [
+              "write",
+              14
+            ],
+            [
+              "ctx_grep",
+              10
+            ],
+            [
+              "edit",
+              9
+            ]
+          ]
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-08-04T07-28-21-799Z_019fcbac-6927-75ff-a6a9-bd3037a0c294.jsonl",
+          "top": [
+            [
+              "ctx_shell",
+              87
+            ],
+            [
+              "ctx_fetch_and_index",
+              5
+            ],
+            [
+              "ctx_find",
+              4
+            ],
+            [
+              "ctx_read",
+              4
+            ],
+            [
+              "ctx_search",
+              4
+            ]
+          ]
+        },
+        {
+          "rel": "--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl",
+          "top": [
+            [
+              "ctx_shell",
+              40
+            ],
+            [
+              "ctx_execute",
+              17
+            ],
+            [
+              "ctx_batch_execute",
+              9
+            ],
+            [
+              "ctx_read",
+              5
+            ],
+            [
+              "ctx_fetch_and_index",
+              3
+            ]
+          ]
+        }
+      ],
+      "signals": [
+        "tool-mix",
+        "operation-control"
+      ],
+      "recommendation": "Bias defaults toward high-success tools; add skill guardrails where failure density is highest."
+    }
+  ],
+  "perSessionPrimary": [
+    {
+      "rel": "--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl",
+      "bytes": 2449144,
+      "lines": 1086,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 514,
+      "toolResults": 514,
+      "isErrorTrue": 41,
+      "errorRate": 0.0798,
+      "allowlist": 9,
+      "retries": 1,
+      "editMisses": 10,
+      "readMisses": 1,
+      "compactions": 2,
+      "compactionTokensBefore": [
+        132707,
+        296535
+      ],
+      "userMsgs": 42,
+      "assistantMsgs": 505,
+      "episodesWithTools": 454,
+      "maxToolStreak": 29,
+      "models": [
+        [
+          "kimi-k3",
+          444
+        ],
+        [
+          "zai-org/glm-5.2",
+          60
+        ],
+        [
+          "laguna-s-2.1-free",
+          5
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          444
+        ],
+        [
+          "Lilac",
+          60
+        ],
+        [
+          "opencode",
+          5
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          300
+        ],
+        [
+          "write",
+          63
+        ],
+        [
+          "ctx_read",
+          46
+        ],
+        [
+          "edit",
+          41
+        ],
+        [
+          "ctx_grep",
+          21
+        ],
+        [
+          "ctx_batch_execute",
+          19
+        ],
+        [
+          "workflow_control",
+          6
+        ],
+        [
+          "workflow",
+          5
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          41
+        ],
+        [
+          "soft_error_text",
+          15
+        ],
+        [
+          "enoent",
+          14
+        ],
+        [
+          "allowlist_block",
+          9
+        ],
+        [
+          "timeout",
+          9
+        ],
+        [
+          "edit_context_miss",
+          8
+        ],
+        [
+          "exception",
+          4
+        ],
+        [
+          "context_overflow",
+          4
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:isError",
+          26
+        ],
+        [
+          "ctx_shell:soft_error_text",
+          13
+        ],
+        [
+          "ctx_shell:enoent",
+          9
+        ],
+        [
+          "edit:isError",
+          8
+        ],
+        [
+          "edit:edit_context_miss",
+          8
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          7
+        ],
+        [
+          "ctx_batch_execute:enoent",
+          4
+        ],
+        [
+          "ctx_read:exception",
+          3
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          454
+        ],
+        [
+          "stop",
+          43
+        ],
+        [
+          "error",
+          6
+        ],
+        [
+          "aborted",
+          2
+        ]
+      ],
+      "shellCmds": [
+        [
+          "cd",
+          71
+        ],
+        [
+          "grep",
+          42
+        ],
+        [
+          "sleep",
+          40
+        ],
+        [
+          "ls",
+          30
+        ],
+        [
+          "node",
+          22
+        ],
+        [
+          "sed",
+          11
+        ],
+        [
+          "cat",
+          10
+        ],
+        [
+          "bash",
+          10
+        ]
+      ],
+      "rereadHot": [
+        [
+          "/home/alex/.pi/agent/skills/ce-lite/SKILL.md",
+          4
+        ],
+        [
+          "/home/alex/Projects/pi-harness-config/README.md",
+          4
+        ]
+      ],
+      "errorSamples": [
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "isError",
+            "enoent"
+          ],
+          "isError": true,
+          "snippet": "Error: could not read /home/alex/.pi/agent/~/.pi/agent/skills/ce-lite/SKILL.md"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "/home/alex/.pi/agent/ (empty directory, depth=3) Compressed 12 \u2192 12 tokens (0%)."
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block"
+          ],
+          "isError": false,
+          "snippet": "--- name: wayfinder description: Plan a huge chunk of work \u2014 more than one agent session can hold \u2014 as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear. disable"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block",
+            "exception"
+          ],
+          "isError": false,
+          "snippet": "--- name: to-tickets description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker \u2014 edges as text in one file per ticket locally, or"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "// RTK Pi extension \u2014 rewrites bash commands to use rtk for token savings. // Requires: rtk >= 0.23.0 in PATH. // // This is a thin delegating extension: all rewrite logic lives in `rtk rewrite`, // which is the single source of truth (src/"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "workflow-authoring workflow-patterns  --- stderr --- zsh:1: == not found [lean-ctx: full output -> /home/alex/.local/state/lean-ctx/tee/ls__home_alex__pi_agent_npm_node_modules_4d4699f0.log (redacted, 24h TTL)]  Command exited with code 1  "
+        }
+      ],
+      "userPromptsSample": [
+        "audit my harness against these principles for solving long horizon tasks while maximizing harness token efficiency via subagents: Coding agents can complete small tasks. But they fail, often spectacularly when working on larger ones. So muc",
+        "lets implement 1-3 now,then consider 4-6 after we run a bench",
+        "run it",
+        "<skill name=\"ask-matt\" location=\"/home/alex/.pi/agent/skills/ask-matt/SKILL.md\"> References are relative to /home/alex/.pi/agent/skills/ask-matt.  # Ask Matt  You don't remember every skill, so ask.  A **flow** is a path through the skills."
+      ],
+      "classSignals": {
+        "validationRepair": 11,
+        "boundaryChange": 16,
+        "lifecycle": 7,
+        "operationControl": 2,
+        "readOnly": 12
+      },
+      "first": "2026-07-29T06:48:50.329Z",
+      "last": "2026-07-30T20:42:35.726Z",
+      "usage": {
+        "input": 5799621,
+        "output": 312960,
+        "cacheRead": 63170752,
+        "totalTokens": 69283333,
+        "n": 505
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl",
+      "bytes": 1371437,
+      "lines": 522,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 257,
+      "toolResults": 257,
+      "isErrorTrue": 13,
+      "errorRate": 0.0506,
+      "allowlist": 5,
+      "retries": 0,
+      "editMisses": 8,
+      "readMisses": 1,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 16,
+      "assistantMsgs": 236,
+      "episodesWithTools": 220,
+      "maxToolStreak": 12,
+      "models": [
+        [
+          "zai-org/glm-5.2",
+          236
+        ],
+        [
+          "deepseek-v4-flash",
+          2
+        ],
+        [
+          "deepseek-v4-flash-free",
+          1
+        ]
+      ],
+      "providers": [
+        [
+          "Lilac",
+          236
+        ],
+        [
+          "Venice",
+          2
+        ],
+        [
+          "opencode",
+          1
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          137
+        ],
+        [
+          "ctx_read",
+          44
+        ],
+        [
+          "write",
+          22
+        ],
+        [
+          "ctx_execute",
+          18
+        ],
+        [
+          "ctx_batch_execute",
+          11
+        ],
+        [
+          "daily_log",
+          8
+        ],
+        [
+          "ctx_grep",
+          5
+        ],
+        [
+          "ctx_edit",
+          3
+        ]
+      ],
+      "failReasons": [
+        [
+          "timeout",
+          15
+        ],
+        [
+          "isError",
+          13
+        ],
+        [
+          "context_overflow",
+          7
+        ],
+        [
+          "soft_error_text",
+          5
+        ],
+        [
+          "allowlist_block",
+          5
+        ],
+        [
+          "edit_context_miss",
+          5
+        ],
+        [
+          "enoent",
+          4
+        ],
+        [
+          "rate_limit",
+          4
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_read:timeout",
+          11
+        ],
+        [
+          "ctx_shell:isError",
+          5
+        ],
+        [
+          "ctx_shell:context_overflow",
+          3
+        ],
+        [
+          "ctx_batch_execute:timeout",
+          3
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          3
+        ],
+        [
+          "ctx_edit:isError",
+          3
+        ],
+        [
+          "ctx_shell:edit_context_miss",
+          3
+        ],
+        [
+          "ctx_read:isError",
+          2
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          220
+        ],
+        [
+          "stop",
+          15
+        ],
+        [
+          "error",
+          1
+        ]
+      ],
+      "shellCmds": [
+        [
+          "#",
+          90
+        ],
+        [
+          "cd",
+          14
+        ],
+        [
+          "ls",
+          6
+        ],
+        [
+          "cat",
+          5
+        ],
+        [
+          "LATEST=$(ls",
+          4
+        ],
+        [
+          "echo",
+          4
+        ],
+        [
+          "grep",
+          3
+        ],
+        [
+          "find",
+          2
+        ]
+      ],
+      "rereadHot": [
+        [
+          "/home/alex/.pi/agent/npm/node_modules/pi-autoresearch/extensions/pi-autoresearch/index.ts",
+          6
+        ],
+        [
+          "/home/alex/.pi/agent/npm/node_modules/context-mode/build/adapters/openclaw/plugin.js",
+          4
+        ],
+        [
+          "/home/alex/.pi/agent/npm/node_modules/context-mode/build/adapters/pi/extension.js",
+          4
+        ],
+        [
+          "/home/alex/.pi/agent/npm/node_modules/pi-tscg/extensions/tscg.ts",
+          4
+        ]
+      ],
+      "errorSamples": [
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "isError",
+            "enoent"
+          ],
+          "isError": true,
+          "snippet": "Error: could not read /home/alex/.pi/agent/.auto/prompt.md"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "enoent",
+            "not_a_directory",
+            "soft_error_text"
+          ],
+          "isError": false,
+          "snippet": "ERROR: /home/alex/.pi/agent/.auto does not exist or is not a directory Compressed 18 \u2192 18 tokens (0%)."
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "/home/alex/.pi/agent/ (empty directory, depth=3) Compressed 12 \u2192 12 tokens (0%)."
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block",
+            "context_overflow"
+          ],
+          "isError": false,
+          "snippet": "--- name: ce-lite description: CE-lite orchestrator \u2014 the single entrypoint for non-trivial work. Answers simple questions directly; otherwise grills only blocking questions, writes contract terms, executes with dynamic-workflow subagents, "
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "<div align=\"center\"> <img height=\"120\" alt=\"result\" src=\"https://github.com/user-attachments/assets/c66cbd02-4491-4833-a63a-142cfd7530c1\" /> # pi-autoresearch ### Autonomous experiment loop for pi **[Install](#install)** \u00b7 **[Usage](#usage)"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "--- name: autoresearch-create description: Set up and run an autonomous experiment loop for any optimization target. Gathers what to optimize, then starts the loop immediately. Use when asked to \"run autoresearch\", \"optimize X in a loop\", \""
+        }
+      ],
+      "userPromptsSample": [
+        "/skill:autoresearch-create audit existing autoresearch and review the latest harness engineering techniques and lets improve our existing configuration in token efficiency,accuracy, tool calls, memory etc - review existing plugins and consi",
+        "<skill name=\"autoresearch-finalize\" location=\"/home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch-finalize/SKILL.md\"> References are relative to /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch",
+        "did you actually improved the current harness performacne, or just the autoresearch benchmark that measures it? if its the former, when do these hook scripts actually run? Is this all automatic?",
+        "I see. Yes, lets actually apply the actual harness-level improvements! That is always the goal of autoresearch being run on this folder"
+      ],
+      "classSignals": {
+        "validationRepair": 4,
+        "boundaryChange": 7,
+        "lifecycle": 2,
+        "operationControl": 1,
+        "readOnly": 7
+      },
+      "first": "2026-08-03T05:19:41.001Z",
+      "last": "2026-08-03T06:45:27.845Z",
+      "usage": {
+        "input": 1920989,
+        "output": 128873,
+        "cacheRead": 34425664,
+        "totalTokens": 36475526,
+        "n": 236
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl",
+      "bytes": 718929,
+      "lines": 218,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 139,
+      "toolResults": 139,
+      "isErrorTrue": 15,
+      "errorRate": 0.1079,
+      "allowlist": 13,
+      "retries": 0,
+      "editMisses": 3,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 6,
+      "assistantMsgs": 64,
+      "episodesWithTools": 56,
+      "maxToolStreak": 17,
+      "models": [
+        [
+          "grok-4-5",
+          65
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          65
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_read",
+          55
+        ],
+        [
+          "ctx_shell",
+          35
+        ],
+        [
+          "write",
+          14
+        ],
+        [
+          "ctx_grep",
+          10
+        ],
+        [
+          "edit",
+          9
+        ],
+        [
+          "ctx_find",
+          5
+        ],
+        [
+          "workflow",
+          5
+        ],
+        [
+          "ctx_ls",
+          4
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          15
+        ],
+        [
+          "allowlist_block",
+          13
+        ],
+        [
+          "lean_ctx_failed",
+          5
+        ],
+        [
+          "exception",
+          3
+        ],
+        [
+          "context_overflow",
+          2
+        ],
+        [
+          "edit_context_miss",
+          2
+        ],
+        [
+          "timeout",
+          2
+        ],
+        [
+          "soft_error_text",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_read:allowlist_block",
+          9
+        ],
+        [
+          "ctx_find:isError",
+          5
+        ],
+        [
+          "ctx_find:lean_ctx_failed",
+          5
+        ],
+        [
+          "ctx_shell:isError",
+          4
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          4
+        ],
+        [
+          "workflow:isError",
+          3
+        ],
+        [
+          "ctx_read:exception",
+          3
+        ],
+        [
+          "ctx_read:context_overflow",
+          2
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          56
+        ],
+        [
+          "stop",
+          8
+        ]
+      ],
+      "shellCmds": [
+        [
+          "export",
+          7
+        ],
+        [
+          "#",
+          6
+        ],
+        [
+          "ls",
+          5
+        ],
+        [
+          "curl",
+          2
+        ],
+        [
+          "find",
+          2
+        ],
+        [
+          "git",
+          2
+        ],
+        [
+          "cat",
+          2
+        ],
+        [
+          "VARIANT_B=/tmp/pi-ce-b-smoke-agent",
+          2
+        ]
+      ],
+      "rereadHot": [
+        [
+          "/home/alex/.pi/agent/skills/to-tickets/SKILL.md",
+          5
+        ],
+        [
+          "/home/alex/.pi/agent/skills/ce-lite/reference.md",
+          4
+        ],
+        [
+          "/home/alex/.pi/agent/skills/wayfinder/SKILL.md",
+          4
+        ],
+        [
+          "/home/alex/Projects/pi-harness-config/README.md",
+          4
+        ],
+        [
+          "/home/alex/.pi/agent/skills/ce-lite/SKILL.md",
+          3
+        ]
+      ],
+      "errorSamples": [
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/writing-great-skills/**/* /home/alex/.pi/agent"
+        },
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/ce-lite/**/* /home/alex/.pi/agent"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "context_overflow"
+          ],
+          "isError": false,
+          "snippet": "--- name: writing-great-skills description: Reference for writing and editing skills well \u2014 the vocabulary and principles that make a skill predictable. disable-model-invocation: true --- A skill exists to wrangle determinism out of a stoch"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-08-04T12:05:55.750248Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist::enforcement\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'python3' with inline c"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block"
+          ],
+          "isError": false,
+          "snippet": "Wayfinding.md 78L lines:1-80 1| # Wayfinding 2| 3| Disclosed from `reference.md`. Read when work is too big for one agent session \u2014 multi-session efforts where the way from here to the destination isn't visible yet. 4| 5| Wayfinding is abou"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "allowlist_block"
+          ],
+          "isError": false,
+          "snippet": "Context-health.md 21L lines:1-60 1| # Context health \u2014 proactive handoff 2| 3| Disclosed from `SKILL.md`. Read when work is long-running or context pressure is possible. 4| 5| Hand off before context degrades; compaction is the fallback, no"
+        }
+      ],
+      "userPromptsSample": [
+        "use the /writing-great-skills and consider https://github.com/mattpocock/skills against the goals of my /ce-lite workflow and my existing skills  --- [workflows mode armed. Decide first: if this message is a question, a trivial task, or jus",
+        "do it.",
+        "ok, lets ensure this change is applied to this current pi configuration, then lets update the remote repo master abd readme wuth tge tweaks. is tgere a way we can smoke test the skill worklow with another model?",
+        "test b first to test if its actuslly a better connected ce-flow, then lets decide on a or b"
+      ],
+      "classSignals": {
+        "validationRepair": 2,
+        "boundaryChange": 2,
+        "lifecycle": 0,
+        "operationControl": 1,
+        "readOnly": 1
+      },
+      "first": "2026-08-04T12:02:09.776Z",
+      "last": "2026-08-04T13:42:21.689Z",
+      "usage": {
+        "input": 836869,
+        "output": 49762,
+        "cacheRead": 1518464,
+        "totalTokens": 2405095,
+        "n": 64
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl",
+      "bytes": 951410,
+      "lines": 285,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 127,
+      "toolResults": 127,
+      "isErrorTrue": 9,
+      "errorRate": 0.0709,
+      "allowlist": 6,
+      "retries": 0,
+      "editMisses": 4,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 21,
+      "assistantMsgs": 121,
+      "episodesWithTools": 97,
+      "maxToolStreak": 7,
+      "models": [
+        [
+          "kimi-k3",
+          91
+        ],
+        [
+          "zai-org/glm-5.2",
+          17
+        ],
+        [
+          "deepseek-v4-flash",
+          15
+        ],
+        [
+          "moonshotai/kimi-k2.6",
+          3
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          91
+        ],
+        [
+          "Lilac",
+          20
+        ],
+        [
+          "deepseek",
+          15
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_batch_execute",
+          43
+        ],
+        [
+          "ctx_shell",
+          26
+        ],
+        [
+          "edit",
+          23
+        ],
+        [
+          "ctx_read",
+          13
+        ],
+        [
+          "ctx_execute",
+          11
+        ],
+        [
+          "write",
+          9
+        ],
+        [
+          "ctx_execute_file",
+          1
+        ],
+        [
+          "ctx_grep",
+          1
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          9
+        ],
+        [
+          "enoent",
+          8
+        ],
+        [
+          "exception",
+          6
+        ],
+        [
+          "allowlist_block",
+          6
+        ],
+        [
+          "command_not_found",
+          5
+        ],
+        [
+          "timeout",
+          5
+        ],
+        [
+          "edit_context_miss",
+          4
+        ],
+        [
+          "rate_limit",
+          2
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:isError",
+          5
+        ],
+        [
+          "edit:isError",
+          4
+        ],
+        [
+          "edit:edit_context_miss",
+          4
+        ],
+        [
+          "ctx_batch_execute:enoent",
+          4
+        ],
+        [
+          "ctx_batch_execute:command_not_found",
+          4
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          4
+        ],
+        [
+          "ctx_shell:enoent",
+          3
+        ],
+        [
+          "ctx_execute:exception",
+          3
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          97
+        ],
+        [
+          "stop",
+          17
+        ],
+        [
+          "error",
+          7
+        ]
+      ],
+      "shellCmds": [
+        [
+          "cd",
+          7
+        ],
+        [
+          "rm",
+          5
+        ],
+        [
+          "grep",
+          3
+        ],
+        [
+          "python3",
+          3
+        ],
+        [
+          "sed",
+          2
+        ],
+        [
+          "ls",
+          2
+        ],
+        [
+          "cat",
+          2
+        ],
+        [
+          "systemctl",
+          1
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "rate_limit"
+          ],
+          "isError": false,
+          "snippet": ".bashrc [56L] lines:14-41 14| alias grep='grep --color=auto' 15| PS1='[\\u@\\h \\W]\\$ ' 16| 17| export PATH=\"$HOME/.local/bin:$PATH\" 18| 19| # >>> headroom persistent env >>> 20| export HEADROOM_PORT=\"8787\" 21| export HEADROOM_HOST=\"127.0.0.1\""
+        },
+        {
+          "tool": "edit",
+          "reasons": [
+            "isError",
+            "edit_context_miss"
+          ],
+          "isError": true,
+          "snippet": "Could not find the exact text in /home/alex/.bashrc. The old text must match exactly including all whitespace and newlines."
+        },
+        {
+          "tool": "edit",
+          "reasons": [
+            "isError",
+            "edit_context_miss"
+          ],
+          "isError": true,
+          "snippet": "Could not find edits[1] in /home/alex/.bashrc. The oldText must match exactly including all whitespace and newlines."
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "alias grep='grep --color=auto' PS1='[\\u@\\h \\W]\\$ '  export PATH=\"$HOME/.local/bin:$PATH\"  export PATH=\"$HOME/.bun/bin:$PATH\" export GIT_DISCOVERY_ACROSS_FILESYSTEM=1 export PATH=\"$HOME/.local/bin:$PATH\" . \"$HOME/.cargo/env\" # lean-ctx shell"
+        },
+        {
+          "tool": "ctx_batch_execute",
+          "reasons": [
+            "enoent"
+          ],
+          "isError": false,
+          "snippet": "Executed 2 commands (22 lines, 2.9KB). Indexed 2 sections. Searched 2 queries. ## Commands - Verify all gone: `ls /home/alex/.omp /home/alex/.rtk-data /home/alex/.config/rtk /home/alex/.headroom /home/alex/.pi/agent/skills/system-health-che"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "enoent"
+          ],
+          "isError": false,
+          "snippet": "Ls: cannot access '/home/alex/.pi-lens': No such file or directory ls: cannot access '/home/alex/.pi-glla': No such file or directory ls: cannot access '/home/alex/.pi-meter': No such file or directory 400M\t/home/alex/.pi /dev/nvme0n1p2 3,7"
+        }
+      ],
+      "userPromptsSample": [
+        "completely remove the OMP agent harness from this system, including all associated plugins. Ask questions if yo uare unsure of what to remove",
+        "1. if the /home/alex/.p/agents harness binary doesnt use RTK or headroom - lets remove them both. If I want to install them for another harness in the future - I will install them specifically for those harnesses.  2. Hard delete. You may l",
+        "are there any old hidden files or folders for pi that I am not using - like old extensions folders?",
+        "clean it - if you can confirm this pi config im using currently isn't using .pi-lens then yes, remove it"
+      ],
+      "classSignals": {
+        "validationRepair": 6,
+        "boundaryChange": 9,
+        "lifecycle": 7,
+        "operationControl": 2,
+        "readOnly": 3
+      },
+      "first": "2026-07-30T14:23:08.320Z",
+      "last": "2026-07-30T17:10:57.868Z",
+      "usage": {
+        "input": 1515356,
+        "output": 94206,
+        "cacheRead": 12471616,
+        "totalTokens": 14081178,
+        "n": 121
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-04T07-28-21-799Z_019fcbac-6927-75ff-a6a9-bd3037a0c294.jsonl",
+      "bytes": 704624,
+      "lines": 236,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 110,
+      "toolResults": 110,
+      "isErrorTrue": 10,
+      "errorRate": 0.0909,
+      "allowlist": 2,
+      "retries": 0,
+      "editMisses": 1,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 12,
+      "assistantMsgs": 108,
+      "episodesWithTools": 96,
+      "maxToolStreak": 42,
+      "models": [
+        [
+          "deepseek-v4-flash-free",
+          109
+        ]
+      ],
+      "providers": [
+        [
+          "opencode",
+          109
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          87
+        ],
+        [
+          "ctx_fetch_and_index",
+          5
+        ],
+        [
+          "ctx_find",
+          4
+        ],
+        [
+          "ctx_read",
+          4
+        ],
+        [
+          "ctx_search",
+          4
+        ],
+        [
+          "ctx_ls",
+          3
+        ],
+        [
+          "ctx_edit",
+          1
+        ],
+        [
+          "write",
+          1
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          10
+        ],
+        [
+          "soft_error_text",
+          4
+        ],
+        [
+          "empty_dir_listing",
+          3
+        ],
+        [
+          "lean_ctx_failed",
+          2
+        ],
+        [
+          "enoent",
+          2
+        ],
+        [
+          "timeout",
+          2
+        ],
+        [
+          "allowlist_block",
+          2
+        ],
+        [
+          "rate_limit",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:isError",
+          7
+        ],
+        [
+          "ctx_shell:soft_error_text",
+          4
+        ],
+        [
+          "ctx_find:isError",
+          2
+        ],
+        [
+          "ctx_find:lean_ctx_failed",
+          2
+        ],
+        [
+          "ctx_shell:empty_dir_listing",
+          2
+        ],
+        [
+          "ctx_shell:enoent",
+          2
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          2
+        ],
+        [
+          "ctx_ls:empty_dir_listing",
+          1
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          96
+        ],
+        [
+          "stop",
+          12
+        ]
+      ],
+      "shellCmds": [
+        [
+          "cd",
+          43
+        ],
+        [
+          "echo",
+          14
+        ],
+        [
+          "lean-ctx",
+          7
+        ],
+        [
+          "ls",
+          4
+        ],
+        [
+          "rm",
+          4
+        ],
+        [
+          "curl",
+          3
+        ],
+        [
+          "strings",
+          2
+        ],
+        [
+          "pi",
+          2
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find *no-ai-slop* /home/alex/.pi"
+        },
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find *no-ai-slop* /home/alex/.pi/agent/skills"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "--- AUTO CONTEXT --- [task: Working on /home/alex/.pi/agent/npm/node_modules/@quintinshaw/pi-dynamic-workflows/dist (explore)] No graph available. Use ctx_overview for project map. --- END AUTO CONTEXT --- /home/alex/.pi/agent/skills/ (empt"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "===ls skills=== /home/alex/.pi/agent/skills/ (empty directory, depth=3) exit=0 ===find *=== /home/alex/.pi/agent/skills exit=0 ===hidden dir test=== /tmp/lctx-hidden /tmp/lctx-hidden/visible.md exit=0 Compressed 50 \u2192 50 tokens (0%)."
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "===config===  --- stderr --- zsh:1: no matches found: /home/alex/.lean-ctx/*.toml [lean-ctx: full output -> /home/alex/.local/state/lean-ctx/tee/ls_-la____lean-ctx__2__dev_null__echo____6d7e7b25.log (redacted, 24h TTL)]  Command exited with"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "===ls.pi=== /home/alex/.pi/ (empty directory, depth=3) exit=0 ===ls agent=== /home/alex/.pi/agent/ (empty directory, depth=3) exit=0 ===find hidden root=== /tmp/lctx-hidden/.hiddendir /tmp/lctx-hidden/.hiddendir/x.md exit=0 ===gitignore?==="
+        }
+      ],
+      "userPromptsSample": [
+        "Take this Luma invitation and convert it into a teaser for linkedin to get people curious who'd like to attend and live in Braga:   Tech Lands started with a simple idea from Alex Myers: people building things in Portugal deserve a place to",
+        "I don't like either, use the /no-ai-slop skill to make another - and focus on the fact that this one is international - a mix of expats and Braga natives",
+        "I (Alex Myers) and the poster - so don't make the linkedin teaser about me!",
+        "find *no-ai-slop* in ~/.pi/agent/skills  lean-ctx failed: find *no-ai-slop* /home/alex/.pi/agent/skills Help me fix why this occurred - why did lean-ctx fail and need to use more tokens to find the right skill? This is an efficiency loss"
+      ],
+      "classSignals": {
+        "validationRepair": 2,
+        "boundaryChange": 6,
+        "lifecycle": 0,
+        "operationControl": 0,
+        "readOnly": 4
+      },
+      "first": "2026-08-04T07:28:21.799Z",
+      "last": "2026-08-04T08:24:40.469Z",
+      "usage": {
+        "input": 153726,
+        "output": 108971,
+        "cacheRead": 8469504,
+        "totalTokens": 8732201,
+        "n": 108
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-03T06-46-22-885Z_019fc65f-9da5-77b5-9847-81e5548830ed.jsonl",
+      "bytes": 564092,
+      "lines": 208,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 103,
+      "toolResults": 103,
+      "isErrorTrue": 13,
+      "errorRate": 0.1262,
+      "allowlist": 7,
+      "retries": 0,
+      "editMisses": 3,
+      "readMisses": 1,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 9,
+      "assistantMsgs": 91,
+      "episodesWithTools": 81,
+      "maxToolStreak": 14,
+      "models": [
+        [
+          "zai-org/glm-5.2",
+          92
+        ]
+      ],
+      "providers": [
+        [
+          "Lilac",
+          92
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          47
+        ],
+        [
+          "ctx_read",
+          14
+        ],
+        [
+          "ctx_fetch_and_index",
+          11
+        ],
+        [
+          "write",
+          10
+        ],
+        [
+          "ctx_search",
+          8
+        ],
+        [
+          "edit",
+          5
+        ],
+        [
+          "ctx_ls",
+          3
+        ],
+        [
+          "ctx_edit",
+          2
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          13
+        ],
+        [
+          "allowlist_block",
+          7
+        ],
+        [
+          "rate_limit",
+          4
+        ],
+        [
+          "exception",
+          3
+        ],
+        [
+          "command_not_found",
+          2
+        ],
+        [
+          "context_overflow",
+          2
+        ],
+        [
+          "enoent",
+          1
+        ],
+        [
+          "timeout",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:isError",
+          5
+        ],
+        [
+          "ctx_shell:rate_limit",
+          4
+        ],
+        [
+          "ctx_fetch_and_index:isError",
+          4
+        ],
+        [
+          "ctx_search:allowlist_block",
+          3
+        ],
+        [
+          "ctx_edit:isError",
+          2
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          2
+        ],
+        [
+          "ctx_read:exception",
+          2
+        ],
+        [
+          "ctx_read:command_not_found",
+          2
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          81
+        ],
+        [
+          "stop",
+          9
+        ],
+        [
+          "error",
+          1
+        ]
+      ],
+      "shellCmds": [
+        [
+          "cd",
+          32
+        ],
+        [
+          "echo",
+          5
+        ],
+        [
+          "bash",
+          3
+        ],
+        [
+          "python3",
+          2
+        ],
+        [
+          "diff",
+          2
+        ],
+        [
+          "for",
+          1
+        ],
+        [
+          "jq",
+          1
+        ],
+        [
+          "cat",
+          1
+        ]
+      ],
+      "rereadHot": [
+        [
+          "/home/alex/Projects/pi-harness-config/docs/harness-progress-summary.md",
+          4
+        ]
+      ],
+      "errorSamples": [
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "### chars=8 run1 ### === chars=8 === METRIC probe_tokens=4378 METRIC bench_tokens=19997 METRIC checks_pass=1 METRIC current_max_desc_chars=8 ### chars=8 run2 ### === chars=8 === METRIC probe_tokens=4378 METRIC bench_tokens=21735 METRIC chec"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-08-03T06:55:27.950703Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'python3' with heredoc stdin is bloc"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-08-03T06:55:29.865050Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'perl' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'perl' with combined flag '-pe' contain"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "exception"
+          ],
+          "isError": false,
+          "snippet": "# Pi Harness Config \u2014 CE-lite A thin, measured Pi configuration for a **non-developer, contract-only operator**. One orchestrator (`ce-lite`) routes everything \u2014 simple questions get direct answers, non-trivial work runs a contract loop (gr"
+        }
+      ],
+      "userPromptsSample": [
+        "run this autoresearch campaign:   Campaign 1 \u2014 TSCG tuning (ready to run immediately):  - Branch autoresearch/tscg-desc-chars-2026-08-03 in ~/Projects/pi-harness-config  - .auto/prompt.md, .auto/measure.sh, .auto/checks.sh all committed  - ",
+        "ok, and this setting is active now for my pi config?",
+        "ok - update the remote repo so that these settings can be apllied on other configurations: https://github.com/armchairfuturist-code/pi-harness-config - update any measurements if they are no longer accurate too - ensure the focus of the rea",
+        "always merge these chagnes to master - as we can always assume that master is the latest updated optimized list - there is no need for PRs - as I am the only owner of the repo!"
+      ],
+      "classSignals": {
+        "validationRepair": 1,
+        "boundaryChange": 7,
+        "lifecycle": 2,
+        "operationControl": 1,
+        "readOnly": 4
+      },
+      "first": "2026-08-03T06:46:22.885Z",
+      "last": "2026-08-03T07:23:14.530Z",
+      "usage": {
+        "input": 323926,
+        "output": 43914,
+        "cacheRead": 3305408,
+        "totalTokens": 3673248,
+        "n": 91
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl",
+      "bytes": 588495,
+      "lines": 144,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 83,
+      "toolResults": 83,
+      "isErrorTrue": 11,
+      "errorRate": 0.1325,
+      "allowlist": 4,
+      "retries": 0,
+      "editMisses": 4,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 10,
+      "assistantMsgs": 45,
+      "episodesWithTools": 35,
+      "maxToolStreak": 11,
+      "models": [
+        [
+          "grok-4-5",
+          46
+        ],
+        [
+          "zai-org/glm-5.2",
+          1
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          46
+        ],
+        [
+          "Lilac",
+          1
+        ]
+      ],
+      "topTools": [
+        [
+          "write",
+          24
+        ],
+        [
+          "ctx_shell",
+          18
+        ],
+        [
+          "edit",
+          12
+        ],
+        [
+          "ctx_read",
+          10
+        ],
+        [
+          "ctx_fetch_and_index",
+          6
+        ],
+        [
+          "ctx_edit",
+          4
+        ],
+        [
+          "ctx_batch_execute",
+          2
+        ],
+        [
+          "ctx_grep",
+          2
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          11
+        ],
+        [
+          "allowlist_block",
+          4
+        ],
+        [
+          "empty_dir_listing",
+          1
+        ],
+        [
+          "command_not_found",
+          1
+        ],
+        [
+          "enoent",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_edit:isError",
+          4
+        ],
+        [
+          "ctx_shell:isError",
+          4
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          3
+        ],
+        [
+          "ctx_fetch_and_index:isError",
+          1
+        ],
+        [
+          "ctx_ls:empty_dir_listing",
+          1
+        ],
+        [
+          "ctx_execute_file:isError",
+          1
+        ],
+        [
+          "ctx_execute_file:allowlist_block",
+          1
+        ],
+        [
+          "ctx_shell:command_not_found",
+          1
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          35
+        ],
+        [
+          "stop",
+          10
+        ]
+      ],
+      "shellCmds": [
+        [
+          "python3",
+          5
+        ],
+        [
+          "find",
+          3
+        ],
+        [
+          "xdg-open",
+          2
+        ],
+        [
+          "cd",
+          2
+        ],
+        [
+          "ls",
+          2
+        ],
+        [
+          "grep",
+          1
+        ],
+        [
+          "pwd;",
+          1
+        ],
+        [
+          "mkdir",
+          1
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_fetch_and_index",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "Failed to fetch https://raw.githubusercontent.com/openai/plugins/main/plugins/life-science-research/plugin.json: HTTP 404 "
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "/home/alex/.pi/agent/skills/teach/ (empty directory, depth=3) Compressed 16 \u2192 16 tokens (0%)."
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "Validation failed for tool \"ctx_edit\":   - new_string: must have required properties new_string  Received arguments: {   \"path\": \"/home/alex/Documents/macuhealth-agent-playbook/index.html\",   \"old_string\": \"<strong>Lesson 1 \u2014 The idea\ufffd\ufffdship"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "[BLOCKED \u2014 DO NOT RETRY] Interpreter 'python3' with heredoc stdin is blocked. Inline code in the command string leaves no auditable artifact. Do this instead: write the code to a file, then run it \u2014 1. create /tmp/snippet with your code (Wr"
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "Validation failed for tool \"ctx_edit\":   - new_string: must have required properties new_string  Received arguments: {   \"path\": \"/home/alex/Documents/macuhealth-agent-playbook/index.html\",   \"old_string\": \"<strong>Lesson 1 \u2014 The idea\ufffd\ufffdship"
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        }
+      ],
+      "userPromptsSample": [
+        "<skill name=\"last30days\" location=\"/home/alex/.pi/agent/skills/last30days/SKILL.md\"> References are relative to /home/alex/.pi/agent/skills/last30days.  # STEP 0: STALE-CLONE SELF-CHECK \u2014 RUN BEFORE READING BELOW  Before reading anything el",
+        "so if this is not quite the right tool for the job (https://github.com/openai/plugins/tree/main/plugins/life-science-research) - perhaps we should design something specifically for macuhealth?  In the AI age - is there really a reason to bu",
+        "<skill name=\"ask-matt\" location=\"/home/alex/.pi/agent/skills/ask-matt/SKILL.md\"> References are relative to /home/alex/.pi/agent/skills/ask-matt.  # Ask Matt  You don't remember every skill, so ask.  A **flow** is a path through the skills.",
+        "why not 'grill with docs'?"
+      ],
+      "classSignals": {
+        "validationRepair": 5,
+        "boundaryChange": 6,
+        "lifecycle": 4,
+        "operationControl": 4,
+        "readOnly": 4
+      },
+      "first": "2026-07-31T06:20:32.495Z",
+      "last": "2026-07-31T07:22:58.025Z",
+      "usage": {
+        "input": 347826,
+        "output": 36228,
+        "cacheRead": 4077184,
+        "totalTokens": 4461238,
+        "n": 45
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl",
+      "bytes": 641560,
+      "lines": 191,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 80,
+      "toolResults": 80,
+      "isErrorTrue": 13,
+      "errorRate": 0.1625,
+      "allowlist": 6,
+      "retries": 0,
+      "editMisses": 1,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 10,
+      "assistantMsgs": 73,
+      "episodesWithTools": 63,
+      "maxToolStreak": 6,
+      "models": [
+        [
+          "grok-4-5",
+          74
+        ],
+        [
+          "zai-org-glm-5-2",
+          1
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          75
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          40
+        ],
+        [
+          "ctx_execute",
+          17
+        ],
+        [
+          "ctx_batch_execute",
+          9
+        ],
+        [
+          "ctx_read",
+          5
+        ],
+        [
+          "ctx_fetch_and_index",
+          3
+        ],
+        [
+          "ctx_search",
+          3
+        ],
+        [
+          "ctx_find",
+          1
+        ],
+        [
+          "last30days_research",
+          1
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          13
+        ],
+        [
+          "allowlist_block",
+          6
+        ],
+        [
+          "context_overflow",
+          4
+        ],
+        [
+          "timeout",
+          4
+        ],
+        [
+          "lean_ctx_failed",
+          1
+        ],
+        [
+          "rate_limit",
+          1
+        ],
+        [
+          "soft_error_text",
+          1
+        ],
+        [
+          "exception",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:isError",
+          9
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          5
+        ],
+        [
+          "ctx_shell:context_overflow",
+          3
+        ],
+        [
+          "ctx_shell:timeout",
+          3
+        ],
+        [
+          "ctx_execute:isError",
+          2
+        ],
+        [
+          "ctx_find:isError",
+          1
+        ],
+        [
+          "ctx_find:lean_ctx_failed",
+          1
+        ],
+        [
+          "last30days_research:rate_limit",
+          1
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          63
+        ],
+        [
+          "stop",
+          10
+        ]
+      ],
+      "shellCmds": [
+        [
+          "cd",
+          29
+        ],
+        [
+          "#",
+          6
+        ],
+        [
+          "find",
+          1
+        ],
+        [
+          "ls",
+          1
+        ],
+        [
+          "sed",
+          1
+        ],
+        [
+          "rg",
+          1
+        ],
+        [
+          "curl",
+          1
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block",
+            "context_overflow"
+          ],
+          "isError": true,
+          "snippet": "f33583abfbd6322f99275689ad5d3bde10066818 autoresearch/pi-token-efficiency-2026-07-14 ## autoresearch/pi-token-efficiency-2026-07-14  M .auto/log.jsonl ?? .auto/bench/ ?? .auto/ideas.md === total 36 drwxr-xr-x 1 alex alex    82 jul 15 10:07 "
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "context_overflow"
+          ],
+          "isError": true,
+          "snippet": "===KEPT=== {\"run\":1,\"commit\":\"ac5a2b3\",\"metric\":46106,\"metrics\":{\"task_success\":1},\"status\":\"keep\",\"description\":\"Baseline measurement. Config: thinking=low, compaction reserveTokens=60000 keepRecentTokens=10000, packages WITHOUT pi-slim. T"
+        },
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/SKILL.md /home/alex/.pi/agent/npm/node_modules/pi-autoresearch"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "context_overflow"
+          ],
+          "isError": false,
+          "snippet": "Assets CHANGELOG.md extensions LICENSE package.json README.md skills /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/CHANGELOG.md /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/README.md /home/alex/.pi/agent/npm/node_modules/pi"
+        },
+        {
+          "tool": "last30days_research",
+          "reasons": [
+            "rate_limit",
+            "soft_error_text"
+          ],
+          "isError": false,
+          "snippet": "/last30days \u00b7 researching: AI coding agent harness engineering token efficiency context management 2026 \u23f3 \u001b[95mProcessing\u001b[0m Crunching the data... [Resolve] Search failed for news: HTTP 429: Too Many Requests [Resolve] Matched category=ai_"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "Action-context-axes-analysis-20260729.md autoresearch-celite-suite-20260730 autoresearch-config-overhead-20260728 autoresearch-prompt-quality-20260726 autoresearch-terseness-20260729 autoresearch-thinking-20260729 base64-private-benchmark-2"
+        }
+      ],
+      "userPromptsSample": [
+        "<skill name=\"autoresearch-finalize\" location=\"/home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch-finalize/SKILL.md\"> References are relative to /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch",
+        "lets actually close this autoresearch run and start fresh based on the goals of the remote repo: https://github.com/armchairfuturist-code/pi-harness-config , the lates harness engineering research that might apply to pi and my configuration",
+        "go",
+        "ok - so what is your actual recommendation, did you make a live pi configuration change?"
+      ],
+      "classSignals": {
+        "validationRepair": 2,
+        "boundaryChange": 5,
+        "lifecycle": 1,
+        "operationControl": 2,
+        "readOnly": 4
+      },
+      "first": "2026-08-04T08:06:44.570Z",
+      "last": "2026-08-04T12:00:22.719Z",
+      "usage": {
+        "input": 418419,
+        "output": 40775,
+        "cacheRead": 5842944,
+        "totalTokens": 6302138,
+        "n": 73
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl",
+      "bytes": 481977,
+      "lines": 117,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 68,
+      "toolResults": 68,
+      "isErrorTrue": 8,
+      "errorRate": 0.1176,
+      "allowlist": 5,
+      "retries": 0,
+      "editMisses": 4,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 6,
+      "assistantMsgs": 35,
+      "episodesWithTools": 29,
+      "maxToolStreak": 6,
+      "models": [
+        [
+          "grok-4-5",
+          36
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          36
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          30
+        ],
+        [
+          "ctx_read",
+          20
+        ],
+        [
+          "ctx_grep",
+          6
+        ],
+        [
+          "ctx_ls",
+          3
+        ],
+        [
+          "ctx_find",
+          3
+        ],
+        [
+          "ctx_batch_execute",
+          2
+        ],
+        [
+          "ctx_edit",
+          2
+        ],
+        [
+          "edit",
+          2
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          8
+        ],
+        [
+          "allowlist_block",
+          5
+        ],
+        [
+          "enoent",
+          3
+        ],
+        [
+          "lean_ctx_failed",
+          2
+        ],
+        [
+          "empty_dir_listing",
+          2
+        ],
+        [
+          "timeout",
+          2
+        ],
+        [
+          "edit_context_miss",
+          2
+        ],
+        [
+          "rate_limit",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:allowlist_block",
+          5
+        ],
+        [
+          "ctx_shell:enoent",
+          3
+        ],
+        [
+          "ctx_find:isError",
+          2
+        ],
+        [
+          "ctx_find:lean_ctx_failed",
+          2
+        ],
+        [
+          "ctx_ls:empty_dir_listing",
+          2
+        ],
+        [
+          "ctx_shell:timeout",
+          2
+        ],
+        [
+          "ctx_shell:isError",
+          2
+        ],
+        [
+          "ctx_edit:isError",
+          2
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          29
+        ],
+        [
+          "stop",
+          6
+        ]
+      ],
+      "shellCmds": [
+        [
+          "#",
+          16
+        ],
+        [
+          "ls",
+          6
+        ],
+        [
+          "cd",
+          5
+        ],
+        [
+          "cat",
+          2
+        ],
+        [
+          "rm",
+          1
+        ]
+      ],
+      "rereadHot": [
+        [
+          "/home/alex/.pi/agent/memory/consolidated.md",
+          5
+        ],
+        [
+          "/home/alex/.pi/agent/memory/harnesses.md",
+          3
+        ],
+        [
+          "/home/alex/.pi/agent/skills/harness-doctor/SKILL.md",
+          3
+        ]
+      ],
+      "errorSamples": [
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/*.{md,log,json,txt} /home/alex/.pi"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "rate_limit"
+          ],
+          "isError": false,
+          "snippet": "Total 564 drwx------ 1 alex alex 880 ago 4 15:13. drwxr-xr-x 1 alex alex 152 ago 3 07:54.. drwxr-xr-x 1 alex alex 68 jul 26 07:34 agents -rw-r--r-- 1 alex alex 1081 ago 4 11:03 APPEND_SYSTEM.md -rw------- 1 alex alex 500 jul 26 21:56 auth.j"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "\u2500\u2500 /home/alex/.pi/agent/memory \u2500\u2500 /home/alex/.pi/agent/memory/ (empty directory, depth=3) Compressed 23 \u2192 23 tokens (0%)."
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "\u2500\u2500 /home/alex/.pi/agent/autoresearch-audit \u2500\u2500 /home/alex/.pi/agent/autoresearch-audit/ (empty directory, depth=3) Compressed 29 \u2192 29 tokens (0%)."
+        },
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/*.{md,jsonl} /home/alex/.pi/agent"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "context_overflow"
+          ],
+          "isError": false,
+          "snippet": "# mattpocock/skills \u00d7 ce-lite \u2014 recommendations WGS lens applied. Workflows OOM'd on token budget; analysis done inline against installed skill bodies + ce-lite companions. ## Executive verdict **Compose and prune; do not expand the pack.**"
+        }
+      ],
+      "userPromptsSample": [
+        "If you had to pick one obvious low hanging fruit from all my pi sessions that has still gone unaddressed in the last 30 days - what might it be?",
+        "what is dead? lean-ctx skill or the md file?",
+        "ok - if you're sure, yes remove it , then yeah lets remove the stale handoff.md",
+        "there must be somethig else from my pi sessions that is worth addressing?"
+      ],
+      "classSignals": {
+        "validationRepair": 1,
+        "boundaryChange": 2,
+        "lifecycle": 3,
+        "operationControl": 0,
+        "readOnly": 1
+      },
+      "first": "2026-08-04T14:12:35.998Z",
+      "last": "2026-08-04T14:29:44.769Z",
+      "usage": {
+        "input": 340075,
+        "output": 26283,
+        "cacheRead": 502144,
+        "totalTokens": 868502,
+        "n": 35
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl",
+      "bytes": 293951,
+      "lines": 104,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 66,
+      "toolResults": 65,
+      "isErrorTrue": 12,
+      "errorRate": 0.1846,
+      "allowlist": 2,
+      "retries": 0,
+      "editMisses": 1,
+      "readMisses": 4,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 1,
+      "assistantMsgs": 34,
+      "episodesWithTools": 34,
+      "maxToolStreak": 5,
+      "models": [
+        [
+          "grok-4-5",
+          35
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          35
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          28
+        ],
+        [
+          "ctx_read",
+          16
+        ],
+        [
+          "write",
+          8
+        ],
+        [
+          "subagent_status",
+          5
+        ],
+        [
+          "ctx_find",
+          3
+        ],
+        [
+          "subagent",
+          3
+        ],
+        [
+          "ctx_ls",
+          1
+        ],
+        [
+          "ctx_edit",
+          1
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          12
+        ],
+        [
+          "enoent",
+          5
+        ],
+        [
+          "lean_ctx_failed",
+          3
+        ],
+        [
+          "rate_limit",
+          2
+        ],
+        [
+          "allowlist_block",
+          2
+        ],
+        [
+          "empty_dir_listing",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_shell:isError",
+          4
+        ],
+        [
+          "ctx_read:isError",
+          4
+        ],
+        [
+          "ctx_read:enoent",
+          4
+        ],
+        [
+          "ctx_find:isError",
+          3
+        ],
+        [
+          "ctx_find:lean_ctx_failed",
+          3
+        ],
+        [
+          "ctx_shell:rate_limit",
+          2
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          2
+        ],
+        [
+          "ctx_ls:empty_dir_listing",
+          1
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          34
+        ]
+      ],
+      "shellCmds": [
+        [
+          "ls",
+          6
+        ],
+        [
+          "python3",
+          5
+        ],
+        [
+          "sleep",
+          4
+        ],
+        [
+          "find",
+          3
+        ],
+        [
+          "node",
+          3
+        ],
+        [
+          "mkdir",
+          2
+        ],
+        [
+          "OUT=/tmp/better-harness-run-$$;",
+          1
+        ],
+        [
+          "OUT=/tmp/better-harness-run;",
+          1
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/better-harness/**/SKILL.md /home/alex/.pi/agent"
+        },
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/better-harness* /home/alex/.pi/agent"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "rate_limit"
+          ],
+          "isError": false,
+          "snippet": "/home/alex/.pi/agent/skills/setup-ts-deep-modules/SKILL.md /home/alex/.pi/agent/skills/to-questionnaire/SKILL.md /home/alex/.pi/agent/skills/setup-pre-commit/SKILL.md /home/alex/.pi/agent/skills/ask-matt/SKILL.md /home/alex/.pi/agent/skills"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "\u2500\u2500 /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/skills/better-harness \u2500\u2500 /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/skills/better-harness/ (empty directory, depth=3) Compressed 51 \u2192 51 tokens (0%)."
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-08-04T20:56:49.580951Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist::enforcement\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'python3' with heredoc "
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        }
+      ],
+      "userPromptsSample": [
+        "Use the `better-harness` skill for this request. Read the skill's SKILL.md first and follow its workflow exactly; do not improvise a substitute review.  Host context for this run:  - The current provider is `pi`. Use `--platform pi` for evi"
+      ],
+      "classSignals": {
+        "validationRepair": 1,
+        "boundaryChange": 1,
+        "lifecycle": 1,
+        "operationControl": 0,
+        "readOnly": 1
+      },
+      "first": "2026-08-04T20:56:07.280Z",
+      "last": "2026-08-04T21:02:20.628Z",
+      "usage": {
+        "input": 216330,
+        "output": 14045,
+        "cacheRead": 389120,
+        "totalTokens": 619495,
+        "n": 34
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-03T06-46-55-539Z_019fc660-1d33-7e9b-a2ce-cd5ed8aa2b31.jsonl",
+      "bytes": 233578,
+      "lines": 103,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 51,
+      "toolResults": 51,
+      "isErrorTrue": 3,
+      "errorRate": 0.0588,
+      "allowlist": 0,
+      "retries": 0,
+      "editMisses": 1,
+      "readMisses": 1,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 3,
+      "assistantMsgs": 44,
+      "episodesWithTools": 41,
+      "maxToolStreak": 15,
+      "models": [
+        [
+          "zai-org/glm-5.2",
+          45
+        ]
+      ],
+      "providers": [
+        [
+          "Lilac",
+          45
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          35
+        ],
+        [
+          "ctx_read",
+          10
+        ],
+        [
+          "edit",
+          2
+        ],
+        [
+          "ctx_ls",
+          1
+        ],
+        [
+          "ctx_edit",
+          1
+        ],
+        [
+          "write",
+          1
+        ],
+        [
+          "daily_log",
+          1
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          3
+        ],
+        [
+          "timeout",
+          3
+        ],
+        [
+          "empty_dir_listing",
+          1
+        ],
+        [
+          "enoent",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_read:timeout",
+          3
+        ],
+        [
+          "ctx_ls:empty_dir_listing",
+          1
+        ],
+        [
+          "ctx_read:isError",
+          1
+        ],
+        [
+          "ctx_read:enoent",
+          1
+        ],
+        [
+          "ctx_edit:isError",
+          1
+        ],
+        [
+          "ctx_shell:isError",
+          1
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          41
+        ],
+        [
+          "stop",
+          3
+        ]
+      ],
+      "shellCmds": [
+        [
+          "cd",
+          13
+        ],
+        [
+          "#",
+          8
+        ],
+        [
+          "ls",
+          4
+        ],
+        [
+          "echo",
+          3
+        ],
+        [
+          "grep",
+          2
+        ],
+        [
+          "cat",
+          1
+        ],
+        [
+          "for",
+          1
+        ],
+        [
+          "find",
+          1
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "/home/alex/.pi/agent/extensions/ (empty directory, depth=3) Compressed 15 \u2192 15 tokens (0%)."
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "isError",
+            "enoent"
+          ],
+          "isError": true,
+          "snippet": "Error: could not read /home/alex/Projects/pi-harness-config/bench"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "#!/bin/bash # Autoresearch measure script. # Runs the pi harness bench workload and reports totalInputTokens from the # session jsonl (sum of input + cacheRead + cacheWrite across all requests). # # Workload: list files in a dir, read the l"
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "#!/bin/bash # Fast 1-request probe: measures per-request fixed overhead (system prompt + # tool schemas) of the COMMITTED repo config, cold-gated through the capture # proxy so provider-side prompt caching can't undercount. Direct Lilac pro"
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        },
+        {
+          "tool": "ctx_read",
+          "reasons": [
+            "timeout"
+          ],
+          "isError": false,
+          "snippet": "Index.ts [420L] lines:180-259 180| return; 181| } 182| armDeferredResumeStartTimeout(ctx, runtime); 183| }); 184| 185| pi.on(\"message_end\", async (event, ctx) => { 186| if (!isAssistantMessage(event.message)) return; 187| const settlement ="
+        }
+      ],
+      "userPromptsSample": [
+        "run this autoresearch campaign 2 only:  Campaign 2 \u2014 transcript-pruner (run after campaign 1):  - Documented in handoff. Needs enabling the extension + PI_TRANSCRIPT_PRUNE=1, then A/B with request count monitoring.  - Risk: previous pruning",
+        "ok great - and we can guarantee that compaction and pi-continue will work without errors going forward? This has been an issue in prior sessions",
+        "no - just update the remote repo with the changes you optimized in this session on pruning - if the issue arises later, I will address it ad-hoc. https://github.com/armchairfuturist-code/pi-harness-config"
+      ],
+      "classSignals": {
+        "validationRepair": 0,
+        "boundaryChange": 1,
+        "lifecycle": 2,
+        "operationControl": 0,
+        "readOnly": 0
+      },
+      "first": "2026-08-03T06:46:55.539Z",
+      "last": "2026-08-03T07:05:20.358Z",
+      "usage": {
+        "input": 163804,
+        "output": 24122,
+        "cacheRead": 1003648,
+        "totalTokens": 1191574,
+        "n": 44
+      }
+    },
+    {
+      "rel": "--home-alex-.pi-agent--/2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl",
+      "bytes": 282324,
+      "lines": 80,
+      "cwd": "/home/alex/.pi/agent",
+      "toolCalls": 50,
+      "toolResults": 50,
+      "isErrorTrue": 5,
+      "errorRate": 0.1,
+      "allowlist": 2,
+      "retries": 0,
+      "editMisses": 2,
+      "readMisses": 0,
+      "compactions": 0,
+      "compactionTokensBefore": [],
+      "userMsgs": 2,
+      "assistantMsgs": 23,
+      "episodesWithTools": 21,
+      "maxToolStreak": 3,
+      "models": [
+        [
+          "grok-4-5",
+          24
+        ]
+      ],
+      "providers": [
+        [
+          "Venice",
+          24
+        ]
+      ],
+      "topTools": [
+        [
+          "ctx_shell",
+          13
+        ],
+        [
+          "ctx_read",
+          11
+        ],
+        [
+          "ctx_search",
+          7
+        ],
+        [
+          "ctx_fetch_and_index",
+          5
+        ],
+        [
+          "ctx_ls",
+          4
+        ],
+        [
+          "ctx_execute",
+          3
+        ],
+        [
+          "ctx_grep",
+          2
+        ],
+        [
+          "ctx_edit",
+          2
+        ]
+      ],
+      "failReasons": [
+        [
+          "isError",
+          5
+        ],
+        [
+          "empty_dir_listing",
+          2
+        ],
+        [
+          "allowlist_block",
+          2
+        ],
+        [
+          "lean_ctx_failed",
+          1
+        ],
+        [
+          "soft_error_text",
+          1
+        ]
+      ],
+      "toolErrors": [
+        [
+          "ctx_ls:empty_dir_listing",
+          2
+        ],
+        [
+          "ctx_shell:isError",
+          2
+        ],
+        [
+          "ctx_shell:allowlist_block",
+          2
+        ],
+        [
+          "ctx_edit:isError",
+          2
+        ],
+        [
+          "ctx_find:isError",
+          1
+        ],
+        [
+          "ctx_find:lean_ctx_failed",
+          1
+        ],
+        [
+          "ctx_shell:soft_error_text",
+          1
+        ]
+      ],
+      "stopReasons": [
+        [
+          "toolUse",
+          21
+        ],
+        [
+          "stop",
+          2
+        ]
+      ],
+      "shellCmds": [
+        [
+          "BH=/home/alex/.pi/agent/npm/node_modules",
+          5
+        ],
+        [
+          "ls",
+          2
+        ],
+        [
+          "curl",
+          2
+        ],
+        [
+          "cd",
+          2
+        ],
+        [
+          "wc",
+          1
+        ],
+        [
+          "#",
+          1
+        ]
+      ],
+      "rereadHot": [],
+      "errorSamples": [
+        {
+          "tool": "ctx_find",
+          "reasons": [
+            "isError",
+            "lean_ctx_failed"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx failed: find **/*.{md,json,ts,js,yml,yaml} /home/alex/.pi/agent"
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "\u2500\u2500 /home/alex/.pi/agent/npm/node_modules/pi-autoresearch \u2500\u2500 /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/ (empty directory, depth=3) Compressed 36 \u2192 36 tokens (0%)."
+        },
+        {
+          "tool": "ctx_ls",
+          "reasons": [
+            "empty_dir_listing"
+          ],
+          "isError": false,
+          "snippet": "\u2500\u2500 /home/alex/.pi/agent/memory \u2500\u2500 /home/alex/.pi/agent/memory/ (empty directory, depth=3) Compressed 23 \u2192 23 tokens (0%)."
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "isError",
+            "allowlist_block"
+          ],
+          "isError": true,
+          "snippet": "\u001b[2m2026-08-04T15:44:02.968227Z\u001b[0m \u001b[33m WARN\u001b[0m \u001b[2mlean_ctx::core::shell_allowlist::enforcement\u001b[0m\u001b[2m:\u001b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED \u2014 DO NOT RETRY] Interpreter 'python3' with inline c"
+        },
+        {
+          "tool": "ctx_shell",
+          "reasons": [
+            "soft_error_text"
+          ],
+          "isError": false,
+          "snippet": "ANALYZE_ERR: harness analyze failed: unknown analyze argument: --bundle 0 /home/alex/.pi/agent/memory/better-harness/analyze.json /run/user/1000/fnm_multishells/7897_1785858133167/bin/pi Usage: pi install <source> [-l] [--approve|--no-appro"
+        },
+        {
+          "tool": "ctx_edit",
+          "reasons": [
+            "isError"
+          ],
+          "isError": true,
+          "snippet": "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."
+        }
+      ],
+      "userPromptsSample": [
+        "could I use https://github.com/QoderAI/better-harness repo to improve my harness performance via autoresearch or some other way? thoughts?",
+        "yes"
+      ],
+      "classSignals": {
+        "validationRepair": 0,
+        "boundaryChange": 0,
+        "lifecycle": 0,
+        "operationControl": 0,
+        "readOnly": 0
+      },
+      "first": "2026-08-04T15:42:21.342Z",
+      "last": "2026-08-04T15:48:43.901Z",
+      "usage": {
+        "input": 209689,
+        "output": 22537,
+        "cacheRead": 196736,
+        "totalTokens": 428962,
+        "n": 23
+      }
+    }
+  ],
+  "leadInspectNote": "total_jsonl 469\nFILE 2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl cwd=/home/alex/.pi/agent tools=43 toolResults=39 fails~=11 models=['grok-4-5']\nFILE 2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl cwd=/home/alex/.pi/agent tools=50 toolResults=50 fails~=6 models=['grok-4-5']\nFILE 2026-08-04T15-16-37-257Z_019fcd59-1d09-76d2-bd62-75a63f00c6a7.jsonl cwd=/home/alex tools=18 toolResults=18 fails~=7 models=['grok-4-5']\nFILE 2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl cwd=/home/alex/.pi/agent tools=68 toolResults=68 fails~=10 models=['grok-4-5']\nFILE 2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl cwd=/home/alex/.pi/agent tools=139 toolResults=139 fails~=17 models=['grok-4-5']\nFILE 2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl cwd=/home/alex/.pi/agent tools=80 toolResults=80 fails~=14 models=['grok-4-5', 'zai-org-glm-5-2']\nFILE 2026-08-04T08-41-02-565Z_019fcbee-f365-7baf-ad0d-8e2cc96aece6.jsonl cwd=/home/alex/pi-bench-ws tools=11 toolResults=11 fails~=3 models=['grok-4-5']\nFILE 2026-08-04T08-40-38-947Z_019fcbee-9723-7ea1-abfa-8d3cb7a2df44.jsonl cwd=/home/alex/pi-bench-ws tools=10 toolResults=10 fails~=2 models=['grok-4-5']\nFILE 2026-08-04T08-40-05-698Z_019fcbee-1542-7532-a30c-8d53a1898801.jsonl cwd=/home/alex/pi-bench-ws tools=11 toolResults=11 fails~=3 models=['grok-4-5']\nFILE 2026-08-04T08-39-35-681Z_019fcbed-a001-73ba-8b6a-91954ea34bad.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=3 models=['grok-4-5']\nFILE 2026-08-04T08-39-00-001Z_019fcbed-14a1-7703-af11-9df823facf7d.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=1 models=['grok-4-5']\nFILE 2026-08-04T08-38-30-844Z_019fcbec-a2bc-7d03-b5e5-4bc4c355fd4f.jsonl cwd=/home/alex/pi-bench-ws tools=13 toolResults=13 fails~=3 models=['grok-4-5']\nFILE 2026-08-04T08-37-59-634Z_019fcbec-28d2-7d18-a406-1882daceb614.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=3 models=['gro"
+}

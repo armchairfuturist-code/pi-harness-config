@@ -1,0 +1,1013 @@
+{
+  "schemaVersion": 2,
+  "dateBasis": "UTC",
+  "measurementBasis": "session-starts-active-estimate-model-active-session-days-skill-invocations-and-loads",
+  "truncated": false,
+  "dates": [
+    "2026-07-20",
+    "2026-07-21",
+    "2026-07-22",
+    "2026-07-23",
+    "2026-07-24",
+    "2026-07-25",
+    "2026-07-26",
+    "2026-07-27",
+    "2026-07-28",
+    "2026-07-29",
+    "2026-07-30",
+    "2026-07-31",
+    "2026-08-01",
+    "2026-08-02",
+    "2026-08-03"
+  ],
+  "sessions": {
+    "total": 12,
+    "starts": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2,
+      3,
+      0,
+      0,
+      5
+    ],
+    "activeMinutes": [
+      0.5,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      498,
+      102.5,
+      53.9,
+      0,
+      0,
+      139.5
+    ]
+  },
+  "models": [
+    {
+      "name": "zai-org/glm-5.2",
+      "total": 7,
+      "daily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        3
+      ]
+    },
+    {
+      "name": "kimi-k3",
+      "total": 4,
+      "daily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "deepseek-v4-flash",
+      "total": 2,
+      "daily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "deepseek-v4-flash-free",
+      "total": 2,
+      "daily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ]
+    },
+    {
+      "name": "grok-4-5",
+      "total": 1,
+      "daily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "laguna-s-2.1-free",
+      "total": 1,
+      "daily": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Other",
+      "total": 2,
+      "daily": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "skills": []
+}
+
+==== EFFICIENCY ====
+{
+  "schemaVersion": 2,
+  "selection": {
+    "strategy": "all-eligible",
+    "eligibleSessionCount": 12,
+    "analyzedSessionCount": 12,
+    "complete": true
+  },
+  "roles": {
+    "userThreadCandidateCount": 12,
+    "childAgentCandidateCount": 0
+  },
+  "longSessions": {
+    "activeCount": 4,
+    "wallOnlyCount": 0,
+    "longestActiveMinutes": 498,
+    "activeRatio": 0.3333,
+    "estimate": {
+      "method": "capped-event-gap",
+      "activeThresholdMinutes": 45,
+      "gapCapMinutes": 5,
+      "idleGapMinutes": 30
+    },
+    "samples": [
+      {
+        "alias": "S1",
+        "role": "user-thread-candidate",
+        "activeMinutes": 498,
+        "failureCount": 41
+      },
+      {
+        "alias": "S2",
+        "role": "user-thread-candidate",
+        "activeMinutes": 97.2,
+        "failureCount": 9
+      },
+      {
+        "alias": "S3",
+        "role": "user-thread-candidate",
+        "activeMinutes": 80.9,
+        "failureCount": 13
+      },
+      {
+        "alias": "S4",
+        "role": "user-thread-candidate",
+        "activeMinutes": 48.5,
+        "failureCount": 11
+      }
+    ]
+  },
+  "accounting": {
+    "mode": "host-estimated",
+    "responseCount": 1063,
+    "modelAttributedResponseCount": 1063,
+    "unattributedResponseCount": 0,
+    "usageFieldObservedCount": 1063,
+    "nonZeroUsageCount": 1046,
+    "exactCreditsAvailable": false,
+    "pricingVersion": null
+  },
+  "modelUsage": [
+    {
+      "model": "kimi-k3",
+      "responseCount": 535,
+      "usageFieldObservedCount": 535,
+      "nonZeroUsageCount": 529
+    },
+    {
+      "model": "zai-org/glm-5.2",
+      "responseCount": 449,
+      "usageFieldObservedCount": 449,
+      "nonZeroUsageCount": 443
+    },
+    {
+      "model": "grok-4-5",
+      "responseCount": 45,
+      "usageFieldObservedCount": 45,
+      "nonZeroUsageCount": 45
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "responseCount": 15,
+      "usageFieldObservedCount": 15,
+      "nonZeroUsageCount": 14
+    },
+    {
+      "model": "deepseek-v4-flash-free",
+      "responseCount": 12,
+      "usageFieldObservedCount": 12,
+      "nonZeroUsageCount": 11
+    },
+    {
+      "model": "laguna-s-2.1-free",
+      "responseCount": 4,
+      "usageFieldObservedCount": 4,
+      "nonZeroUsageCount": 4
+    },
+    {
+      "model": "moonshotai/kimi-k2.6",
+      "responseCount": 2,
+      "usageFieldObservedCount": 2,
+      "nonZeroUsageCount": 0
+    },
+    {
+      "model": "openrouter/free",
+      "responseCount": 1,
+      "usageFieldObservedCount": 1,
+      "nonZeroUsageCount": 0
+    }
+  ],
+  "outcomeReview": {
+    "status": "required",
+    "reviewedCandidateCount": 0,
+    "reviewedActiveLongCount": 0,
+    "comparableModelOutcomeEvidence": false,
+    "recommendation": "controlled-a-b-required"
+  },
+  "tokenTotals": {
+    "inputTokens": 10112049,
+    "outputTokens": 644765,
+    "cacheReadInputTokens": 118542528,
+    "cacheCreationInputTokens": 0
+  },
+  "reviewLead": {
+    "id": "session-usage-outcome-review-gap",
+    "title": "4 long-session candidates still need outcome review",
+    "reason": "4 of 12 analyzed sessions (33.3%) crossed the estimated active-time threshold; the longest estimate was 498 minutes and 0 have reviewed outcomes. 0 additional long spans may be idle or resumed work. This is an investigation lead, not a confirmed efficiency, decomposition, tool, or model problem.",
+    "expectedOutcome": "Each displayed candidate is classified by task family, outcome, and friction so the report can decide whether any real improvement is needed.",
+    "aiFixPrompt": "/better-harness review these sessions\n\n4 long-session candidates still need outcome review\n\n## Evidence to inspect\n\n- S1: user-thread candidate, about 498 estimated active minutes, 41 failure event(s)\n- S2: user-thread candidate, about 97.2 estimated active minutes, 9 failure event(s)\n- S3: user-thread candidate, about 80.9 estimated active minutes, 13 failure event(s)\n- S4: user-thread candidate, about 48.5 estimated active minutes, 11 failure event(s)\n\n## First step\n\nCreate <run> in the OS temporary directory, then run from the project root:\n\n```bash\nnode scripts/session-analysis.mjs insights --platform pi --workspace . --selection all-eligible --limit 1000 --format json --output <run>/insights.json\nnode scripts/session-analysis/usage-review-packet.mjs --source <run>/insights.json --workspace . --limit 8 --output <run>/.review-packet.json\n```\n\nThe private review packet resolves candidates locally. Write taskFamily, outcome, friction, confidence, and evidenceReason only for S1, S2, S3, S4. Finish diagnosis before editing product code or creating a Memory, Skill, or Hook.\n\n## What we saw\n\n4 of 12 analyzed sessions (33.3%) crossed the estimated active-time threshold; the longest estimate was 498 minutes and 0 have reviewed outcomes. 0 additional long spans may be idle or resumed work. This is an investigation lead, not a confirmed efficiency, decomposition, tool, or model problem.\n\n## Why review it\n\nWithout outcome review, complex work, tool friction, idle/resume noise, and a normal long task remain indistinguishable.\n\n## Expected result\n\nEach displayed candidate is classified by task family, outcome, and friction so the report can decide whether any real improvement is needed.\n\n## Scope\n\nCreate only a privacy-safe session-efficiency review and reader report. Do not edit product code or treat wall span as active cost. Durable reports keep aliases only; do not copy the private review packet into them. This is the complete 4/4 candidate view; conclusions still require semantic review.\n\n## Done when\n\n<run>/.review.json has one valid row for each of S1, S2, S3, S4; semantic review writes <run>/insights.reviewed.json; and <run>/report.md validates against the reviewed source. If review confirms no problem, do not create an improvement.\n\n## Validation\n\n- Run `node scripts/session-analysis/usage-semantic-review.mjs --source <run>/insights.json --packet <run>/.review-packet.json --review <run>/.review.json --output <run>/insights.reviewed.json`\n- Run `node scripts/session-analysis/validate-usage-report.mjs --source <run>/insights.reviewed.json --report <run>/report.md`; it must return `ok: true`\n- Confirm `outcomeReview.reviewedActiveLongCount` in the reviewed source equals the number of reviewed displayed aliases; delete the two private review files after validation",
+    "sampleCoverage": {
+      "shown": 4,
+      "total": 4,
+      "complete": true
+    }
+  }
+}
+
+==== FACETS FULL ====
+{
+  "schemaVersion": 1,
+  "status": "supplementary",
+  "entries": [
+    {
+      "id": "session-insight:source-coverage",
+      "kind": "redacted-summary",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "source-coverage",
+        "High"
+      ],
+      "summary": "Analyzed 12 of 12 sessions; 1/1 enabled source roots exist. Use this as the current workspace evidence boundary for final insight cards.",
+      "evidenceRefs": [],
+      "modelVersion": "session-insights-v1"
+    },
+    {
+      "id": "session-insight:validation-behavior",
+      "kind": "redacted-summary",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "validation-behavior",
+        "High"
+      ],
+      "summary": "Observed validation command category: lint (1). Use observed validation as execution evidence, not just configured command availability.",
+      "evidenceRefs": [
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-2-1",
+          "type": "tool.call",
+          "line": 326
+        }
+      ],
+      "modelVersion": "session-insights-v1"
+    },
+    {
+      "id": "session-insight:post-edit-validation",
+      "kind": "rework-correction",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "post-edit-validation",
+        "Low"
+      ],
+      "summary": "No edit event was observed in the analyzed sample. Inspect more sessions before making claims about edit or validation habits.",
+      "evidenceRefs": [],
+      "modelVersion": "session-insights-v1"
+    },
+    {
+      "id": "session-insight:execution-friction",
+      "kind": "friction-taxonomy",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "execution-friction",
+        "High"
+      ],
+      "summary": "Observed friction category: failed-event (91). Open bounded sessions behind this category before turning it into a user-facing recommendation.",
+      "evidenceRefs": [
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-4-1",
+          "type": "tool.result",
+          "line": 17
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-4-2",
+          "type": "tool.result",
+          "line": 18
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-4-3",
+          "type": "tool.result",
+          "line": 34
+        }
+      ],
+      "modelVersion": "session-insights-v1"
+    },
+    {
+      "id": "session-insight:tool-mix",
+      "kind": "redacted-summary",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "tool-mix",
+        "High"
+      ],
+      "summary": "Most observed tool: ctx_shell (1142). Use this as workflow evidence, then inspect bounded sessions before claiming user intent.",
+      "evidenceRefs": [
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-5-1",
+          "type": "tool.call",
+          "line": 9
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-5-2",
+          "type": "tool.result",
+          "line": 11
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-5-3",
+          "type": "tool.call",
+          "line": 12
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-5-4",
+          "type": "tool.result",
+          "line": 13
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-5-5",
+          "type": "tool.call",
+          "line": 14
+        }
+      ],
+      "modelVersion": "session-insights-v1"
+    },
+    {
+      "id": "session-insight:session-complexity",
+      "kind": "redacted-summary",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "session-complexity",
+        "High"
+      ],
+      "summary": "Observed 4 active long session(s); longest active estimate: 8h 18m. Review task family, outcome, and friction before deciding whether this duration reflects a problem or any decomposition, tool, delegation, or model change is needed.",
+      "evidenceRefs": [
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-6-1",
+          "type": "metadata.session",
+          "line": 1
+        }
+      ],
+      "modelVersion": "session-insights-v1"
+    },
+    {
+      "id": "session-insight:session-usage-efficiency",
+      "kind": "redacted-summary",
+      "episodeRef": null,
+      "status": "candidate",
+      "labels": [
+        "session-usage-efficiency",
+        "High"
+      ],
+      "summary": "The analysis covered 12 sessions: 4 met the active-long threshold, with the longest estimated at 498 minutes. This activity does not establish model preference or quality; effectiveness still requires outcome comparison within the same task family.",
+      "evidenceRefs": [
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-7-1",
+          "type": "metadata.session",
+          "line": 1
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-7-2",
+          "type": "model.response.completed",
+          "line": 6
+        },
+        {
+          "kind": "pi-session-jsonl",
+          "id": "session-insight-7-3",
+          "type": "model.response.completed",
+          "line": 9
+        }
+      ],
+      "modelVersion": "session-insights-v1"
+    }
+  ]
+}
+
+==== MY AGG ====
+{
+  "n": 12,
+  "toolCalls": 1648,
+  "toolResults": 1647,
+  "isErrorTrue": 153,
+  "allowlist": 61,
+  "compactions": 2,
+  "retries": 1,
+  "editMisses": 42,
+  "readMisses": 8,
+  "userMsgs": 138,
+  "assistantMsgs": 1379,
+  "bytes": 9281521,
+  "lines": 3294,
+  "episodesWithTools": 1227,
+  "sessionsWithTools": 12,
+  "sessionsIdle": 0,
+  "longSessions": 8,
+  "errorRate": 0.0929,
+  "topTools": [
+    [
+      "ctx_shell",
+      796
+    ],
+    [
+      "ctx_read",
+      248
+    ],
+    [
+      "write",
+      152
+    ],
+    [
+      "edit",
+      96
+    ],
+    [
+      "ctx_batch_execute",
+      88
+    ],
+    [
+      "ctx_execute",
+      52
+    ],
+    [
+      "ctx_grep",
+      49
+    ],
+    [
+      "ctx_fetch_and_index",
+      34
+    ],
+    [
+      "ctx_search",
+      27
+    ],
+    [
+      "ctx_ls",
+      24
+    ],
+    [
+      "ctx_edit",
+      19
+    ],
+    [
+      "ctx_find",
+      18
+    ],
+    [
+      "workflow",
+      10
+    ],
+    [
+      "daily_log",
+      10
+    ],
+    [
+      "workflow_control",
+      6
+    ],
+    [
+      "subagent_status",
+      5
+    ],
+    [
+      "ctx_execute_file",
+      3
+    ],
+    [
+      "subagent",
+      3
+    ],
+    [
+      "ctx_index",
+      2
+    ],
+    [
+      "ctx_git_read",
+      2
+    ]
+  ],
+  "failReasons": [
+    [
+      "isError",
+      153
+    ],
+    [
+      "allowlist_block",
+      61
+    ],
+    [
+      "timeout",
+      43
+    ],
+    [
+      "enoent",
+      39
+    ],
+    [
+      "soft_error_text",
+      29
+    ],
+    [
+      "edit_context_miss",
+      23
+    ],
+    [
+      "context_overflow",
+      20
+    ],
+    [
+      "exception",
+      19
+    ],
+    [
+      "rate_limit",
+      16
+    ],
+    [
+      "lean_ctx_failed",
+      14
+    ],
+    [
+      "empty_dir_listing",
+      13
+    ],
+    [
+      "command_not_found",
+      8
+    ],
+    [
+      "not_a_directory",
+      1
+    ],
+    [
+      "permission_denied",
+      1
+    ],
+    [
+      "eacces",
+      1
+    ]
+  ],
+  "toolErrors": [
+    [
+      "ctx_shell:isError",
+      74
+    ],
+    [
+      "ctx_shell:allowlist_block",
+      39
+    ],
+    [
+      "ctx_shell:enoent",
+      20
+    ],
+    [
+      "ctx_read:timeout",
+      19
+    ],
+    [
+      "ctx_edit:isError",
+      19
+    ],
+    [
+      "ctx_shell:soft_error_text",
+      19
+    ],
+    [
+      "edit:isError",
+      18
+    ],
+    [
+      "edit:edit_context_miss",
+      18
+    ],
+    [
+      "ctx_read:allowlist_block",
+      14
+    ],
+    [
+      "ctx_find:isError",
+      14
+    ],
+    [
+      "ctx_find:lean_ctx_failed",
+      14
+    ],
+    [
+      "ctx_shell:timeout",
+      11
+    ],
+    [
+      "ctx_ls:empty_dir_listing",
+      10
+    ],
+    [
+      "ctx_shell:rate_limit",
+      10
+    ],
+    [
+      "ctx_read:context_overflow",
+      9
+    ],
+    [
+      "ctx_read:isError",
+      8
+    ],
+    [
+      "ctx_read:enoent",
+      8
+    ],
+    [
+      "ctx_read:exception",
+      8
+    ],
+    [
+      "ctx_batch_execute:enoent",
+      8
+    ],
+    [
+      "ctx_shell:context_overflow",
+      7
+    ],
+    [
+      "ctx_batch_execute:timeout",
+      5
+    ],
+    [
+      "ctx_execute:isError",
+      5
+    ],
+    [
+      "ctx_execute:exception",
+      5
+    ],
+    [
+      "ctx_fetch_and_index:isError",
+      5
+    ],
+    [
+      "workflow:isError",
+      4
+    ]
+  ],
+  "models": [
+    [
+      "kimi-k3",
+      535
+    ],
+    [
+      "zai-org/glm-5.2",
+      451
+    ],
+    [
+      "grok-4-5",
+      280
+    ],
+    [
+      "deepseek-v4-flash-free",
+      110
+    ],
+    [
+      "deepseek-v4-flash",
+      17
+    ],
+    [
+      "laguna-s-2.1-free",
+      5
+    ],
+    [
+      "moonshotai/kimi-k2.6",
+      3
+    ],
+    [
+      "zai-org-glm-5-2",
+      1
+    ]
+  ],
+  "providers": [
+    [
+      "Venice",
+      818
+    ],
+    [
+      "Lilac",
+      454
+    ],
+    [
+      "opencode",
+      115
+    ],
+    [
+      "deepseek",
+      15
+    ]
+  ],
+  "stopReasons": [
+    [
+      "toolUse",
+      1227
+    ],
+    [
+      "stop",
+      135
+    ],
+    [
+      "error",
+      15
+    ],
+    [
+      "aborted",
+      2
+    ]
+  ],
+  "shellCmds": [
+    [
+      "cd",
+      218
+    ],
+    [
+      "#",
+      128
+    ],
+    [
+      "ls",
+      68
+    ],
+    [
+      "grep",
+      51
+    ],
+    [
+      "sleep",
+      44
+    ],
+    [
+      "echo",
+      26
+    ],
+    [
+      "node",
+      25
+    ],
+    [
+      "cat",
+      24
+    ],
+    [
+      "find",
+      18
+    ],
+    [
+      "python3",
+      18
+    ],
+    [
+      "sed",
+      16
+    ],
+    [
+      "bash",
+      13
+    ],
+    [
+      "rm",
+      13
+    ],
+    [
+      "for",
+      10
+    ],
+    [
+      "curl",
+      10
+    ]
+  ]
+}
+
+==== ERROR SAMPLES ====
+--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl err 41 tc 514 allow 9 editMiss 10
+  {'tool': 'ctx_read', 'reasons': ['isError', 'enoent'], 'isError': True, 'snippet': 'Error: could not read /home/alex/.pi/agent/~/.pi/agent/skills/ce-lite/SKILL.md'}
+  {'tool': 'ctx_ls', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '/home/alex/.pi/agent/ (empty directory, depth=3) Compressed 12 → 12 tokens (0%).'}
+  {'tool': 'ctx_read', 'reasons': ['allowlist_block'], 'isError': False, 'snippet': '--- name: wayfinder description: Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear. disable'}
+  {'tool': 'ctx_read', 'reasons': ['allowlist_block', 'exception'], 'isError': False, 'snippet': '--- name: to-tickets description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in one file per ticket locally, or'}
+ topTools [['ctx_shell', 300], ['write', 63], ['ctx_read', 46], ['edit', 41], ['ctx_grep', 21], ['ctx_batch_execute', 19]]
+ fails [['isError', 41], ['soft_error_text', 15], ['enoent', 14], ['allowlist_block', 9], ['timeout', 9], ['edit_context_miss', 8], ['exception', 4], ['context_overflow', 4]]
+ prompts ['audit my harness against these principles for solving long horizon tasks while maximizing harness token efficiency via subagents: Coding agents can complete small tasks. But they fail, often spectacularly when working on larger ones. So muc', 'lets implement 1-3 now,then consider 4-6 after we run a bench']
+---
+--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl err 13 tc 257 allow 5 editMiss 8
+  {'tool': 'ctx_read', 'reasons': ['isError', 'enoent'], 'isError': True, 'snippet': 'Error: could not read /home/alex/.pi/agent/.auto/prompt.md'}
+  {'tool': 'ctx_ls', 'reasons': ['enoent', 'not_a_directory', 'soft_error_text'], 'isError': False, 'snippet': 'ERROR: /home/alex/.pi/agent/.auto does not exist or is not a directory Compressed 18 → 18 tokens (0%).'}
+  {'tool': 'ctx_ls', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '/home/alex/.pi/agent/ (empty directory, depth=3) Compressed 12 → 12 tokens (0%).'}
+  {'tool': 'ctx_read', 'reasons': ['allowlist_block', 'context_overflow'], 'isError': False, 'snippet': '--- name: ce-lite description: CE-lite orchestrator — the single entrypoint for non-trivial work. Answers simple questions directly; otherwise grills only blocking questions, writes contract terms, executes with dynamic-workflow subagents, '}
+ topTools [['ctx_shell', 137], ['ctx_read', 44], ['write', 22], ['ctx_execute', 18], ['ctx_batch_execute', 11], ['daily_log', 8]]
+ fails [['timeout', 15], ['isError', 13], ['context_overflow', 7], ['soft_error_text', 5], ['allowlist_block', 5], ['edit_context_miss', 5], ['enoent', 4], ['rate_limit', 4]]
+ prompts ['/skill:autoresearch-create audit existing autoresearch and review the latest harness engineering techniques and lets improve our existing configuration in token efficiency,accuracy, tool calls, memory etc - review existing plugins and consi', '<skill name="autoresearch-finalize" location="/home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch-finalize/SKILL.md"> References are relative to /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch']
+---
+--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl err 15 tc 139 allow 13 editMiss 3
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/writing-great-skills/**/* /home/alex/.pi/agent'}
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/ce-lite/**/* /home/alex/.pi/agent'}
+  {'tool': 'ctx_read', 'reasons': ['context_overflow'], 'isError': False, 'snippet': '--- name: writing-great-skills description: Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable. disable-model-invocation: true --- A skill exists to wrangle determinism out of a stoch'}
+  {'tool': 'ctx_shell', 'reasons': ['isError', 'allowlist_block'], 'isError': True, 'snippet': "\x1b[2m2026-08-04T12:05:55.750248Z\x1b[0m \x1b[33m WARN\x1b[0m \x1b[2mlean_ctx::core::shell_allowlist::enforcement\x1b[0m\x1b[2m:\x1b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED — DO NOT RETRY] Interpreter 'python3' with inline c"}
+ topTools [['ctx_read', 55], ['ctx_shell', 35], ['write', 14], ['ctx_grep', 10], ['edit', 9], ['ctx_find', 5]]
+ fails [['isError', 15], ['allowlist_block', 13], ['lean_ctx_failed', 5], ['exception', 3], ['context_overflow', 2], ['edit_context_miss', 2], ['timeout', 2], ['soft_error_text', 1]]
+ prompts ['use the /writing-great-skills and consider https://github.com/mattpocock/skills against the goals of my /ce-lite workflow and my existing skills  --- [workflows mode armed. Decide first: if this message is a question, a trivial task, or jus', 'do it.']
+---
+--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl err 9 tc 127 allow 6 editMiss 4
+  {'tool': 'ctx_read', 'reasons': ['rate_limit'], 'isError': False, 'snippet': '.bashrc [56L] lines:14-41 14| alias grep=\'grep --color=auto\' 15| PS1=\'[\\u@\\h \\W]\\$ \' 16| 17| export PATH="$HOME/.local/bin:$PATH" 18| 19| # >>> headroom persistent env >>> 20| export HEADROOM_PORT="8787" 21| export HEADROOM_HOST="127.0.0.1"'}
+  {'tool': 'edit', 'reasons': ['isError', 'edit_context_miss'], 'isError': True, 'snippet': 'Could not find the exact text in /home/alex/.bashrc. The old text must match exactly including all whitespace and newlines.'}
+  {'tool': 'edit', 'reasons': ['isError', 'edit_context_miss'], 'isError': True, 'snippet': 'Could not find edits[1] in /home/alex/.bashrc. The oldText must match exactly including all whitespace and newlines.'}
+  {'tool': 'ctx_shell', 'reasons': ['isError'], 'isError': True, 'snippet': 'alias grep=\'grep --color=auto\' PS1=\'[\\u@\\h \\W]\\$ \'  export PATH="$HOME/.local/bin:$PATH"  export PATH="$HOME/.bun/bin:$PATH" export GIT_DISCOVERY_ACROSS_FILESYSTEM=1 export PATH="$HOME/.local/bin:$PATH" . "$HOME/.cargo/env" # lean-ctx shell'}
+ topTools [['ctx_batch_execute', 43], ['ctx_shell', 26], ['edit', 23], ['ctx_read', 13], ['ctx_execute', 11], ['write', 9]]
+ fails [['isError', 9], ['enoent', 8], ['exception', 6], ['allowlist_block', 6], ['command_not_found', 5], ['timeout', 5], ['edit_context_miss', 4], ['rate_limit', 2]]
+ prompts ['completely remove the OMP agent harness from this system, including all associated plugins. Ask questions if yo uare unsure of what to remove', '1. if the /home/alex/.p/agents harness binary doesnt use RTK or headroom - lets remove them both. If I want to install them for another harness in the future - I will install them specifically for those harnesses.  2. Hard delete. You may l']
+---
+--home-alex-.pi-agent--/2026-08-04T07-28-21-799Z_019fcbac-6927-75ff-a6a9-bd3037a0c294.jsonl err 10 tc 110 allow 2 editMiss 1
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find *no-ai-slop* /home/alex/.pi'}
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find *no-ai-slop* /home/alex/.pi/agent/skills'}
+  {'tool': 'ctx_ls', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '--- AUTO CONTEXT --- [task: Working on /home/alex/.pi/agent/npm/node_modules/@quintinshaw/pi-dynamic-workflows/dist (explore)] No graph available. Use ctx_overview for project map. --- END AUTO CONTEXT --- /home/alex/.pi/agent/skills/ (empt'}
+  {'tool': 'ctx_shell', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '===ls skills=== /home/alex/.pi/agent/skills/ (empty directory, depth=3) exit=0 ===find *=== /home/alex/.pi/agent/skills exit=0 ===hidden dir test=== /tmp/lctx-hidden /tmp/lctx-hidden/visible.md exit=0 Compressed 50 → 50 tokens (0%).'}
+ topTools [['ctx_shell', 87], ['ctx_fetch_and_index', 5], ['ctx_find', 4], ['ctx_read', 4], ['ctx_search', 4], ['ctx_ls', 3]]
+ fails [['isError', 10], ['soft_error_text', 4], ['empty_dir_listing', 3], ['lean_ctx_failed', 2], ['enoent', 2], ['timeout', 2], ['allowlist_block', 2], ['rate_limit', 1]]
+ prompts ["Take this Luma invitation and convert it into a teaser for linkedin to get people curious who'd like to attend and live in Braga:   Tech Lands started with a simple idea from Alex Myers: people building things in Portugal deserve a place to", "I don't like either, use the /no-ai-slop skill to make another - and focus on the fact that this one is international - a mix of expats and Braga natives"]
+---
+--home-alex-.pi-agent--/2026-08-03T06-46-22-885Z_019fc65f-9da5-77b5-9847-81e5548830ed.jsonl err 13 tc 103 allow 7 editMiss 3
+  {'tool': 'ctx_edit', 'reasons': ['isError'], 'isError': True, 'snippet': "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."}
+  {'tool': 'ctx_edit', 'reasons': ['isError'], 'isError': True, 'snippet': "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."}
+  {'tool': 'ctx_shell', 'reasons': ['isError'], 'isError': True, 'snippet': '### chars=8 run1 ### === chars=8 === METRIC probe_tokens=4378 METRIC bench_tokens=19997 METRIC checks_pass=1 METRIC current_max_desc_chars=8 ### chars=8 run2 ### === chars=8 === METRIC probe_tokens=4378 METRIC bench_tokens=21735 METRIC chec'}
+  {'tool': 'ctx_shell', 'reasons': ['isError', 'allowlist_block'], 'isError': True, 'snippet': "\x1b[2m2026-08-03T06:55:27.950703Z\x1b[0m \x1b[33m WARN\x1b[0m \x1b[2mlean_ctx::core::shell_allowlist\x1b[0m\x1b[2m:\x1b[0m [SECURITY] Pipe to bare interpreter 'python3' detected (warn-only) [BLOCKED — DO NOT RETRY] Interpreter 'python3' with heredoc stdin is bloc"}
+ topTools [['ctx_shell', 47], ['ctx_read', 14], ['ctx_fetch_and_index', 11], ['write', 10], ['ctx_search', 8], ['edit', 5]]
+ fails [['isError', 13], ['allowlist_block', 7], ['rate_limit', 4], ['exception', 3], ['command_not_found', 2], ['context_overflow', 2], ['enoent', 1], ['timeout', 1]]
+ prompts ['run this autoresearch campaign:   Campaign 1 — TSCG tuning (ready to run immediately):  - Branch autoresearch/tscg-desc-chars-2026-08-03 in ~/Projects/pi-harness-config  - .auto/prompt.md, .auto/measure.sh, .auto/checks.sh all committed  - ', 'ok, and this setting is active now for my pi config?']
+---
+--home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl err 11 tc 83 allow 4 editMiss 4
+  {'tool': 'ctx_fetch_and_index', 'reasons': ['isError'], 'isError': True, 'snippet': 'Failed to fetch https://raw.githubusercontent.com/openai/plugins/main/plugins/life-science-research/plugin.json: HTTP 404 '}
+  {'tool': 'ctx_ls', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '/home/alex/.pi/agent/skills/teach/ (empty directory, depth=3) Compressed 16 → 16 tokens (0%).'}
+  {'tool': 'ctx_edit', 'reasons': ['isError'], 'isError': True, 'snippet': 'Validation failed for tool "ctx_edit":   - new_string: must have required properties new_string  Received arguments: {   "path": "/home/alex/Documents/macuhealth-agent-playbook/index.html",   "old_string": "<strong>Lesson 1 — The idea��ship'}
+  {'tool': 'ctx_shell', 'reasons': ['isError', 'allowlist_block'], 'isError': True, 'snippet': "[BLOCKED — DO NOT RETRY] Interpreter 'python3' with heredoc stdin is blocked. Inline code in the command string leaves no auditable artifact. Do this instead: write the code to a file, then run it — 1. create /tmp/snippet with your code (Wr"}
+ topTools [['write', 24], ['ctx_shell', 18], ['edit', 12], ['ctx_read', 10], ['ctx_fetch_and_index', 6], ['ctx_edit', 4]]
+ fails [['isError', 11], ['allowlist_block', 4], ['empty_dir_listing', 1], ['command_not_found', 1], ['enoent', 1]]
+ prompts ['<skill name="last30days" location="/home/alex/.pi/agent/skills/last30days/SKILL.md"> References are relative to /home/alex/.pi/agent/skills/last30days.  # STEP 0: STALE-CLONE SELF-CHECK — RUN BEFORE READING BELOW  Before reading anything el', 'so if this is not quite the right tool for the job (https://github.com/openai/plugins/tree/main/plugins/life-science-research) - perhaps we should design something specifically for macuhealth?  In the AI age - is there really a reason to bu']
+---
+--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl err 13 tc 80 allow 6 editMiss 1
+  {'tool': 'ctx_shell', 'reasons': ['isError', 'allowlist_block', 'context_overflow'], 'isError': True, 'snippet': 'f33583abfbd6322f99275689ad5d3bde10066818 autoresearch/pi-token-efficiency-2026-07-14 ## autoresearch/pi-token-efficiency-2026-07-14  M .auto/log.jsonl ?? .auto/bench/ ?? .auto/ideas.md === total 36 drwxr-xr-x 1 alex alex    82 jul 15 10:07 '}
+  {'tool': 'ctx_shell', 'reasons': ['isError', 'context_overflow'], 'isError': True, 'snippet': '===KEPT=== {"run":1,"commit":"ac5a2b3","metric":46106,"metrics":{"task_success":1},"status":"keep","description":"Baseline measurement. Config: thinking=low, compaction reserveTokens=60000 keepRecentTokens=10000, packages WITHOUT pi-slim. T'}
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/SKILL.md /home/alex/.pi/agent/npm/node_modules/pi-autoresearch'}
+  {'tool': 'ctx_shell', 'reasons': ['context_overflow'], 'isError': False, 'snippet': 'Assets CHANGELOG.md extensions LICENSE package.json README.md skills /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/CHANGELOG.md /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/README.md /home/alex/.pi/agent/npm/node_modules/pi'}
+ topTools [['ctx_shell', 40], ['ctx_execute', 17], ['ctx_batch_execute', 9], ['ctx_read', 5], ['ctx_fetch_and_index', 3], ['ctx_search', 3]]
+ fails [['isError', 13], ['allowlist_block', 6], ['context_overflow', 4], ['timeout', 4], ['lean_ctx_failed', 1], ['rate_limit', 1], ['soft_error_text', 1], ['exception', 1]]
+ prompts ['<skill name="autoresearch-finalize" location="/home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch-finalize/SKILL.md"> References are relative to /home/alex/.pi/agent/npm/node_modules/pi-autoresearch/skills/autoresearch', 'lets actually close this autoresearch run and start fresh based on the goals of the remote repo: https://github.com/armchairfuturist-code/pi-harness-config , the lates harness engineering research that might apply to pi and my configuration']
+---
+--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl err 12 tc 66 allow 2 editMiss 1
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/better-harness/**/SKILL.md /home/alex/.pi/agent'}
+  {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/better-harness* /home/alex/.pi/agent'}
+  {'tool': 'ctx_shell', 'reasons': ['rate_limit'], 'isError': False, 'snippet': '/home/alex/.pi/agent/skills/setup-ts-deep-modules/SKILL.md /home/alex/.pi/agent/skills/to-questionnaire/SKILL.md /home/alex/.pi/agent/skills/setup-pre-commit/SKILL.md /home/alex/.pi/agent/skills/ask-matt/SKILL.md /home/alex/.pi/agent/skills'}
+  {'tool': 'ctx_ls', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '── /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/skills/better-harness ── /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/skills/better-harness/ (empty directory, depth=3) Compressed 51 → 51 tokens (0%).'}
+ topTools [['ctx_shell', 28], ['ctx_read', 16], ['write', 8], ['subagent_status', 5], ['ctx_find', 3], ['subagent', 3]]
+ fails [['isError', 12], ['enoent', 5], ['lean_ctx_failed', 3], ['rate_limit', 2], ['allowlist_block', 2], ['empty_dir_listing', 1]]
+ prompts ["Use the `better-harness` skill for this request. Read the skill's SKILL.md first and follow its workflow exactly; do not improvise a substitute review.  Host context for this run:  - The current provider is `pi`. Use `--platform pi` for evi"]
+---

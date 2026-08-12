@@ -1,0 +1,4532 @@
+{
+  "schemaVersion": 2,
+  "kind": "core-change-watch-evidence-pack",
+  "status": "ok",
+  "repoRoot": "/home/alex/.pi",
+  "analysisScope": {
+    "kind": "path",
+    "route": "agent",
+    "pathspecs": [
+      ":(top,literal)agent"
+    ]
+  },
+  "summary": {
+    "reviewRecommended": false,
+    "attentionRequired": false,
+    "diffStatus": "ok",
+    "diffSeverity": "critical",
+    "diffScore": 100,
+    "topLanguages": [],
+    "projectInfo": {
+      "name": "agent",
+      "description": "",
+      "readmeTitle": "",
+      "identityEvidence": [],
+      "primaryLanguages": [],
+      "frameworks": [],
+      "sourceFiles": 0,
+      "testFiles": 0,
+      "measuredSourceLines": null,
+      "sourceLineStatus": "none",
+      "sourceLineMethod": "not measured by default; use --measure-source-lines to count tracked readable primary source files only",
+      "sourceRoots": [],
+      "entryCandidates": []
+    },
+    "agentInstructions": {
+      "status": "none",
+      "count": 0,
+      "rootCount": 0,
+      "nestedCount": 0,
+      "suggestedMinimum": 0,
+      "suggestedAdditional": 0,
+      "sourceFilesPerInstruction": null,
+      "sourceFilesUnderNestedInstructions": 0,
+      "nestedSourceFileCoveragePercent": null,
+      "suggestedScopes": [],
+      "reasons": []
+    },
+    "coreCandidates": {
+      "highConfidence": 0,
+      "mediumConfidence": 0,
+      "candidateCount": 0
+    },
+    "changedFiles": 453,
+    "changedLines": 266023,
+    "companionHits": 3,
+    "changeDrift": {
+      "status": "ok",
+      "findingCount": 0,
+      "typeCounts": {}
+    },
+    "historyWindows": [
+      30,
+      90,
+      180
+    ],
+    "historyConfidence": {
+      "confidence": "low",
+      "reasons": [
+        "only 3 commits were analyzed",
+        "history span is only 6 days"
+      ]
+    },
+    "frameworks": [],
+    "filtersApplied": false
+  },
+  "coreAnalysis": {
+    "schemaVersion": 2,
+    "kind": "core-candidates",
+    "status": "ok",
+    "repoRoot": "/home/alex/.pi",
+    "analysisScope": {
+      "kind": "path",
+      "route": "agent",
+      "pathspecs": [
+        ":(top,literal)agent"
+      ]
+    },
+    "filters": {
+      "ignorePatterns": [],
+      "ignoredCount": 0,
+      "ignoredSample": []
+    },
+    "candidates": [],
+    "summary": {
+      "highConfidence": 0,
+      "mediumConfidence": 0,
+      "candidateCount": 0
+    }
+  },
+  "changeDrift": {
+    "schemaVersion": 2,
+    "kind": "change-drift",
+    "status": "ok",
+    "repoRoot": "/home/alex/.pi",
+    "analysisScope": {
+      "kind": "path",
+      "route": "agent",
+      "pathspecs": [
+        ":(top,literal)agent"
+      ]
+    },
+    "baseRef": "HEAD",
+    "filters": {
+      "ignorePatterns": [],
+      "ignoredCount": 0,
+      "ignoredSample": []
+    },
+    "summary": {
+      "findingCount": 0,
+      "highConfidenceCount": 0,
+      "typeCounts": {},
+      "changedFiles": 453
+    },
+    "changedFiles": [
+      {
+        "path": "agent/context-prune/settings.json",
+        "role": "configuration",
+        "language": null,
+        "added": 1,
+        "deleted": 1,
+        "untracked": false
+      },
+      {
+        "path": "agent/extensions/pi-lean-ctx/config.json",
+        "role": "configuration",
+        "language": null,
+        "added": 2,
+        "deleted": 1,
+        "untracked": false
+      },
+      {
+        "path": "agent/settings.json",
+        "role": "configuration",
+        "language": null,
+        "added": 17,
+        "deleted": 6,
+        "untracked": false
+      },
+      {
+        "path": "agent/skills/ai-consultant-career",
+        "role": "other",
+        "language": null,
+        "added": 0,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ask-matt/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 130,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ask-matt/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/calibrate-longevity",
+        "role": "other",
+        "language": null,
+        "added": 0,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 113,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__init__.py",
+        "role": "source",
+        "language": "python",
+        "added": 10,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__main__.py",
+        "role": "source",
+        "language": "python",
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__pycache__/__init__.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 7,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__pycache__/__main__.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 3,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__pycache__/cli.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 51,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__pycache__/compress.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 205,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__pycache__/detect.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 69,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/__pycache__/validate.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 96,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/benchmark.py",
+        "role": "source",
+        "language": "python",
+        "added": 81,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/cli.py",
+        "role": "source",
+        "language": "python",
+        "added": 86,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/compress.py",
+        "role": "source",
+        "language": "python",
+        "added": 343,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/detect.py",
+        "role": "source",
+        "language": "python",
+        "added": 140,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/caveman-compress/scripts/validate.py",
+        "role": "source",
+        "language": "python",
+        "added": 214,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ce-lite/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 52,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ce-lite/context-health.md",
+        "role": "documentation",
+        "language": null,
+        "added": 22,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ce-lite/gather-judge.md",
+        "role": "documentation",
+        "language": null,
+        "added": 25,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ce-lite/grilling.md",
+        "role": "documentation",
+        "language": null,
+        "added": 57,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ce-lite/reference.md",
+        "role": "documentation",
+        "language": null,
+        "added": 69,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ce-lite/wayfinding.md",
+        "role": "documentation",
+        "language": null,
+        "added": 79,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/code-review/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 91,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/code-review/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/codebase-design/DEEPENING.md",
+        "role": "documentation",
+        "language": null,
+        "added": 38,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/codebase-design/DESIGN-IT-TWICE.md",
+        "role": "documentation",
+        "language": null,
+        "added": 45,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/codebase-design/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 116,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/codebase-design/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/context-rot-forensics/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 162,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/context-rot-forensics/scripts/rot-forensics.py",
+        "role": "source",
+        "language": "python",
+        "added": 758,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/conversion-copywriting/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 446,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/diagnosing-bugs/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 136,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/diagnosing-bugs/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/diagnosing-bugs/scripts/hitl-loop.template.sh",
+        "role": "other",
+        "language": null,
+        "added": 42,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/domain-modeling/ADR-FORMAT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 48,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/domain-modeling/CONTEXT-FORMAT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 61,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/domain-modeling/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 76,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/domain-modeling/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/find-skills/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 147,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/full-output-enforcement/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 51,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/graph-engineering/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 279,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/graph-engineering/examples/investment-engine-dag.js",
+        "role": "fixture",
+        "language": "javascript",
+        "added": 157,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/grill-me/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 12,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/grill-me/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/grill-with-docs/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 12,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/grill-with-docs/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/grilling/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 47,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/grilling/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/handoff/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 17,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/handoff/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 70,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/config_hash.py",
+        "role": "source",
+        "language": "python",
+        "added": 42,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/context_growth.py",
+        "role": "source",
+        "language": "python",
+        "added": 83,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/inventory.py",
+        "role": "source",
+        "language": "python",
+        "added": 166,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/prefix_audit.py",
+        "role": "source",
+        "language": "python",
+        "added": 90,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/preflight.py",
+        "role": "source",
+        "language": "python",
+        "added": 131,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/provider_ops.py",
+        "role": "source",
+        "language": "python",
+        "added": 234,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/harness-doctor/scripts/trajectory_metrics.py",
+        "role": "source",
+        "language": "python",
+        "added": 94,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 84,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/adapt.md",
+        "role": "documentation",
+        "language": null,
+        "added": 313,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/adapt.native.md",
+        "role": "documentation",
+        "language": null,
+        "added": 59,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/android.md",
+        "role": "documentation",
+        "language": null,
+        "added": 41,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/animate.md",
+        "role": "documentation",
+        "language": null,
+        "added": 87,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/audit.md",
+        "role": "documentation",
+        "language": null,
+        "added": 137,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/audit.native.md",
+        "role": "documentation",
+        "language": null,
+        "added": 140,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/bolder.md",
+        "role": "documentation",
+        "language": null,
+        "added": 32,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/clarify.md",
+        "role": "documentation",
+        "language": null,
+        "added": 95,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/colorize.md",
+        "role": "documentation",
+        "language": null,
+        "added": 87,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/craft-floor.md",
+        "role": "documentation",
+        "language": null,
+        "added": 43,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/craft.md",
+        "role": "documentation",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/critique.md",
+        "role": "documentation",
+        "language": null,
+        "added": 789,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/delight.md",
+        "role": "documentation",
+        "language": null,
+        "added": 71,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/distill.md",
+        "role": "documentation",
+        "language": null,
+        "added": 112,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/doctor.md",
+        "role": "documentation",
+        "language": null,
+        "added": 54,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/document.md",
+        "role": "documentation",
+        "language": null,
+        "added": 417,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/extract.md",
+        "role": "documentation",
+        "language": null,
+        "added": 70,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/harden.md",
+        "role": "documentation",
+        "language": null,
+        "added": 337,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/hooks.md",
+        "role": "documentation",
+        "language": null,
+        "added": 106,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/init.md",
+        "role": "documentation",
+        "language": null,
+        "added": 126,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/ios.md",
+        "role": "documentation",
+        "language": null,
+        "added": 46,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/layout.md",
+        "role": "documentation",
+        "language": null,
+        "added": 85,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/live-setup.md",
+        "role": "documentation",
+        "language": null,
+        "added": 103,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/live.md",
+        "role": "documentation",
+        "language": null,
+        "added": 324,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/new-work.md",
+        "role": "documentation",
+        "language": null,
+        "added": 106,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/onboard.md",
+        "role": "documentation",
+        "language": null,
+        "added": 235,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/operate.md",
+        "role": "documentation",
+        "language": null,
+        "added": 62,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/optimize.md",
+        "role": "documentation",
+        "language": null,
+        "added": 259,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/overdrive.md",
+        "role": "documentation",
+        "language": null,
+        "added": 128,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/polish.md",
+        "role": "documentation",
+        "language": null,
+        "added": 98,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/quieter.md",
+        "role": "documentation",
+        "language": null,
+        "added": 100,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/routing.md",
+        "role": "documentation",
+        "language": null,
+        "added": 19,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/shape.md",
+        "role": "documentation",
+        "language": null,
+        "added": 60,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/typeset.md",
+        "role": "documentation",
+        "language": null,
+        "added": 81,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/reference/visualize.md",
+        "role": "documentation",
+        "language": null,
+        "added": 48,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/command-metadata.json",
+        "role": "configuration",
+        "language": null,
+        "added": 95,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/concept-seed.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 554,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/context-signals.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 335,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/context.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 1451,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/critique-storage.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 214,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detect-csp.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 199,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detect.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 22,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/browser/injected/index.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 2024,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/cli/main.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 439,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/design-system.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 984,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/detect-antipatterns-browser.js",
+        "role": "source",
+        "language": "javascript",
+        "added": 8284,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/detect-antipatterns.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 51,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/engines/browser/detect-url.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 373,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/engines/regex/detect-text.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 769,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/engines/static-html/css-cascade.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 1187,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/engines/static-html/detect-html.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 265,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 190,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/findings.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 19,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/node/file-system.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 213,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/profile/profiler.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 167,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/registry/antipatterns.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 618,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/rules/checks.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 5581,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/shared/color.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 125,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/shared/constants.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 113,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/shared/fonts.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 31,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/shared/inline-ignores.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 149,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/detector/shared/page.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 8,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/doctor.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 337,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/embed-prompt.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 134,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/generate-image.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 241,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/hook-admin.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 742,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/hook-before-edit.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 517,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/hook-lib.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 2101,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/hook.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 79,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/artifact-schema.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 94,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/composition-catalog.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 201,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/concept-catalog.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 358,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/design-parser.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 843,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/impeccable-config.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 659,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/impeccable-paths.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 138,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/is-generated.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 70,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/provider.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/roll-selection.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 363,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/staleness-deep.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 458,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/staleness-notice.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 170,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/staleness.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 458,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/surface-briefs.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 152,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/target-args.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 43,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/target-slug.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 34,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/lib/template-extensions.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 147,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-accept.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 955,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-browser-dom.js",
+        "role": "source",
+        "language": "javascript",
+        "added": 147,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-browser-session.js",
+        "role": "source",
+        "language": "javascript",
+        "added": 124,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-browser.js",
+        "role": "source",
+        "language": "javascript",
+        "added": 12513,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-commit-manual-edits.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 1245,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-complete.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 108,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-copy-edit-agent.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 684,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-discard-manual-edits.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 52,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-inject.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 504,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-insert.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 293,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-manual-edit-evidence.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 369,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-poll.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 430,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-resume.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 124,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-server.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 1662,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-status.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 72,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-target.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 31,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live-wrap.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 928,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 360,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/accept-css.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 618,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/accept-verify.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 61,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/browser-script-parts.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 56,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/completion.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 29,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/event-validation.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 200,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/astro.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 48,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/detect-utils.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 74,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/index.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 144,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/journal.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 198,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/nextjs.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 50,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/nuxt.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 162,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/script-src.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 18,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/static-html.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 27,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/sveltekit.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 72,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/tag-strategy.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 248,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/tanstack-start.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 71,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/frameworks/vite-generic.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 43,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/generation-preflight.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 150,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/insert-ui.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 459,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/instructions.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 143,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/manual-apply.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 940,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/manual-edit-routes.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 358,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/manual-edits-buffer.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 153,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/poll-lanes.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 15,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/roots.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 509,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/session-store.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 564,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/source-lock.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 106,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/source-search.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 106,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/svelte-ast.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 962,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/svelte-component.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 1343,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/sveltekit-adapter.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 317,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/tanstack-adapter.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 281,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/ui-core.mjs",
+        "role": "localization",
+        "language": "javascript",
+        "added": 181,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/live/vocabulary.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 172,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/modern-screenshot.umd.js",
+        "role": "source",
+        "language": "javascript",
+        "added": 15,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/palette.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 629,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/pin.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 222,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/serve-question.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 933,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/impeccable/scripts/surface-brief.mjs",
+        "role": "source",
+        "language": "javascript",
+        "added": 75,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/implement/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 65,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/implement/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/improve-codebase-architecture/HTML-REPORT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 124,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/improve-codebase-architecture/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 72,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/improve-codebase-architecture/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/invest-optimizer",
+        "role": "other",
+        "language": null,
+        "added": 0,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/.skillignore",
+        "role": "other",
+        "language": null,
+        "added": 14,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 2257,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 9,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/assets/aging-portrait.jpeg",
+        "role": "other",
+        "language": null,
+        "added": 21391,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/assets/claude-code-rap.mp3",
+        "role": "other",
+        "language": null,
+        "added": 18978,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/assets/dog-as-human.png",
+        "role": "other",
+        "language": null,
+        "added": 18930,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/assets/dog-original.jpeg",
+        "role": "other",
+        "language": null,
+        "added": 31449,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/assets/swimmom-mockup.jpeg",
+        "role": "other",
+        "language": null,
+        "added": 23074,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/references/save-html-brief.md",
+        "role": "documentation",
+        "language": null,
+        "added": 205,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/briefing.py",
+        "role": "source",
+        "language": "python",
+        "added": 273,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/build-skill.sh",
+        "role": "other",
+        "language": null,
+        "added": 40,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/compare.sh",
+        "role": "other",
+        "language": null,
+        "added": 62,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/evaluate_search_quality.py",
+        "role": "source",
+        "language": "python",
+        "added": 589,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/last30days.py",
+        "role": "source",
+        "language": "python",
+        "added": 3614,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__init__.py",
+        "role": "source",
+        "language": "python",
+        "added": 2,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/__init__.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 2,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/arxiv.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 155,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/backends.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 313,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/bird_x.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 352,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/bluesky.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 180,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/categories.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 100,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/cjk.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 80,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/cluster.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 117,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/competitors.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 141,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/corpus.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 224,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/dates.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 102,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/dedupe.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 73,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/digg.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 236,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/discovery_handoff.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 510,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/doctor.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 793,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/dripstack.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 128,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/entity_extract.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 104,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/env.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 578,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/freshness.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 306,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/fusion.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 78,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/github.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 549,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/grounding.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 189,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/hackernews.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 232,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/health.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 218,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/hiring_signals.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 168,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/html_render.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 589,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/http.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 516,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/instagram.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 344,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/jobs.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 298,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/library.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 126,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/library_index.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 272,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/linkedin.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 207,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/log.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 29,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/normalize.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 422,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/permission_preflight.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 100,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/perplexity.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 354,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/pinterest.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 86,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/pipeline.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 1767,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/planner.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 506,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/polymarket.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 492,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/preflight.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 93,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/prescriptions.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 109,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/providers.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 183,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/quality_nudge.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 149,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/query.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 104,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 451,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_arctic.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 58,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_enrich.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 161,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_keyless.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 201,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_listing.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 186,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_public.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 156,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_rss.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 129,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/reddit_shreddit.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 108,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/registers.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 69,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/relevance.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 218,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/render.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 1665,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/rerank.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 400,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/resolve.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 221,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/schema.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 499,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/signals.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 159,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/skill_meta.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 19,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/snippet.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 17,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/stocktwits.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 241,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/subproc.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 65,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/techmeme.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 149,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/threads.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 123,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/tiktok.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 329,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/topic_shape.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 174,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/trustpilot.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 298,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/truthsocial.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 91,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/ui.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 406,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/web_search_keyless.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 128,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/xai_x.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 126,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/xiaohongshu_api.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 90,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/xquik.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 218,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/xurl_x.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 137,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/__pycache__/youtube_yt.cpython-314.pyc",
+        "role": "other",
+        "language": null,
+        "added": 900,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/arxiv.py",
+        "role": "source",
+        "language": "python",
+        "added": 291,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/backends.py",
+        "role": "source",
+        "language": "python",
+        "added": 608,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/bird_x.py",
+        "role": "source",
+        "language": "python",
+        "added": 683,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/bluesky.py",
+        "role": "source",
+        "language": "python",
+        "added": 324,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/categories.py",
+        "role": "source",
+        "language": "python",
+        "added": 290,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/chrome_cookies.py",
+        "role": "source",
+        "language": "python",
+        "added": 461,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/cjk.py",
+        "role": "source",
+        "language": "python",
+        "added": 108,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/cluster.py",
+        "role": "source",
+        "language": "python",
+        "added": 233,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/competitors.py",
+        "role": "source",
+        "language": "python",
+        "added": 205,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/cookie_extract.py",
+        "role": "source",
+        "language": "python",
+        "added": 509,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/corpus.py",
+        "role": "source",
+        "language": "python",
+        "added": 440,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/dates.py",
+        "role": "source",
+        "language": "python",
+        "added": 170,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/dedupe.py",
+        "role": "source",
+        "language": "python",
+        "added": 146,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/digg.py",
+        "role": "source",
+        "language": "python",
+        "added": 441,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/discovery_handoff.py",
+        "role": "source",
+        "language": "python",
+        "added": 977,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/doctor.py",
+        "role": "source",
+        "language": "python",
+        "added": 1657,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/dripstack.py",
+        "role": "source",
+        "language": "python",
+        "added": 204,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/entity_extract.py",
+        "role": "source",
+        "language": "python",
+        "added": 165,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/env.py",
+        "role": "source",
+        "language": "python",
+        "added": 1298,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/fanout.py",
+        "role": "source",
+        "language": "python",
+        "added": 85,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/feed.py",
+        "role": "source",
+        "language": "python",
+        "added": 62,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/freshness.py",
+        "role": "source",
+        "language": "python",
+        "added": 567,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/fusion.py",
+        "role": "source",
+        "language": "python",
+        "added": 208,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/github.py",
+        "role": "source",
+        "language": "python",
+        "added": 1070,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/grounding.py",
+        "role": "source",
+        "language": "python",
+        "added": 370,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/hackernews.py",
+        "role": "source",
+        "language": "python",
+        "added": 401,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/health.py",
+        "role": "source",
+        "language": "python",
+        "added": 436,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/hiring_signals.py",
+        "role": "source",
+        "language": "python",
+        "added": 327,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/hosted.py",
+        "role": "source",
+        "language": "python",
+        "added": 322,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/html_publish.py",
+        "role": "source",
+        "language": "python",
+        "added": 108,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/html_render.py",
+        "role": "source",
+        "language": "python",
+        "added": 905,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/http.py",
+        "role": "source",
+        "language": "python",
+        "added": 888,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/instagram.py",
+        "role": "source",
+        "language": "python",
+        "added": 637,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/jobs.py",
+        "role": "source",
+        "language": "python",
+        "added": 711,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/library.py",
+        "role": "source",
+        "language": "python",
+        "added": 270,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/library_index.py",
+        "role": "source",
+        "language": "python",
+        "added": 478,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/linkedin.py",
+        "role": "source",
+        "language": "python",
+        "added": 364,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/log.py",
+        "role": "source",
+        "language": "python",
+        "added": 39,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/normalize.py",
+        "role": "source",
+        "language": "python",
+        "added": 826,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/permission_preflight.py",
+        "role": "source",
+        "language": "python",
+        "added": 243,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/perplexity.py",
+        "role": "source",
+        "language": "python",
+        "added": 746,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/pinterest.py",
+        "role": "source",
+        "language": "python",
+        "added": 155,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/pipeline.py",
+        "role": "source",
+        "language": "python",
+        "added": 4146,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/planner.py",
+        "role": "source",
+        "language": "python",
+        "added": 1027,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/polymarket.py",
+        "role": "source",
+        "language": "python",
+        "added": 1018,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/preflight.py",
+        "role": "source",
+        "language": "python",
+        "added": 120,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/prescriptions.py",
+        "role": "source",
+        "language": "python",
+        "added": 296,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/providers.py",
+        "role": "source",
+        "language": "python",
+        "added": 381,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/quality_nudge.py",
+        "role": "source",
+        "language": "python",
+        "added": 399,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/query.py",
+        "role": "source",
+        "language": "python",
+        "added": 203,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit.py",
+        "role": "source",
+        "language": "python",
+        "added": 805,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_arctic.py",
+        "role": "source",
+        "language": "python",
+        "added": 93,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_enrich.py",
+        "role": "source",
+        "language": "python",
+        "added": 323,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_keyless.py",
+        "role": "source",
+        "language": "python",
+        "added": 331,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_listing.py",
+        "role": "source",
+        "language": "python",
+        "added": 247,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_public.py",
+        "role": "source",
+        "language": "python",
+        "added": 276,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_rss.py",
+        "role": "source",
+        "language": "python",
+        "added": 225,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/reddit_shreddit.py",
+        "role": "source",
+        "language": "python",
+        "added": 185,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/registers.py",
+        "role": "source",
+        "language": "python",
+        "added": 134,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/relevance.py",
+        "role": "source",
+        "language": "python",
+        "added": 201,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/render.py",
+        "role": "source",
+        "language": "python",
+        "added": 3169,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/rerank.py",
+        "role": "source",
+        "language": "python",
+        "added": 894,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/resolve.py",
+        "role": "source",
+        "language": "python",
+        "added": 395,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/safari_cookies.py",
+        "role": "source",
+        "language": "python",
+        "added": 194,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/schema.py",
+        "role": "source",
+        "language": "python",
+        "added": 1000,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/setup_wizard.py",
+        "role": "source",
+        "language": "python",
+        "added": 1090,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/signals.py",
+        "role": "source",
+        "language": "python",
+        "added": 351,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/skill_meta.py",
+        "role": "source",
+        "language": "python",
+        "added": 34,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/snippet.py",
+        "role": "source",
+        "language": "python",
+        "added": 52,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/stocktwits.py",
+        "role": "source",
+        "language": "python",
+        "added": 375,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/subproc.py",
+        "role": "source",
+        "language": "python",
+        "added": 117,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/techmeme.py",
+        "role": "source",
+        "language": "python",
+        "added": 265,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/threads.py",
+        "role": "source",
+        "language": "python",
+        "added": 208,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/tiktok.py",
+        "role": "source",
+        "language": "python",
+        "added": 601,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/topic_shape.py",
+        "role": "source",
+        "language": "python",
+        "added": 341,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/transcribe.py",
+        "role": "source",
+        "language": "python",
+        "added": 236,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/trustpilot.py",
+        "role": "source",
+        "language": "python",
+        "added": 529,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/truthsocial.py",
+        "role": "source",
+        "language": "python",
+        "added": 163,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/ui.py",
+        "role": "source",
+        "language": "python",
+        "added": 627,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/web_fetch_keyless.py",
+        "role": "source",
+        "language": "python",
+        "added": 106,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/web_search_keyless.py",
+        "role": "source",
+        "language": "python",
+        "added": 218,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/xai_x.py",
+        "role": "source",
+        "language": "python",
+        "added": 237,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/xiaohongshu_api.py",
+        "role": "source",
+        "language": "python",
+        "added": 163,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/xquik.py",
+        "role": "source",
+        "language": "python",
+        "added": 407,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/xurl_x.py",
+        "role": "source",
+        "language": "python",
+        "added": 278,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/lib/youtube_yt.py",
+        "role": "source",
+        "language": "python",
+        "added": 1519,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/setup-keychain.sh",
+        "role": "other",
+        "language": null,
+        "added": 125,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/setup-pass.sh",
+        "role": "other",
+        "language": null,
+        "added": 134,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/store.py",
+        "role": "source",
+        "language": "python",
+        "added": 1284,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/test-v1-vs-v2.sh",
+        "role": "other",
+        "language": null,
+        "added": 221,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/test_device_auth.py",
+        "role": "source",
+        "language": "python",
+        "added": 129,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/verify_v3.py",
+        "role": "source",
+        "language": "python",
+        "added": 196,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/last30days/scripts/watchlist.py",
+        "role": "source",
+        "language": "python",
+        "added": 320,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/no-ai-slop",
+        "role": "other",
+        "language": null,
+        "added": 0,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ponytail-audit/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 43,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ponytail-debt/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 46,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ponytail-gain/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 52,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ponytail-help/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 71,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ponytail-review/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 59,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/ponytail/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 108,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/poor-mans-distill/ASSESSMENT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 173,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/poor-mans-distill/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 73,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/poor-mans-distill/distilled_traces.jsonl",
+        "role": "other",
+        "language": null,
+        "added": 101,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/poor-mans-distill/fewshot_digest.md",
+        "role": "documentation",
+        "language": null,
+        "added": 135,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/poor-mans-distill/route_shortcuts.md",
+        "role": "documentation",
+        "language": null,
+        "added": 29,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/prompt-sharpen/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 30,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/prototype/LOGIC.md",
+        "role": "documentation",
+        "language": null,
+        "added": 80,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/prototype/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 28,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/prototype/UI.md",
+        "role": "documentation",
+        "language": null,
+        "added": 113,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/prototype/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/research/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 14,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/research/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/resolving-merge-conflicts/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 16,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/resolving-merge-conflicts/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 117,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/domain.md",
+        "role": "documentation",
+        "language": null,
+        "added": 52,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/issue-tracker-github.md",
+        "role": "documentation",
+        "language": null,
+        "added": 46,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md",
+        "role": "documentation",
+        "language": null,
+        "added": 47,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/issue-tracker-local.md",
+        "role": "documentation",
+        "language": null,
+        "added": 31,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-matt-pocock-skills/triage-labels.md",
+        "role": "documentation",
+        "language": null,
+        "added": 16,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-pre-commit/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 93,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/setup-ts-deep-modules/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 103,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/shard-security/ASSESSMENT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 141,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/shard-security/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 37,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/tdd/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 38,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/tdd/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 4,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/tdd/mocking.md",
+        "role": "documentation",
+        "language": null,
+        "added": 60,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/tdd/tests.md",
+        "role": "documentation",
+        "language": null,
+        "added": 78,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/teach/GLOSSARY-FORMAT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 36,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/teach/LEARNING-RECORD-FORMAT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 47,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/teach/MISSION-FORMAT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 32,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/teach/RESOURCES-FORMAT.md",
+        "role": "documentation",
+        "language": null,
+        "added": 33,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/teach/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 141,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/teach/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/to-questionnaire/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 54,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/to-spec/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 76,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/to-spec/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/to-tickets/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 119,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/to-tickets/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/triage/AGENT-BRIEF.md",
+        "role": "documentation",
+        "language": null,
+        "added": 208,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/triage/OUT-OF-SCOPE.md",
+        "role": "documentation",
+        "language": null,
+        "added": 106,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/triage/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 120,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/triage/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/wayfinder/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 138,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/wayfinder/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/writing-great-skills/GLOSSARY.md",
+        "role": "documentation",
+        "language": null,
+        "added": 202,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/writing-great-skills/SKILL.md",
+        "role": "documentation",
+        "language": null,
+        "added": 84,
+        "deleted": 0,
+        "untracked": true
+      },
+      {
+        "path": "agent/skills/writing-great-skills/agents/openai.yaml",
+        "role": "configuration",
+        "language": null,
+        "added": 6,
+        "deleted": 0,
+        "untracked": true
+      }
+    ],
+    "findings": []
+  },
+  "followUpActions": [
+    {
+      "id": "apply-targeted-implementation",
+      "type": "implementation",
+      "priority": "high",
+      "title": "Make the requested behavior change in primary source first",
+      "reason": "Supporting files should follow source behavior, not substitute for the implementation change.",
+      "files": [
+        {
+          "path": "agent/skills/caveman-compress/scripts/__init__.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/caveman-compress/scripts/__main__.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/caveman-compress/scripts/benchmark.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/caveman-compress/scripts/cli.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/caveman-compress/scripts/compress.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/caveman-compress/scripts/detect.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/caveman-compress/scripts/validate.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/context-rot-forensics/scripts/rot-forensics.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/harness-doctor/scripts/config_hash.py",
+          "role": "source",
+          "language": "python"
+        },
+        {
+          "path": "agent/skills/harness-doctor/scripts/context_growth.py",
+          "role": "source",
+          "language": "python"
+        }
+      ],
+      "passCheck": "The requested behavior is implemented in source code and not only reflected in docs, locale, or fixture files."
+    },
+    {
+      "id": "validate-impact",
+      "type": "validation",
+      "priority": "medium",
+      "title": "Run focused validation for changed core or hotspot areas",
+      "reason": "Detected tests or fixtures can anchor validation.",
+      "files": [
+        {
+          "path": "agent/skills/graph-engineering/examples/investment-engine-dag.js",
+          "role": "fixture",
+          "language": "javascript"
+        }
+      ],
+      "passCheck": "Relevant focused tests, build, lint, smoke, or caller/API checks pass or failures are reported with exact output."
+    }
+  ],
+  "agentGuidance": {
+    "stance": "Use the pack as an evidence starting point, then inspect source files and rerun narrower analysis when project-specific noise is visible.",
+    "optionalReruns": [
+      {
+        "id": "rerun-with-explicit-ignore",
+        "reason": "Supporting hotspots dominate the raw history; rerun with explicit ignores before writing a core-boundary report if they are not relevant to the task.",
+        "commandArgs": [
+          "--ignore",
+          "agent/settings.json,agent/extensions/pi-lean-ctx/config.json,agent/context-prune/settings.json"
+        ],
+        "patterns": [
+          "agent/settings.json",
+          "agent/extensions/pi-lean-ctx/config.json",
+          "agent/context-prune/settings.json"
+        ]
+      }
+    ],
+    "reportFiltering": [
+      "Keep primary source candidates and supporting files in separate sections.",
+      "When a locale, docs, fixture, config, or migration file matters, explain it as companion sync or evidence, not as the primary implementation.",
+      "For an affected core chain, review diagnostic coverage through the shared observability rubric. If inspected evidence confirms that a named segment lacks readable logs or correlation, keep the gap and its causal impact as a reader-facing finding; do not infer the gap from logger-call counts or a runtime-only access failure.",
+      "If explicit ignores are used, mention the patterns and do not hide changed files that are directly relevant to the user's request."
+    ],
+    "currentFilters": {
+      "projectProfile": {
+        "ignorePatterns": [],
+        "ignoredCount": 0,
+        "ignoredSample": []
+      },
+      "historyProfile": {
+        "ignorePatterns": [],
+        "ignoredCount": 0,
+        "ignoredSample": []
+      },
+      "coreAnalysis": {
+        "ignorePatterns": [],
+        "ignoredCount": 0,
+        "ignoredSample": []
+      },
+      "diffImpact": {
+        "ignorePatterns": [],
+        "ignoredCount": 0,
+        "ignoredSample": []
+      }
+    },
+    "coreCandidateCount": 0
+  },
+  "reviewMatrix": [
+    {
+      "id": "core-supporting-separation",
+      "title": "Core candidates and supporting hotspots are separated",
+      "status": "ready",
+      "evidence": {
+        "primaryHotFiles": 0,
+        "supportingHotFiles": 3
+      },
+      "note": "Primary hot file lists should not be led by locale, docs, tests, fixtures, config, or migrations."
+    },
+    {
+      "id": "follow-up-edit-readiness",
+      "title": "Analysis can drive implementation work",
+      "status": "ready",
+      "evidence": {
+        "actionIds": [
+          "apply-targeted-implementation",
+          "validate-impact"
+        ]
+      },
+      "note": "For change/fix/optimize requests, convert follow-up actions into edits before final validation."
+    },
+    {
+      "id": "history-window-coverage",
+      "title": "History uses 30/90/180 style windows with confidence notes",
+      "status": "ready",
+      "evidence": {
+        "windows": [
+          30,
+          90,
+          180
+        ],
+        "confidence": "low"
+      },
+      "note": "Low history confidence should downgrade hotspot certainty, not block source inspection."
+    },
+    {
+      "id": "large-repo-safety",
+      "title": "Large git output has explicit bounded handling",
+      "status": "ready",
+      "evidence": {
+        "trackedFiles": 3,
+        "trackedFilesBeforeFilters": 3
+      },
+      "note": "A non-empty tracked-file profile is the first regression guard for large repositories."
+    },
+    {
+      "id": "language-framework-coverage",
+      "title": "Language and framework signals are visible",
+      "status": "manual",
+      "evidence": {
+        "languages": [],
+        "frameworks": []
+      },
+      "note": "Framework signals guide inspection; they do not replace reading implementation files."
+    },
+    {
+      "id": "static-evidence-boundary",
+      "title": "Runtime, CI, and test claims stay unverified until separately checked",
+      "status": "ready",
+      "evidence": {
+        "boundary": "static-local-git-and-file-analysis",
+        "unverified": [
+          "tests passed",
+          "CI status",
+          "runtime behavior"
+        ]
+      },
+      "note": "Reports should cite commands for local counts and mark non-executed claims as UNVERIFIED."
+    },
+    {
+      "id": "core-diagnostic-coverage",
+      "title": "Affected core chains receive a diagnostic-coverage review",
+      "status": "not-applicable",
+      "evidence": {
+        "affectedCoreFiles": [],
+        "actionId": "review-core-diagnostic-coverage"
+      },
+      "note": "The static pack requests a semantic review; source, executable-route, or captured-output evidence must confirm any missing-log finding."
+    },
+    {
+      "id": "change-drift-companion-coverage",
+      "title": "Changed surfaces have companion evidence checks",
+      "status": "ready",
+      "evidence": {
+        "findingCount": 0,
+        "types": []
+      },
+      "note": "Companion drift findings are advisory; update the companion file or document why it is not needed."
+    },
+    {
+      "id": "agent-report-flexibility",
+      "title": "Agents can rerun or filter instead of accepting noisy defaults",
+      "status": "ready",
+      "evidence": {
+        "filtersApplied": false,
+        "optionalSupportingPatterns": [
+          "agent/settings.json",
+          "agent/extensions/pi-lean-ctx/config.json",
+          "agent/context-prune/settings.json"
+        ]
+      },
+      "note": "Optional filters are analysis aids; they should be disclosed when used."
+    }
+  ],
+  "recommendedReads": [
+    {
+      "path": "agent/context-prune/settings.json",
+      "language": null,
+      "role": "configuration",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/extensions/pi-lean-ctx/config.json",
+      "language": null,
+      "role": "configuration",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/settings.json",
+      "language": null,
+      "role": "configuration",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/ai-consultant-career",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/ask-matt/agents/openai.yaml",
+      "language": null,
+      "role": "configuration",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/ask-matt/SKILL.md",
+      "language": null,
+      "role": "documentation",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/calibrate-longevity",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__init__.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__main__.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__pycache__/__init__.cpython-314.pyc",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__pycache__/__main__.cpython-314.pyc",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__pycache__/cli.cpython-314.pyc",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__pycache__/compress.cpython-314.pyc",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__pycache__/detect.cpython-314.pyc",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/__pycache__/validate.cpython-314.pyc",
+      "language": null,
+      "role": "other",
+      "supporting": true,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/benchmark.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/cli.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/compress.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/detect.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    },
+    {
+      "path": "agent/skills/caveman-compress/scripts/validate.py",
+      "language": "python",
+      "role": "source",
+      "supporting": false,
+      "priority": 100,
+      "reasons": [
+        "changed file"
+      ]
+    }
+  ],
+  "projectInfo": {
+    "name": "agent",
+    "description": "",
+    "readmeTitle": "",
+    "evidence": [],
+    "primaryLanguages": [],
+    "frameworks": [],
+    "sourceFiles": 0,
+    "testFiles": 0,
+    "measuredSourceLines": null,
+    "sourceLineStatus": "none",
+    "sourceLineMethod": "not measured by default; use --measure-source-lines to count tracked readable primary source files only",
+    "sourceRoots": [],
+    "entryCandidates": [],
+    "manifests": []
+  },
+  "agentInstructions": {
+    "count": 0,
+    "rootCount": 0,
+    "nestedCount": 0,
+    "files": [],
+    "status": "none",
+    "suggestedMinimum": 0,
+    "suggestedAdditional": 0,
+    "sourceFilesPerInstruction": null,
+    "sourceFilesUnderNestedInstructions": 0,
+    "nestedSourceFileCoveragePercent": null,
+    "suggestedScopes": [],
+    "reasons": []
+  },
+  "projectProfileKeys": [
+    "schemaVersion",
+    "kind",
+    "status",
+    "repoRoot",
+    "analysisScope",
+    "filters",
+    "projectInfo",
+    "agentInstructions",
+    "languages",
+    "manifests",
+    "frameworks",
+    "sourceRoots",
+    "entryCandidates",
+    "corePathHints",
+    "totals"
+  ],
+  "projectProfileBrief": {
+    "schemaVersion": 2,
+    "kind": "project-profile",
+    "status": "ok",
+    "repoRoot": "/home/alex/.pi",
+    "analysisScope": {
+      "kind": "path",
+      "route": "agent",
+      "pathspecs": [
+        ":(top,literal)agent"
+      ]
+    },
+    "filters": {
+      "ignorePatterns": [],
+      "ignoredCount": 0,
+      "ignoredSample": []
+    },
+    "projectInfo": {
+      "name": "agent",
+      "description": "",
+      "readmeTitle": "",
+      "evidence": [],
+      "primaryLanguages": [],
+      "frameworks": [],
+      "sourceFiles": 0,
+      "testFiles": 0,
+      "measuredSourceLines": null,
+      "sourceLineStatus": "none",
+      "sourceLineMethod": "not measured by default; use --measure-source-lines to count tracked readable primary source files only",
+      "sourceRoots": [],
+      "entryCandidates": [],
+      "manifests": []
+    },
+    "agentInstructions": {
+      "count": 0,
+      "rootCount": 0,
+      "nestedCount": 0,
+      "files": [],
+      "status": "none",
+      "suggestedMinimum": 0,
+      "suggestedAdditional": 0,
+      "sourceFilesPerInstruction": null,
+      "sourceFilesUnderNestedInstructions": 0,
+      "nestedSourceFileCoveragePercent": null,
+      "suggestedScopes": [],
+      "reasons": []
+    },
+    "languages": [],
+    "manifests": [],
+    "frameworks": [],
+    "sourceRoots": [],
+    "entryCandidates": [],
+    "corePathHints": [],
+    "totals": {
+      "trackedFiles": 3,
+      "trackedFilesBeforeFilters": 3,
+      "sourceFiles": 0,
+      "testFiles": 0,
+      "generatedOrDependencyFiles": 0,
+      "sourceLines": null,
+      "sourceLineMeasurement": "skipped",
+      "readableSourceFiles": 0,
+      "unreadableSourceFiles": 0
+    }
+  },
+  "diffImpact": {
+    "status": "ok",
+    "severity": "critical",
+    "score": 100,
+    "reasons": [
+      "changed supporting hot file agent/context-prune/settings.json",
+      "changed supporting hot file agent/extensions/pi-lean-ctx/config.json",
+      "changed supporting hot file agent/settings.json",
+      "wide file change count 453",
+      "large changed-line count 266023"
+    ],
+    "metrics": {
+      "changedFiles": 453,
+      "changedLines": 266023,
+      "coreHits": 0,
+      "hotHits": 0,
+      "companionHits": 3
+    },
+    "coreHits": [],
+    "hotHits": [],
+    "companionHits": [
+      {
+        "path": "agent/context-prune/settings.json",
+        "role": "configuration",
+        "commits": 1,
+        "churn": 8
+      },
+      {
+        "path": "agent/extensions/pi-lean-ctx/config.json",
+        "role": "configuration",
+        "commits": 2,
+        "churn": 7
+      },
+      {
+        "path": "agent/settings.json",
+        "role": "configuration",
+        "commits": 2,
+        "churn": 72
+      }
+    ],
+    "baseRef": "HEAD",
+    "filters": {
+      "ignorePatterns": [],
+      "ignoredCount": 0,
+      "ignoredSample": []
+    },
+    "attentionRequired": false,
+    "reviewRecommended": false,
+    "keys": [
+      "schemaVersion",
+      "kind",
+      "status",
+      "repoRoot",
+      "analysisScope",
+      "baseRef",
+      "filters",
+      "score",
+      "severity",
+      "reviewRecommended",
+      "attentionRequired",
+      "reasons",
+      "changedFiles",
+      "coreHits",
+      "hotHits",
+      "companionHits",
+      "metrics"
+    ]
+  },
+  "history": {
+    "keys": [
+      "schemaVersion",
+      "kind",
+      "status",
+      "repoRoot",
+      "analysisScope",
+      "filters",
+      "range",
+      "confidence",
+      "historyWindows",
+      "languageTouchCounts",
+      "hotFiles",
+      "supportingHotFiles",
+      "hotPaths",
+      "supportingHotPaths",
+      "coChangePaths"
+    ],
+    "range": {
+      "maxCommits": 500,
+      "analyzedCommits": 3,
+      "newest": "58c39b4",
+      "oldest": "5d3dc60"
+    },
+    "confidence": {
+      "confidence": "low",
+      "reasons": [
+        "only 3 commits were analyzed",
+        "history span is only 6 days"
+      ]
+    },
+    "hotFiles": [],
+    "hotPaths": [],
+    "windows": [
+      {
+        "days": 30,
+        "since": "2026-07-05T20:57:11.000Z",
+        "analyzedCommits": 3,
+        "trendLabel": "recent-hotspots",
+        "interpretation": "recent window for spotting recent hotspots from bounded git history.",
+        "hotFiles": [],
+        "supportingHotFiles": [
+          {
+            "path": "agent/settings.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 2,
+            "added": 54,
+            "deleted": 18,
+            "churn": 72,
+            "lastTouched": "5d3dc60"
+          },
+          {
+            "path": "agent/extensions/pi-lean-ctx/config.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 2,
+            "added": 6,
+            "deleted": 1,
+            "churn": 7,
+            "lastTouched": "791276a"
+          },
+          {
+            "path": "agent/context-prune/settings.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 1,
+            "added": 8,
+            "deleted": 0,
+            "churn": 8,
+            "lastTouched": "5d3dc60"
+          }
+        ],
+        "hotPaths": []
+      },
+      {
+        "days": 90,
+        "since": "2026-05-06T20:57:11.000Z",
+        "analyzedCommits": 3,
+        "trendLabel": "sustained-hotspots",
+        "interpretation": "sustained window for spotting sustained hotspots from bounded git history.",
+        "hotFiles": [],
+        "supportingHotFiles": [
+          {
+            "path": "agent/settings.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 2,
+            "added": 54,
+            "deleted": 18,
+            "churn": 72,
+            "lastTouched": "5d3dc60"
+          },
+          {
+            "path": "agent/extensions/pi-lean-ctx/config.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 2,
+            "added": 6,
+            "deleted": 1,
+            "churn": 7,
+            "lastTouched": "791276a"
+          },
+          {
+            "path": "agent/context-prune/settings.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 1,
+            "added": 8,
+            "deleted": 0,
+            "churn": 8,
+            "lastTouched": "5d3dc60"
+          }
+        ],
+        "hotPaths": []
+      },
+      {
+        "days": 180,
+        "since": "2026-02-05T20:57:11.000Z",
+        "analyzedCommits": 3,
+        "trendLabel": "legacy-or-long-range-hotspots",
+        "interpretation": "long-range window for spotting legacy or long range hotspots from bounded git history.",
+        "hotFiles": [],
+        "supportingHotFiles": [
+          {
+            "path": "agent/settings.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 2,
+            "added": 54,
+            "deleted": 18,
+            "churn": 72,
+            "lastTouched": "5d3dc60"
+          },
+          {
+            "path": "agent/extensions/pi-lean-ctx/config.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 2,
+            "added": 6,
+            "deleted": 1,
+            "churn": 7,
+            "lastTouched": "791276a"
+          },
+          {
+            "path": "agent/context-prune/settings.json",
+            "language": null,
+            "role": "configuration",
+            "supporting": true,
+            "commits": 1,
+            "added": 8,
+            "deleted": 0,
+            "churn": 8,
+            "lastTouched": "5d3dc60"
+          }
+        ],
+        "hotPaths": []
+      }
+    ]
+  }
+}

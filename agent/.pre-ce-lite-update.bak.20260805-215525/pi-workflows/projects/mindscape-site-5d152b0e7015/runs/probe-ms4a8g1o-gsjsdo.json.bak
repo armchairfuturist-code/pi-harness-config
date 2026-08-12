@@ -1,0 +1,73 @@
+{
+  "runId": "probe-ms4a8g1o-gsjsdo",
+  "workflowName": "probe",
+  "script": "export const meta = { name: \"probe\", description: \"probe agent\", phases: [{ id: \"p\", title: \"probe\" }] };\nphase(\"p\");\nconst r = await agent(\"Reply with exactly: OK\", { label: \"probe\", phase: \"p\" });\nreturn { r };",
+  "sessionId": "019fa768-c653-7c24-ba4d-8cdfaa314727",
+  "status": "completed",
+  "tokenBudget": null,
+  "maxAgents": 1,
+  "agentTimeoutMs": null,
+  "concurrency": 8,
+  "agentRetries": 0,
+  "phases": [
+    "probe",
+    "p"
+  ],
+  "currentPhase": "p",
+  "agents": [
+    {
+      "id": 1,
+      "callId": "probe-ms4a8g1o-gsjsdo:0",
+      "label": "probe",
+      "phase": "p",
+      "prompt": "Reply with exactly: OK",
+      "status": "done",
+      "model": "Venice/kimi-k3",
+      "history": [
+        {
+          "role": "user",
+          "kind": "text",
+          "text": "Workflow phase: p\n\nTask label: probe\n\nReply with exactly: OK",
+          "timestamp": 1785220570438
+        },
+        {
+          "role": "assistant",
+          "kind": "text",
+          "text": "OK",
+          "timestamp": 1785220570441
+        }
+      ],
+      "resultPreview": "OK",
+      "tokens": 7101,
+      "tokenUsage": {
+        "input": 7050,
+        "output": 51,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 7101,
+        "cost": 0
+      },
+      "result": "OK",
+      "startedAt": "2026-07-28T06:36:10.429Z",
+      "endedAt": "2026-07-28T06:36:12.987Z"
+    }
+  ],
+  "logs": [
+    "Logs persisted to /home/alex/.pi/workflows/projects/mindscape-site-5d152b0e7015/runs/probe-ms4a8g1o-gsjsdo.log"
+  ],
+  "result": {
+    "r": "OK"
+  },
+  "tokenUsage": {
+    "input": 7050,
+    "output": 51,
+    "total": 7101,
+    "cost": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+  },
+  "startedAt": "2026-07-28T06:36:10.428Z",
+  "updatedAt": "2026-07-28T06:36:12.987Z",
+  "completedAt": "2026-07-28T06:36:12.987Z",
+  "durationMs": 2559
+}

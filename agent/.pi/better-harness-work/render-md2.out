@@ -1,0 +1,21 @@
+{
+  "ok": false,
+  "kind": "harness-report-render",
+  "error": {
+    "code": "INVALID_FINDINGS",
+    "message": "findings[3] repair aiFixPrompt must describe evidence directly instead of using synthetic numbered aliases; findings.json summary.dimensions missing software-fluency dimension: context-map; findings.json summary.dimensions missing software-fluency dimension: environment-readiness; findings.json summary.dimensions missing software-fluency dimension: fast-feedback; findings.json summary.dimensions missing software-fluency dimension: quality-gates; findings.json summary.dimensions missing software-fluency dimension: safe-change; findings.json summary.dimensions contains unsupported software-fluency dimension: task-understanding; findings.json summary.dimensions contains unsupported software-fluency dimension: controlled-execution; findings.json summary.dimensions contains unsupported software-fluency dimension: change-validation; findings.json summary.dimensions contains unsupported software-fluency dimension: reliable-delivery; findings.json summary.dimensions contains unsupported software-fluency dimension: learning-capture",
+    "details": [
+      "findings[3] repair aiFixPrompt must describe evidence directly instead of using synthetic numbered aliases",
+      "findings.json summary.dimensions missing software-fluency dimension: context-map",
+      "findings.json summary.dimensions missing software-fluency dimension: environment-readiness",
+      "findings.json summary.dimensions missing software-fluency dimension: fast-feedback",
+      "findings.json summary.dimensions missing software-fluency dimension: quality-gates",
+      "findings.json summary.dimensions missing software-fluency dimension: safe-change",
+      "findings.json summary.dimensions contains unsupported software-fluency dimension: task-understanding",
+      "findings.json summary.dimensions contains unsupported software-fluency dimension: controlled-execution",
+      "findings.json summary.dimensions contains unsupported software-fluency dimension: change-validation",
+      "findings.json summary.dimensions contains unsupported software-fluency dimension: reliable-delivery",
+      "findings.json summary.dimensions contains unsupported software-fluency dimension: learning-capture"
+    ]
+  }
+}

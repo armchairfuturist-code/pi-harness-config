@@ -1,0 +1,640 @@
+{
+  "runId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv",
+  "workflowName": "ce-lite-vs-mattpocock-skills",
+  "script": "export const meta = {\n  name: \"ce-lite-vs-mattpocock-skills\",\n  description: \"WGS rubric + mattpocock/skills vs ce-lite goals and local skill inventory\",\n  phases: [\n    { title: \"Analyze\" },\n    { title: \"Synthesize\" },\n  ],\n};\n\nphase(\"Analyze\");\n\nconst catalog = `\nLOCAL SKILLS (subset of ~70+): ce-lite (+ companions reference/grilling/wayfinding/context-health/gather-judge),\nwriting-great-skills, grilling, grill-me, handoff, teach, to-questionnaire,\nharness-doctor, context-rot-forensics, poor-mans-distill, shard-security, graph-engineering,\nprompt-sharpen, no-ai-slop, find-skills, caveman-compress, full-output-enforcement,\nponytail, ponytail-review, and full mattpocock engineering set installed stock.\n\nMATTPOCOCK engineering catalog:\nUSER-INVOKED: ask-matt, grill-with-docs, triage, improve-codebase-architecture,\n  setup-matt-pocock-skills, to-spec, to-tickets, implement, wayfinder\nMODEL-INVOKED: prototype, diagnosing-bugs, research, tdd, domain-modeling,\n  codebase-design, code-review, resolving-merge-conflicts\nAlso upstream: design/ (product) set — out of scope unless fit is obvious.\n`;\n\nconst ceLiteGoals = `\nCE-LITE goals and mechanics:\n- Progressive depth: simple Q → direct; non-trivial → load ce-lite SKILL.md\n- Contract loop: grill → terms → plan → execute → verify → compound\n- Operator control; no process takeover (anti-GSD/BMAD)\n- Context health: handoff before rot; compaction fallback\n- gather-judge under judgment pressure\n- Multi-session wayfinding: plan decisions, not destinations; .scratch/wayfinding/\n- workflow tool for multi-agent fan-out; single-agent default\n- Compose existing skills (tdd, code-review, research…) rather than reimplement\n- Pi-native: lean-ctx, tiers, resumeFromRunId, saved workflows\n- Terse operator surface; hide protocol machinery\n\nLocal grill stack: ce-lite/grilling.md + grilling + grill-me + grill-with-docs (collision zone)\nLocal wayfinding: ce-lite/wayfinding.md vs matt wayfinder (collision zone)\nLocal handoff skill exists separately from ce-lite context-health\n`;\n\nconst wgsSummary = `\nwriting-great-skills (WGS) quality bar:\n- Description = WHAT + WHEN with trigger phrases AND negative triggers\n- Progressive disclosure: lean SKILL.md, details in linked files only when needed\n- Imperative steps matched to degrees of freedom / fragility\n- Composition over monoliths; prefer feedback loops\n- Anti-patterns: vague \"consider/should\", time estimates, windows-style walls,\n  essay-before-action, missing escape hatches, fighting sibling skills on same trigger\n- Glossary discipline for shared terms\n`;\n\nconst mattSkillNotes = `\nMatt skill behaviors (from installed SKILL.md bodies):\n- to-spec: deep requirements → frozen spec; user-invoked; pairs with grill\n- to-tickets: spec → vertical tickets; issue-tracker oriented\n- implement: pick ticket → TDD/code-review loop → done\n- wayfinder: multi-session roadmap / next-session steering\n- grill-with-docs: adversarial Qs grounded in docs\n- triage: classify request → route to right skill\n- ask-matt: meta Q about how to use the skill pack\n- improve-codebase-architecture: HTML architecture report heavyweight\n- prototype: spike before commit\n- diagnosing-bugs: systematic debug\n- research: codebase/external research\n- tdd: red-green-refactor discipline\n- domain-modeling: bounded contexts / model language\n- codebase-design: design patterns in repo\n- code-review: review checklist skill\n- resolving-merge-conflicts: conflict resolution\n- setup-matt-pocock-skills: install/configure the pack\n\nPhilosophy: small composable skills, operator chooses depth, disable-model-invocation on user-facing ones, no mega-framework takeover.\n`;\n\nconst localCollisionNotes = `\nKnown local forks/relatives:\n- grilling / grill-me: local adversarial clarification (may predate or diverge from grill-with-docs)\n- handoff: session continuity\n- teach: teaching mode\n- writing-great-skills: skill-authoring meta (WGS)\n- ce-lite: orchestration meta that should DELEGATE not duplicate matt skills\n- to-questionnaire: questionnaire extraction\n- harness-doctor / context-rot-forensics / poor-mans-distill: pi harness ops (matt has no equivalent)\n`;\n\nconst [criteria, inventory, fit, quality] = await parallel([\n  () =>\n    agent(\n      `Apply writing-great-skills as a scoring rubric for engineering agent skills in a pi harness + ce-lite stack.\n\n${wgsSummary}\n\n${ceLiteGoals}\n\nTask — return:\n1. Must-have quality bar (bullet list)\n2. 10 scored criteria (0-2 each) with what a \"2\" looks like\n3. Separate scoring axes: \"standalone WGS quality\" vs \"fits ce-lite\"\n4. Red flags → SKIP or REWRITE even if upstream popular\n\nTerse. Structured. No fluff.`,\n      { label: \"wgs-criteria\", tier: \"big\" }\n    ),\n  () =>\n    agent(\n      `Map mattpocock/skills against the local skill library.\n\n${catalog}\n${mattSkillNotes}\n${localCollisionNotes}\n${ceLiteGoals}\n\nFor EACH matt skill list:\n- Role in matt flow\n- Local status (stock present / duplicated by X)\n- ce-lite phase overlap (grill, terms, plan, execute, verify, compound, wayfind, handoff)\n- Collision risk (name the other skill)\n\nThen: pure gaps | local-only strengths | dangerous duplicates.\n\nSpecific filenames. Terse tables/bullets.`,\n      { label: \"inventory-map\", tier: \"medium\" }\n    ),\n  () =>\n    agent(\n      `Evaluate mattpocock/skills vs ce-lite goals.\n\n${ceLiteGoals}\n${mattSkillNotes}\n${localCollisionNotes}\n${catalog}\n\nAnswer:\n1. Right delegates per ce-lite phase (wiring table)\n2. Skills ce-lite must NOT auto-invoke (operator-only / collision)\n3. Philosophy align points\n4. Divergence points (issue trackers, CONTEXT.md/ADR, HTML arch reports, Claude-plugin defaults, disable-model-invocation)\n5. Pi-harness friction (workflow tool, tiers, lean-ctx, .scratch)\n\nPer matt skill: FIT | ADAPT | SKIP | REPLACE + one-line why.`,\n      { label: \"ce-lite-fit\", tier: \"big\" }\n    ),\n  () =>\n    agent(\n      `Audit mattpocock skill quality against WGS.\n\n${wgsSummary}\n${mattSkillNotes}\n\nce-lite is the local quality reference: progressive companions, terse SKILL.md, compose-don't-monolith.\n\nReturn:\n1. Overall grade A-F + evidence\n2. Best 3 WGS exemplars\n3. Weakest 3 + specific violations\n4. Systemic patterns (frontmatter, user vs model invoked, length, disclosure)\n5. Steal into ce-lite / local rewrites\n6. Do NOT copy\n\nTerse bullets.`,\n      { label: \"wgs-quality\", tier: \"medium\" }\n    ),\n]);\n\nphase(\"Synthesize\");\n\nconst synthesis = await agent(\n  `Staff-engineer synthesis for pi harness operator. Produce the final actionable plan.\n\n## Rubric\n${criteria || \"(missing coverage)\"}\n\n## Inventory\n${inventory || \"(missing coverage)\"}\n\n## Fit\n${fit || \"(missing coverage)\"}\n\n## Quality\n${quality || \"(missing coverage)\"}\n\nDeliver markdown:\n\n# mattpocock/skills × ce-lite — recommendations\n\n## Executive verdict\nOne short paragraph: keep/compose/prune stance.\n\n## Recommended wiring into ce-lite\nPhase → skill(s) + trigger rules. What ce-lite already owns vs should delegate.\n\n## Keep as-is\n## Adapt (fork or thin wrapper)\neach: change + why\n## Do not adopt / demote\neach: why\n## Gaps to author (WGS-quality)\neach: name, description draft (WHAT+WHEN), when, ce-lite plug-in point\n## Duplicate cleanup\nmerge/rename/negative-triggers\n## Priority order (next 5 actions)\nConcrete paths under skills/\n\nOpinionated. No URLs. No padding.`,\n  { label: \"synthesize\", tier: \"big\" }\n);\n\nreturn {\n  criteria: criteria || null,\n  inventory: inventory || null,\n  fit: fit || null,\n  quality: quality || null,\n  synthesis: synthesis || null,\n};",
+  "sessionId": "019fcca7-14f0-705e-b5f0-bc36773ad4ac",
+  "journal": [
+    {
+      "index": 0,
+      "runId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv",
+      "hash": "d8d2c929486bdd415a3f4155fbae00c26426039e4087c108b9e275d336a24903",
+      "result": "# WGS × ce-lite scoring rubric (wgs-criteria / Analyze)\n\n## 1. Must-have quality bar (gate — fail any → don't score)\n- Correct invocation choice: `disable-model-invocation: true` unless the agent or another skill must reach it autonomously; if user-invoked and one of many, covered by a router skill.\n- Description starts on its leading word, does WHAT + WHEN, one trigger per branch, negative triggers where siblings compete (\"not for X — use Y\").\n- SKILL.md is lean: steps are primary tier; heavy protocol disclosed behind condition-worded context pointers (\"Read X when…\"), not inline.\n- Every step ends on a checkable completion criterion; flat reference carries an exhaustiveness bar (\"every rule applied\").\n- Prompts the positive; prohibitions only as hard guardrails, each paired with the target behavior.\n- No no-op lines (each line changes behavior vs the model default), no duplicated meaning anywhere in the skill system — one source of truth per meaning.\n- Escape hatches: stated defaults instead of questions, \"if in doubt →\" routes, handoff path for long runs.\n- Operator-control preserved: never asks the operator to name skills, tools, or stage transitions.\n\n## 2. Scored criteria (0–2 each, 20 total)\n\n**Axis A — standalone WGS quality (6 criteria, /12)**\n1. **Invocation discipline.** 2: description pays context load only because autonomous reach is required; user-invoked skills are lean by design and router-covered.\n2. **Trigger precision.** 2: leading word the operator actually says; branches are genuinely distinct (no synonym restating); negative triggers disambiguate the grilling/wayfinding/handoff collision zones.\n3. **Information hierarchy.** 2: progressive disclosure done right — inline what every branch needs, disclose what only some branches reach; pointers worded by firing condition.\n4. **Completion criteria & legwork.** 2: criteria checkable AND exhaustive; demands force legwork (\"every modified model accounted for\"), not \"produce a change list\".\n5. **Leading words & positive steering.** 2: pretrained words anchor regions with priors recruited free; zero no-ops; zero elephants; guardrails paired with positive targets.\n6. **SSOT, co-location, pruning.** 2: each meaning lives once; definition+rules+caveats under one heading; no sediment, no sprawl — file length matches live, unique content.\n\n**Axis B — fits ce-lite (4 criteria, /8)**\n7. **Contract-loop fit.** 2: slots cleanly into one phase (grill/terms/plan/execute/verify/compound) or composes as a callable; no competing loop, no stage-name exposure to the operator.\n8. **Composition over reimplementation.** 2: points at tdd/code-review/research/domain-modeling rather than restating them; explicitly resolves its collision with ce-lite internals (grilling.md, wayfinding.md, context-health.md).\n9. **Progressive depth & context health.** 2: zero standing load until invoked; honors handoff triggers and compacts via `.scratch/` artifacts; returns worker-result-contract evidence, transcripts stay out of chat.\n10. **Pi-native mechanics.** 2: uses `workflow` tiers (small/medium/big), `resumeFromRunId`, lean-ctx, saved workflows; single-agent default with fan-out justified by action- vs context-bound diagnose.\n\nScore bands: 18–20 adopt · 14–17 adopt w/ named fixes · 10–13 REWRITE · <10 SKIP. Axes independent: high-A/low-B stays standalone, never wired into ce-lite; low-A/high-B gets body rewritten, routing kept.\n\n## 3. Red flags → SKIP/REWRITE even if upstream popular\n- Second generalist trigger surface (\"use for any request\") — only ce-lite may own that branch; two orchestrators fight every turn.\n- Process takeover: mandatory ceremonies, gated stage checklists, asking a non-developer operator to pick skills/tools (GSD/BMAD pattern).\n- Third grilling clone or second wayfinding protocol — the meaning exists twice already (ce-lite/grilling.md + /grilling+grill-me+grill-with-docs; ce-lite/wayfinding.md + matt wayfinder); REWRITE to point at the SSOT, don't add a third home.\n- Handoff logic that duplicates context-health.md's trigger protocol instead of extending it (standalone /handoff is user-invoked artifact-writing; anything model-invoked auto-firing handoffs collides).\n- Vague imperatives (\"consider\", \"should\", \"be thorough\"), time estimates, windows-style walls, essay-before-first-action.\n- Negation-steering (\"never X, don't Y\") without positive targets.\n- Monolith grill→plan→execute→verify in one file — REWRITE as composition of existing skills.\n- Model-invoked with no distinct leading word — context load paid for nothing.\n- Cross-harness port artifacts: hard-coded model names, nonexistent tools/MCP calls, Claude-isms.\n- Transcript-dumping workers; no terse evidence JSON.\n- Any skill that doesn't hide protocol machinery from the operator.\n\nCollision-zone verdict for the local stack: keep matt `wayfinder` (user-invoked, tracker-backed) and make ce-lite/wayfinding.md a pointer + local-markdown delta; collapse ce-lite/grilling.md and /grilling to one source with the other as a thin reference; leave /handoff user-invoked as-is — no model-side collision exists.",
+      "storeDelta": {}
+    },
+    {
+      "index": 3,
+      "runId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv",
+      "hash": "f00a42b4a7875d5ab4d825ba80b6c9cf9b2d4c16dcba329e02cfa999c1e2bc72",
+      "result": "1. **Overall Grade: B+**\n   * **Evidence**:\n     * High predictability and strong focus on actionable feedback loops (e.g., `diagnosing-bugs`' \"red-capable\" loop constraint).\n     * Strong vocabulary integration with powerful pretrained leading words (\"frontier\", \"fog of war\", \"seam\", \"tracer-bullet\", \"blast radius\").\n     * Systemic violation of `disable-model-invocation: true` across the entire pack. Every skill disables model invocation but keeps a bloated description containing rich machine-facing trigger lists, violating WGS glossary rules for user-invoked skills (which require stripped, single-line summaries to eliminate context load).\n     * Inconsistent progressive disclosure: some skills use it beautifully, while others like `wayfinder` sprawl.\n\n2. **Best 3 WGS Exemplars**\n   * **`diagnosing-bugs/SKILL.md`**: Excellent predictability. Forces a \"red-capable\" feedback loop before any code execution. Uses \"tight\" and \"red-capable\" as leading words. Clear escape hatch if a loop cannot be built.\n   * **`code-review/SKILL.md`**: Great co-location and composition. Separates Standards vs. Spec into parallel sub-agents so they do not pollute contexts, and co-locates Fowler code smells as flat, readable reference.\n   * **`tdd/SKILL.md`**: Model progressive disclosure. Outsources deep implementation examples and mocking rules to `tests.md` and `mocking.md`, keeping the root SKILL.md focused solely on the red-green loop.\n\n3. **Weakest 3 + Specific Violations**\n   * **`implement/SKILL.md`**: Extreme brevity failure. A 5-line skeleton with no process, checkable steps, or completion criteria, offloading all execution burden to other sub-skills.\n   * **`wayfinder/SKILL.md`**: Violates WGS \"Sprawl\" and progressive disclosure guidelines. Piles extensive templates, ticket types, and state transitions into a 300-line monolith instead of utilizing companion reference files.\n   * **`to-spec/SKILL.md`**: Relies on weak, advisory \"should\" language anti-patterns (\"Existing seams should be preferred\", \"propose them at the highest point you can\") instead of imperative instructions or exhaustive completion criteria.\n\n4. **Systemic Patterns**\n   * **Frontmatter mismatch**: Every skill sets `disable-model-invocation: true` yet includes complex, machine-triggering descriptions. The trigger-phrase lists are redundant sediment.\n   * **Bifurcated disclosure**: Split between high-discipline files that outsource references to Markdown sub-files (`tdd`, `codebase-design`) and monolithic files that collect everything in-place (`wayfinder`, `diagnosing-bugs`).\n   * **Composition focus**: High systemic compliance with composition over monoliths; the skills are mapped as a single interconnected pipeline via `ask-matt`.\n\n5. **Steal into ce-lite / Local Rewrites**\n   * **Red-capable loops**: Integrate `diagnosing-bugs`' \"red-capable\" verification loop constraint into `ce-lite`'s verification and execution phases to prevent premature completion.\n   * **Expand-contract refactoring**: Port `to-tickets`' \"expand-contract\" blueprint for wide refactors into the planning phase of `ce-lite` to sequence large-scale codebase edits safely.\n   * **Standards vs. Spec duality**: Use parallel sub-agents during `ce-lite`'s worker verify phase to assess deliverables against raw spec requirements and design patterns independently.\n\n6. **Do NOT copy**\n   * This audit captures core conceptual lessons and structural patterns without copying any file bodies.",
+      "storeDelta": {}
+    },
+    {
+      "index": 1,
+      "runId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv",
+      "hash": "ad0116ee7b3e774704eb5013eca97eb4b6a69f10c8b1771a910b0d14ff314cb1",
+      "result": "### Matt Skills Map\n\n| Skill | Role in Matt Flow | Local Status | ce-lite Overlap | Collision Risk & Target |\n| :--- | :--- | :--- | :--- | :--- |\n| `ask-matt` | Meta-router and directory for engineering skills. | Present: `skills/ask-matt/SKILL.md` | **Route** (Initial dispatch) | Low; meta-directory utility. |\n| `grill-with-docs` | Adversarial interview to sharpen requirements; outputs ADRs/glossary. | Present: `skills/grill-with-docs/SKILL.md` | **Grill** & **Compound** | High; collides with `grilling` and `ce-lite/grilling.md`. |\n| `triage` | State-machine issue/PR classifier and brief builder. | Present: `skills/triage/SKILL.md` | **Grill** & **Terms** | Low; pre-development tracker filter. |\n| `improve-codebase-architecture` | Code scan for deep-module boundaries; generates HTML report. | Present: `skills/improve-codebase-architecture/SKILL.md` | **Plan** & **Grill** | None; advanced decoupled architecture tool. |\n| `setup-matt-pocock-skills` | Repo setup for labels, trackers, and document templates. | Present: `skills/setup-matt-pocock-skills/SKILL.md` | None (Setup phase) | None. |\n| `to-spec` | Compiles chat/conversation into formal specs. | Present: `skills/to-spec/SKILL.md` | **Terms** (Specs/CONTRACT.md) | Low; merges into contract terms. |\n| `to-tickets` | Slices specs into dependency-linked issue-tracker tickets. | Present: `skills/to-tickets/SKILL.md` | **Plan** & **Wayfind** | Low; outputs to issue trackers. |\n| `implement` | Direct worker implementing tickets via TDD and review. | Present: `skills/implement/SKILL.md` | **Execute** & **Verify** | High; mapped to `ce-lite`'s primary execution subagent. |\n| `wayfinder` | Multi-session task/decision planner tracking via issues. | Present: `skills/wayfinder/SKILL.md` | **Wayfind** (Multi-session routing) | High; collides with `ce-lite/wayfinding.md` (local file maps). |\n| `prototype` | Builds throwaway code/UI spikes to answer design questions. | Present: `skills/prototype/SKILL.md` | **Plan** & **Execute** | Low; leveraged for prototype tickets. |\n| `diagnosing-bugs` | Structured hypothesis-driven bug and regression debugger. | Present: `skills/diagnosing-bugs/SKILL.md` | **Diagnose** & **Execute** | Low; used as the default diagnostic shelf tool. |\n| `research` | Deep-dives external documentation and resources. | Present: `skills/research/SKILL.md` | **Diagnose** & **Plan** | Low; called for external knowledge tasks. |\n| `tdd` | Code changes driven by Red-Green-Refactor testing. | Present: `skills/tdd/SKILL.md` | **Execute** & **Verify** | Low; called for test-first implementation. |\n| `domain-modeling` | Formulates bounded context ubiquitous vocabulary. | Present: `skills/domain-modeling/SKILL.md` | **Grill** & **Compound** | Low; run during grilling. |\n| `codebase-design` | Architectural vocabulary for deep decoupled modules. | Present: `skills/codebase-design/SKILL.md` | **Plan** | None. |\n| `code-review` | Compares diffs against repo Standards and Spec. | Present: `skills/code-review/SKILL.md` | **Verify** | Low; triggered as subagent verification. |\n| `resolving-merge-conflicts` | Interactive Git conflict resolution runner. | Present: `skills/resolving-merge-conflicts/SKILL.md` | **Execute** | None. |\n\n---\n\n### Pure Gaps\n*   **Issue Tracker State Machines**: The local library lacks out-of-the-box automation for native issue-tracker lifecycles (triage flow, native GitHub/GitLab label and ticket linking) without using `triage` or `setup-matt-pocock-skills`.\n*   **Standardized ADRs/Glossary Output**: Local code has no built-in standard formats for Architecture Decision Records (`ADR-FORMAT.md`) and Ubiquitous Languages (`CONTEXT-FORMAT.md`) without calling Matt's modeling set.\n\n---\n\n### Local-Only Strengths\n*   **Operational Telemetry & Health**: `harness-doctor/SKILL.md` (preflight shim checks, provider configuration) and `context-rot-forensics/SKILL.md` (statistical analysis of context knee collapse and real-time rot warning) have no Matt equivalents.\n*   **Token Optimization**: `caveman-compress/SKILL.md` shrinks memory files (like CLAUDE.md) down to high-density caveman-speak. `poor-mans-distill/SKILL.md` harvests successful session traces to distill non-fine-tuned few-shot specialists.\n*   **Context/Budget Containment**: `ce-lite/SKILL.md` explicitly routes complex tasks to multi-agent subagent budgets (via `workflow` fanning out under `graph-engineering/SKILL.md`) to isolate context footprints.\n*   **YAGNI Enforcement**: `ponytail/SKILL.md` and `ponytail-review/SKILL.md` strictly prevent over-engineering, pruning abstractions to focus on stdlib-first minimal implementations.\n*   **Non-Developer Bridging**: `to-questionnaire/SKILL.md` extracts unresolvable gaps into async survey documents for stakeholders.\n\n---\n\n### Dangerous Duplicates\n*   **Wayfinding Clash**: `skills/wayfinder/SKILL.md` vs. `ce-lite/wayfinding.md`. Matt's wayfinder pushes planning, blocking edges, and decision issues to the remote tracker (cluttering repositories). `ce-lite` uses local, lightweight `.scratch/wayfinder/MAP.md` files to save tokens, stay offline, and avoid repo pollution.\n*   **Handoff Overlap**: `skills/handoff/SKILL.md` vs. `ce-lite/context-health.md`. The former is manually run and dumps files to the OS temp directory; the latter is trigger-driven, tracks cumulative turn/rot metrics, and creates `.scratch/HANDOFF.md` alongside a resume-ready workflow `runId`.\n*   **Grilling Collisions**: `skills/grill-with-docs/SKILL.md` vs. `ce-lite/grilling.md` / `skills/grilling/` / `skills/grill-me/`. Matt's variant is document-generation heavy (ADRs, glossary focus). `ce-lite`'s grilling flow focuses strictly on blocking/fog decisions to produce checkable contract terms, delegating domain modeling only when terms are resolved.",
+      "storeDelta": {}
+    }
+  ],
+  "status": "failed",
+  "tokenBudget": 120000,
+  "maxAgents": 6,
+  "agentTimeoutMs": null,
+  "concurrency": 4,
+  "agentRetries": 0,
+  "phases": [
+    "Analyze",
+    "Synthesize"
+  ],
+  "currentPhase": "Synthesize",
+  "agents": [
+    {
+      "id": 1,
+      "callId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv:0",
+      "label": "wgs-criteria",
+      "phase": "Analyze",
+      "prompt": "Apply writing-great-skills as a scoring rubric for engineering agent skills in a pi harness + ce-lite stack.\n\n\nwriting-great-skills (WGS) quality bar:\n- Description = WHAT + WHEN with trigger phrases AND negative triggers\n- Progressive disclosure: lean SKILL.md, details in linked files only when needed\n- Imperative steps matched to degrees of freedom / fragility\n- Composition over monoliths; prefer feedback loops\n- Anti-patterns: vague \"consider/should\", time estimates, windows-style walls,\n  essay-before-action, missing escape hatches, fighting sibling skills on same trigger\n- Glossary discipline for shared terms\n\n\n\nCE-LITE goals and mechanics:\n- Progressive depth: simple Q → direct; non-trivial → load ce-lite SKILL.md\n- Contract loop: grill → terms → plan → execute → verify → compound\n- Operator control; no process takeover (anti-GSD/BMAD)\n- Context health: handoff before rot; compaction fallback\n- gather-judge under judgment pressure\n- Multi-session wayfinding: plan decisions, not destinations; .scratch/wayfinding/\n- workflow tool for multi-agent fan-out; single-agent default\n- Compose existing skills (tdd, code-review, research…) rather than reimplement\n- Pi-native: lean-ctx, tiers, resumeFromRunId, saved workflows\n- Terse operator surface; hide protocol machinery\n\nLocal grill stack: ce-lite/grilling.md + grilling + grill-me + grill-with-docs (collision zone)\nLocal wayfinding: ce-lite/wayfinding.md vs matt wayfinder (collision zone)\nLocal handoff skill exists separately from ce-lite context-health\n\n\nTask — return:\n1. Must-have quality bar (bullet list)\n2. 10 scored criteria (0-2 each) with what a \"2\" looks like\n3. Separate scoring axes: \"standalone WGS quality\" vs \"fits ce-lite\"\n4. Red flags → SKIP or REWRITE even if upstream popular\n\nTerse. Structured. No fluff.",
+      "status": "done",
+      "model": "Venice/kimi-k3:high",
+      "history": [
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "bash",
+          "text": "ai-co",
+          "isError": false,
+          "timestamp": 1785845351628
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "bash",
+          "text": "/home/alex/.pi/agent/skills/setup-ts-deep-modules/SKILL.md\n/home/alex/.pi/agent/skills/to-questionnaire/SKILL.md\n/home/alex/.pi/agent/skills/setup-pre-commit/SKILL.md\n/home/alex/.pi/agent/skills/ask-matt/SKILL.md\n/home/alex/.pi/agent/skills/codebase-design/DEEPENING.md\n/home/alex/.pi/agent/skills/codebase-design/DESIGN-IT-TWICE.md\n/home/alex/.pi/agent/skills/codebase-design/SKILL.md\n/home/alex/.pi/agent/skills/code-review/SKILL.md\n/home/alex/.pi/agent/skills/diagnosing-bugs/SKILL.md\n/home/alex/.pi/agent/skills/domain-modeling/ADR-FORMAT.md\n/home/alex/.pi/agent/skills/domain-modeling/CONTEXT-FORMAT.md\n/home/alex/.pi/agent/skills/domain-modeling/SKILL.md\n/home/alex/.pi/agent/skills/grill-with-docs/SKILL.md\n/home/alex/.pi/agent/skills/implement/SKILL.md\n/home/alex/.pi/agent/skills/improve-codebase-architecture/HTML-REPORT.md\n/home/alex/.pi/agent/skills/improve-codebase-architecture/SKILL.md\n/home/alex/.pi/agent/skills/prototype/LOGIC.md\n/home/alex/.pi/agent/skills/prototype/SKILL.md\n/home/alex/.pi/agent/skills/prototype/UI.md\n/home/alex/.pi/agent/skills/research/SKILL.md\n/home/alex/.pi/agent/skills/resolving-merge-conflicts/SKILL.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/SKILL.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/domain.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/issue-tracker-github.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/issue-tracker-local.md\n/home/alex/.pi/agent/skills/s... [truncated]",
+          "isError": false,
+          "timestamp": 1785845351628
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/writing-great-skills/SKILL.md\"}",
+          "timestamp": 1785845351628
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/writing-great-skills/GLOSSARY.md\"}",
+          "timestamp": 1785845351628
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/ce-lite/SKILL.md\"}",
+          "timestamp": 1785845351628
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: writing-great-skills\ndescription: Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.\ndisable-model-invocation: true\n---\n\nA skill exists to wrangle determinism out of a stochastic system. **Predictability** — the agent taking the same _process_ every run, not producing the same output — is the root virtue; every lever below serves it.\n\n**Bold terms** are defined in [`GLOSSARY.md`](GLOSSARY.md); look them up there for the full meaning.\n\n## Invocation\n\nTwo choices, trading different costs:\n\n- A **model-invoked** skill keeps a **description**, so the agent can fire it autonomously _and_ other skills can reach it (you can still type its name too). It contributes to **context load** — the description sits in the window every turn. Mechanics: omit `disable-model-invocation`, and write a model-facing description with rich trigger phrasing (\"Use when the user wants…, mentions…\").\n- A **user-invoked** skill strips the description from the agent's reach: only you, typing its name, can invoke it — and no other skill can. Zero context load, but it spends **cognitive load**: _you_ are the index that must remember it exists. Mechanics: set `disable-model-invocation: true`; the `description` becomes human-facing — a one-line summary, trigger lists stripped.\n\nPick model-invocation only when the agent must reach the skill on its own, or another skill must. If it only ever fires by hand, make it user-invoked and pay no context load.\n\nWhen user-invoked skills multiply past what you can remember, that piled-up cognitive load is cured by a **router skill**: one user-invoked skill that names the others and when to reach for each.\n\n## Writing the description\n\nA model-invoked **description** does two jobs — state what the skill is, and list the **branches** that should trigger it. Every word increases **context load**, so a description earns even harder pruning than the body:\n\n- **Front-load the skill's ... [truncated]",
+          "isError": false,
+          "timestamp": 1785845354202
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "# Glossary — Building Great Skills\n\nThe domain model for what makes a skill great. A skill exists to wrangle determinism out of a stochastic system; the root virtue is **Predictability**, and every term below is a lever on it. This is the disclosed reference for [`writing-great-skills`](SKILL.md).\n\nThe terms are grouped by axis: **Invocation** (how a skill is reached), **Information Hierarchy** (how its content is arranged), **Steering** (how the agent's runtime behaviour is shaped), and **Pruning** (how it is kept lean). Each **failure mode** lives beside the lever that cures it, tagged _failure mode_.\n\n**Bold terms** in any definition are themselves defined in this glossary; find them by their heading.\n\n## Predictability\n\nThe degree to which a skill makes the agent behave the same _way_ on every run — the same process, not the same output (a brainstorming skill should _predictably_ diverge; its tokens vary, its behaviour doesn't). The root virtue every other term serves — cost and maintainability are symptoms of it, not rivals.\n\n_Avoid_: consistency, reliability, robustness, output-determinism\n\n## Invocation\n\nHow a skill is reached — and the two loads you pay for the choice.\n\n### Model-Invoked\n\nA skill that keeps its **description** field, so the agent can see it and fire it autonomously — and the human can still type its name, so model-invocation always _includes_ user reach. There is no model-only state: a description only ever _adds_ agent discovery, never removes the human's. Pays a permanent **context load** on every turn in exchange for that discoverability. Reachable by other skills, because the description that makes it agent-discoverable makes it invocable. A model-invoked skill whose content is all **reference** is also one home for shared reference: another skill can invoke it, so reference needed by several skills lives in one place. Pick model-invocation only when the agent must reach the skill on its own; if it never fires except ... [truncated]",
+          "isError": false,
+          "timestamp": 1785845354202
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: ce-lite\ndescription: Orchestrator — use for any request: simple questions, lookups, non-trivial or multi-step work, and \"keep improving\" optimization loops.\n---\n\n# CE-lite orchestrator\n\nYou are the operator's single orchestrator. The operator is a non-developer working contract-only: they state what they want in plain language and never name skills, tools, or stages. Never ask them to pick a skill, run a command, or confirm a stage transition.\n\nThe leading word is **contract** — a binding agreement with checkable terms. Every non-trivial request becomes a contract: grill, terms, plan, execute, verify, compound. The contract is the thread that makes the process predictable across runs. A term is either met or breached — never approximate.\n\n## Route every request\n\n1. **Simple** (fact, one-liner, chat, single small edit) → answer directly. Done when the question is answered or the edit is made.\n2. **Lookup** (needs current/external info) → direct fetch for a known URL, or `workflow` (deep-research pattern) for source-sensitive work. Done when the answer is returned with its source.\n3. **Non-trivial** (multi-step, ambiguous, deliverable-shaped) → run the contract loop below.\n4. **Loop-shaped** (\"keep improving X\", optimization campaigns) → pi-autoresearch: measure, keep/discard, iterate.\n\n## Contract loop\n\n1. **Grill** — ask only blocking questions, one at a time. If a reasonable default exists, state it and proceed instead of asking. When grilling is non-trivial (real ambiguity, not just a missing detail), read `grilling.md` for the full protocol: blocking test, depth-first vs breadth-first modes, fog handling, domain modeling. Done when no blocking unknowns remain — every unknown either defaulted, deferred, or parked as fog in a wayfinder map.\n2. **Terms** — write acceptance terms as a bullet list (chat) or `CONTRACT.md` (working directory for bigger jobs). Every term must be checkable. Done when every term has a pass/fail condition.\n3. *... [truncated]",
+          "isError": false,
+          "timestamp": 1785845354202
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/ce-lite/grilling.md\"}",
+          "timestamp": 1785845354203
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/grilling/SKILL.md\"}",
+          "timestamp": 1785845354203
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/grill-me/SKILL.md\"}",
+          "timestamp": 1785845354203
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/grill-with-docs/SKILL.md\"}",
+          "timestamp": 1785845354203
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "# Grilling protocol\n\nDisclosed from `SKILL.md` step 1. Read when grilling is non-trivial — when the request has real ambiguity, not just a missing detail or two.\n\nGrilling is a relentless interview that sharpens a fuzzy request into something you can write checkable terms for. One question at a time. The operator never sees stage names or skill names — they just see questions, one at a time, each with a clear reason behind it.\n\n## What makes a question blocking\n\nA question is blocking only when you cannot proceed without its answer AND cannot default it. Before asking, test:\n\n- **Can I default it?** If a reasonable default exists, state it and proceed: \"I'll assume X — say so if that's wrong.\" This is not a question; it's a default with an escape hatch.\n- **Is it actually blocking?** If you could write terms and execute without the answer, it's not blocking — save it for later or let it surface during execution.\n- **Is it the next question?** If the answer depends on another unknown, ask that one first.\n\nOnly when all three fail — can't default, can't proceed, nothing else is upstream — ask.\n\n## Two modes\n\n### Depth-first (sharpen the destination)\nUse when the operator knows what they want but the shape is blurry. Go deep on the core: what does \"done\" look like, what are the constraints, what's the real constraint behind the stated one. Each answer sharpens the next question. Stop when you can write checkable terms.\n\n### Breadth-first (map the frontier)\nUse when the request is large and the way forward isn't visible. Fan out across the whole space — surface the open decisions and the first steps takeable now. Don't go deep on any one thread; you're mapping, not resolving. If this surfaces no fog — the way is already clear, small enough for one session — skip wayfinding and run the contract loop directly. If it surfaces fog you can't yet phrase as a question, read `wayfinding.md`.\n\n## Fog\n\nFog is what you can't yet specify sharply enough to ask ab... [truncated]",
+          "isError": false,
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: grilling\ndisable-model-invocation: true\ndescription: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.\n---\n\nInterview me relentlessly about every aspect of this until we reach a shared understanding. Walk down each branch of the decision tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.\n\nAsk the questions one at a time, waiting for feedback on each question before continuing. Asking multiple questions at once is bewildering.\n\nIf a *fact* can be found by exploring the environment (filesystem, tools, etc.), look it up rather than asking me. The *decisions*, though, are mine — put each one to me and wait for my answer.\n\nDo not act on it until I confirm we have reached a shared understanding.\n",
+          "isError": false,
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: grill-me\ndescription: A relentless interview to sharpen a plan or design.\ndisable-model-invocation: true\n---\n\nRun a `/grilling` session.\n",
+          "isError": false,
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: grill-with-docs\ndescription: A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.\ndisable-model-invocation: true\n---\n\nRun a `/grilling` session, using the `/domain-modeling` skill.\n",
+          "isError": false,
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/ce-lite/wayfinding.md\"}",
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/wayfinder/SKILL.md\"}",
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/handoff/SKILL.md\"}",
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/ce-lite/context-health.md\"}",
+          "timestamp": 1785845357950
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "# Wayfinding\n\nDisclosed from `reference.md`. Read when work is too big for one agent session — multi-session efforts where the way from here to the destination isn't visible yet.\n\nWayfinding is about finding the way, not charging at the destination. The operator never sees this protocol — they see questions, a map summary, and ticket-by-ticket progress. ce-lite initiates wayfinding internally when grilling reveals work that spans sessions.\n\n## Plan, don't do\n\nWayfinding is **planning** by default: each ticket resolves a decision, and the map is done when the way is clear — nothing left to decide before someone goes and does the thing. The pull to just do the work is usually the signal you've reached the edge of the map and it's time to hand off to a contract loop. An effort can override this (carrying execution into the map itself), but absent that, produce decisions, not deliverables.\n\n## When to wayfind vs contract\n\n- **Contract loop** (single session): the work fits in one context window. Grill → terms → plan → execute → verify → compound.\n- **Wayfinder map** (multi-session): the work is too big for one session, or the way forward is foggy. Chart a map, then resolve tickets one per session.\n\nIf grilling surfaces no fog, the way is already clear — run the contract loop. Don't create a map for work that fits in one session.\n\n## The map\n\nThe map is a single markdown file — `.scratch/wayfinder/<effort-name>/MAP.md` — the canonical artifact. It's an **index**, not a store: it lists decisions made and points at the tickets that hold their detail. A decision lives in exactly one place — its ticket — so the map never restates it, only gists it and links.\n\n### Map body\n\n```markdown\n## Destination\n<what reaching the end of this map looks like — the spec, decision, or change this effort is finding its way to. One or two lines; every session orients to it before choosing a ticket.>\n\n## Notes\n<domain context; skills to load; anything every session should k... [truncated]",
+          "isError": false,
+          "timestamp": 1785845362073
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: wayfinder\ndescription: Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.\ndisable-model-invocation: true\n---\n\nA loose idea has arrived — too big for one agent session, and wrapped in fog: the way from here to the **destination** isn't visible yet. Wayfinding is about finding that way, not charging at the destination. This skill charts the way as a **shared map** on the repo's issue tracker, then works its **decision tickets** — questions whose resolution is a decision, not slices of a build to execute — one at a time until the route is clear.\n\nThe destination varies per effort, and naming it is the first act of charting — it shapes every ticket. It might be a spec to hand off and iterate on, a decision to lock before planning starts, or a change made in place like a data-structure migration. The map is domain-agnostic — engineering work, course content, whatever fits the shape.\n\n## Plan, don't do\n\nWayfinder is **planning** by default: each ticket resolves a decision, and the map is done when the way is clear — nothing left to decide before someone goes and does the thing. The pull to just do the work is usually the signal you've reached the edge of the map and it's time to hand off. An effort can override this in its **Notes** — carrying execution into the map itself — but absent that, produce decisions, not deliverables.\n\n## Refer by name\n\nEvery map and ticket is an issue, so it has a **name** — its title. In everything the human reads — narration, the map's Decisions-so-far — refer to it by that name, never by a bare id, number, or slug. A wall of `#42, #43, #44` is illegible; names read at a glance. The id and URL don't vanish — a name wraps its link — but they ride *inside* the name, never stand in for it.\n\n## The Map\n\nThe map is a single issue on this repo's issue tracker, labelled `wa... [truncated]",
+          "isError": false,
+          "timestamp": 1785845362073
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: handoff\ndescription: Compact the current conversation into a handoff document for another agent to pick up.\nargument-hint: \"What will the next session be used for?\"\ndisable-model-invocation: true\n---\n\nWrite a handoff document summarising the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS - not the current workspace.\n\nInclude a \"suggested skills\" section in the document, which suggests skills that the agent should invoke.\n\nDo not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Reference them by path or URL instead.\n\nRedact any sensitive information, such as API keys, passwords, or personally identifiable information.\n\nIf the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly.\n",
+          "isError": false,
+          "timestamp": 1785845362073
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "# Context health — proactive handoff\n\nDisclosed from `SKILL.md`. Read when work is long-running or context pressure is possible.\n\nHand off before context degrades; compaction is the fallback, not the plan. Measured rot onset for this operator: ~42% context fill (step ~76, ~377K cumulative tokens).\n\n## Triggers\n\nHand off when any of these trip:\n- A journaled workflow finishes 3 phases with more remaining.\n- Context usage crosses ~28% fill with multi-signal rot score ≥70 (rot-sentinel), or ~40% fill as a hard ceiling (`ctx_stats` or the pi-context-usage indicator).\n- The operator swaps model mid-effort.\n- You catch yourself re-reading files, losing a thread, or contradicting an earlier decision.\n- tool_error rate spikes (lean-ctx blocks are the dominant rot signal at 22.7% — if you see 2+ blocked commands in 5 turns, handoff is overdue).\n\n## Protocol\n\n1. Write the handoff to `.scratch/HANDOFF.md` for project work (OS temp dir otherwise): current objective, contract terms + status, project state, completed/current tasks, known failures, key decisions, open questions, immediate next steps, and the resumable workflow `runId` when one exists. Reference artifacts by path — never duplicate their contents.\n2. Add a **model note**: current model, effective boundaries observed this session (context, tool quirks), anything the next shift's model must know — the operator swaps models often.\n3. If the session did memory-heavy work, run the `memory-consolidate` saved workflow first so the next shift inherits clean state.\n4. Resume the next shift from the handoff plus `resumeFromRunId`; unchanged `agent()` calls replay from cache, so completed phases cost nothing.\n",
+          "isError": false,
+          "timestamp": 1785845362073
+        },
+        {
+          "role": "assistant",
+          "kind": "text",
+          "text": "# WGS × ce-lite scoring rubric (wgs-criteria / Analyze)\n\n## 1. Must-have quality bar (gate — fail any → don't score)\n- Correct invocation choice: `disable-model-invocation: true` unless the agent or another skill must reach it autonomously; if user-invoked and one of many, covered by a router skill.\n- Description starts on its leading word, does WHAT + WHEN, one trigger per branch, negative triggers where siblings compete (\"not for X — use Y\").\n- SKILL.md is lean: steps are primary tier; heavy protocol disclosed behind condition-worded context pointers (\"Read X when…\"), not inline.\n- Every step ends on a checkable completion criterion; flat reference carries an exhaustiveness bar (\"every rule applied\").\n- Prompts the positive; prohibitions only as hard guardrails, each paired with the target behavior.\n- No no-op lines (each line changes behavior vs the model default), no duplicated meaning anywhere in the skill system — one source of truth per meaning.\n- Escape hatches: stated defaults instead of questions, \"if in doubt →\" routes, handoff path for long runs.\n- Operator-control preserved: never asks the operator to name skills, tools, or stage transitions.\n\n## 2. Scored criteria (0–2 each, 20 total)\n\n**Axis A — standalone WGS quality (6 criteria, /12)**\n1. **Invocation discipline.** 2: description pays context load only because autonomous reach is required; user-invoked skills are lean by design and router-covered.\n2. **Trigger precision.** 2: leading word the operator actually says; branches are genuinely distinct (no synonym restating); negative triggers disambiguate the grilling/wayfinding/handoff collision zones.\n3. **Information hierarchy.** 2: progressive disclosure done right — inline what every branch needs, disclose what only some branches reach; pointers worded by firing condition.\n4. **Completion criteria & legwork.** 2: criteria checkable AND exhaustive; demands force legwork (\"every modified model accounted for\"), not \"produce a chang... [truncated]",
+          "timestamp": 1785845362073
+        }
+      ],
+      "resultPreview": "# WGS × ce-lite scoring rubric (wgs-criteria / Analyze)\n\n## 1. Must-have qualit…",
+      "tokens": 64037,
+      "tokenUsage": {
+        "input": 19337,
+        "output": 4252,
+        "cacheRead": 40448,
+        "cacheWrite": 0,
+        "total": 64037,
+        "cost": 0
+      },
+      "startedAt": "2026-08-04T12:09:08.033Z",
+      "endedAt": "2026-08-04T12:10:10.886Z"
+    },
+    {
+      "id": 2,
+      "callId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv:1",
+      "label": "inventory-map",
+      "phase": "Analyze",
+      "prompt": "Map mattpocock/skills against the local skill library.\n\n\nLOCAL SKILLS (subset of ~70+): ce-lite (+ companions reference/grilling/wayfinding/context-health/gather-judge),\nwriting-great-skills, grilling, grill-me, handoff, teach, to-questionnaire,\nharness-doctor, context-rot-forensics, poor-mans-distill, shard-security, graph-engineering,\nprompt-sharpen, no-ai-slop, find-skills, caveman-compress, full-output-enforcement,\nponytail, ponytail-review, and full mattpocock engineering set installed stock.\n\nMATTPOCOCK engineering catalog:\nUSER-INVOKED: ask-matt, grill-with-docs, triage, improve-codebase-architecture,\n  setup-matt-pocock-skills, to-spec, to-tickets, implement, wayfinder\nMODEL-INVOKED: prototype, diagnosing-bugs, research, tdd, domain-modeling,\n  codebase-design, code-review, resolving-merge-conflicts\nAlso upstream: design/ (product) set — out of scope unless fit is obvious.\n\n\nMatt skill behaviors (from installed SKILL.md bodies):\n- to-spec: deep requirements → frozen spec; user-invoked; pairs with grill\n- to-tickets: spec → vertical tickets; issue-tracker oriented\n- implement: pick ticket → TDD/code-review loop → done\n- wayfinder: multi-session roadmap / next-session steering\n- grill-with-docs: adversarial Qs grounded in docs\n- triage: classify request → route to right skill\n- ask-matt: meta Q about how to use the skill pack\n- improve-codebase-architecture: HTML architecture report heavyweight\n- prototype: spike before commit\n- diagnosing-bugs: systematic debug\n- research: codebase/external research\n- tdd: red-green-refactor discipline\n- domain-modeling: bounded contexts / model language\n- codebase-design: design patterns in repo\n- code-review: review checklist skill\n- resolving-merge-conflicts: conflict resolution\n- setup-matt-pocock-skills: install/configure the pack\n\nPhilosophy: small composable skills, operator chooses depth, disable-model-invocation on user-facing ones, no mega-framework takeover.\n\n\nKnown local forks/relatives:\n- grilling / grill-me: local adversarial clarification (may predate or diverge from grill-with-docs)\n- handoff: session continuity\n- teach: teaching mode\n- writing-great-skills: skill-authoring meta (WGS)\n- ce-lite: orchestration meta that should DELEGATE not duplicate matt skills\n- to-questionnaire: questionnaire extraction\n- harness-doctor / context-rot-forensics / poor-mans-distill: pi harness ops (matt has no equivalent)\n\n\nCE-LITE goals and mechanics:\n- Progressive depth: simple Q → direct; non-trivial → load ce-lite SKILL.md\n- Contract loop: grill → terms → plan → execute → verify → compound\n- Operator control; no process takeover (anti-GSD/BMAD)\n- Context health: handoff before rot; compaction fallback\n- gather-judge under judgment pressure\n- Multi-session wayfinding: plan decisions, not destinations; .scratch/wayfinding/\n- workflow tool for multi-agent fan-out; single-agent default\n- Compose existing skills (tdd, code-review, research…) rather than reimplement\n- Pi-native: lean-ctx, tiers, resumeFromRunId, saved workflows\n- Terse operator surface; hide protocol machinery\n\nLocal grill stack: ce-lite/grilling.md + grilling + grill-me + grill-with-docs (collision zone)\nLocal wayfinding: ce-lite/wayfinding.md vs matt wayfinder (collision zone)\nLocal handoff skill exists separately from ce-lite context-health\n\n\nFor EACH matt skill list:\n- Role in matt flow\n- Local status (stock present / duplicated by X)\n- ce-lite phase overlap (grill, terms, plan, execute, verify, compound, wayfind, handoff)\n- Collision risk (name the other skill)\n\nThen: pure gaps | local-only strengths | dangerous duplicates.\n\nSpecific filenames. Terse tables/bullets.",
+      "status": "done",
+      "model": "Venice/gemini-3-5-flash",
+      "history": [
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"pat",
+          "timestamp": 1785845424061
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: ponytail-review\ndisable-model-invocation: true\ndescription: >\n  Code review focused exclusively on over-engineering. Finds what to delete:\n  reinvented standard library, unneeded dependencies, speculative abstractions,\n  dead flexibility. One line per finding: location, what to cut, what replaces\n  it. Use when the user says \"review for over-engineering\", \"what can we\n  delete\", \"is this over-engineered\", \"simplify review\", or invokes\n  /ponytail-review. Complements correctness-focused review, this one only\n  hunts complexity.\n---\n\nReview diffs for unnecessary complexity. One line per finding: location, what\nto cut, what replaces it. The diff's best outcome is getting shorter.\n\n## Format\n\n`L<line>: <tag> <what>. <replacement>.`, or `<file>:L<line>: ...` for\nmulti-file diffs.\n\nTags:\n\n- `delete:` dead code, unused flexibility, speculative feature. Replacement: nothing.\n- `stdlib:` hand-rolled thing the standard library ships. Name the function.\n- `native:` dependency or code doing what the platform already does. Name the feature.\n- `yagni:` abstraction with one implementation, config nobody sets, layer with one caller.\n- `shrink:` same logic, fewer lines. Show the shorter form.\n\n## Examples\n\n❌ \"This EmailValidator class might be more complex than necessary, have you\nconsidered whether all these validation rules are needed at this stage?\"\n\n✅ `L12-38: stdlib: 27-line validator class. \"@\" in email, 1 line, real validation is the confirmation mail.`\n\n✅ `L4: native: moment.js imported for one format call. Intl.DateTimeFormat, 0 deps.`\n\n✅ `repo.py:L88: yagni: AbstractRepository with one implementation. Inline it until a second one exists.`\n\n✅ `L52-71: delete: retry wrapper around an idempotent local call. Nothing replaces it.`\n\n✅ `L30-44: shrink: manual loop builds dict. dict(zip(keys, values)), 1 line.`\n\n## Scoring\n\nEnd with the only metric that matters: `net: -<N> lines possible.`\n\n... [truncated]",
+          "isError": false,
+          "timestamp": 1785845427013
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":100,\"path\":\"/home/alex/.pi/agent/skills/harness-doctor/SKILL.md\",\"offset\":1}",
+          "timestamp": 1785845427013
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: harness-doctor\ndescription: Inventory and audit local harnesses, providers, credentials, and Pi package health; add/remove providers safely; run preflight checks for broken shims, dead endpoints, and config drift. Use when diagnosing harness errors, provider setup, command-not-found/shim failures, or system health.\n---\n\n# Harness Doctor\n\nPi-native replacement for the deleted OMP system-health-check. Use when the user asks to:\n- inventory/audit harnesses, agents, providers, or credentials on this machine\n- add or remove a provider across agents/harnesses\n- explain or reduce repeated tool/agent errors (command-not-found, edit failures)\n\nCurated context: `~/.pi/agent/memory/harnesses.md` (active/ghost inventory — update it after any mutation).\n\n## Scripts (stdlib-only python3)\n\n### 1. Inventory — `scripts/inventory.py`\n```\npython3 ~/.pi/agent/skills/harness-doctor/scripts/inventory.py [--verify]\n```\nDetects harnesses (binary + config dir, never name-match alone), providers per harness\n(pi `models.json`, reasonix `config.toml [[providers]]`, codex app-server proxy),\nenv.d credential names, pi packages/extensions/skills. Writes snapshot to\n`~/.pi/agent/harness-inventory.json`. `--verify` diffs against previous snapshot → drift report.\n\n### 2. Provider ops — `scripts/provider_ops.py`\n```\npython3 .../provider_ops.py remove NAME [--with-env] [--apply]\npython3 .../provider_ops.py add NAME --base-url URL --models a,b [--api KIND] [--key-env VAR] [--apply]\n```\nDRY-RUN by default; `--apply` mutates. Every mutation: snapshots to\n`~/.pi/agent/harness-doctor-backups/<ts>/`, edits, re-validates (JSON/TOML parse),\nresidue-scan, auto-rollback on any failure. Codex is proxied (app-server catalog) —\nreported, not edited. env.d credentials: reported always, removed only with `--with-env`;\n`add` never writes secrets (prints the export line for the user).\n\n### 3. Pre-flight — `scripts/preflight.py`\nValidate environment BEFORE a suite/session spends tokens (su... [truncated]",
+          "isError": false,
+          "timestamp": 1785845430495
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/context-rot-forensics/SKILL.md\",\"offset\":1,\"limit\":100}",
+          "timestamp": 1785845430495
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: context-rot-forensics\ndescription: Analyze pi session JSONL logs to detect where context quality collapses — turn/token/tool-result thresholds, error clustering, re-read patterns, and bloat events. Provides both post-hoc forensics and a real-time sentinel extension for proactive handoff.\n---\n\n# Context-Rot Forensics\n\nDetects context degradation in pi coding agent sessions by analyzing JSONL logs\nin `~/.pi/agent/sessions/--home-alex--/`. Inspired by the \"contextrot\" project\n(Claude Code session analysis) and \"Kote\" (engineering context capture), adapted\nfor pi's specific session format and extension API.\n\n## What it does\n\n1. **Post-hoc forensics** — `scripts/rot-forensics.py` analyzes completed sessions\n   using the contextrot project's statistical methodology (Wilson-interval\n   bucketing, knee detection, 5 behavioral signals) adapted for pi's JSONL format\n2. **Real-time sentinel** — `~/.pi/agent/extensions/rot-sentinel.ts` hooks the pi\n   `context` event to detect rot live and trigger proactive handoff\n\n## Methodology (from contextrot, adapted for pi)\n\nThe core insight from contextrot: **quality is proxied by behavioral heuristics,\nnot token counts.** Token counts measure *context fill* (the x-axis), not\ndegradation. The 5 behavioral signals are:\n\n| Signal | What it detects | How (pi-adapted) |\n|--------|----------------|------------------|\n| `tool_error` | Any tool call returned an error | Tool result text contains error keywords |\n| `edit_failure` | An editing tool returned an error (strongest signal) | Tool name in EDIT_TOOLS set + error |\n| `retry` | Step repeats a (tool, target) that errored within 6 steps | Recent-error lookup with 6-step window |\n| `reread` | Step re-reads a file already read earlier | File path in READ_TOOLS + already-seen set |\n| `self_correction` | Assistant text matches apology/correction phrases | Regex: \"i apologize\", \"my mistake\", \"let me fix\", etc. |\n\nA step is **degraded** if ANY signal fires. The rot c... [truncated]",
+          "isError": false,
+          "timestamp": 1785845433484
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/poor-mans-distill/SKILL.md\",\"offset\":1,\"limit\":100}",
+          "timestamp": 1785845433484
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: poor-mans-distill\ndescription: \"Extract successful pi session traces and reuse them as curated few-shot examples — no GPU or fine-tuning required.\"\n---\n# Poor-Man's Distillation — Session-Trace → Few-Shot Skill\n\n**Status:** experimental · measured against 37 sessions (2026-07-14 → 2026-07-27)\n**Conventions:** pi-autoresearch — measure, keep/discard, iterate.\n\n## What this is\n\n\"Distilling an agent from code traces\" *without fine-tuning*: extract the user's\nbest pi session traces (successful edits, good tool calls) and reuse them as a\ncurated skill context / few-shot bank. No GPU, no weights, no cluster.\n\n## How to run\n\n```bash\npython3 ~/.pi/scripts/poor_mans_distill.py\n```\n\nOutputs (in this skill dir):\n- `distilled_traces.jsonl` — every intent→action pair, ranked by outcome score.\n- `fewshot_digest.md` — top 25 traces, formatted for pasting into a system prompt.\n- `route_shortcuts.md` — task-type → dominant tool sequence, with hard-code flags.\n\n## What it measures\n\n- **outcome score (0..1)** — heuristic from the session tail: success markers\n  (+), error markers (−), edits/writes that landed (+0.2). Imperfect but cheap.\n- **task-type** — keyword classifier: error-fix, test, install, research, build,\n  refactor, inspect, other.\n- **route dominance** — % of a task-type that takes a given tool sequence.\n\n## Measured results (37 sessions, 100 pairs)\n\n| task-type | pairs | dominant route | confidence |\n|-----------|------:|----------------|-----------:|\n| error-fix | 33 | bash | 18% |\n| other | 34 | ctx_execute | 29% |\n| research | 12 | read | 25% |\n| install | 7 | ctx_batch_execute | 29% |\n| test | 4 | ctx_execute | 50% |\n| refactor | 4 | bash | 25% |\n| inspect | 3 | read | 33% |\n| build | 3 | bash | 33% |\n\n**Keep:** the few-shot extraction works and is immediately useful — the top\ntraces are genuine, high-quality intent→action examples (error-fix routes to\nctx_grep→ctx_shell, install routes to batch-execute). Pasting the top 5-10 into\na spe... [truncated]",
+          "isError": false,
+          "timestamp": 1785845436229
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":100,\"offset\":1,\"path\":\"/home/alex/.pi/agent/skills/shard-security/SKILL.md\"}",
+          "timestamp": 1785845436229
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: shard-security\ndescription: \"SHaD security controls for sandboxing pi sessions, project-local permissions, and credential hygiene — applied to Investment-Engine and similar projects.\"\n---\n# SHaD Security Controls Skill\n\nReference: `ASSESSMENT.md` in this directory for full analysis.\n\n## Quick Actions for Investment-Engine\n\n### 1. Sandbox pi sessions with bubblewrap\n```bash\n~/.pi/scripts/pi-sandbox.sh ~/Investment-Engine\n```\n(Create the script from ASSESSMENT.md Priority 1)\n\n### 2. Project-local permissions\nCreate `~/Investment-Engine/.pi/permissions.json` with trading API deny rules (see ASSESSMENT.md Priority 2)\n\n### 3. Protect credentials\n```bash\nchmod 600 ~/Investment-Engine/.env ~/Investment-Engine/credentials/*\n```\n\n## What You Already Have\n- **lean-ctx** = better than SHaD's tool restriction (blocks interpreters, inline code, has allowlist)\n- **Skills are clean** — no dangerous patterns in ce-lite, harness-doctor, impeccable\n\n## What You're Missing\n- **OS sandboxing** — bwrap is installed but unused. Kernel-level protection is the only irreversible control.\n- **Project-local permissions** — no per-project deny rules for trading APIs\n- **Skill scanning** — defer unless installing untrusted skills\n\n## Source\n- Paper: arxiv.org/html/2607.25890v1\n- Repo: github.com/wrgore/shard-demo (research artifact, macOS-targeted, not for production)\n",
+          "isError": false,
+          "timestamp": 1785845439075
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":100,\"offset\":1,\"path\":\"/home/alex/.pi/agent/skills/graph-engineering/SKILL.md\"}",
+          "timestamp": 1785845439075
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: graph-engineering\ndescription: Agent→agent graph topologies for the pi coding agent. Maps the \"graph engineering\" discourse (calebwritescode, open-multi-agent, awesome-harness-engineering) onto pi's concrete primitives — agent/parallel/pipeline/workflow + SharedStore + loopUntilDry/gate — and identifies which topologies add value beyond pipeline/parallel. Read when designing multi-agent topologies, deciding whether a fan-out is enough or a real DAG/loop is needed, or mapping a project to an agent graph.\nmetadata:\n  version: \"1.0.0\"\n---\n\n# Graph engineering for pi\n\n## Quick Start\n\nThe fastest way to see the three additive primitives in action is the\n**review-fix-graph** workflow — a reusable code-review + fix loop that is not\ntied to any specific project:\n\n`~/Projects/pi-harness-config/workflows/saved/review-fix-graph.js`\n\n```js\nworkflow({\n  script: require(\"fs\").readFileSync(\n    \"/home/alex/Projects/pi-harness-config/workflows/saved/review-fix-graph.js\",\n    \"utf8\"\n  ),\n  args: { target: \"src/auth/\", maxIterations: 3 }\n})\n```\n\nWhat it demonstrates (and where in the file):\n\n| Primitive | Where | What it does |\n| --- | --- | --- |\n| **SharedStore** | Every node uses `store_put`/`store_get` | Reviewer writes `issues:review`, scanner writes `issues:security`, fixer writes `fix:latest`. Non-adjacent nodes (report ↔ reviewer) share state without piping. |\n| **Fan-in** | `parallel([reviewer, scanner])` → fixer | The fixer depends on TWO parallel upstreams. The `parallel()` barrier is the fan-in; the fixer reads both issue lists from the store. |\n| **Cycle (gate)** | `gate(fixer, reReview, {attempts})` | Fixer → re-review → back to fixer with feedback until `ok=true` or iterations exhausted. The back-edge. |\n\nThe topology (annotated in the file header):\n\n```\n  ┌───────────────┐        ┌────────────────────┐\n  │  reviewer (A) │        │  security-scan (B) │   ← parallel fan-out\n  └───────┬───────┘        └─────────┬──────────┘\n          │      ... [truncated]",
+          "isError": false,
+          "timestamp": 1785845441685
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"offset\":1,\"limit\":50,\"path\":\"/home/alex/.pi/agent/skills/triage/SKILL.md\"}",
+          "timestamp": 1785845441686
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: triage\ndescription: Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.\ndisable-model-invocation: true\n---\n\n# Triage\n\nMove issues on the project issue tracker through a small state machine of triage roles.\n\nIf this repo treats external pull requests as a request surface (see the issue-tracker config), triage covers them too: **a PR is an issue with attached code** — same roles, same states, same machine, with a few deltas marked \"for a PR\" below. Resolve a bare `#42` to an issue or PR per the tracker config.\n\nEvery comment or issue posted to the issue tracker during triage **must** start with this disclaimer:\n\n```\n> *This was generated by AI during triage.*\n```\n\n## Reference docs\n\n- [AGENT-BRIEF.md](AGENT-BRIEF.md) — how to write durable agent briefs\n- [OUT-OF-SCOPE.md](OUT-OF-SCOPE.md) — how the `.out-of-scope/` knowledge base works\n\n## Roles\n\nTwo **category** roles:\n\n- `bug` — something is broken\n- `enhancement` — new feature or improvement\n\nFive **state** roles:\n\n- `needs-triage` — maintainer needs to evaluate\n- `needs-info` — waiting on reporter for more information\n- `ready-for-agent` — fully specified, ready for an AFK agent\n- `ready-for-human` — needs human implementation\n- `wontfix` — will not be actioned\n\nFor a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.\n\nEvery triaged issue should carry exactly one category role and one state role. If state roles conflict, flag it and ask the maintainer before doing anything else.\n\nThese are canonical role names — the actual label strings used in the issue tracker may differ. The mapping should have been provided to you - run `/setup-matt-pocock-skills` if not.\n\nState transitions: an unlabeled issue normally goes to `needs-triage` first; from there it... [truncated]",
+          "isError": false,
+          "timestamp": 1785845446469
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "bash",
+          "text": "{\"command\":\"find /home/alex/.pi/agent/skills/ -name \\\"SKILL.md\\\" -exec grep -H \\\"name:\\\" {} \\\\; -exec grep -H \\\"description:\\\" {} \\\\;\"}",
+          "timestamp": 1785845446470
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "bash",
+          "text": "/home/alex/.pi/agent/skills/setup-ts-deep-modules/SKILL.md:name: setup-ts-deep-modules\n/home/alex/.pi/agent/skills/setup-ts-deep-modules/SKILL.md:description: Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point files. User-invoked.\n/home/alex/.pi/agent/skills/to-questionnaire/SKILL.md:name: to-questionnaire\n/home/alex/.pi/agent/skills/to-questionnaire/SKILL.md:description: Turn a decision you can't fully answer into a questionnaire for someone else to fill in.\n/home/alex/.pi/agent/skills/setup-pre-commit/SKILL.md:name: setup-pre-commit\n/home/alex/.pi/agent/skills/setup-pre-commit/SKILL.md:description: Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.\n/home/alex/.pi/agent/skills/ask-matt/SKILL.md:name: ask-matt\n/home/alex/.pi/agent/skills/ask-matt/SKILL.md:description: Router over every skill — describe the situation, get the skill or flow to run.\n/home/alex/.pi/agent/skills/codebase-design/SKILL.md:name: codebase-design\n/home/alex/.pi/agent/skills/codebase-design/SKILL.md:description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.\n/home/alex/.pi/agent/skills/code-review/SKILL.md:name: code-review\n/home/alex/.pi/agent/skills/code-review/SKILL.md:description: Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and repo... [truncated]",
+          "isError": false,
+          "timestamp": 1785845449994
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/wayfinder/SKILL.md\",\"offset\":1,\"limit\":100}",
+          "timestamp": 1785845449994
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: wayfinder\ndescription: Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.\ndisable-model-invocation: true\n---\n\nA loose idea has arrived — too big for one agent session, and wrapped in fog: the way from here to the **destination** isn't visible yet. Wayfinding is about finding that way, not charging at the destination. This skill charts the way as a **shared map** on the repo's issue tracker, then works its **decision tickets** — questions whose resolution is a decision, not slices of a build to execute — one at a time until the route is clear.\n\nThe destination varies per effort, and naming it is the first act of charting — it shapes every ticket. It might be a spec to hand off and iterate on, a decision to lock before planning starts, or a change made in place like a data-structure migration. The map is domain-agnostic — engineering work, course content, whatever fits the shape.\n\n## Plan, don't do\n\nWayfinder is **planning** by default: each ticket resolves a decision, and the map is done when the way is clear — nothing left to decide before someone goes and does the thing. The pull to just do the work is usually the signal you've reached the edge of the map and it's time to hand off. An effort can override this in its **Notes** — carrying execution into the map itself — but absent that, produce decisions, not deliverables.\n\n## Refer by name\n\nEvery map and ticket is an issue, so it has a **name** — its title. In everything the human reads — narration, the map's Decisions-so-far — refer to it by that name, never by a bare id, number, or slug. A wall of `#42, #43, #44` is illegible; names read at a glance. The id and URL don't vanish — a name wraps its link — but they ride *inside* the name, never stand in for it.\n\n## The Map\n\nThe map is a single issue on this repo's issue tracker, labelled `wa... [truncated]",
+          "isError": false,
+          "timestamp": 1785845454294
+        },
+        {
+          "role": "assistant",
+          "kind": "text",
+          "text": "### Matt Skills Map\n\n| Skill | Role in Matt Flow | Local Status | ce-lite Overlap | Collision Risk & Target |\n| :--- | :--- | :--- | :--- | :--- |\n| `ask-matt` | Meta-router and directory for engineering skills. | Present: `skills/ask-matt/SKILL.md` | **Route** (Initial dispatch) | Low; meta-directory utility. |\n| `grill-with-docs` | Adversarial interview to sharpen requirements; outputs ADRs/glossary. | Present: `skills/grill-with-docs/SKILL.md` | **Grill** & **Compound** | High; collides with `grilling` and `ce-lite/grilling.md`. |\n| `triage` | State-machine issue/PR classifier and brief builder. | Present: `skills/triage/SKILL.md` | **Grill** & **Terms** | Low; pre-development tracker filter. |\n| `improve-codebase-architecture` | Code scan for deep-module boundaries; generates HTML report. | Present: `skills/improve-codebase-architecture/SKILL.md` | **Plan** & **Grill** | None; advanced decoupled architecture tool. |\n| `setup-matt-pocock-skills` | Repo setup for labels, trackers, and document templates. | Present: `skills/setup-matt-pocock-skills/SKILL.md` | None (Setup phase) | None. |\n| `to-spec` | Compiles chat/conversation into formal specs. | Present: `skills/to-spec/SKILL.md` | **Terms** (Specs/CONTRACT.md) | Low; merges into contract terms. |\n| `to-tickets` | Slices specs into dependency-linked issue-tracker tickets. | Present: `skills/to-tickets/SKILL.md` | **Plan** & **Wayfind** | Low; outputs to issue trackers. |\n| `implement` | Direct worker implementing tickets via TDD and review. | Present: `skills/implement/SKILL.md` | **Execute** & **Verify** | High; mapped to `ce-lite`'s primary execution subagent. |\n| `wayfinder` | Multi-session task/decision planner tracking via issues. | Present: `skills/wayfinder/SKILL.md` | **Wayfind** (Multi-session routing) | High; collides with `ce-lite/wayfinding.md` (local file maps). |\n| `prototype` | Builds throwaway code/UI spikes to answer design questions. | Present: `skills/prototype/SKILL.md` |... [truncated]",
+          "timestamp": 1785845454294
+        }
+      ],
+      "resultPreview": "### Matt Skills Map\n\n| Skill | Role in Matt Flow | Local Status | ce-lite Overl…",
+      "tokens": 1474779,
+      "tokenUsage": {
+        "input": 1325121,
+        "output": 12858,
+        "cacheRead": 136800,
+        "cacheWrite": 0,
+        "total": 1474779,
+        "cost": 0
+      },
+      "startedAt": "2026-08-04T12:09:08.033Z",
+      "endedAt": "2026-08-04T12:11:37.092Z"
+    },
+    {
+      "id": 3,
+      "callId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv:2",
+      "label": "ce-lite-fit",
+      "phase": "Analyze",
+      "prompt": "Evaluate mattpocock/skills vs ce-lite goals.\n\n\nCE-LITE goals and mechanics:\n- Progressive depth: simple Q → direct; non-trivial → load ce-lite SKILL.md\n- Contract loop: grill → terms → plan → execute → verify → compound\n- Operator control; no process takeover (anti-GSD/BMAD)\n- Context health: handoff before rot; compaction fallback\n- gather-judge under judgment pressure\n- Multi-session wayfinding: plan decisions, not destinations; .scratch/wayfinding/\n- workflow tool for multi-agent fan-out; single-agent default\n- Compose existing skills (tdd, code-review, research…) rather than reimplement\n- Pi-native: lean-ctx, tiers, resumeFromRunId, saved workflows\n- Terse operator surface; hide protocol machinery\n\nLocal grill stack: ce-lite/grilling.md + grilling + grill-me + grill-with-docs (collision zone)\nLocal wayfinding: ce-lite/wayfinding.md vs matt wayfinder (collision zone)\nLocal handoff skill exists separately from ce-lite context-health\n\n\nMatt skill behaviors (from installed SKILL.md bodies):\n- to-spec: deep requirements → frozen spec; user-invoked; pairs with grill\n- to-tickets: spec → vertical tickets; issue-tracker oriented\n- implement: pick ticket → TDD/code-review loop → done\n- wayfinder: multi-session roadmap / next-session steering\n- grill-with-docs: adversarial Qs grounded in docs\n- triage: classify request → route to right skill\n- ask-matt: meta Q about how to use the skill pack\n- improve-codebase-architecture: HTML architecture report heavyweight\n- prototype: spike before commit\n- diagnosing-bugs: systematic debug\n- research: codebase/external research\n- tdd: red-green-refactor discipline\n- domain-modeling: bounded contexts / model language\n- codebase-design: design patterns in repo\n- code-review: review checklist skill\n- resolving-merge-conflicts: conflict resolution\n- setup-matt-pocock-skills: install/configure the pack\n\nPhilosophy: small composable skills, operator chooses depth, disable-model-invocation on user-facing ones, no mega-framework takeover.\n\n\nKnown local forks/relatives:\n- grilling / grill-me: local adversarial clarification (may predate or diverge from grill-with-docs)\n- handoff: session continuity\n- teach: teaching mode\n- writing-great-skills: skill-authoring meta (WGS)\n- ce-lite: orchestration meta that should DELEGATE not duplicate matt skills\n- to-questionnaire: questionnaire extraction\n- harness-doctor / context-rot-forensics / poor-mans-distill: pi harness ops (matt has no equivalent)\n\n\nLOCAL SKILLS (subset of ~70+): ce-lite (+ companions reference/grilling/wayfinding/context-health/gather-judge),\nwriting-great-skills, grilling, grill-me, handoff, teach, to-questionnaire,\nharness-doctor, context-rot-forensics, poor-mans-distill, shard-security, graph-engineering,\nprompt-sharpen, no-ai-slop, find-skills, caveman-compress, full-output-enforcement,\nponytail, ponytail-review, and full mattpocock engineering set installed stock.\n\nMATTPOCOCK engineering catalog:\nUSER-INVOKED: ask-matt, grill-with-docs, triage, improve-codebase-architecture,\n  setup-matt-pocock-skills, to-spec, to-tickets, implement, wayfinder\nMODEL-INVOKED: prototype, diagnosing-bugs, research, tdd, domain-modeling,\n  codebase-design, code-review, resolving-merge-conflicts\nAlso upstream: design/ (product) set — out of scope unless fit is obvious.\n\n\nAnswer:\n1. Right delegates per ce-lite phase (wiring table)\n2. Skills ce-lite must NOT auto-invoke (operator-only / collision)\n3. Philosophy align points\n4. Divergence points (issue trackers, CONTEXT.md/ADR, HTML arch reports, Claude-plugin defaults, disable-model-invocation)\n5. Pi-harness friction (workflow tool, tiers, lean-ctx, .scratch)\n\nPer matt skill: FIT | ADAPT | SKIP | REPLACE + one-line why.",
+      "status": "error",
+      "model": "Venice/kimi-k3:high",
+      "history": [
+        {
+          "role": "user",
+          "kind": "text",
+          "text": "Workflow phase: Analyze\n\nTask label: ce-lite-fit\n\nEvaluate mattpocock/skills vs ce-lite goals.\n\n\nCE-LITE goals and mechanics:\n- Progressive depth: simple Q → direct; non-trivial → load ce-lite SKILL.md\n- Contract loop: grill → terms → plan → execute → verify → compound\n- Operator control; no process takeover (anti-GSD/BMAD)\n- Context health: handoff before rot; compaction fallback\n- gather-judge under judgment pressure\n- Multi-session wayfinding: plan decisions, not destinations; .scratch/wayfinding/\n- workflow tool for multi-agent fan-out; single-agent default\n- Compose existing skills (tdd, code-review, research…) rather than reimplement\n- Pi-native: lean-ctx, tiers, resumeFromRunId, saved workflows\n- Terse operator surface; hide protocol machinery\n\nLocal grill stack: ce-lite/grilling.md + grilling + grill-me + grill-with-docs (collision zone)\nLocal wayfinding: ce-lite/wayfinding.md vs matt wayfinder (collision zone)\nLocal handoff skill exists separately from ce-lite context-health\n\n\nMatt skill behaviors (from installed SKILL.md bodies):\n- to-spec: deep requirements → frozen spec; user-invoked; pairs with grill\n- to-tickets: spec → vertical tickets; issue-tracker oriented\n- implement: pick ticket → TDD/code-review loop → done\n- wayfinder: multi-session roadmap / next-session steering\n- grill-with-docs: adversarial Qs grounded in docs\n- triage: classify request → route to right skill\n- ask-matt: meta Q about how to use the skill pack\n- improve-codebase-architecture: HTML architecture report heavyweight\n- prototype: spike before commit\n- diagnosing-bugs: systematic debug\n- research: codebase/external research\n- tdd: red-green-refactor discipline\n- domain-modeling: bounded contexts / model language\n- codebase-design: design patterns in repo\n- code-review: review checklist skill\n- resolving-merge-conflicts: conflict resolution\n- setup-matt-pocock-skills: install/configure the pack\n\nPhilosophy: small composable skills, operator chooses depth, disabl... [truncated]",
+          "timestamp": 1785845348046
+        },
+        {
+          "role": "assistant",
+          "kind": "error",
+          "text": "400 \"Extra inputs are not permitted, field: 'prompt_cache_retention', value: '24h'\"",
+          "isError": true,
+          "timestamp": 1785845348049
+        }
+      ],
+      "resultPreview": "null",
+      "error": "Subagent produced no assistant output",
+      "errorCode": "AGENT_EMPTY_OUTPUT",
+      "recoverable": true,
+      "tokens": 946,
+      "startedAt": "2026-08-04T12:09:08.033Z",
+      "endedAt": "2026-08-04T12:09:08.494Z"
+    },
+    {
+      "id": 4,
+      "callId": "ce-lite-vs-mattpocock-skills-msem7lj1-otxebv:3",
+      "label": "wgs-quality",
+      "phase": "Analyze",
+      "prompt": "Audit mattpocock skill quality against WGS.\n\n\nwriting-great-skills (WGS) quality bar:\n- Description = WHAT + WHEN with trigger phrases AND negative triggers\n- Progressive disclosure: lean SKILL.md, details in linked files only when needed\n- Imperative steps matched to degrees of freedom / fragility\n- Composition over monoliths; prefer feedback loops\n- Anti-patterns: vague \"consider/should\", time estimates, windows-style walls,\n  essay-before-action, missing escape hatches, fighting sibling skills on same trigger\n- Glossary discipline for shared terms\n\n\nMatt skill behaviors (from installed SKILL.md bodies):\n- to-spec: deep requirements → frozen spec; user-invoked; pairs with grill\n- to-tickets: spec → vertical tickets; issue-tracker oriented\n- implement: pick ticket → TDD/code-review loop → done\n- wayfinder: multi-session roadmap / next-session steering\n- grill-with-docs: adversarial Qs grounded in docs\n- triage: classify request → route to right skill\n- ask-matt: meta Q about how to use the skill pack\n- improve-codebase-architecture: HTML architecture report heavyweight\n- prototype: spike before commit\n- diagnosing-bugs: systematic debug\n- research: codebase/external research\n- tdd: red-green-refactor discipline\n- domain-modeling: bounded contexts / model language\n- codebase-design: design patterns in repo\n- code-review: review checklist skill\n- resolving-merge-conflicts: conflict resolution\n- setup-matt-pocock-skills: install/configure the pack\n\nPhilosophy: small composable skills, operator chooses depth, disable-model-invocation on user-facing ones, no mega-framework takeover.\n\n\nce-lite is the local quality reference: progressive companions, terse SKILL.md, compose-don't-monolith.\n\nReturn:\n1. Overall grade A-F + evidence\n2. Best 3 WGS exemplars\n3. Weakest 3 + specific violations\n4. Systemic patterns (frontmatter, user vs model invoked, length, disclosure)\n5. Steal into ce-lite / local rewrites\n6. Do NOT copy\n\nTerse bullets.",
+      "status": "done",
+      "model": "Venice/gemini-3-5-flash",
+      "history": [
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"pat",
+          "timestamp": 1785845363927
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: to-tickets\ndescription: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in one file per ticket locally, or native blocking links on a real tracker.\ndisable-model-invocation: true\n---\n\n# To Tickets\n\nBreak a plan, spec, or conversation into a set of **tickets** — tracer-bullet vertical slices, each declaring the tickets that **block** it.\n\nThe issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.\n\n## Process\n\n### 1. Gather context\n\nWork from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments.\n\n### 2. Explore the c... [truncated]",
+          "isError": false,
+          "timestamp": 1785845365512
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"offset\":1,\"limit\":150,\"path\":\"/home/alex/.pi/agent/skills/implement/SKILL.md\"}",
+          "timestamp": 1785845365512
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: implement\ndescription: \"Implement a piece of work based on a spec or set of tickets.\"\ndisable-model-invocation: true\n---\n\nImplement the work described by the user in the spec or tickets.\n\nUse /tdd where possible, at pre-agreed seams.\n\nRun typechecking regularly, single test files regularly, and the full test suite once at the end.\n\nOnce done, use /code-review to review the work.\n\nCommit your work to the current branch.\n",
+          "isError": false,
+          "timestamp": 1785845369257
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"offset\":1,\"path\":\"/home/alex/.pi/agent/skills/wayfinder/SKILL.md\",\"limit\":150}",
+          "timestamp": 1785845369257
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: wayfinder\ndescription: Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.\ndisable-model-invocation: true\n---\n\nA loose idea has arrived — too big for one agent session, and wrapped in fog: the way from here to the **destination** isn't visible yet. Wayfinding is about finding that way, not charging at the destination. This skill charts the way as a **shared map** on the repo's issue tracker, then works its **decision tickets** — questions whose resolution is a decision, not slices of a build to execute — one at a time until the route is clear.\n\nThe destination varies per effort, and naming it is the first act of charting — it shapes every ticket. It might be a spec to hand off and iterate on, a decision to lock before planning starts, or a change made in place like a data-structure migration. The map is domain-agnostic — engineering work, course content, whatever fits the shape.\n\n## Plan, don't do\n\nWayfinder is **planning** by default: each ticket resolves a decision, and the map is done when the way is clear — nothing left to decide before someone goes and does the thing. The pull to just do the work is usually the signal you've reached the edge of the map and it's time to hand off. An effort can override this in its **Notes** — carrying execution into the map itself — but absent that, produce decisions, not deliverables.\n\n## Refer by name\n\nEvery map and ticket is an issue, so it has a **name** — its title. In everything the human reads — narration, the map's Decisions-so-far — refer to it by that name, never by a bare id, number, or slug. A wall of `#42, #43, #44` is illegible; names read at a glance. The id and URL don't vanish — a name wraps its link — but they ride *inside* the name, never stand in for it.\n\n## The Map\n\nThe map is a single issue on this repo's issue tracker, labelled `wa... [truncated]",
+          "isError": false,
+          "timestamp": 1785845371585
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"offset\":1,\"path\":\"/home/alex/.pi/agent/skills/diagnosing-bugs/SKILL.md\",\"limit\":150}",
+          "timestamp": 1785845371585
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: diagnosing-bugs\ndisable-model-invocation: true\ndescription: Diagnosis loop for hard bugs and performance regressions. Use when the user says \"diagnose\"/\"debug this\", or reports something broken/throwing/failing/slow.\n---\n\n# Diagnosing Bugs\n\nA discipline for hard bugs. Skip phases only when explicitly justified.\n\nWhen exploring the codebase, read `CONTEXT.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.\n\n## Phase 1 — Build a feedback loop\n\n**This is the skill.** Everything else is mechanical. If you have a **tight** pass/fail signal for the bug — one that goes red on _this_ bug — you will find the cause; bisection, hypothesis-testing, and instrumentation all just consume it. If you don't have one, no amount of staring at code will save you.\n\nSpend disproportionate effort here. **Be aggressive. Be creative. Refuse to give up.**\n\n### Ways to construct one — try them in roughly this order\n\n1. **Failing test** at whatever seam reaches the bug — unit, integration, e2e.\n2. **Curl / HTTP script** against a running dev server.\n3. **CLI invocation** with a fixture input, diffing stdout against a known-good snapshot.\n4. **Headless browser script** (Playwright / Puppeteer) — drives the UI, asserts on DOM/console/network.\n5. **Replay a captured trace.** Save a real network request / payload / event log to disk; replay it through the code path in isolation.\n6. **Throwaway harness.** Spin up a minimal subset of the system (one service, mocked deps) that exercises the bug code path with a single function call.\n7. **Property / fuzz loop.** If the bug is \"sometimes wrong output\", run 1000 random inputs and look for the failure mode.\n8. **Bisection harness.** If the bug appeared between two known states (commit, dataset, version), automate \"boot at state X, check, repeat\" so you can `git bisect run` it.\n9. **Differential loop.** Run the same input through old-version vs new-version (or two... [truncated]",
+          "isError": false,
+          "timestamp": 1785845374102
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":150,\"path\":\"/home/alex/.pi/agent/skills/tdd/SKILL.md\",\"offset\":1}",
+          "timestamp": 1785845374103
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: tdd\ndisable-model-invocation: true\ndescription: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.\n---\n\n# Test-Driven Development\n\nTDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: what a good test is, where tests go, the anti-patterns, and the rules of the loop. Every section applies on every cycle — consult them before and during the loop, not after.\n\nWhen exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.\n\n## What a good test is\n\nTests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification — \"user can checkout with valid cart\" tells you exactly what capability exists — and survives refactors because it doesn't care about internal structure.\n\nSee [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.\n\n## Seams — where tests go\n\nA **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.\n\n**Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You can't test everything — agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.\n\nAsk: \"What's the public interface, and which seams should we test?\"\n\n## Anti-patterns\n\n- **Implementation-coupled** — mocks internal collaborators, tests private methods, or verifies through a side channel (querying the database instead of using the interface). The tell: the test breaks when you refactor but behavior hasn't changed.\n-... [truncated]",
+          "isError": false,
+          "timestamp": 1785845377305
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"path\":\"/home/alex/.pi/agent/skills/triage/SKILL.md\",\"limit\":150,\"offset\":1}",
+          "timestamp": 1785845377305
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: triage\ndescription: Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.\ndisable-model-invocation: true\n---\n\n# Triage\n\nMove issues on the project issue tracker through a small state machine of triage roles.\n\nIf this repo treats external pull requests as a request surface (see the issue-tracker config), triage covers them too: **a PR is an issue with attached code** — same roles, same states, same machine, with a few deltas marked \"for a PR\" below. Resolve a bare `#42` to an issue or PR per the tracker config.\n\nEvery comment or issue posted to the issue tracker during triage **must** start with this disclaimer:\n\n```\n> *This was generated by AI during triage.*\n```\n\n## Reference docs\n\n- [AGENT-BRIEF.md](AGENT-BRIEF.md) — how to write durable agent briefs\n- [OUT-OF-SCOPE.md](OUT-OF-SCOPE.md) — how the `.out-of-scope/` knowledge base works\n\n## Roles\n\nTwo **category** roles:\n\n- `bug` — something is broken\n- `enhancement` — new feature or improvement\n\nFive **state** roles:\n\n- `needs-triage` — maintainer needs to evaluate\n- `needs-info` — waiting on reporter for more information\n- `ready-for-agent` — fully specified, ready for an AFK agent\n- `ready-for-human` — needs human implementation\n- `wontfix` — will not be actioned\n\nFor a PR, the same states read against the attached code: `ready-for-agent` means a brief is attached and an agent should take the next step on the diff; `ready-for-human` means it's ready for a human to merge.\n\nEvery triaged issue should carry exactly one category role and one state role. If state roles conflict, flag it and ask the maintainer before doing anything else.\n\nThese are canonical role names — the actual label strings used in the issue tracker may differ. The mapping should have been provided to you - run `/setup-matt-pocock-skills` if not.\n\nState transitions: an unlabeled issue normally goes to `needs-triage` first; from there it... [truncated]",
+          "isError": false,
+          "timestamp": 1785845379089
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":150,\"offset\":1,\"path\":\"/home/alex/.pi/agent/skills/ask-matt/SKILL.md\"}",
+          "timestamp": 1785845379089
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: ask-matt\ndescription: Router over every skill — describe the situation, get the skill or flow to run.\ndisable-model-invocation: true\n---\n\n# Ask Matt\n\nYou don't remember every skill, so ask.\n\nA **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.\n\n## The main flow: idea → ship\n\nThe route most work travels. You have an idea and want it built.\n\n1. **`/grill-with-docs`** — sharpen the idea by interview. Start here when you **have a codebase**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No codebase? Use `/grill-me` — see Standalone. Both run the same `/grilling` primitive; `grill-with-docs` is the one that leaves a paper trail.)\n2. **Branch — can you settle every question in conversation?** If a question needs a runnable answer (state, business logic, a UI you have to see), detour through a prototype, bridged by **`/handoff`** in both directions (see Crossing sessions):\n   - **`/handoff`** out, then open a fresh session against that file,\n   - **`/prototype`** to answer the question with throwaway code,\n   - **`/handoff`** back what you learned, and reference it from the original idea thread.\n3. **Branch — is this a multi-session build?**\n   - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed — kick off **`/implement`** per ticket, **clearing context between each one**.\n   - **No** → **`/implement`** right here, in the same context window.\n\n   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally — one red-green slice at a time — th... [truncated]",
+          "isError": false,
+          "timestamp": 1785845388356
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "bash",
+          "text": "{\"command\":\"find /home/alex/.pi/agent/skills/ -name \\\"*.md\\\" | grep -v \\\"writing-great-skills\\\"\"}",
+          "timestamp": 1785845388356
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "bash",
+          "text": "/home/alex/.pi/agent/skills/setup-ts-deep-modules/SKILL.md\n/home/alex/.pi/agent/skills/to-questionnaire/SKILL.md\n/home/alex/.pi/agent/skills/setup-pre-commit/SKILL.md\n/home/alex/.pi/agent/skills/ask-matt/SKILL.md\n/home/alex/.pi/agent/skills/codebase-design/DEEPENING.md\n/home/alex/.pi/agent/skills/codebase-design/DESIGN-IT-TWICE.md\n/home/alex/.pi/agent/skills/codebase-design/SKILL.md\n/home/alex/.pi/agent/skills/code-review/SKILL.md\n/home/alex/.pi/agent/skills/diagnosing-bugs/SKILL.md\n/home/alex/.pi/agent/skills/domain-modeling/ADR-FORMAT.md\n/home/alex/.pi/agent/skills/domain-modeling/CONTEXT-FORMAT.md\n/home/alex/.pi/agent/skills/domain-modeling/SKILL.md\n/home/alex/.pi/agent/skills/grill-with-docs/SKILL.md\n/home/alex/.pi/agent/skills/implement/SKILL.md\n/home/alex/.pi/agent/skills/improve-codebase-architecture/HTML-REPORT.md\n/home/alex/.pi/agent/skills/improve-codebase-architecture/SKILL.md\n/home/alex/.pi/agent/skills/prototype/LOGIC.md\n/home/alex/.pi/agent/skills/prototype/SKILL.md\n/home/alex/.pi/agent/skills/prototype/UI.md\n/home/alex/.pi/agent/skills/research/SKILL.md\n/home/alex/.pi/agent/skills/resolving-merge-conflicts/SKILL.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/SKILL.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/domain.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/issue-tracker-github.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/issue-tracker-local.md\n/home/alex/.pi/agent/skills/setup-matt-pocock-skills/triage-labels.md\n/home/alex/.pi/agent/skills/tdd/SKILL.md\n/home/alex/.pi/agent/skills/tdd/mocking.md\n/home/alex/.pi/agent/skills/tdd/tests.md\n/home/alex/.pi/agent/skills/to-spec/SKILL.md\n/home/alex/.pi/agent/skills/to-tickets/SKILL.md\n/home/alex/.pi/agent/skills/triage/AGENT-BRIEF.md\n/home/alex/.pi/agent/skills/triage/OUT-OF-SCOPE.md\n/home/alex/.pi/agent/skills/triage/SKILL.md\n/home/alex/.pi/agent/skills/wayfinder/SKILL.... [truncated]",
+          "isError": false,
+          "timestamp": 1785845394330
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":150,\"path\":\"/home/alex/.pi/agent/skills/code-review/SKILL.md\",\"offset\":1}",
+          "timestamp": 1785845394331
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: code-review\ndisable-model-invocation: true\ndescription: Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".\n---\n\nTwo-axis review of the diff between `HEAD` and a fixed point the user supplies:\n\n- **Standards** — does the code conform to this repo's documented coding standards?\n- **Spec** — does the code faithfully implement the originating issue / PRD / spec?\n\nBoth axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.\n\nThe issue tracker should have been provided to you — run `/setup-matt-pocock-skills` if `docs/agents/issue-tracker.md` is missing.\n\n## Process\n\n### 1. Pin the fixed point\n\nWhatever the user said is the fixed point — a commit SHA, branch name, tag, `main`, `HEAD~5`, etc. If they didn't specify one, ask for it.\n\nCapture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.\n\nBefore going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here — not inside two parallel sub-agents.\n\n### 2. Identify the spec source\n\nLook for the originating spec, in this order:\n\n1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.) — fetch via the workflow in `docs/agents/issue-tracker.md`.\n2. A path the user passed as an argument.\n3. A PRD/spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.\n4. If nothing is found, ask the user where th... [truncated]",
+          "isError": false,
+          "timestamp": 1785845401615
+        },
+        {
+          "role": "assistant",
+          "kind": "toolCall",
+          "toolName": "read",
+          "text": "{\"limit\":150,\"path\":\"/home/alex/.pi/agent/skills/setup-matt-pocock-skills/SKILL.md\",\"offset\":1}",
+          "timestamp": 1785845401615
+        },
+        {
+          "role": "tool",
+          "kind": "toolResult",
+          "toolName": "read",
+          "text": "---\nname: setup-matt-pocock-skills\ndescription: Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.\ndisable-model-invocation: true\n---\n\n# Setup Matt Pocock's Skills\n\nScaffold the per-repo configuration that the engineering skills assume:\n\n- **Issue tracker** — where issues live (GitHub by default; local markdown is also supported out of the box)\n- **Triage labels** — the strings used for the five canonical triage roles\n- **Domain docs** — where `CONTEXT.md` and ADRs live, and the consumer rules for reading them\n\nThis is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.\n\n## Process\n\n### 1. Explore\n\nLook at the current repo to understand its starting state. Read whatever exists; don't assume:\n\n- `git remote -v` and `.git/config` — is this a GitHub repo? Which one?\n- `AGENTS.md` and `CLAUDE.md` at the repo root — does either exist? Is there already an `## Agent skills` section in either?\n- `CONTEXT.md` and `CONTEXT-MAP.md` at the repo root\n- `docs/adr/` and any `src/*/docs/adr/` directories\n- `docs/agents/` — does this skill's prior output already exist?\n- `.scratch/` — sign that a local-markdown issue tracker convention is already in use\n- Is the `triage` skill installed? (a `triage` skill folder alongside this one, or `triage` in your available skills.) This decides whether Section B runs at all.\n- Monorepo signals — a `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, or a populated `packages/*` with its own `src/`. Present only in a genuinely large multi-package repo; their absence means single-context, which is almost every repo.\n\n### 2. Present findings and ask\n\nSummarise what's present and what's missing. Then take the sections in order — one section, one answer, then the next.\n\nLead each section with the recommended answer so the user... [truncated]",
+          "isError": false,
+          "timestamp": 1785845404586
+        },
+        {
+          "role": "assistant",
+          "kind": "text",
+          "text": "1. **Overall Grade: B+**\n   * **Evidence**:\n     * High predictability and strong focus on actionable feedback loops (e.g., `diagnosing-bugs`' \"red-capable\" loop constraint).\n     * Strong vocabulary integration with powerful pretrained leading words (\"frontier\", \"fog of war\", \"seam\", \"tracer-bullet\", \"blast radius\").\n     * Systemic violation of `disable-model-invocation: true` across the entire pack. Every skill disables model invocation but keeps a bloated description containing rich machine-facing trigger lists, violating WGS glossary rules for user-invoked skills (which require stripped, single-line summaries to eliminate context load).\n     * Inconsistent progressive disclosure: some skills use it beautifully, while others like `wayfinder` sprawl.\n\n2. **Best 3 WGS Exemplars**\n   * **`diagnosing-bugs/SKILL.md`**: Excellent predictability. Forces a \"red-capable\" feedback loop before any code execution. Uses \"tight\" and \"red-capable\" as leading words. Clear escape hatch if a loop cannot be built.\n   * **`code-review/SKILL.md`**: Great co-location and composition. Separates Standards vs. Spec into parallel sub-agents so they do not pollute contexts, and co-locates Fowler code smells as flat, readable reference.\n   * **`tdd/SKILL.md`**: Model progressive disclosure. Outsources deep implementation examples and mocking rules to `tests.md` and `mocking.md`, keeping the root SKILL.md focused solely on the red-green loop.\n\n3. **Weakest 3 + Specific Violations**\n   * **`implement/SKILL.md`**: Extreme brevity failure. A 5-line skeleton with no process, checkable steps, or completion criteria, offloading all execution burden to other sub-skills.\n   * **`wayfinder/SKILL.md`**: Violates WGS \"Sprawl\" and progressive disclosure guidelines. Piles extensive templates, ticket types, and state transitions into a 300-line monolith instead of utilizing companion reference files.\n   * **`to-spec/SKILL.md`**: Relies on weak, advisory \"should\" language anti-patterns... [truncated]",
+          "timestamp": 1785845404587
+        }
+      ],
+      "resultPreview": "1. **Overall Grade: B+**\n   * **Evidence**:\n     * High predictability and stro…",
+      "tokens": 343545,
+      "tokenUsage": {
+        "input": 258147,
+        "output": 7878,
+        "cacheRead": 77520,
+        "cacheWrite": 0,
+        "total": 343545,
+        "cost": 0
+      },
+      "startedAt": "2026-08-04T12:09:08.034Z",
+      "endedAt": "2026-08-04T12:10:22.372Z"
+    }
+  ],
+  "logs": [
+    "agent ce-lite-fit attempt 1/1 failed: Subagent produced no assistant output",
+    "agent \"ce-lite-fit\" exhausted 1 attempt: AGENT_EMPTY_OUTPUT Subagent produced no assistant output"
+  ],
+  "tokenUsage": {
+    "input": 1602605,
+    "output": 24988,
+    "total": 1883307,
+    "cost": 0,
+    "cacheRead": 254768,
+    "cacheWrite": 0
+  },
+  "startedAt": "2026-08-04T12:09:08.029Z",
+  "updatedAt": "2026-08-04T12:11:37.092Z"
+}

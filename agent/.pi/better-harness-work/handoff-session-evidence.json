@@ -1,0 +1,791 @@
+{
+  "agentId": "session-evidence",
+  "ok": true,
+  "errors": [],
+  "coverage": {
+    "eligibleSessions": 12,
+    "selectedSessions": 12,
+    "sessionsSampled": 12,
+    "sessionsIndependentScanned": 12,
+    "sampled": false,
+    "selection": "all-eligible",
+    "platform": "pi",
+    "workspace": "agent",
+    "until": "2026-08-04T00:00:00.000Z",
+    "window": {
+      "start": "2026-07-05",
+      "end": "2026-08-04"
+    },
+    "taskEpisodes": 22,
+    "candidateEpisodes": 14,
+    "emittedCandidates": 5,
+    "activeLongSessions": 4,
+    "sources": [
+      "packet-session.json",
+      "evidence-bundle.json lanes.sessionEvidence",
+      "lead-evidence.md / lead-summary.json summaryFacts",
+      "session-inspect.txt",
+      "independent JSONL scan of 12 workspace sessions under ~/.pi/agent/sessions/--home-alex-.pi-agent--/",
+      "domain refs: session-evidence README, sessions-diagnostics, session-usage-efficiency, session-insights-report",
+      "fluency-dimensions.mjs AGENT_WORK_LOOP_DIMENSIONS"
+    ]
+  },
+  "runtimeMetrics": {
+    "sessionsAnalyzed": 12,
+    "userThreadCandidates": 12,
+    "childAgentCandidates": 0,
+    "failedEventFriction": 91,
+    "failedEventFrictionSource": "lead session-inspect / usageEfficiency long-session failureCounts + portfolio friction",
+    "independentIsErrorTrue": 153,
+    "independentToolCalls": 1648,
+    "independentToolResults": 1647,
+    "independentErrorRate": 0.0929,
+    "independentAllowlistBlocks": 61,
+    "independentEditMisses": 42,
+    "independentReadMisses": 8,
+    "independentCompactions": 2,
+    "independentIdenticalRetries": 1,
+    "mostObservedTool": {
+      "name": "ctx_shell",
+      "countLead": 1142,
+      "countIndependent": 796
+    },
+    "topToolsIndependent": [
+      [
+        "ctx_shell",
+        796
+      ],
+      [
+        "edit",
+        211
+      ],
+      [
+        "read",
+        185
+      ],
+      [
+        "ctx_read",
+        102
+      ],
+      [
+        "write",
+        98
+      ],
+      [
+        "bash",
+        58
+      ],
+      [
+        "grep",
+        35
+      ],
+      [
+        "ctx_grep",
+        26
+      ],
+      [
+        "ctx_edit",
+        20
+      ],
+      [
+        "ctx_execute",
+        19
+      ]
+    ],
+    "topFailReasonsIndependent": [
+      [
+        "isError",
+        153
+      ],
+      [
+        "allowlist_block",
+        61
+      ],
+      [
+        "edit_context_miss",
+        33
+      ],
+      [
+        "enoent",
+        22
+      ],
+      [
+        "soft_error_text",
+        20
+      ],
+      [
+        "timeout",
+        8
+      ],
+      [
+        "lean_ctx_failed",
+        7
+      ],
+      [
+        "context_overflow",
+        6
+      ],
+      [
+        "rate_limit",
+        5
+      ],
+      [
+        "exception",
+        4
+      ]
+    ],
+    "longSessions": [
+      {
+        "alias": "S1",
+        "activeMinutes": 498,
+        "failureCount": 41,
+        "role": "user-thread-candidate"
+      },
+      {
+        "alias": "S2",
+        "activeMinutes": 97.2,
+        "failureCount": 9,
+        "role": "user-thread-candidate"
+      },
+      {
+        "alias": "S3",
+        "activeMinutes": 80.9,
+        "failureCount": 13,
+        "role": "user-thread-candidate"
+      },
+      {
+        "alias": "S4",
+        "activeMinutes": 48.5,
+        "failureCount": 11,
+        "role": "user-thread-candidate"
+      }
+    ],
+    "longSessionActiveRatio": 0.3333,
+    "episodeToolCallPeaks": [
+      196,
+      186,
+      98,
+      73
+    ],
+    "portfolioClassesAvailable": {
+      "validation-repair": 1,
+      "boundary-change": 14,
+      "lifecycle-demand": 3,
+      "operation-control": 13,
+      "read-only-work": 14
+    },
+    "portfolioClassesEmitted": {
+      "validation-repair": 1,
+      "boundary-change": 5,
+      "lifecycle-demand": 1,
+      "operation-control": 5,
+      "read-only-work": 5
+    },
+    "populationCoverage": {
+      "withChanges": 0,
+      "withChecks": 1,
+      "withReviewedRelevantCheck": 0,
+      "withResultSignal": 14,
+      "withAssistantHandoff": 14,
+      "withStructuredCompletion": 0,
+      "withUserCorrection": 0,
+      "withExecutionFriction": 13,
+      "withFrictionConsequence": 0
+    },
+    "observationCoverage": {
+      "withChanges": 0,
+      "withChecks": 1,
+      "withExecutionFriction": 5,
+      "withAssistantHandoff": 5,
+      "withResultSignal": 5
+    },
+    "emittedEpisodeFriction": [
+      {
+        "ref": "E1",
+        "toolCalls": 17,
+        "executionFailures": 11,
+        "classes": [
+          "validation-repair",
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ]
+      },
+      {
+        "ref": "E2",
+        "toolCalls": 26,
+        "executionFailures": 7,
+        "classes": [
+          "boundary-change",
+          "lifecycle-demand",
+          "operation-control",
+          "read-only-work"
+        ]
+      },
+      {
+        "ref": "E3",
+        "toolCalls": 15,
+        "executionFailures": 13,
+        "classes": [
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ]
+      },
+      {
+        "ref": "E4",
+        "toolCalls": 3,
+        "executionFailures": 3,
+        "classes": [
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ]
+      },
+      {
+        "ref": "E5",
+        "toolCalls": null,
+        "executionFailures": null,
+        "classes": [
+          "boundary-change",
+          "operation-control",
+          "read-only-work"
+        ]
+      }
+    ],
+    "modelUsageResponses": [
+      {
+        "model": "kimi-k3",
+        "responseCount": 535
+      },
+      {
+        "model": "zai-org/glm-5.2",
+        "responseCount": 449
+      },
+      {
+        "model": "grok-4-5",
+        "responseCount": 45
+      },
+      {
+        "model": "deepseek-v4-flash",
+        "responseCount": 15
+      },
+      {
+        "model": "deepseek-v4-flash-free",
+        "responseCount": 12
+      },
+      {
+        "model": "laguna-s-2.1-free",
+        "responseCount": 4
+      }
+    ],
+    "tokenTotals": {
+      "inputTokens": 10112049,
+      "outputTokens": 644765,
+      "cacheReadInputTokens": 118542528,
+      "cacheCreationInputTokens": 0
+    },
+    "skillsObserved": [],
+    "diagnosticFlags": [
+      "portfolio-truncated",
+      "population-portfolio-divergence",
+      "no-change-evidence",
+      "no-reviewed-relevant-check-evidence"
+    ],
+    "outcomeReviewStatus": "required",
+    "reviewedActiveLongCount": 0
+  },
+  "findings": [
+    {
+      "id": "SE-F1",
+      "title": "Execution friction is systemic across the eligible portfolio",
+      "severity": "high",
+      "dimension": "unspecified",
+      "summary": "Lead portfolio reports 91 failed-event friction marks; 13/14 population result-signal episodes carry execution friction and 5/5 emitted observation candidates do as well. Independent JSONL scan of 12 workspace sessions found 153 toolResult isError flags on 1647 results (9.3%), concentrated on long user-threads (S1 alone 41 failures / 498 active minutes).",
+      "evidence": [
+        "lead failed-event=91; populationCoverage.withExecutionFriction=13",
+        "S1–S4 failureCounts 41/9/13/11",
+        "independent isErrorTrue=153; top toolErrors: ctx_shell:allowlist_block, edit:edit_context_miss, *:enoent"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F2",
+      "title": "Shell allowlist / security blocks dominate controlled-execution failures",
+      "severity": "high",
+      "dimension": "unspecified",
+      "summary": "Independent scan: 61 allowlist_block events, almost all on ctx_shell. Concrete patterns include blocked python3 heredoc stdin, lean-ctx allowlist denials, and mid-task permanent security blocks. Agents still prefer shell (lead mostObservedTool ctx_shell=1142; independent 796) over safer ctx_* surfaces, so boundary friction is repeated rather than avoided.",
+      "evidence": [
+        "independentAllowlistBlocks=61",
+        "error sample: Interpreter python3 with heredoc stdin is blocked",
+        "E1 friction.executionFailures=11 on a validation-repair+boundary episode with only 17 toolCalls"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F3",
+      "title": "Edit/patch context misses create repair loops without acceptance evidence",
+      "severity": "high",
+      "dimension": "unspecified",
+      "summary": "Independent scan: 42 edit_context_miss / edit isError events (edit and ctx_edit). Lead admission shows withChanges=0 and withReviewedRelevantCheck=0 despite multi-turn harness-config work, so delivery cannot be scored as outcome-supported. Edit failures cluster with subsequent re-reads and re-attempts rather than structured validation.",
+      "evidence": [
+        "independentEditMisses=42",
+        "populationCoverage.withChanges=0; withReviewedRelevantCheck=0",
+        "topTools include edit=211 and write=98 but admission records no change evidence"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F4",
+      "title": "Four long sessions lack outcome review; efficiency claims are blocked",
+      "severity": "medium",
+      "dimension": "unspecified",
+      "summary": "usageEfficiency.outcomeReview.status=required with reviewedActiveLongCount=0. S1–S4 are 33.3% of analyzed sessions and hold most failure mass (74 of lead long-session failures). Without taskFamily/outcome/friction semantic rows, long duration cannot be classified as complex work vs tool thrash vs idle/resume.",
+      "evidence": [
+        "longSessions activeCount=4, longestActiveMinutes=498, activeRatio=0.3333",
+        "outcomeReview.recommendation=controlled-a-b-required",
+        "reviewLead id=session-usage-outcome-review-gap"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F5",
+      "title": "Validation-repair class is rare; checks almost never attach to changes",
+      "severity": "medium",
+      "dimension": "unspecified",
+      "summary": "Portfolio availableClasses.validation-repair=1 (only one emitted). populationCoverage.withChecks=1 and that check is relation=no-change-context (lint passed without paired edits). post-edit-validation and change-validation dimensions therefore sit at Present/Unobserved for acceptance, not Exercised.",
+      "evidence": [
+        "availableClasses.validation-repair=1; emitted=1",
+        "E1 checks=[{kind:lint,status:passed,relation:no-change-context}]",
+        "diagnosticFlags include no-reviewed-relevant-check-evidence"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F6",
+      "title": "Tool mix is shell-heavy discovery with high path/find miss rate",
+      "severity": "medium",
+      "dimension": "unspecified",
+      "summary": "Dominant tool is ctx_shell; secondary native read/edit/write. Independent fail reasons include enoent=22 and lean_ctx_failed=7 (ctx_find/ctx_ls empty or failed). Multiple sessions re-discover package roots after empty directory listings and lean-ctx find failures, burning turns before productive edits.",
+      "evidence": [
+        "lead mostObservedTool ctx_shell=1142",
+        "independent enoent=22; lean_ctx_failed samples on **/SKILL.md and better-harness globs",
+        "read-only-work available=14 emitted=5"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F7",
+      "title": "Lifecycle demand is real but thinly sampled; compaction appears in long work",
+      "severity": "medium",
+      "dimension": "unspecified",
+      "summary": "lifecycle-demand available=3 emitted=1 (E2 documentation-maintenance → reliable-delivery/acceptance-evidence). Independent scan saw 2 compaction events with tokensBefore samples in long sessions. Compaction+continue reliability was an explicit user concern in at least one autoresearch finalize thread.",
+      "evidence": [
+        "E2 lifecycle intent=documentation-maintenance dimensionId=reliable-delivery",
+        "independentCompactions=2",
+        "user prompt concern: compaction and pi-continue without errors"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F8",
+      "title": "Multi-model portfolio without comparable outcome attribution",
+      "severity": "low",
+      "dimension": "unspecified",
+      "summary": "kimi-k3 (535) and glm-5.2 (449) dominate responses; grok-4-5 and deepseek variants trail. outcomeReview.comparableModelOutcomeEvidence=false, so model mix cannot be scored as cause of friction. Treat model diversity as context, not a verdict.",
+      "evidence": [
+        "modelUsage response counts above",
+        "comparableModelOutcomeEvidence=false"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    },
+    {
+      "id": "SE-F9",
+      "title": "Source coverage is complete for eligibility; skills inventory empty",
+      "severity": "info",
+      "dimension": "unspecified",
+      "summary": "selection complete=true (12/12). sessionWorkspaceMatch preflight: 12/12 directCwd qualified. usageActivity.skills=[] — no skill-invocation series in the activity strip despite skill-tagged user prompts in JSONL (skill loads may be outside the activity metric).",
+      "evidence": [
+        "eligibleSessionCount=12 analyzedSessionCount=12 complete=true",
+        "workspace-match qualified.directCwd=12",
+        "skills: []"
+      ],
+      "impact": "",
+      "fixDirection": "",
+      "confidence": "medium",
+      "sourceAgent": "session-evidence"
+    }
+  ],
+  "signals": [
+    {
+      "id": "execution-friction",
+      "weight": "high",
+      "count": 91,
+      "note": "lead failed-event friction; 13 population episodes"
+    },
+    {
+      "id": "allowlist-block",
+      "weight": "high",
+      "count": 61,
+      "note": "independent ctx_shell security/allowlist blocks"
+    },
+    {
+      "id": "edit-miss",
+      "weight": "high",
+      "count": 42,
+      "note": "independent edit/ctx_edit context misses"
+    },
+    {
+      "id": "long-session",
+      "weight": "high",
+      "count": 4,
+      "note": "S1–S4 active-time threshold ≥45m"
+    },
+    {
+      "id": "outcome-review-gap",
+      "weight": "high",
+      "count": 4,
+      "note": "reviewedActiveLongCount=0"
+    },
+    {
+      "id": "boundary-change",
+      "weight": "medium",
+      "count": 14,
+      "note": "available class count; emitted 5"
+    },
+    {
+      "id": "operation-control",
+      "weight": "medium",
+      "count": 13,
+      "note": "available class count; emitted 5"
+    },
+    {
+      "id": "read-only-work",
+      "weight": "medium",
+      "count": 14,
+      "note": "available class count; emitted 5"
+    },
+    {
+      "id": "validation-repair",
+      "weight": "medium",
+      "count": 1,
+      "note": "rare class; single emitted episode"
+    },
+    {
+      "id": "lifecycle-demand",
+      "weight": "medium",
+      "count": 3,
+      "note": "available 3; emitted 1"
+    },
+    {
+      "id": "tool-mix-shell-dominant",
+      "weight": "medium",
+      "count": 1142,
+      "note": "ctx_shell lead observations"
+    },
+    {
+      "id": "no-change-evidence",
+      "weight": "medium",
+      "count": 0,
+      "note": "withChanges=0 diagnostic"
+    },
+    {
+      "id": "check-gap",
+      "weight": "medium",
+      "count": 1,
+      "note": "single lint, no-change-context"
+    },
+    {
+      "id": "path-miss",
+      "weight": "medium",
+      "count": 22,
+      "note": "independent enoent"
+    },
+    {
+      "id": "compaction",
+      "weight": "low",
+      "count": 2,
+      "note": "independent compaction events"
+    },
+    {
+      "id": "model-mix",
+      "weight": "low",
+      "count": 8,
+      "note": "distinct models in usage strip"
+    },
+    {
+      "id": "portfolio-truncated",
+      "weight": "info",
+      "count": 1,
+      "note": "diagnosticFlags"
+    },
+    {
+      "id": "population-portfolio-divergence",
+      "weight": "info",
+      "count": 1,
+      "note": "diagnosticFlags"
+    }
+  ],
+  "dimensionScores": [
+    {
+      "id": "task-understanding",
+      "score": 58,
+      "maxScore": 100,
+      "evidenceLevel": "Present",
+      "confidence": "medium",
+      "rationale": "User requests in emitted episodes (harness audit, OMP removal, autoresearch campaigns) are multi-turn and agents load skills/context. Source coverage complete (12/12). Ceiling held to Present/Wired because scope sprawl in S1 (498m) is unreviewed and skill activity metrics are empty, so goal-stability is not outcome-supported.",
+      "evidenceRefs": [
+        "SE-F6",
+        "SE-F8",
+        "SE-F9",
+        "coverage.eligibleSessions=12"
+      ]
+    },
+    {
+      "id": "controlled-execution",
+      "score": 42,
+      "maxScore": 100,
+      "evidenceLevel": "Present",
+      "confidence": "high",
+      "rationale": "Supported tool surfaces exist and are used, but execution is repeatedly interrupted: 91 lead failed-events, 61 independent allowlist blocks, shell-dominant mix, path/find misses. Permission denials in admission friction objects are 0, yet security allowlist blocks still abort tool turns. Below Wired because failures are common relative to progress signals.",
+      "evidenceRefs": [
+        "SE-F1",
+        "SE-F2",
+        "SE-F6",
+        "runtimeMetrics.failedEventFriction"
+      ]
+    },
+    {
+      "id": "change-validation",
+      "score": 28,
+      "maxScore": 100,
+      "evidenceLevel": "Present",
+      "confidence": "high",
+      "rationale": "validation-repair class appears once; only one check (lint passed, no-change-context). withReviewedRelevantCheck=0 and withChanges=0 in admission. Independent edit volume is high but edit misses (42) outrun structured post-edit validation. Score reflects observed gap, not absence of editing intent.",
+      "evidenceRefs": [
+        "SE-F3",
+        "SE-F5",
+        "populationCoverage.withChecks"
+      ]
+    },
+    {
+      "id": "reliable-delivery",
+      "score": 36,
+      "maxScore": 100,
+      "evidenceLevel": "Present",
+      "confidence": "medium",
+      "rationale": "Assistant handoffs observed on all emitted candidates (withAssistantHandoff=14/5) but structured completion=0, change acceptance unobserved, frictionConsequence=0. Long sessions unfinished from a review standpoint (outcome review required). Delivery is conversationally closed more often than evidentially accepted.",
+      "evidenceRefs": [
+        "SE-F1",
+        "SE-F3",
+        "SE-F4",
+        "SE-F7"
+      ]
+    },
+    {
+      "id": "learning-capture",
+      "score": 34,
+      "maxScore": 100,
+      "evidenceLevel": "Present",
+      "confidence": "low",
+      "rationale": "Lifecycle-demand signals and compaction events show the system hits context/lifecycle boundaries. No reviewed durable learning artifacts (skills series empty; no Memory/Skill update acceptance in admission). Cross-window improvement cannot be confirmed from this sample alone.",
+      "evidenceRefs": [
+        "SE-F4",
+        "SE-F7",
+        "SE-F9",
+        "usageActivity.skills=[]"
+      ]
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "SE-A1",
+      "priority": 1,
+      "action": "Complete privacy-safe outcome review for S1–S4 (taskFamily, outcome, friction, confidence) before any efficiency or model verdict.",
+      "why": "Blocks session-usage-efficiency conclusions; 4/4 long candidates unreviewed.",
+      "fits": [
+        "Skill",
+        "Hook",
+        "process"
+      ]
+    },
+    {
+      "id": "SE-A2",
+      "priority": 2,
+      "action": "Reduce shell allowlist thrash: skill/default routing to ctx_* tools; document write-script-then-run for python; pre-allow common audit commands used in harness work.",
+      "why": "61 independent allowlist blocks and shell-dominant mix are the largest controlled-execution drag.",
+      "fits": [
+        "Skill",
+        "Hook",
+        "config"
+      ]
+    },
+    {
+      "id": "SE-A3",
+      "priority": 3,
+      "action": "Harden edit loop: mandatory re-read before patch; one-shot fallback after edit miss; stop identical retries.",
+      "why": "42 edit misses with no change-acceptance trail.",
+      "fits": [
+        "Skill",
+        "Hook"
+      ]
+    },
+    {
+      "id": "SE-A4",
+      "priority": 4,
+      "action": "Require a relevant check when edits occur (even minimal test/lint scoped to touched paths) so change-validation can leave Present.",
+      "why": "Only one no-change-context lint in the whole portfolio.",
+      "fits": [
+        "Skill",
+        "Hook",
+        "CI"
+      ]
+    },
+    {
+      "id": "SE-A5",
+      "priority": 5,
+      "action": "After outcome review, decide whether S1-class 8h sessions need task decomposition defaults or are legitimate multi-campaign harness work.",
+      "why": "session-complexity vs tool-friction still confounded.",
+      "fits": [
+        "Skill",
+        "process"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": "medium-high",
+    "populationMetrics": "high",
+    "frictionTaxonomy": "high",
+    "outcomeAttribution": "low",
+    "modelCausality": "low",
+    "notes": "Population counts and episode friction from lead admission are authoritative. Independent JSONL scan corroborates friction shape (allowlist, edit miss, enoent) on the same 12-session workspace set. Outcome and model-causal claims intentionally withheld."
+  },
+  "assumptions": [
+    "Packet eligible set (12) matches lead usageEfficiency.analyzedSessionCount and workspace-match directCwd=12 under platform=pi workspace=agent.",
+    "Lead failed-event=91 is the portfolio friction denominator for scoring; independent isErrorTrue=153 is a stricter toolResult.isError recount used only for taxonomy.",
+    "S1 failureCount=41 aligns with independent session 2026-07-29T06-48-50… (41 isError) for qualitative deep dives.",
+    "Admission withChanges=0 means the analyzer did not credit durable change events — not that the filesystem was untouched.",
+    "Agent Work Loop dimensions from fluency-dimensions.mjs are the five score-review targets awaiting judgment."
+  ],
+  "openQuestions": [
+    "After semantic review, what fraction of S1–S4 failures are allowlist/edit thrash vs irreducible task complexity?",
+    "Why does admission report withChanges=0 while JSONL shows substantial edit/write volume?",
+    "Are skill invocations intentionally absent from usageActivity.skills, or is instrumentation missing?",
+    "Does E1's 11 failures / 17 toolCalls pattern generalize after allowlist routing fixes?"
+  ],
+  "limitations": [
+    "Pass B did not re-run node session-analysis.mjs; used lead artifacts + independent JSONL parser.",
+    "Independent scan prioritized --home-alex-.pi-agent-- sessions by size; if eligibility included other cwd trees equally, mix weights could shift slightly (workspace-match says 12/12 directCwd for agent).",
+    "No raw prompts/tool outputs copied into durable findings beyond short failure snippets.",
+    "Cache-read tokens dominate (118M) but efficiency judgment deferred pending outcome review.",
+    "Child-agent sessions not present in this eligible set (childAgentCandidateCount=0)."
+  ],
+  "evidenceRefs": [
+    {
+      "ref": "lead-portfolio",
+      "path": ".pi/better-harness/_run/lead-evidence.md",
+      "claims": [
+        "12 sessions",
+        "91 failed-event",
+        "ctx_shell 1142",
+        "4 long sessions",
+        "episode tool peaks"
+      ]
+    },
+    {
+      "ref": "session-core-facts",
+      "path": ".pi/better-harness/_run/evidence-bundle.json#lanes.sessionEvidence.data",
+      "claims": [
+        "admission",
+        "populationCoverage",
+        "candidates E1–E5",
+        "diagnosticFlags"
+      ]
+    },
+    {
+      "ref": "usage-efficiency",
+      "path": "lead-summary/evidence-bundle summaryFacts.usageEfficiency",
+      "claims": [
+        "S1–S4",
+        "outcomeReview.required",
+        "tokenTotals",
+        "modelUsage"
+      ]
+    },
+    {
+      "ref": "independent-scan",
+      "path": ".pi/better-harness/_run/pass-b-analysis.json",
+      "claims": [
+        "1648 toolCalls",
+        "153 isError",
+        "61 allowlist",
+        "42 editMiss",
+        "topTools",
+        "per-session tables"
+      ]
+    },
+    {
+      "ref": "session-inspect",
+      "path": ".pi/better-harness/_run/session-inspect.txt",
+      "claims": [
+        "helper inventory of session jsonl paths and sizes"
+      ]
+    },
+    {
+      "ref": "awl-dimensions",
+      "path": "scripts/harness-analysis/fluency-dimensions.mjs",
+      "claims": [
+        "task-understanding",
+        "controlled-execution",
+        "change-validation",
+        "reliable-delivery",
+        "learning-capture"
+      ]
+    }
+  ],
+  "narrative": {
+    "summary": "Eligible Pi/agent sessions (12/12) show a clear agent-work-loop portfolio: boundary-change, operation-control, and read-only-work dominate; validation-repair is almost absent. Execution friction is the headline (91 lead failed-events; independent 9.3% tool isError), driven by shell allowlist blocks and edit-context misses inside long user-threads. Four long sessions (up to ~498 active minutes) still need outcome review, so efficiency and model conclusions stay blocked. Scoring leaves all five AWL dimensions in Present territory—controlled-execution and change-validation weakest.",
+    "whatWorked": [
+      "Full eligibility coverage (no sampling gap)",
+      "Workspace match clean (12 directCwd)",
+      "Assistant handoffs consistently observed",
+      "ctx_* tool family available and partially adopted alongside shell"
+    ],
+    "whatHurt": [
+      "Allowlist-blocked shell patterns mid-task",
+      "Edit patch misses without forced re-read/fallback",
+      "Near-zero paired validation on changes",
+      "Unreviewed long-session outcomes",
+      "Discovery thrash (enoent / lean-ctx find failures)"
+    ]
+  },
+  "schemaVersion": 1,
+  "status": "ok",
+  "topActions": [],
+  "evidenceGaps": [],
+  "blockedReason": null
+}

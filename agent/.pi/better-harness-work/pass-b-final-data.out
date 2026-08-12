@@ -1,0 +1,580 @@
+total_jsonl 469
+FILE 2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl cwd=/home/alex/.pi/agent tools=43 toolResults=39 fails~=11 models=['grok-4-5']
+FILE 2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl cwd=/home/alex/.pi/agent tools=50 toolResults=50 fails~=6 models=['grok-4-5']
+FILE 2026-08-04T15-16-37-257Z_019fcd59-1d09-76d2-bd62-75a63f00c6a7.jsonl cwd=/home/alex tools=18 toolResults=18 fails~=7 models=['grok-4-5']
+FILE 2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl cwd=/home/alex/.pi/agent tools=68 toolResults=68 fails~=10 models=['grok-4-5']
+FILE 2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl cwd=/home/alex/.pi/agent tools=139 toolResults=139 fails~=17 models=['grok-4-5']
+FILE 2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl cwd=/home/alex/.pi/agent tools=80 toolResults=80 fails~=14 models=['grok-4-5', 'zai-org-glm-5-2']
+FILE 2026-08-04T08-41-02-565Z_019fcbee-f365-7baf-ad0d-8e2cc96aece6.jsonl cwd=/home/alex/pi-bench-ws tools=11 toolResults=11 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-40-38-947Z_019fcbee-9723-7ea1-abfa-8d3cb7a2df44.jsonl cwd=/home/alex/pi-bench-ws tools=10 toolResults=10 fails~=2 models=['grok-4-5']
+FILE 2026-08-04T08-40-05-698Z_019fcbee-1542-7532-a30c-8d53a1898801.jsonl cwd=/home/alex/pi-bench-ws tools=11 toolResults=11 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-39-35-681Z_019fcbed-a001-73ba-8b6a-91954ea34bad.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-39-00-001Z_019fcbed-14a1-7703-af11-9df823facf7d.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=1 models=['grok-4-5']
+FILE 2026-08-04T08-38-30-844Z_019fcbec-a2bc-7d03-b5e5-4bc4c355fd4f.jsonl cwd=/home/alex/pi-bench-ws tools=13 toolResults=13 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-37-59-634Z_019fcbec-28d2-7d18-a406-1882daceb614.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-37-25-972Z_019fcbeb-a554-7989-bd9c-fa4c4f27cb8d.jsonl cwd=/home/alex/pi-bench-ws tools=9 toolResults=9 fails~=1 models=['grok-4-5']
+FILE 2026-08-04T08-36-56-267Z_019fcbeb-314b-70b9-8225-637717d18ee1.jsonl cwd=/home/alex/pi-bench-ws tools=11 toolResults=11 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-36-15-649Z_019fcbea-92a1-78ab-8545-18b0bc9f0136.jsonl cwd=/home/alex/pi-bench-ws tools=19 toolResults=19 fails~=3 models=['grok-4-5']
+FILE 2026-08-04T08-34-55-167Z_019fcbe9-583f-73a5-bd32-750e8e5861f2.jsonl cwd=/home/alex/pi-bench-ws tools=11 toolResults=11 fails~=2 models=['grok-4-5']
+FILE 2026-08-04T08-34-16-817Z_019fcbe8-c271-7bed-a721-dcb132efd68b.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=4 models=['grok-4-5']
+FILE 2026-08-04T08-33-45-158Z_019fcbe8-46c6-7519-99ae-a3b0922b2fd9.jsonl cwd=/home/alex/pi-bench-ws tools=10 toolResults=10 fails~=2 models=['grok-4-5']
+FILE 2026-08-04T08-33-17-660Z_019fcbe7-db5c-760c-8e9e-e42d0663a0a6.jsonl cwd=/home/alex/pi-bench-ws tools=10 toolResults=10 fails~=2 models=['grok-4-5']
+FILE 2026-08-04T08-32-41-269Z_019fcbe7-4d35-7cf0-a5aa-30165b82b2ce.jsonl cwd=/home/alex/pi-bench-ws tools=13 toolResults=13 fails~=4 models=['grok-4-5']
+FILE 2026-08-04T08-32-34-283Z_019fcbe7-31eb-7d19-bb7d-1b63d1607371.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=4 models=['grok-4-5']
+FILE 2026-08-04T08-32-10-167Z_019fcbe6-d3b7-7632-9524-eb58108e3b25.jsonl cwd=/home/alex/pi-bench-ws tools=12 toolResults=12 fails~=2 models=['grok-4-5']
+FILE 2026-08-04T08-31-42-362Z_019fcbe6-671a-7aaa-9180-84034dd073cf.jsonl cwd=/home/alex/pi-bench-ws tools=10 toolResults=10 fails~=2 models=['grok-4-5']
+FILE 2026-08-04T08-31-11-748Z_019fcbe5-ef84-7f9c-bebc-ebd5f144d9ec.jsonl cwd=/home/alex/pi-bench-ws tools=10 toolResults=10 fails~=3 models=['grok-4-5']
+TYPE_COUNTS [('message', 1134), ('thinking_level_change', 53), ('model_change', 26), ('session', 25), ('custom', 25), ('session_info', 24), ('custom_message', 2)]
+MSG_ROLES [('toolResult', 614), ('assistant', 474), ('user', 46)]
+TOOLS [('ctx_shell', 176), ('ctx_read', 127), ('ctx_execute_file', 95), ('ctx_execute', 57), ('ctx_ls', 39), ('write', 20), ('ctx_grep', 19), ('ctx_search', 16), ('edit', 16), ('ctx_batch_execute', 15), ('ctx_find', 13), ('ctx_edit', 9), ('ctx_fetch_and_index', 9), ('workflow', 5), ('last30days_research', 1), ('lean_ctx', 1)]
+TOTAL_TOOLS 618 approx_fail 115
+skills_dirs 48
+skill_mds 44
+extensions ['pi-lean-ctx', 'session-index.ts', 'invest-tools.ts', 'transcript-pruner.ts', 'pi-continue.json', 'tool-trimmer.ts']
+agents ['Explore.md', '.glla-subagent-sync.json']
+
+
+
+===== AROUND JUDGMENT =====
+ected = observations.slice(0, MAX_SEMANTIC_OBSERVATIONS).map((row) => {
+    const refs = rows(row?.evidenceRefs).length;
+    return `- ${cleanText(row.summary)}${refs > 0 ? ` (${refs} bounded evidence reference(s))` : ""}`;
+  });
+  if (observations.length > selected.length) selected.push(`- ${observations.length - selected.length} additional analyzer observation(s) omitted.`);
+  return selected;
+}
+
+function deliveryLines(deliveryEvidence = []) {
+  const evidence = rows(deliveryEvidence);
+  const selected = evidence.slice(0, MAX_DELIVERY_ROWS).map((row) => {
+    const summary = cleanText(row?.summary);
+    return `- ${summary || "Delivery event"}: ${cleanText(row?.status || "status not stated")}; level ${cleanText(row?.level || "not stated")}; ${rows(row?.evidenceRefs).length} bounded reference(s).`;
+  });
+  if (evidence.length > selected.length) selected.push(`- ${evidence.length - selected.length} additional delivery row(s) omitted.`);
+  return selected;
+}
+
+function interventionLines(interventionLedger = []) {
+  const interventions = rows(interventionLedger);
+  const selected = interventions.slice(0, MAX_INTERVENTIONS).map((entry) => {
+    const asset = entry?.asset ?? {};
+    const result = entry?.result ?? {};
+    return `- ${cleanText(asset.label || asset.type || "Intervention")}: owner ${cleanText(entry?.owner || "not stated")}; result ${cleanText(result.state || "not stated")}; primary metric ${cleanText(entry?.primaryMetric?.id || "not stated")}; guardrail ${cleanText(entry?.guardrailMetric?.id || "not stated")}; stop or revert when ${cleanText(entry?.stopOrRevertCondition || "not stated", 260)}`;
+  });
+  if (interventions.length > selected.length) selected.push(`- ${interventions.length - selected.length} additional intervention row(s) omitted.`);
+  return selected;
+}
+
+function assessmentBoundaryLines(assessmentDecisions = []) {
+  return rows(assessmentDecisions).slice(0, 8).map((decision) => {
+    if (decision?.kind === "repository-review") {
+      return `- Repository review: ${cleanText(decision.status || "status not stated")}; ${rows(decision.requiredFrameworks).length} framework(s), ${rows(decision.requiredChecks).length} repository check(s), and ${rows(decision.requiredSoftwareFluencyCapabilities).length} Software Fluency capability review(s) remain in scope.`;
+    }
+    if (decision?.kind === "score-review") {
+      return `- Score review: ${cleanText(decision.status || "status not stated")}; ${rows(decision.dimensions).length} dimension(s) await AI judgment.`;
+    }
+    if (decision?.kind === "session-insights") {
+      return `- Session observation review: ${cleanText(decision.status || "status not stated")}; ${count(decision.cardCount)} observation card(s) from ${count(decision.analyzedSessionCount)} analyzed session(s).`;
+    }
+    return `- ${humanLabel(decision?.kind || "review boundary")}: ${cleanText(decision?.status || "status not stated")}.`;
+  });
+}
+
+export function formatHarnessEvidence(source, { workspace, platform, language }) {
+  const lines = [
+    "HARNESS ANALYSIS EVIDENCE",
+    "",
+    "This is a read-only evidence brief, not a report conclusion.",
+    "Projected report conclusions are intentionally excluded; use the observations and boundaries below to make your own evidence-backed decisions.",
+    `Worksp
+FOUND /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/scripts/harness-analysis/task-loop-report.mjs
+FOUND /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/scripts/harness-analysis/report-source/apply-review.mjs
+FILE /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/scripts/harness-analysis/fluency-dimensions.mjs
+ scoreish ids ['change-validation', 'validate-again', 'later-validation']
+FILE /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/scripts/harness-analysis/task-loop-report.mjs
+ scoreish ids ['session-usage-outcome-review-gap']
+FILE /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/scripts/harness-analysis/task-loop-source.mjs
+ scoreish ids ['core-diagnostic-coverage']
+FILE /home/alex/.pi/agent/npm/node_modules/@qoder-ai/better-harness/scripts/harness-analysis/canvas-preview/fixture.mjs
+ scoreish ids ['change-validation']
+
+SORTED BY ERRORS:
+ 41 err |  514 tc | allow  9 | edit 10 | compact 2 | --home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl
+   models [['kimi-k3', 444], ['zai-org/glm-5.2', 60], ['laguna-s-2.1-free', 5]]
+   top [['ctx_shell', 300], ['write', 63], ['ctx_read', 46], ['edit', 41], ['ctx_grep', 21]]
+   fails [['isError', 41], ['soft_error_text', 15], ['enoent', 14], ['allowlist_block', 9], ['timeout', 9], ['edit_context_miss', 8]]
+   sample {'tool': 'ctx_read', 'reasons': ['isError', 'enoent'], 'isError': True, 'snippet': 'Error: could not read /home/alex/.pi/agent/~/.pi/agent/skills/ce-lite/SKILL.md'}
+ 15 err |  139 tc | allow 13 | edit  3 | compact 0 | --home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl
+   models [['grok-4-5', 65]]
+   top [['ctx_read', 55], ['ctx_shell', 35], ['write', 14], ['ctx_grep', 10], ['edit', 9]]
+   fails [['isError', 15], ['allowlist_block', 13], ['lean_ctx_failed', 5], ['exception', 3], ['context_overflow', 2], ['edit_context_miss', 2]]
+   sample {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/writing-great-skills/**/* /home/alex/.pi/agent'}
+ 13 err |  257 tc | allow  5 | edit  8 | compact 0 | --home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl
+   models [['zai-org/glm-5.2', 236], ['deepseek-v4-flash', 2], ['deepseek-v4-flash-free', 1]]
+   top [['ctx_shell', 137], ['ctx_read', 44], ['write', 22], ['ctx_execute', 18], ['ctx_batch_execute', 11]]
+   fails [['timeout', 15], ['isError', 13], ['context_overflow', 7], ['soft_error_text', 5], ['allowlist_block', 5], ['edit_context_miss', 5]]
+   sample {'tool': 'ctx_read', 'reasons': ['isError', 'enoent'], 'isError': True, 'snippet': 'Error: could not read /home/alex/.pi/agent/.auto/prompt.md'}
+ 13 err |  103 tc | allow  7 | edit  3 | compact 0 | --home-alex-.pi-agent--/2026-08-03T06-46-22-885Z_019fc65f-9da5-77b5-9847-81e5548830ed.jsonl
+   models [['zai-org/glm-5.2', 92]]
+   top [['ctx_shell', 47], ['ctx_read', 14], ['ctx_fetch_and_index', 11], ['write', 10], ['ctx_search', 8]]
+   fails [['isError', 13], ['allowlist_block', 7], ['rate_limit', 4], ['exception', 3], ['command_not_found', 2], ['context_overflow', 2]]
+   sample {'tool': 'ctx_edit', 'reasons': ['isError'], 'isError': True, 'snippet': "lean-ctx MCP bridge not connected. Use Pi's native edit tool instead."}
+ 13 err |   80 tc | allow  6 | edit  1 | compact 0 | --home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl
+   models [['grok-4-5', 74], ['zai-org-glm-5-2', 1]]
+   top [['ctx_shell', 40], ['ctx_execute', 17], ['ctx_batch_execute', 9], ['ctx_read', 5], ['ctx_fetch_and_index', 3]]
+   fails [['isError', 13], ['allowlist_block', 6], ['context_overflow', 4], ['timeout', 4], ['lean_ctx_failed', 1], ['rate_limit', 1]]
+   sample {'tool': 'ctx_shell', 'reasons': ['isError', 'allowlist_block', 'context_overflow'], 'isError': True, 'snippet': 'f33583abfbd6322f99275689ad5d3bde10066818 autoresearch/pi-token-efficiency-2026-07-14 ## autoresearch/pi-token-efficiency-2026-07-14  M .auto/log.jsonl ?? .auto/bench/ ?? .auto/ideas.md === total 36 drwxr-xr-x 1 alex alex    82 jul 15 10:07 '}
+ 12 err |   66 tc | allow  2 | edit  1 | compact 0 | --home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl
+   models [['grok-4-5', 35]]
+   top [['ctx_shell', 28], ['ctx_read', 16], ['write', 8], ['subagent_status', 5], ['ctx_find', 3]]
+   fails [['isError', 12], ['enoent', 5], ['lean_ctx_failed', 3], ['rate_limit', 2], ['allowlist_block', 2], ['empty_dir_listing', 1]]
+   sample {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/better-harness/**/SKILL.md /home/alex/.pi/agent'}
+ 11 err |   83 tc | allow  4 | edit  4 | compact 0 | --home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl
+   models [['grok-4-5', 46], ['zai-org/glm-5.2', 1]]
+   top [['write', 24], ['ctx_shell', 18], ['edit', 12], ['ctx_read', 10], ['ctx_fetch_and_index', 6]]
+   fails [['isError', 11], ['allowlist_block', 4], ['empty_dir_listing', 1], ['command_not_found', 1], ['enoent', 1]]
+   sample {'tool': 'ctx_fetch_and_index', 'reasons': ['isError'], 'isError': True, 'snippet': 'Failed to fetch https://raw.githubusercontent.com/openai/plugins/main/plugins/life-science-research/plugin.json: HTTP 404 '}
+ 10 err |  110 tc | allow  2 | edit  1 | compact 0 | --home-alex-.pi-agent--/2026-08-04T07-28-21-799Z_019fcbac-6927-75ff-a6a9-bd3037a0c294.jsonl
+   models [['deepseek-v4-flash-free', 109]]
+   top [['ctx_shell', 87], ['ctx_fetch_and_index', 5], ['ctx_find', 4], ['ctx_read', 4], ['ctx_search', 4]]
+   fails [['isError', 10], ['soft_error_text', 4], ['empty_dir_listing', 3], ['lean_ctx_failed', 2], ['enoent', 2], ['timeout', 2]]
+   sample {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find *no-ai-slop* /home/alex/.pi'}
+  9 err |  127 tc | allow  6 | edit  4 | compact 0 | --home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl
+   models [['kimi-k3', 91], ['zai-org/glm-5.2', 17], ['deepseek-v4-flash', 15], ['moonshotai/kimi-k2.6', 3]]
+   top [['ctx_batch_execute', 43], ['ctx_shell', 26], ['edit', 23], ['ctx_read', 13], ['ctx_execute', 11]]
+   fails [['isError', 9], ['enoent', 8], ['exception', 6], ['allowlist_block', 6], ['command_not_found', 5], ['timeout', 5]]
+   sample {'tool': 'ctx_read', 'reasons': ['rate_limit'], 'isError': False, 'snippet': '.bashrc [56L] lines:14-41 14| alias grep=\'grep --color=auto\' 15| PS1=\'[\\u@\\h \\W]\\$ \' 16| 17| export PATH="$HOME/.local/bin:$PATH" 18| 19| # >>> headroom persistent env >>> 20| export HEADROOM_PORT="8787" 21| export HEADROOM_HOST="127.0.0.1"'}
+  8 err |   68 tc | allow  5 | edit  4 | compact 0 | --home-alex-.pi-agent--/2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl
+   models [['grok-4-5', 36]]
+   top [['ctx_shell', 30], ['ctx_read', 20], ['ctx_grep', 6], ['ctx_ls', 3], ['ctx_find', 3]]
+   fails [['isError', 8], ['allowlist_block', 5], ['enoent', 3], ['lean_ctx_failed', 2], ['empty_dir_listing', 2], ['timeout', 2]]
+   sample {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/*.{md,log,json,txt} /home/alex/.pi'}
+  5 err |   50 tc | allow  2 | edit  2 | compact 0 | --home-alex-.pi-agent--/2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl
+   models [['grok-4-5', 24]]
+   top [['ctx_shell', 13], ['ctx_read', 11], ['ctx_search', 7], ['ctx_fetch_and_index', 5], ['ctx_ls', 4]]
+   fails [['isError', 5], ['empty_dir_listing', 2], ['allowlist_block', 2], ['lean_ctx_failed', 1], ['soft_error_text', 1]]
+   sample {'tool': 'ctx_find', 'reasons': ['isError', 'lean_ctx_failed'], 'isError': True, 'snippet': 'lean-ctx failed: find **/*.{md,json,ts,js,yml,yaml} /home/alex/.pi/agent'}
+  3 err |   51 tc | allow  0 | edit  1 | compact 0 | --home-alex-.pi-agent--/2026-08-03T06-46-55-539Z_019fc660-1d33-7e9b-a2ce-cd5ed8aa2b31.jsonl
+   models [['zai-org/glm-5.2', 45]]
+   top [['ctx_shell', 35], ['ctx_read', 10], ['edit', 2], ['ctx_ls', 1], ['ctx_edit', 1]]
+   fails [['isError', 3], ['timeout', 3], ['empty_dir_listing', 1], ['enoent', 1]]
+   sample {'tool': 'ctx_ls', 'reasons': ['empty_dir_listing'], 'isError': False, 'snippet': '/home/alex/.pi/agent/extensions/ (empty directory, depth=3) Compressed 15 → 15 tokens (0%).'}
+
+Expanded vs primary:
+{
+  "n": 25,
+  "toolCalls": 4005,
+  "toolResults": 4000,
+  "isErrorTrue": 357,
+  "allowlist": 131,
+  "compactions": 7,
+  "retries": 9,
+  "editMisses": 86,
+  "readMisses": 18,
+  "userMsgs": 314,
+  "assistantMsgs": 3596,
+  "bytes": 64616215,
+  "lines": 9369,
+  "episodesWithTools": 3189,
+  "sessionsWithTools": 25,
+  "sessionsIdle": 0,
+  "longSessions": 21,
+  "errorRate": 0.0892,
+  "topTools": [
+    [
+      "ctx_shell",
+      1497
+    ],
+    [
+      "ctx_read",
+      444
+    ],
+    [
+      "write",
+      379
+    ],
+    [
+      "bash",
+      355
+    ],
+    [
+      "edit",
+      228
+    ],
+    [
+      "read",
+      166
+    ],
+    [
+      "ctx_batch_execute",
+      149
+    ],
+    [
+      "ctx_execute",
+      114
+    ],
+    [
+      "web_search",
+      110
+    ],
+    [
+      "ctx_grep",
+      75
+    ],
+    [
+      "ctx_edit",
+      45
+    ],
+    [
+      "ctx_fetch_and_index",
+      45
+    ],
+    [
+      "ctx_ls",
+      41
+    ],
+    [
+      "run_experiment",
+      38
+    ],
+    [
+      "fetch_content",
+      37
+    ]
+  ],
+  "failReasons": [
+    [
+      "isError",
+      357
+    ],
+    [
+      "soft_error_text",
+      139
+    ],
+    [
+      "allowlist_block",
+      131
+    ],
+    [
+      "enoent",
+      78
+    ],
+    [
+      "timeout",
+      68
+    ],
+    [
+      "exception",
+      53
+    ],
+    [
+      "command_not_found",
+      51
+    ],
+    [
+      "edit_context_miss",
+      48
+    ],
+    [
+      "context_overflow",
+      43
+    ],
+    [
+      "rate_limit",
+      41
+    ],
+    [
+      "lean_ctx_failed",
+      21
+    ],
+    [
+      "permission_denied",
+      18
+    ],
+    [
+      "empty_dir_listing",
+      17
+    ],
+    [
+      "eacces",
+      14
+    ],
+    [
+      "not_a_directory",
+      3
+    ]
+  ],
+  "toolErrors": [
+    [
+      "ctx_shell:isError",
+      147
+    ],
+    [
+      "ctx_shell:allowlist_block",
+      78
+    ],
+    [
+      "edit:isError",
+      54
+    ],
+    [
+      "edit:edit_context_miss",
+      43
+    ],
+    [
+      "bash:command_not_found",
+      42
+    ],
+
+inventory {'inWindowJsonl': 469, 'workspaceSessionsInWindow': 17, 'primaryScanned': 12, 'expandedScanned': 25, 'primaryPaths': ['--home-alex-.pi-agent--/2026-07-29T06-48-50-329Z_019faca2-1199-7318-8b8a-96b950021024.jsonl', '--home-alex-.pi-agent--/2026-08-03T05-19-41-001Z_019fc610-3dc9-75cf-8f0d-e2ecdc9e5b8f.jsonl', '--home-alex-.pi-agent--/2026-07-30T14-23-08-320Z_019fb368-5a20-744b-9029-97af95669f7f.jsonl', '--home-alex-.pi-agent--/2026-08-04T12-02-09-776Z_019fcca7-14f0-705e-b5f0-bc36773ad4ac.jsonl', '--home-alex-.pi-agent--/2026-08-04T07-28-21-799Z_019fcbac-6927-75ff-a6a9-bd3037a0c294.jsonl', '--home-alex-.pi-agent--/2026-08-04T08-06-44-570Z_019fcbcf-8c5a-70a2-bb5d-b1e2e5de7fe9.jsonl', '--home-alex-.pi-agent--/2026-07-31T06-20-32-495Z_019fb6d4-e16f-71cd-92ba-aa96dce6df80.jsonl', '--home-alex-.pi-agent--/2026-08-03T06-46-22-885Z_019fc65f-9da5-77b5-9847-81e5548830ed.jsonl', '--home-alex-.pi-agent--/2026-08-04T14-12-35-998Z_019fcd1e-801e-7235-9c42-555c6cbf161d.jsonl', '--home-alex-.pi-agent--/2026-08-04T20-56-07-280Z_019fce8f-ef70-7bad-b8ba-79dd0e88354e.jsonl', '--home-alex-.pi-agent--/2026-08-04T15-42-21-342Z_019fcd70-ac9e-78db-b4bf-b0b637dd48f7.jsonl', '--home-alex-.pi-agent--/2026-08-03T06-46-55-539Z_019fc660-1d33-7e9b-a2ce-cd5ed8aa2b31.jsonl']}
+
+CANDIDATE PATHS:
+{
+  "ref": "E1",
+  "contextGroup": "G1",
+  "request": {
+    "summary": "/skill:autoresearch-create audit existing autoresearch and review the latest harness engineering techniques and lets improve our existing configuration in token efficiency,accuracy, tool calls, memory etc - review existing plugins and consi\u2026",
+    "key": "req:6a6e01ef6893",
+    "occurrences": 1,
+    "intermediate": "lets actualy audit context-mode - its clearly a big part of the token savings we are lookig for (ref: https://github.com\u2026",
+    "followUp": "ok - the changes should be active now - is there anything else that can be audited via ponytail that can be compressed further? Any system prompts native to pi \u2026",
+    "observedTurns": 7,
+    "omittedTurns": 4
+  },
+  "changes": {
+    "edits": 0,
+    "files": 0
+  },
+  "evidenceClasses": [
+    "validation-repair",
+    "boundary-change",
+    "operation-control",
+    "read-only-work"
+  ],
+  "acceptanceSignals": [
+    "check-observed",
+    "assistant-handoff"
+  ],
+  "acceptanceEvidenceCeiling": "lead",
+  "frictionConsequenceSignals": [],
+  "activity": {
+    "toolCalls": 17
+  },
+  "workTrace": {
+    "steps": [
+      "change",
+      "check",
+      "handoff"
+    ]
+  },
+  "checks": [
+    {
+      "kind": "lint",
+      "status": "passed",
+      "relation": "no-change-context"
+    }
+  ],
+  "friction": {
+    "executionFailures": 11,
+    "permissionDenials": 0
+  },
+  "closure": "no-change-observed",
+  "result": {
+    "assistantHandoffObserved": true
+  }
+
+---
+{
+  "ref": "E2",
+  "contextGroup": "G2",
+  "request": {
+    "summary": "completely remove the OMP agent harness from this system, including all associated plugins. Ask questions if yo uare unsure of what to remove",
+    "key": "req:8b79c326a373",
+    "occurrences": 1,
+    "intermediate": "1. if the <path> harness binary doesnt use RTK or headroom - lets remove them both. If I want to install them for anothe\u2026",
+    "followUp": "great- lets continue harness improvements with this: ~/Projects/pi-harness-config/research/harness-survey-actions-20260730.md",
+    "observedTurns": 8,
+    "omittedTurns": 5
+  },
+  "changes": {
+    "edits": 0,
+    "files": 0
+  },
+  "evidenceClasses": [
+    "boundary-change",
+    "lifecycle-demand",
+    "operation-control",
+    "read-only-work"
+  ],
+  "acceptanceSignals": [
+    "assistant-handoff"
+  ],
+  "acceptanceEvidenceCeiling": "lead",
+  "frictionConsequenceSignals": [],
+  "activity": {
+    "toolCalls": 26
+  },
+  "workTrace": {
+    "steps": [
+      "change",
+      "handoff"
+    ]
+  },
+  "checks": [],
+  "friction": {
+    "executionFailures": 7,
+    "permissionDenials": 0
+  },
+  "closure": "no-change-observed",
+  "lifecycle": [
+    {
+      "intent": "documentation-maintenance",
+      "family": "documentation-maintenance",
+      "dimensionId": "reliable-delivery",
+      "checkId": "acceptance-evidence",
+      "confidence": "High"
+    }
+  ],
+  "result": {
+    "assistantHandoffObserved": true
+  }
+}
+---
+{
+  "ref": "E3",
+  "contextGroup": "G3",
+  "request": {
+    "summary": "run this autoresearch campaign: Campaign 1 \u2014 TSCG tuning (ready to run immediately): - Branch <path> in ~/Projects/pi-harness-config - <path>, <path>, <path> all committed - In the new session: cd ~/Projects/pi-harness-config then /autorese\u2026",
+    "key": "req:0352e87824bb",
+    "occurrences": 1,
+    "intermediate": "can you update not just the ce-lite skill and workflow but also the readme describing what it does --- [workflows mode a\u2026",
+    "followUp": "and all other tweaks, config changes, modifications and everything else are not current on the remote repo for configuraiton replication, and all active on the \u2026",
+    "observedTurns": 9,
+    "omittedTurns": 6
+  },
+  "changes": {
+    "edits": 0,
+    "files": 0
+  },
+  "evidenceClasses": [
+    "boundary-change",
+    "operation-control",
+    "read-only-work"
+  ],
+  "acceptanceSignals": [
+    "assistant-handoff"
+  ],
+  "acceptanceEvidenceCeiling": "lead",
+  "frictionConsequenceSignals": [],
+  "activity": {
+    "toolCalls": 15
+  },
+  "workTrace": {
+    "steps": [
+      "change",
+      "handoff"
+    ]
+  },
+  "checks": [],
+  "friction": {
+    "executionFailures": 13,
+    "permissionDenials": 0
+  },
+  "closure": "no-change-observed",
+  "result": {
+    "assistantHandoffObserved": true
+  }
+}
+---
+{
+  "ref": "E4",
+  "contextGroup": "G4",
+  "request": {
+    "summary": "run this autoresearch campaign 2 only: Campaign 2 \u2014 transcript-pruner (run after campaign 1): - Documented in handoff. Needs enabling the extension + PI_TRANSCRIPT_PRUNE=1, then <path> with request count monitoring. - Risk: previous pruning\u2026",
+    "key": "req:2e5f7cfe1f90",
+    "occurrences": 1,
+    "intermediate": "ok great - and we can guarantee that compaction and pi-continue will work without errors going forward? This has been an\u2026",
+    "followUp": "no - just update the remote repo with the changes you optimized in this session on pruning - if the issue arises later, I will address it ad-hoc. https://github\u2026",
+    "observedTurns": 3,
+    "omittedTurns": 0
+  },
+  "changes": {
+    "edits": 0,
+    "files": 0
+  },
+  "evidenceClasses": [
+    "boundary-change",
+    "operation-control",
+    "read-only-work"
+  ],
+  "acceptanceSignals": [
+    "assistant-handoff"
+  ],
+  "acceptanceEvidenceCeiling": "lead",
+  "frictionConsequenceSignals": [],
+  "activity": {
+    "toolCalls": 3
+  },
+  "workTrace": {
+    "steps": [
+      "change",
+      "handoff"
+    ]
+  },
+  "checks": [],
+  "friction": {
+    "executionFailures": 3,
+    "permissionDenials": 0
+  },
+  "closure": "no-change-observed",
+  "result": {
+    "assistantHandoffObserved": true
+  }
+}
+---
+{
+  "ref": "E5",
+  "contextGroup": "G1",
+  "request": {
+    "summary": "lets do A and C - and lets verify with certainty that lean-ctx.md is actually dead - here is what lean-ctx actually does - I find it odd that after having this extension for weeks you are just now noticing its dead: https://pi.dev/packages/\u2026",
+    "key": "req:8a0c5147b7f8",
+    "occurrences": 1,
+    "intermediate": "ok lets verify now, just restarted pi. And yes - there was clearly a reason we installed pi-lean-ctx - if context-mode m\u2026",
+    "followUp": "yes - lets do 1 and 2 only - and recommend if I should create a new session",
+    "observedTurns": 7,
+    "omittedTurns": 4
+  },
+  "changes": {
+    "edits": 0,
+    "files": 0
+  },
+  "evidenceClasses": [
+    "boundary-change",
+    "operation-control",
+    "read-only-work"
+  ],
+  "acceptanceSignals": [
+    "assistant-handoff"
+  ],
+  "acceptanceEvidenceCeiling": "lead",
+  "frictionConsequenceSignals": [],
+  "activity": {
+    "toolCalls": 6
+  },
+  "workTrace": {
+    "steps": [
+      "change",
+      "handoff"
+    ]
+  },
+  "checks": [],
+  "friction": {
+    "executionFailures": 2,
+    "permissionDenials": 0
+  },
+  "closure": "no-change-observed",
+  "result": {
+    "assistantHandoffObserved": true
+  }
+}
+---

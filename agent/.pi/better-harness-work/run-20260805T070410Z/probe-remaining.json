@@ -1,0 +1,149 @@
+{
+  "skillsFilter": [
+    "!**/last30days/**"
+  ],
+  "packages": 18,
+  "extensionsSettings": 7,
+  "model": "Venice/grok-4-5",
+  "skillsOnDisk": 44,
+  "skills": [
+    "ask-matt",
+    "caveman-compress",
+    "ce-lite",
+    "code-review",
+    "codebase-design",
+    "context-rot-forensics",
+    "conversion-copywriting",
+    "diagnosing-bugs",
+    "domain-modeling",
+    "find-skills",
+    "full-output-enforcement",
+    "graph-engineering",
+    "grill-me",
+    "grill-with-docs",
+    "grilling",
+    "handoff",
+    "harness-doctor",
+    "impeccable",
+    "implement",
+    "improve-codebase-architecture",
+    "last30days",
+    "ponytail",
+    "ponytail-audit",
+    "ponytail-debt",
+    "ponytail-gain",
+    "ponytail-help",
+    "ponytail-review",
+    "poor-mans-distill",
+    "prompt-sharpen",
+    "prototype",
+    "research",
+    "resolving-merge-conflicts",
+    "setup-matt-pocock-skills",
+    "setup-pre-commit",
+    "setup-ts-deep-modules",
+    "shard-security",
+    "tdd",
+    "teach",
+    "to-questionnaire",
+    "to-spec",
+    "to-tickets",
+    "triage",
+    "wayfinder",
+    "writing-great-skills"
+  ],
+  "last30daysBytes": 222272,
+  "has": {
+    "AGENTS": true,
+    "HARNESS": true,
+    "SYSTEM": false,
+    "APPEND": true
+  },
+  "AGENTS.md_bytes": 2887,
+  "HARNESS.md_bytes": 2061,
+  "APPEND_SYSTEM.md_bytes": 1349,
+  "extDir": [
+    "invest-tools.ts",
+    "pi-continue.json",
+    "pi-lean-ctx",
+    "session-index.ts",
+    "tool-trimmer.ts",
+    "transcript-pruner.ts"
+  ],
+  "extSettings": [
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
+    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts",
+    "~/.pi/agent/extensions/transcript-pruner.ts"
+  ],
+  "agents": [
+    ".glla-subagent-sync.json",
+    "Explore.md"
+  ],
+  "inventoryGenerated": "2026-07-30T16:03:28+0100",
+  "sessionSample": {
+    "files": 20,
+    "toolCalls": 694,
+    "toolResults": 693,
+    "isErr": 86,
+    "allowBlocksApprox": 65,
+    "editMissApprox": 12,
+    "topTools": [
+      [
+        "ctx_shell",
+        238
+      ],
+      [
+        "ctx_read",
+        143
+      ],
+      [
+        "ctx_execute_file",
+        78
+      ],
+      [
+        "write",
+        41
+      ],
+      [
+        "ctx_execute",
+        41
+      ],
+      [
+        "ctx_ls",
+        29
+      ],
+      [
+        "ctx_grep",
+        20
+      ],
+      [
+        "ctx_batch_execute",
+        17
+      ],
+      [
+        "edit",
+        17
+      ],
+      [
+        "ctx_search",
+        16
+      ],
+      [
+        "ctx_find",
+        13
+      ],
+      [
+        "ctx_edit",
+        10
+      ]
+    ],
+    "sessionsAfterFix": 1,
+    "toolsAfterFix": 176
+  },
+  "gitTrackedAgent": "395",
+  "gitRemote": "origin\thttps://github.com/armchairfuturist-code/pi-harness-config.git (fetch)\norigin\thttps://github.com/armchairfuturist-code/pi-harness-config.git (push)"
+}

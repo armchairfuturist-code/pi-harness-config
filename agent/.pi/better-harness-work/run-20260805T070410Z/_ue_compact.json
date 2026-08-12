@@ -1,0 +1,96 @@
+{
+  "ueKeys": [
+    "schemaVersion",
+    "selection",
+    "roles",
+    "longSessions",
+    "accounting",
+    "modelUsage",
+    "outcomeReview",
+    "tokenTotals",
+    "reviewLead"
+  ],
+  "selection": {
+    "strategy": "all-eligible",
+    "eligibleSessionCount": 17,
+    "analyzedSessionCount": 17,
+    "complete": true
+  },
+  "longSessions": {
+    "activeCount": 7,
+    "wallOnlyCount": 0,
+    "longestActiveMinutes": 498,
+    "activeRatio": 0.4118,
+    "estimate": {
+      "method": "capped-event-gap",
+      "activeThresholdMinutes": 45,
+      "gapCapMinutes": 5,
+      "idleGapMinutes": 30
+    },
+    "samples": [
+      {
+        "alias": "S1",
+        "role": "user-thread-candidate",
+        "activeMinutes": 498,
+        "failureCount": 41
+      },
+      {
+        "alias": "S2",
+        "role": "user-thread-candidate",
+        "activeMinutes": 97.2,
+        "failureCount": 9
+      },
+      {
+        "alias": "S3",
+        "role": "user-thread-candidate",
+        "activeMinutes": 80.9,
+        "failureCount": 13
+      },
+      {
+        "alias": "S4",
+        "role": "user-thread-candidate",
+        "activeMinutes": 65.8,
+        "failureCount": 13
+      }
+    ]
+  },
+  "outcomeReview": {
+    "status": "required",
+    "reviewedCandidateCount": 0,
+    "reviewedActiveLongCount": 0,
+    "comparableModelOutcomeEvidence": false,
+    "recommendation": "controlled-a-b-required"
+  },
+  "roles": {
+    "userThreadCandidateCount": 17,
+    "childAgentCandidateCount": 0
+  },
+  "longSessionsStr": "{\"activeCount\":7,\"wallOnlyCount\":0,\"longestActiveMinutes\":498,\"activeRatio\":0.4118,\"estimate\":{\"method\":\"capped-event-gap\",\"activeThresholdMinutes\":45,\"gapCapMinutes\":5,\"idleGapMinutes\":30},\"samples\":[{\"alias\":\"S1\",\"role\":\"user-thread-candidate\",\"activeMinutes\":498,\"failureCount\":41},{\"alias\":\"S2\",\"role\":\"user-thread-candidate\",\"activeMinutes\":97.2,\"failureCount\":9},{\"alias\":\"S3\",\"role\":\"user-thread-candidate\",\"activeMinutes\":80.9,\"failureCount\":13},{\"alias\":\"S4\",\"role\":\"user-thread-candidate\",\"activeMinutes\":65.8,\"failureCount\":13}]}",
+  "outcomeReviewStr": "{\"status\":\"required\",\"reviewedCandidateCount\":0,\"reviewedActiveLongCount\":0,\"comparableModelOutcomeEvidence\":false,\"recommendation\":\"controlled-a-b-required\"}",
+  "restKeys": {
+    "accounting": "{\"mode\":\"host-estimated\",\"responseCount\":1366,\"modelAttributedResponseCount\":1366,\"unattributedResponseCount\":0,\"usageFieldObservedCount\":1366,\"nonZeroUsageCount\":1349,\"exactCreditsAvailable\":false,\"pricingVersion\":null}",
+    "modelUsage": "[{\"model\":\"kimi-k3\",\"responseCount\":535,\"usageFieldObservedCount\":535,\"nonZeroUsageCount\":529},{\"model\":\"zai-org/glm-5.2\",\"responseCount\":449,\"usageFieldObservedCount\":449,\"nonZeroUsageCount\":443},{\"model\":\"grok-4-5\",\"responseCount\":240,\"usageFieldObservedCount\":240,\"nonZeroUsageCount\":240},{\"model\":\"deepseek-v4-flash-free\",\"responseCount\":120,\"usageFieldObservedCount\":120,\"nonZeroUsageCount\":119},{\"model\":\"deepseek-v4-flash\",\"responseCount\":15,\"usageFieldObservedCount\":15,\"nonZeroUsageCount\":14",
+    "tokenTotals": "{\"inputTokens\":12070827,\"outputTokens\":893093,\"cacheReadInputTokens\":135072320,\"cacheCreationInputTokens\":0}",
+    "reviewLead": "{\"id\":\"session-usage-outcome-review-gap\",\"title\":\"7 long-session candidates still need outcome review\",\"reason\":\"7 of 17 analyzed sessions (41.2%) crossed the estimated active-time threshold; the longest estimate was 498 minutes and 0 have reviewed outcomes. 0 additional long spans may be idle or resumed work. This is an investigation lead, not a confirmed efficiency, decomposition, tool, or model problem.\",\"expectedOutcome\":\"Each displayed candidate is classified by task family, outcome, and fr"
+  },
+  "ua": {
+    "keys": [
+      "schemaVersion",
+      "dateBasis",
+      "measurementBasis",
+      "truncated",
+      "dates",
+      "sessions",
+      "models",
+      "skills"
+    ],
+    "x_schemaVersion": "2",
+    "x_dateBasis": "\"UTC\"",
+    "x_measurementBasis": "\"session-starts-active-estimate-model-active-session-days-skill-invocations-and-loads\"",
+    "x_truncated": "false",
+    "x_dates": "[\"2026-07-20\",\"2026-07-21\",\"2026-07-22\",\"2026-07-23\",\"2026-07-24\",\"2026-07-25\",\"2026-07-26\",\"2026-07-27\",\"2026-07-28\",\"2026-07-29\",\"2026-07-30\",\"2026-07-31\",\"2026-08-01\",\"2026-08-02\",\"2026-08-03\",\"2026-08-04\"]",
+    "x_sessions": "{\"total\":17,\"starts\":[1,0,0,0,0,0,0,0,0,1,2,3,0,0,5,5],\"activeMinutes\":[0.5,0,0,0,0,0,0,0,0,498,102.5,53.9,0,0,139.5,187.8]}",
+    "x_models": "[{\"name\":\"zai-org/glm-5.2\",\"total\":7,\"daily\":[0,0,0,0,0,0,0,0,0,0,2,2,0,0,3,0]},{\"name\":\"grok-4-5\",\"total\":5,\"daily\":[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,4]},{\"name\":\"kimi-k3\",\"total\":4,\"daily\":[0,0,0,0,0,0,0,0,0,1,3,0,0,0,0,0]},{\"name\":\"deepseek-v4-flash-free\",\"total\":3,\"daily\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1]},{\"name\":\"deepseek-v4-flash\",\"total\":2,\"daily\":[0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0]},{\"name\":\"laguna-s-2.1-free\",\"total\":1,\"daily\":[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]},{\"name\":\"Other\",\"total\":2,\"daily\":[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0]}]",
+    "x_skills": "[]"
+  }
+}

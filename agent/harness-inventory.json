@@ -1,0 +1,153 @@
+{
+  "generated": "2026-08-07T09:25:59+0100",
+  "harnesses": [
+    {
+      "name": "pi",
+      "status": "active",
+      "binaries": {
+        "pi": "/run/user/1000/fnm_multishells/23535_1786091016374/bin/pi"
+      },
+      "config_dirs": {
+        ".pi": "/home/alex/.pi"
+      }
+    },
+    {
+      "name": "codex",
+      "status": "active",
+      "binaries": {
+        "codex": "/home/alex/.local/bin/codex",
+        "ocx": "/run/user/1000/fnm_multishells/23535_1786091016374/bin/ocx",
+        "opencodex": "/run/user/1000/fnm_multishells/23535_1786091016374/bin/opencodex"
+      },
+      "config_dirs": {
+        ".codex": "/home/alex/.codex",
+        ".opencodex": "/home/alex/.opencodex"
+      }
+    },
+    {
+      "name": "reasonix",
+      "status": "active",
+      "binaries": {
+        "reasonix": "/run/user/1000/fnm_multishells/23535_1786091016374/bin/reasonix"
+      },
+      "config_dirs": {
+        ".reasonix": "/home/alex/.reasonix"
+      }
+    },
+    {
+      "name": "mimocode",
+      "status": "absent",
+      "binaries": {},
+      "config_dirs": {}
+    },
+    {
+      "name": "omp",
+      "status": "ghost(expected-absent)",
+      "binaries": {},
+      "config_dirs": {}
+    },
+    {
+      "name": "cursor",
+      "status": "ghost(expected-absent)",
+      "binaries": {},
+      "config_dirs": {}
+    }
+  ],
+  "providers": {
+    "pi": {
+      "Venice": {
+        "baseUrl": "https://api.venice.ai/api/v1",
+        "api": "openai-completions",
+        "models": 34
+      },
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com",
+        "api": "openai-completions",
+        "models": 2
+      },
+      "deepseek-responses": {
+        "baseUrl": "https://api.deepseek.com",
+        "api": "openai-responses",
+        "models": 1
+      }
+    },
+    "reasonix": {
+      "deepseek-flash": {
+        "base_url": "https://api.deepseek.com",
+        "api_key_env": "DEEPSEEK_API_KEY"
+      },
+      "deepseek-pro": {
+        "base_url": "https://api.deepseek.com",
+        "api_key_env": "DEEPSEEK_API_KEY"
+      }
+    },
+    "codex": {
+      "openai_base_url": "http://127.0.0.1:10100/v1",
+      "catalog": "/home/alex/.codex/opencodex-catalog.json",
+      "note": "proxied via app-server; providers live in catalog, not edited by provider_ops"
+    }
+  },
+  "credentials_env_d": {
+    "deepseek.sh": [
+      "DEEPSEEK_API_KEY"
+    ],
+    "gh_token.sh": [
+      "GH_TOKEN"
+    ],
+    "openrouter.sh": [
+      "OPENROUTER_API_KEY"
+    ]
+  },
+  "npm_globals": [
+    "@bitkyc08/opencodex",
+    "@earendil-works/pi-coding-agent",
+    "context-mode",
+    "corepack",
+    "npm",
+    "reasonix"
+  ],
+  "pi_stack": {
+    "packages": [
+      "npm:@ogulcancelik/pi-model-thinking",
+      "npm:@plannotator/pi-extension",
+      "npm:context-mode",
+      "npm:pi-autoresearch",
+      "npm:pi-cache-optimizer",
+      "npm:pi-context-usage",
+      "npm:pi-continue",
+      "npm:pi-herdr-btw",
+      "npm:pi-lean-ctx",
+      "npm:pi-slim",
+      "npm:pi-tscg",
+      "npm:@quintinshaw/pi-dynamic-workflows"
+    ],
+    "extensions": [
+      "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
+      "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
+      "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
+      "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
+      "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
+      "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts",
+      "~/.pi/agent/extensions/transcript-pruner.ts",
+      "~/.pi/agent/extensions/session-index.ts",
+      "~/.pi/agent/extensions/runtime-discipline.ts"
+    ],
+    "skills": [
+      "ask-matt",
+      "impeccable",
+      "last30days",
+      "teach",
+      "triage",
+      "wait-what",
+      "writing-for-agents"
+    ],
+    "local_extension_files": [
+      "pi-lean-ctx",
+      "runtime-discipline.ts",
+      "session-index.ts",
+      "transcript-pruner.ts"
+    ],
+    "defaultProvider": "Venice",
+    "defaultModel": "deepseek-v4-flash-0731"
+  }
+}

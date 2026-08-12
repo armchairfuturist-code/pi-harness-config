@@ -1,0 +1,2 @@
+[2026-07-28T15:35:50.456Z] [ERROR] agent data-feed-research attempt 1/1 failed: Subagent did not produce valid structured_output after repair attempts
+[2026-07-28T15:35:50.456Z] [INFO] waiting for 1 outstanding agent() call(s) to settle before this run completes
