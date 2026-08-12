@@ -1,8 +1,0 @@
-{
-  "model": "Venice/grok-4-6",
-  "hold_defaultThinkingLevel": "medium",
-  "levels_phase1": ["low", "medium", "high"],
-  "auto_reasoning_phase1": false,
-  "canaries": ["t1", "t3"],
-  "reps": 2
-}

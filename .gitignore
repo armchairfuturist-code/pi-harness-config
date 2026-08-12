@@ -42,3 +42,5 @@ hil/.scratch-*
 # Generated benchmark output (noise)
 bench/out/
 
+
+.skillopt-sleep/
