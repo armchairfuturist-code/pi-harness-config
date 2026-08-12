@@ -587,3 +587,26 @@ channels (APPEND_SYSTEM + skill). Reinstall path: `./install.sh --skip-packages`
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
+
+### 2026-08-12 — harness floor after howaboua trio (audit + probe repair) [keep]
+Objective: validate pi-smart-btw 0.2.6 / pi-auto-reasoning-tool 0.1.11 / pi-skill-model-facing-api-design 0.0.5
++ defaultThinkingLevel medium pay for themselves; find ≥1 measured tool-contract improvement.
+**Fix shipped (durable):** repaired `bench/probe.sh` — it had silently emitted `probe_total=null` for 24 runs.
+Three breakages: ran `pi -p` (plain text) instead of `--mode json`; wrote to `bench/out/` while `observe.sh`
+read `.scratch/bench-results/`; regex looked for `"input_tokens"` but pi outputs `"input"`. Now parses NDJSON
+`message_end.usage`. (Write-tool confinement to `/home/alex/.pi/agent` meant durable edits under `/home/alex/.pi/`
+had to go through ctx_shell — first attempt silently stayed on the project root.)
+**Findings:**
+- Trio is floor-free: n=6 causal A/B (settings.json `packages[]` on/off) shows full overlap
+  (ON med 5512/range 5387-5655; OFF med 5529/range 5279-5592; delta_median -18). Earlier n=3 "~244 cost"
+  was sampling luck — corrected.
+- Trio zero-footprint at the tool-contract level: smart-btw UI-only (0 tokens), model-facing-api-design is an
+  on-demand skill, change_reasoning is a locked reasoning knob.
+- Epoch floor ~5.4-5.6k (kimi-k3; 6.4k on prior deepseek epoch). cacheRead prefix invariant ~6144 when warm.
+- Only large reducible surface: base ctx_* tool descriptions ~2148 tok (~1/3 of cached prefix) — lives in
+  `context-mode/cli.bundle.mjs`, outside Files-in-Scope (out-of-scope dependency). Not edited.
+- **No in-scope, non-locked, one-variable tool-contract reduction exists.** Declined to fabricate an out-of-scope
+  edit or risk corrupting the locked 742KB core bundle (diagnostic-only; reverted, never shipped).
+**Locked (unchanged):** KEEP=4 | 24k/20k | strip on | maxDesc=20 | provider-agnostic | no reasoning/btw knob changes.
+**Deliverables:** repaired probe + epoch floor + trio-floor-free proof + `research/harness-floor-after-howaboua-20260812.md`.
+**Verify:** `bash hil/observe.sh <label>` now reports real probe_total (was null); findings doc + ledger row it.
