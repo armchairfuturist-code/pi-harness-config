@@ -27,6 +27,13 @@ KEEP / compaction / tscg knobs.
 - Event-specific guidance → custom messages, UI notifications, or failure-only appends
 - Measure: `bench/probe.sh` emits `cache_hit_pct` = cacheRead/(cacheRead+input)
 
+## Tool execution (preventive)
+- Prefer ctx_read/ctx_edit/ctx_execute/ctx_grep/ctx_find/ctx_ls over raw shell.
+- Never inline `python3 -c` / `node -e`, heredocs, or `find -exec` — write a script file, then run it.
+- After an edit miss: re-read the exact slice; never retry identical stale text.
+- After a shell policy block: change tool strategy; never retry the identical command.
+- `runtime-discipline.ts` adds recovery guidance only after a failure; the lines above prevent the top measured error signatures (191 blocked + ~13 retry-loops/session, 2026-08-07).
+
 ## CE-lite activation
 - `APPEND_SYSTEM.md` — imperative one-liner (when to load)
 - `extensions/ce-lite-preload.ts` — mechanical preload of skill body on heuristic match
@@ -45,6 +52,7 @@ KEEP / compaction / tscg knobs.
 - `bench/semantic-canary.sh` — skill semantics + preload H4/heuristics + optional session efficiency
 - `bench/test-ce-lite-preload.mjs` — unit heuristics
 - `bundled-skills/harness-doctor/scripts/trajectory_metrics.py` — per-session tool/error metrics
+- `scripts/skillopt-sleep-nightly.sh` — nightly validation-gated skill optimization (SkillOpt-Sleep; compound stage, human adopt)
 
 ## Install
 ```bash

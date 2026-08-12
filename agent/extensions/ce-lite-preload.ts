@@ -122,6 +122,9 @@ const CONDENSED_CONTRACT = `# CE-lite contract (condensed)
 ## Worker safety
 No destructive ops without consent; declared scope only; no creds/browser/remote-social.
 
+## Shell
+Never inline `python3 -c` / `node -e`, heredocs, or `find -exec`. Write a script file, then run it.
+
 ## Footer
 Done: <passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>
 `;

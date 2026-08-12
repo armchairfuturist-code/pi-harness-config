@@ -2,4 +2,6 @@ CE-lite: for any request that involves 2+ steps, file edits, new code, debugging
 
 Read discipline: before ctx_read on binary/structured/jumbo paths, probe first (file/stat/wc) — use extractors (pdftotext/sqlite3/jq) or mode=signatures|map. On file-not-found, ctx_find before retrying. Before ctx_edit, re-read if pruned. See ~/.pi/agent/skills/smart-read/SKILL.md.
 
+Shell discipline: never inline `python3 -c`/`node -e`, heredocs, or `find -exec` — write a script file, then run it. After a policy block, change approach; never retry the same command.
+
 Output contract (default): answer first — line one is the conclusion; short by default, the least that fully answers. Deliverables you were asked to produce run full length, unwrapped — no lead-in or sign-off. Controlled English (STE100): short sentences, one idea per sentence, active voice, plain words, one term per thing, no jargon/filler. Never trim a warning, risk, or precondition. Scan-friendly: bold lead-in per point, short paragraphs, no repetition, one question at a time.

@@ -600,3 +600,45 @@ had to go through ctx_shell — first attempt silently stayed on the project roo
 **Locked (unchanged):** KEEP=4 | 24k/20k | strip on | maxDesc=20 | provider-agnostic | no reasoning/btw knob changes.
 **Deliverables:** repaired probe + epoch floor + trio-floor-free proof + `research/harness-floor-after-howaboua-20260812.md`.
 **Verify:** `bash hil/observe.sh <label>` now reports real probe_total (was null); findings doc + ledger row it.
+
+## Iter 18 — 2026-08-12 — SkillOpt-Sleep (compound stage) + preventive shell contract
+
+**Trigger:** operator-approved gap analysis (microsoft/SkillOpt evaluation). Repo had zero
+SkillOpt references; error rate (not token floor) is now the binding cost.
+
+**Changes shipped (capability + error-rate fix, no locked-knob reopen):**
+
+1. **Preventive tool-execution contract restored** (was dropped in the ce-lite update).
+   - `APPEND_SYSTEM.md`: +"Shell discipline: never inline `python3 -c`/`node -e`, heredocs,
+     or `find -exec` — write a script file, then run it. After a policy block, change approach;
+     never retry the same command." (~187 chars ≈ +45–60 tok fresh prefix, cacheRead-covered).
+   - `HARNESS.md`: +"Tool execution (preventive)" section (5 bullets + measured rationale).
+   - `extensions/ce-lite-preload.ts` CONDENSED_CONTRACT: +"## Shell" section (once/session).
+   - Targets the measured top error signatures: 191 blocked/30d (`python3 -c`/`node -e`/
+     `find -exec`/heredoc) + ~13 retry-loops/session (6296/30d, harness-doctor 2026-08-07).
+
+2. **SkillOpt-Sleep wired as the nightly compound stage** (replaces poor-mans-distill).
+   - NEW `scripts/skillopt-sleep-nightly.sh` (+ install.sh MANIFEST): harvest pi sessions →
+     mine recurring tasks → replay → held-out gate → stage proposal for HUMAN adopt
+     (never auto-adopts). Default = dry-run + mock (zero provider cost); real run =
+     `SKILLOPT_SLEEP_REAL=1` (pi backend). Targets ce-lite + smart-read SKILL.md.
+   - Upstream: github.com/microsoft/SkillOpt (MIT). Pi source (`harvest_pi.py`) + Pi CLI
+     backend (`PiCliBackend`) ship on `main`; installed at ~/Projects/skillopt (venv, py3.12).
+   - **Verified plumbing:** `harvest --source pi` mined real sessions; `dry-run --backend mock`
+     completed the full cycle (night 1 → gate reject, as expected with mock).
+   - REMOVED `bundled-skills/poor-mans-distill` (superseded) + all manifest/preflight/README/
+     .gitignore/inventory references.
+
+3. **SEED `skillopt-pi/`** — offline benchmark-driven skill training scaffold (later/harder):
+   6 deterministic tasks + `scorer.py` (verified: empty rollout = 0.0 baseline) + seed-skill.md
+   + README with the remaining `pi_exec` backend + env-adapter work.
+
+**Not an A/B HIL experiment** — capability addition + error-rate policy fix, not a token knob.
+Probe floor unaffected (no new always-on tool schema; APPEND_SYSTEM delta is cacheRead-covered).
+
+**Next:** after ~2 weeks live, measure `trajectory_metrics.py` blocked/retry counts pre/post the
+preventive shell contract; run a real SkillOpt-Sleep cycle (`SKILLOPT_SLEEP_REAL=1`) and review
+the staged proposal before `adopt`.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation

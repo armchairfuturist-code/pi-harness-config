@@ -267,7 +267,7 @@ You are **done** when:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| Preflight: `BAD skill shadow` | stale `~/.pi/skills/<name>` collides with agent skills | `rm -rf ~/.pi/skills/{ce-lite,harness-doctor,context-rot-forensics,graph-engineering,poor-mans-distill,shard-security}` then re-run |
+| Preflight: `BAD skill shadow` | stale `~/.pi/skills/<name>` collides with agent skills | `rm -rf ~/.pi/skills/{ce-lite,harness-doctor,context-rot-forensics,graph-engineering,shard-security}` then re-run |
 | Preflight: `pi-lean-ctx expected X found Y` | live package ≠ lock | update `packages.lock.json` to the installed version (both repo **and** `~/.pi/agent/packages.lock.json`), commit |
 | `[Skill conflicts]` on pi start | project skills shadow agent skills | `./install.sh` (prunes shadows) |
 | Patches not applied | package version changed | run `node patches/*/apply-patches.mjs` (version-pinned — they refuse silently on mismatch) |

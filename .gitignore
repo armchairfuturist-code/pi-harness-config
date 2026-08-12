@@ -37,9 +37,6 @@ memory/
 scripts/harness-preflight.sh.bak
 .scratch/
 
-skills/poor-mans-distill/distilled_traces.jsonl
-skills/poor-mans-distill/fewshot_digest.md
-skills/poor-mans-distill/route_shortcuts.md
 # iter11 observe/verify log leftovers
 hil/.scratch-*
 # Generated benchmark output (noise)
