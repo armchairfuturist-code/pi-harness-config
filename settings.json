@@ -21,12 +21,6 @@
  "npm:@howaboua/pi-auto-reasoning-tool"
   ],
   "extensions": [
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-title.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/clipboard-image.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/compact-header.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/image-context-pruner.ts",
-    "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/markdown-viewer.ts",
     "~/.pi/agent/extensions/transcript-pruner.ts",
     "~/.pi/agent/extensions/session-index.ts",
     "~/.pi/agent/extensions/runtime-discipline.ts",
