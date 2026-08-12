@@ -70,6 +70,7 @@ scripts/profile.sh|__AGENT__/scripts/profile.sh|
 scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
 scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
+scripts/enforce-tool-profile.sh|__AGENT__/scripts/enforce-tool-profile.sh|executable
 scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
@@ -81,6 +82,7 @@ extensions/lib/prune-core.mjs|__AGENT__/extensions/lib/prune-core.mjs|
 extensions/rot-sentinel.ts|__AGENT__/extensions/rot-sentinel.ts|
 extensions/runtime-discipline.ts|__AGENT__/extensions/runtime-discipline.ts|
 extensions/ce-lite-preload.ts|__AGENT__/extensions/ce-lite-preload.ts|
+extensions/enforce-tool-profile.ts|__AGENT__/extensions/enforce-tool-profile.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|
 lean-ctx/env.tuning.sh|__LEAN_HOME__/env.tuning.sh|
@@ -173,6 +175,40 @@ fi
 
 if ! $CHECK; then
   PI_AGENT_HOME="$AGENT" bash "$AGENT/scripts/apply-package-patches.sh"
+fi
+# Active lean-ctx tool-profile enforcement: snap runtime back to the repo pin
+# (config.toml's tool_profile only accepts minimal|standard|power, so a "lean"
+# pin there is ignored by the runtime and drifts to power silently). In check
+# mode report-only; otherwise enforce.
+if $CHECK; then
+  "$ROOT/scripts/enforce-tool-profile.sh" --check >/dev/null 2>&1 \
+    && echo "[ OK ] lean-ctx tool profile pinned" \
+    || { echo "[DIFF] lean-ctx tool profile drift — run: ./install.sh"; fail=$((fail+1)); }
+else
+  "$ROOT/scripts/enforce-tool-profile.sh" 2>&1 | sed 's/^/[enforce] /' || fail=$((fail+1))
+fi
+# OS-level backstop: install + start a user systemd timer that re-enforces the
+# profile every 5 min, so "always lean" holds even when pi runs in a mode that
+# does not load extensions (e.g. -ne) and independent of any single session.
+# Guard: systemd user sessions available? (not whether the unit already exists —
+# list-unit-files returns non-zero until the unit is linked, i.e. on first run.)
+ENFORCE_UNITS=(enforce-tool-profile.service enforce-tool-profile.timer)
+if systemctl --user is-system-running >/dev/null 2>&1; then
+  if $CHECK; then
+    systemctl --user is-active enforce-tool-profile.timer >/dev/null 2>&1 \
+      && echo "[ OK ] lean-ctx enforce timer active" \
+      || { echo "[DIFF] lean-ctx enforce timer not active — run: ./install.sh"; fail=$((fail+1)); }
+  else
+    for u in "${ENFORCE_UNITS[@]}"; do
+      systemctl --user link "$ROOT/lean-ctx/$u" >/dev/null 2>&1 \
+        && systemctl --user enable "$u" >/dev/null 2>&1
+    done
+    systemctl --user daemon-reload >/dev/null 2>&1
+    systemctl --user start enforce-tool-profile.timer >/dev/null 2>&1
+    echo "[ OK ] lean-ctx enforce timer installed + started"
+  fi
+else
+  echo "[skip] systemd user sessions unavailable — rely on extension + preflight only"
 fi
 # Wire repo git hooks (secret guard pre-commit + pre-push preflight)
 if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
