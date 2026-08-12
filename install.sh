@@ -138,6 +138,7 @@ OBSOLETE=(
   "$AGENT/AGENTS_full.md"
   "$AGENT/AGENTS_terse.md"
   "$HOME_DIR/.pi/workflows/saved/investment-gather-judge.json"
+  "$AGENT/scripts/skillopt-sleep-nightly.sh"
 )
 for path in "${OBSOLETE[@]}"; do
   if $CHECK; then [[ ! -e "$path" ]] || { echo "[STALE] $path"; fail=$((fail+1)); }
