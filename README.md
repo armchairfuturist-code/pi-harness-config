@@ -510,6 +510,18 @@ individually gated:
   (`tool-token-lines.mjs` prices a tool's schema in tokens). ~40 tok catalog
   description; body read only when needed.
 
+- **pi-clarify** — pre-send prompt sharpening: `/clarify <rough idea>` (or a
+  `-clarify` marker anywhere in a message) runs one small model turn and writes
+  a terminology-precise rewrite back into the editor via `setEditorText` —
+  the agent does not run until you send it. The rewrite stays **out of the
+  session** (`cacheRetention: "none"`); pin a cheap model in
+  `~/.pi/agent/clarify.json` (`/clarify model <provider> <model>`). ~0
+  always-on tokens (slash command + input listener, no tool schema).
+  **Replaces the retired `/skill:prompt-sharpen`** (~/.agents/skills user
+  skill): same input-stage-sharpening niche, but out-of-context and
+  cheap-model-pinnable. prompt-sharpen was redundant under ce-lite routing
+  (see `hil/ledger.md`, Iter 16).
+
 ---
 
 ## Measurement (HIL)
@@ -610,6 +622,7 @@ This harness configures, patches, and composes open-source projects. Sources:
 | **pi-tscg** (tool-schema compression) | [github.com/Nick-Wolf-HLK/pi-tscg](https://github.com/Nick-Wolf-HLK/pi-tscg) | `tscg.json` + `patches/tscg/` |
 | **context-mode** | [github.com/mksglu/context-mode](https://github.com/mksglu/context-mode) | context-mode admin tools toggle (`patches/context-mode/`) |
 | **pi-dynamic-workflows** | [github.com/QuintinShaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) | `workflow` tool engine; slimmed by `patches/dynamic-workflows/` |
+| **pi-clarify** | [github.com/dodo-reach/pi-clarify](https://github.com/dodo-reach/pi-clarify) (npm `pi-clarify`) | pre-send prompt rewriting via `/clarify` + `-clarify` marker; pinned via `packages.lock.json` |
 | **Matt Pocock skills** | [github.com/mattpocock/skills](https://github.com/mattpocock/skills) (via `agent-skills` npm) | `ask-matt`, `grill-me`, `to-spec`, `to-tickets`, `tdd`, `code-review`, … |
 
 ## License

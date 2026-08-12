@@ -7,6 +7,7 @@
 "npm:@plannotator/pi-extension",
     "npm:context-mode",
     "npm:pi-autoresearch",
+    "npm:pi-clarify@1.0.1",
     "npm:pi-cache-optimizer",
     "npm:pi-context-usage",
     "npm:pi-continue",

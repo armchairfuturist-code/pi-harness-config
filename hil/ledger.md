@@ -521,3 +521,37 @@ knob. No verify.sh baseline needed. Impact measurable via read_cost.py before/af
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
 | 2026-08-10 | **Capability: ce-lite-preload + cache_hit measurement** (HIL paused — no knob reopen). (1) `extensions/ce-lite-preload.ts` injects ce-lite SKILL body once/session via **custom message** (convertToLlm→user); **never** mutates systemPrompt (H4-safe). Heuristics mirror APPEND_SYSTEM; kill `CE_LITE_PRELOAD=0`. (2) `bench/probe.sh` emits `cache_hit_pct=cacheRead/(cacheRead+input)` + ledger one-liner. (3) `bench/semantic-canary.sh` + `bench/test-ce-lite-preload.mjs` gate H4 + 10 heuristic cases. (4) APPEND_SYSTEM: if preload present, do not re-read SKILL. (5) gather-judge return caps. **Verify:** unit PASS 10/10; semantic-canary PASS; install OK. **Next:** live A/B skill_loaded turn + probe cache_hit. Rejected: LLM router, E2B/Redis, systemPrompt injection. |
 | 2026-08-10 | **ce-lite-preload verified + shrunk to stub** (no knob reopen; capability). (1) Payload cut from full SKILL body (~1,623 tok) to condensed stub (~267 tok, −84%); full body opt-in via CE_LITE_PRELOAD_FULL=1. (2) Added bench/ce-lite-preload-ab.mjs (no-LLM A/B): replays deployed extension against 911 real session first-prompts, splits matches by actual tool-call count, checks H4 + double-read. (3) Results: match 89%, recall on multi-step sessions (≥2 tool calls) 93% (718/774), chat-like false matches 96/911 → worst-case ~28 tok/session bloat, voluntary skill-read baseline 18% (167/911), H4 PASS. (4) Added analyze/research/benchmark verbs to heuristic to close observed recall gaps. **Verify:** test-ce-lite-preload.mjs PASS 10/10; ce-lite-preload-ab.mjs numbers in bench/out/ab-final.txt + README A/B section. **Next:** re-run ab harness after ~2+ weeks live to measure real double-read rate (preload + later voluntary SKILL read) and confirm activation lift holds. Rejected: LLM pre-router, E2B/Redis, systemPrompt injection. |
+
+## Iter 16 — 2026-08-12 — replace /skill:prompt-sharpen with pi-clarify (input-stage sharpening)
+
+**Trigger:** Repo review (pi-harness-config vs pi-clarify / rpiv-ask-user-question). The
+2026-07-29 skill audit already rated prompt-sharpen "partial overlap with ce-lite contract
+loop — keep (harmless) or cut (unreachable under ce-lite routing)"; with ce-lite-preload now
+activating deterministically (93% of multi-step sessions), prompt-sharpen is unreachable in
+practice and had no recorded usage. autoresearch-prompt-quality-20260726 measured injected
+sharpening rules as net-negative (+50% tokens, 0 correctness) and endorsed only opt-in,
+on-demand input-stage sharpening — pi-clarify implements exactly that, better.
+
+**Changes shipped (2 live actions, 4 repo files):**
+- LIVE: removed `~/.agents/skills/prompt-sharpen/` (pi user skill; `/skill:prompt-sharpen`
+  no longer registered; backup kept at `/tmp/prompt-sharpen-backup/`).
+- LIVE: `pi install npm:pi-clarify@1.0.1` — `/clarify <idea>` or a `-clarify` marker runs
+  one small model turn and writes a terminology-precise rewrite back into the editor via
+  `setEditorText`; the agent does not run until the user sends. `cacheRetention: "none"`
+  keeps the rewrite out of session context; pin a cheap model via `~/.pi/agent/clarify.json`
+  (`/clarify model <provider> <model>`).
+- EDIT `packages.lock.json` — pin `pi-clarify@1.0.1`.
+- EDIT `settings.json` — packages += `npm:pi-clarify@1.0.1`.
+- EDIT `README.md` — npm-packages rationale bullet + upstream credits row.
+- EDIT `hil/ledger.md` — this entry.
+
+**Cost posture:** ~0 always-on (slash command + input listener; extension commands are
+input-dispatch-level, never in the model system prompt; no tool schema added). One extra
+model call per invocation — pin a cheap model to keep it near-free. prompt-sharpen was also
+zero-cost (`disable-model-invocation: true`), so the always-on token surface is unchanged.
+
+**Not an A/B HIL experiment** — capability swap (skill → npm extension), not a knob.
+No verify.sh baseline needed. Reinstall path: `./install.sh` pins from `packages.lock.json`.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
