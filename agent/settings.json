@@ -35,6 +35,6 @@
     "keepRecentTokens": 20000
   },
   "defaultProvider": "Venice",
-  "defaultModel": "deepseek-v4-flash-0731",
-  "defaultThinkingLevel": "xhigh"
+  "defaultModel": "kimi-k3",
+  "defaultThinkingLevel": "high"
 }

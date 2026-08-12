@@ -9,7 +9,8 @@
     "Venice/grok-4-20": "high",
     "Venice/deepseek-v4-flash": "xhigh",
     "Venice/openai-gpt-56-luna": "low",
-    "Venice/deepseek-v4-flash-0731": "xhigh"
+    "Venice/deepseek-v4-flash-0731": "xhigh",
+    "Venice/kimi-k3": "high"
   },
   "providers": {
     "Venice": "medium"
