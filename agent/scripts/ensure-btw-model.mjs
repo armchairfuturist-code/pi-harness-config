@@ -14,36 +14,55 @@
 // keys are valid, so we respect an explicit override + the active provider
 // preference, and fall back to any registered provider with costed models.
 //
+// --check exits 0 when /btw already has a non-openai-codex provider+model.
+// It does not require a costed registry. Write mode only assigns when the
+// current /btw is missing or still on the upstream openai-codex default.
+//
 // Usage:
-//   ensure-btw-model.mjs            # fix in place (idempotent), ok if already cheap
-//   ensure-btw-model.mjs --check    # exit 1 if /btw points at a non-working default
+//   ensure-btw-model.mjs            # fix in place if broken; leave a working /btw
+//   ensure-btw-model.mjs --check    # exit 1 only if /btw is missing or openai-codex
 // Override target: ENSURE_BTW_MODEL="provider/modelId"
-import { existsSync, readFileSync, writeFileSync } from "node:fs"
+// Test override:   PI_AGENT_DIR=/tmp/fake-agent
+import { readFileSync, writeFileSync } from "node:fs"
 import { homedir } from "node:os"
 import { join } from "node:path"
 
-const agentDir = join(homedir(), ".pi", "agent")
+const agentDir = process.env.PI_AGENT_DIR || join(homedir(), ".pi", "agent")
 const btwPath = join(agentDir, "pi-smart-btw.json")
 const modelsPath = join(agentDir, "models.json")
 const settingsPath = join(agentDir, "settings.json")
 const CHECK = process.argv.includes("--check")
 const OVERRIDE = process.env["ENSURE_BTW_MODEL"]?.trim()
-
-const FAIL_PROVIDER = "openai-codex" // upstream default with no generic key path
+const FAIL_PROVIDER = "openai-codex"
 
 function readJson(p) {
-  try { return JSON.parse(readFileSync(p, "utf8")) } catch { return null }
+  try {
+    return JSON.parse(readFileSync(p, "utf8"))
+  } catch {
+    return null
+  }
+}
+
+function splitRef(ref) {
+  const slash = ref.indexOf("/")
+  if (slash < 0) return [ref, ""]
+  return [ref.slice(0, slash), ref.slice(slash + 1)]
 }
 
 const btw = readJson(btwPath) ?? {}
 const models = readJson(modelsPath)
 const settings = readJson(settingsPath)
 
-let failed = false
-const bad = (msg) => { console.error(`[ensure-btw-model] BAD ${msg}`); failed = true }
-const ok = (msg) => { console.error(`[ensure-btw-model] OK ${msg}`) }
+const bad = (msg) => {
+  console.error(`[ensure-btw-model] BAD ${msg}`)
+}
+const ok = (msg) => {
+  console.error(`[ensure-btw-model] OK ${msg}`)
+}
 
-// Gather all provider/model entries that have a published input cost.
+const currentRef = `${btw.provider ?? ""}/${btw.modelId ?? ""}`
+const isBroken = btw.provider === FAIL_PROVIDER || !btw.provider || !btw.modelId
+
 const costed = []
 if (models?.providers) {
   for (const [prov, p] of Object.entries(models.providers)) {
@@ -57,40 +76,45 @@ if (models?.providers) {
   }
 }
 
-// Determine target ref (provider/modelId).
 let target
 if (OVERRIDE) {
-  target = OVERRIDE.includes("/") ? OVERRIDE : `${OVERRIDE}/${"NO_MODEL"}`
+  target = OVERRIDE.includes("/") ? OVERRIDE : `${OVERRIDE}/NO_MODEL`
 } else {
   const activeProvider = settings?.defaultProvider ?? ""
-  const activeFirst = costed.filter((x) => x.provider === activeProvider)
+  const activeFirst = costed
+    .filter((x) => x.provider === activeProvider)
     .sort((a, b) => a.cost - b.cost)[0]
-  const cheapest = costed.sort((a, b) => a.cost - b.cost)[0]
+  const cheapest = [...costed].sort((a, b) => a.cost - b.cost)[0]
   const pick = activeFirst ?? cheapest
   if (pick) target = `${pick.provider}/${pick.modelId}`
 }
 
-if (!target) {
-  bad("no costed model found in model registry — cannot pick a cheap /btw model")
-  process.exit(CHECK ? 1 : 1)
-}
-const [tProv, tModel] = target.split("/")
-
-const currentRef = `${btw.provider ?? ""}/${btw.modelId ?? ""}`
-const isBroken = (btw.provider === FAIL_PROVIDER) || !btw.provider || !btw.modelId
-
 if (CHECK) {
   if (isBroken) {
-    bad(`/btw uses non-working ${currentRef} (expected ${target}) — run: ensure-btw-model.mjs`)
+    const hint = target
+      ? ` (expected ${target})`
+      : " (no costed model in registry to suggest)"
+    bad(`/btw uses non-working ${currentRef}${hint} — run: ensure-btw-model.mjs`)
     process.exit(1)
   }
   ok(`/btw on ${currentRef}`)
   process.exit(0)
 }
 
-if (!isBroken && currentRef === target) {
-  ok(`/btw already on cheap model ${currentRef}`)
+if (!isBroken) {
+  ok(`/btw already on ${currentRef}`)
   process.exit(0)
+}
+
+if (!target) {
+  bad("no costed model found in model registry — cannot pick a cheap /btw model")
+  process.exit(1)
+}
+
+const [tProv, tModel] = splitRef(target)
+if (!tProv || !tModel) {
+  bad(`invalid target ref ${target}`)
+  process.exit(1)
 }
 
 btw.provider = tProv
