@@ -13,6 +13,5 @@
   "@quintinshaw/pi-dynamic-workflows": "3.5.1",
   "@samfp/pi-essentials": "0.2.3",
   "@howaboua/pi-smart-btw": "0.2.6",
-  "@howaboua/pi-skill-model-facing-api-design": "0.0.5",
-  "@howaboua/pi-auto-reasoning-tool": "0.1.11"
+  "@howaboua/pi-skill-model-facing-api-design": "0.0.5"
 }

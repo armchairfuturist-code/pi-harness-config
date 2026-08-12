@@ -17,8 +17,7 @@
     "npm:@samfp/pi-essentials@0.2.3",
     "npm:pi-clarify@1.0.1",
     "npm:@howaboua/pi-smart-btw@0.2.6",
-    "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5",
-    "npm:@howaboua/pi-auto-reasoning-tool@0.1.11"
+    "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5"
   ],
   "extensions": [
     "~/.pi/agent/extensions/transcript-pruner.ts",

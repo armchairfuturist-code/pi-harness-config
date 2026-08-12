@@ -4,7 +4,7 @@
   "// provider-agnostic": "Provider/model/thinking intentionally NOT committed here. This repo is provider-agnostic: live machines pick a provider via `pi auth login` and store the choice in ~/.pi/agent/settings.json (defaultProvider, defaultModel, defaultThinkingLevel, enabledModels) plus model-thinking.json / workflows/model-tiers.json. install.sh preserves all of those on reinstall; repo values are first-run fallbacks only.",
   "packages": [
     "npm:@ogulcancelik/pi-model-thinking",
-"npm:@plannotator/pi-extension",
+    "npm:@plannotator/pi-extension",
     "npm:context-mode",
     "npm:pi-autoresearch",
     "npm:pi-clarify@1.0.1",
@@ -15,10 +15,9 @@
     "npm:pi-slim",
     "npm:pi-tscg",
     "npm:@quintinshaw/pi-dynamic-workflows",
- "npm:@samfp/pi-essentials",
- "npm:@howaboua/pi-smart-btw",
- "npm:@howaboua/pi-skill-model-facing-api-design",
- "npm:@howaboua/pi-auto-reasoning-tool"
+    "npm:@samfp/pi-essentials",
+    "npm:@howaboua/pi-smart-btw",
+    "npm:@howaboua/pi-skill-model-facing-api-design"
   ],
   "extensions": [
     "~/.pi/agent/extensions/transcript-pruner.ts",

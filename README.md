@@ -429,34 +429,14 @@ average. Kill/force flags: `CE_LITE_PRELOAD=0|1|force`; full body via `CE_LITE_P
 Re-run: `node bench/ce-lite-preload-ab.mjs`. Double-read (preload + later
 voluntary SKILL.md read) is measured post-deploy by the same harness.
 
-## Adaptive reasoning (pi-auto-reasoning-tool)
+## Thinking levels
 
-By default this harness targets a **medium** per-turn reasoning baseline and lets
-the model escalate per phase — instead of paying top-tier reasoning on every turn.
+Thinking is **static pins**, not an auto-raiser.
 
-- **Installed:** `@howaboua/pi-auto-reasoning-tool` (pinned in `packages.lock.json`).
-- **Mechanics:** the turn-start reasoning level is the *floor*. The agent may
-  raise reasoning (up to `high`) for hard phases via a `change_reasoning` tool,
-  and the level is restored to the baseline when the run settles. It never goes
-  below the floor; `xhigh`/`max` stay user-only levers for genuinely hard work.
-- **Machine knob, not repo knob:** `defaultThinkingLevel` is intentionally *not*
-  committed here (provider-agnostic — see the `settings.json` comment). Set it on
-  the live machine in `~/.pi/agent/settings.json`; `install.sh` merges and
-  preserves machine-local values on reinstall. Recommendation: `medium` with this
-  tool installed.
-- **HIL gate (do not skip — reasoning level is a cache-lane key):** every
-  escalation switches lanes and the new lane starts cold, so measure rather than
-  assume:
-  1. baseline probe: representative multi-turn tasks; record total tokens and
-     `cacheRead`/hit rate at the current default;
-  2. install the tool + set `medium`; re-probe the **same tasks** (one variable);
-  3. ledger row: total-token delta, cache-hit delta, and the tool's own always-on
-     schema cost — re-measure it with the `model-facing-api-design` skill
-     (`tool-token-lines.mjs`) rather than trusting quoted numbers;
-  4. keep only if net-positive; otherwise revert the knob and note the result.
-- **Expectation:** every turn drops from `xhigh`/`max` to the medium floor and
-  hard phases peak below today's ceiling, so net savings are likely even after
-  lane-switch cost — the probe decides.
+- **Floor:** machine-local `defaultThinkingLevel` in `~/.pi/agent/settings.json` (not committed). Recommendation: `medium`.
+- **Per-model:** live `model-thinking.json`. Pin exceptions only after a canary.
+- **User levers:** `/think`. `xhigh`/`max` stay user-only.
+- **Removed:** `@howaboua/pi-auto-reasoning-tool` and the harness raise-only patch. The package could only raise, switched cache lanes, and did not save tokens on this pin table.
 
 ## Design (why these files exist)
 
@@ -509,9 +489,7 @@ individually gated:
   > auto-assigns `/btw` a cheap model from your own registry via
   > `scripts/ensure-btw-model.mjs` (prefers your active `defaultProvider`;
   > `~/.pi/agent/pi-smart-btw.json` overrides it, or set `ENSURE_BTW_MODEL`).
-- **pi-auto-reasoning-tool** — per-phase reasoning escalation from a medium
-  floor, ~44 tok always-on (see [Adaptive reasoning](#adaptive-reasoning-pi-auto-reasoning-tool)
-  for the HIL gate).
+
 - **pi-skill-model-facing-api-design** — a *skill*, not an extension: gives the
   HIL gate the craft for measuring and designing model-facing tool contracts
   (`tool-token-lines.mjs` prices a tool's schema in tokens). ~40 tok catalog

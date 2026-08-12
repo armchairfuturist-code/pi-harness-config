@@ -666,3 +666,9 @@ Live `~/.pi/agent` copies synced.
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
+
+## 2026-08-12 — remove auto-reasoning (operator request)
+
+- **Decision:** uninstall `@howaboua/pi-auto-reasoning-tool` and delete `patches/auto-reasoning/`. Thinking stays on `defaultThinkingLevel` + `model-thinking.json` + `/think`.
+- **Why:** package is raise-only; every raise is a cache-lane switch. On current pins it spends more. grok-4-6 Phase 1: low/medium/high all passed; medium cheapest (42176 vs high 42525 vs low 60061). Ecosystem scan: no better auto-think skill; only real auto-router is `pi-smart-router` (LLM pre-router, already rejected).
+- **Do not retry:** reinstall AR "to save tokens" without a new canary that beats medium pins.
