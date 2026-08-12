@@ -103,7 +103,6 @@ bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/poor-mans-distill|__AGENT__/skills/poor-mans-distill|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
-bundled-skills/attention-kind|__AGENT__/skills/attention-kind|dir
 scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
 scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
 EOF

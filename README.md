@@ -631,7 +631,6 @@ This harness configures, patches, and composes open-source projects. Sources:
 | **pi-dynamic-workflows** | [github.com/QuintinShaw/pi-dynamic-workflows](https://github.com/QuintinShaw/pi-dynamic-workflows) | `workflow` tool engine; slimmed by `patches/dynamic-workflows/` |
 | **pi-clarify** | [github.com/dodo-reach/pi-clarify](https://github.com/dodo-reach/pi-clarify) (npm `pi-clarify`) | pre-send prompt rewriting via `/clarify` + `-clarify` marker; pinned via `packages.lock.json` |
 | **Matt Pocock skills** | [github.com/mattpocock/skills](https://github.com/mattpocock/skills) (via `agent-skills` npm) | `ask-matt`, `grill-me`, `to-spec`, `to-tickets`, `tdd`, `code-review`, … |
-| **attention-span output styles** | [github.com/alexgreensh/attention-span](https://github.com/alexgreensh/attention-span) (AGPL-3.0) | `attention-kind` reply style + distilled ASD-STE100 (`bundled-skills/attention-kind/`), wired as the global output contract |
 
 ## License
 

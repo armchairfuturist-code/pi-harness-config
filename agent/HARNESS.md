@@ -36,8 +36,6 @@ KEEP / compaction / tscg knobs.
 ## Output style (default)
 - `APPEND_SYSTEM.md` — compact always-on output contract: answer-first, short by default,
   STE100-controlled English, deliverables unwrapped, warnings never trimmed
-- Full rule set: `bundled-skills/attention-kind/` → `~/.pi/agent/skills/attention-kind/`
-  (attention-kind delivery adapted from alexgreensh/attention-span, AGPL-3.0; + distilled ASD-STE100)
 - Carve-out: explicitly requested writing content (emails, docs, copy) runs full length —
   substance is never truncated; only wrapper text stays off
 - Token posture: small fixed prefix delta per turn (probed), offset by leaner replies
