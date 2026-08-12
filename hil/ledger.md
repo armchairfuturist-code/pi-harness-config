@@ -689,3 +689,18 @@ node_modules copy gone. Historical research/ledger rows left as-is.
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20
+
+## Iter 21 — 2026-08-12 — skillopt-pi eval baseline (ce-lite)
+
+**Eval (pi -p with tools, APPEND_SYSTEM + ce-lite injected):**
+- First full run: **6/7**. Only `t3-fix-multiply` failed.
+- Cause: task bug, not ce-lite. Prompt said fix `fixtures/multiply/multiply.py`;
+  check scored a second copy at `multiply/multiply.py`.
+- Aligned check to the prompt path. Re-run: **7/7 (1.000)**.
+- No ce-lite edit. Suite is saturated; a train step would be noise.
+
+**Eval harness:** `skillopt-pi/eval.py` now prepends APPEND_SYSTEM.md and prints
+pi output on fail.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20

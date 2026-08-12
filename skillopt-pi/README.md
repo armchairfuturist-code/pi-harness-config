@@ -20,6 +20,7 @@ python3 skillopt-pi/eval.py                    # full suite (calls pi)
 
 *Done (eval):* each task has a yes/no workspace check; Lookup must not mutate
 (t0 empty-rollout pass); Contract/Simple require the agent to change files.
+Baseline 2026-08-12: **7/7** after fixing t3's path mismatch (was 6/7).
 
 ## Train target
 `bundled-skills/ce-lite/SKILL.md`. `seed-skill.md` is fallback overlay only.

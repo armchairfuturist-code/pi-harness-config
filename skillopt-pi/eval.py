@@ -24,6 +24,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, ".."))
 TASKS = json.load(open(os.path.join(HERE, "tasks.json")))
 CE_LITE = os.path.join(REPO, "bundled-skills/ce-lite/SKILL.md")
+APPEND = os.path.join(REPO, "APPEND_SYSTEM.md")
 PI = os.environ.get("PI_BIN", shutil.which("pi") or "pi")
 
 
@@ -70,8 +71,10 @@ def main():
     a = ap.parse_args()
     sel = [t for t in TASKS if (not a.only) or t["id"] == a.only]
     skill_text = ""
+    if os.path.isfile(APPEND):
+        skill_text += open(APPEND, encoding="utf-8").read().strip() + chr(10)*2
     if os.path.isfile(a.skill):
-        skill_text = open(a.skill, encoding="utf-8").read()
+        skill_text += open(a.skill, encoding="utf-8").read()
     results = []
     for t in sel:
         ws = tempfile.mkdtemp(prefix="skillopt-pi-eval-")
@@ -88,7 +91,10 @@ def main():
                 "pass": ok, "stdout": out, "stderr": err,
                 "pi_head": pi_out[:400],
             })
-            print(f"{'PASS' if ok else 'FAIL'}  {t.get('route','?'):8s}  {t['id']}")
+            mark = "PASS" if ok else "FAIL"
+            print(f"{mark}  {t.get('route','?'):8s}  {t['id']}")
+            if not ok and pi_out:
+                print("  pi:", pi_out.replace(chr(10), " ")[:240])
         finally:
             shutil.rmtree(ws, ignore_errors=True)
     score = sum(1 for r in results if r["pass"]) / max(1, len(results))

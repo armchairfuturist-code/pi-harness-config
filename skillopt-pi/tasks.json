@@ -27,8 +27,8 @@
     "id": "t3-fix-multiply",
     "route": "contract",
     "prompt": "fixtures/multiply/multiply.py is wrong: multiply(3,4) should return 12. Fix it and verify by running python3 fixtures/multiply/multiply.py 3 4.",
-    "setup": "cp -r fixtures/multiply .",
-    "check": "test \"$(python3 multiply/multiply.py 3 4)\" = \"12\"",
+    "setup": "",
+    "check": "test \"$(python3 fixtures/multiply/multiply.py 3 4)\" = \"12\"",
     "timeout_s": 120
   },
   {
