@@ -32,9 +32,13 @@
   "hideThinkingBlock": true,
   "compaction": {
     "reserveTokens": 24000,
-    "keepRecentTokens": 20000
+    "keepRecentTokens": 20000,
+    "enabled": true
   },
   "defaultProvider": "Venice",
   "defaultModel": "kimi-k3",
-  "defaultThinkingLevel": "high"
+  "defaultThinkingLevel": "high",
+  "retry": {
+    "enabled": true
+  }
 }
