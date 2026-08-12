@@ -10506,11 +10506,11 @@
       },
       "Venice/deepseek-v4-flash-0731": {
         "day": "2026-08-12",
-        "totalRequests": 30,
-        "hitRequests": 28,
-        "cachedInputTokens": 2507008,
+        "totalRequests": 52,
+        "hitRequests": 50,
+        "cachedInputTokens": 5029888,
         "cacheWriteInputTokens": 0,
-        "totalInputTokens": 2939373
+        "totalInputTokens": 5599928
       }
     },
     "ca80b5adb8b450bd": {
@@ -10711,6 +10711,146 @@
         "cachedInputTokens": 9762,
         "cacheWriteInputTokens": 0,
         "totalInputTokens": 29534
+      }
+    },
+    "fd73f6a64c4e2745": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 6332
+      }
+    },
+    "8e8ba3d711131f56": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 4,
+        "hitRequests": 3,
+        "cachedInputTokens": 19200,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 26977
+      }
+    },
+    "2575caa7aea6917e": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 5,
+        "hitRequests": 4,
+        "cachedInputTokens": 22110,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 35124
+      }
+    },
+    "6ddf6f95bb8fb820": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 5,
+        "hitRequests": 1,
+        "cachedInputTokens": 6144,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 35155
+      }
+    },
+    "56a48ce5305c7268": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 6493
+      }
+    },
+    "ac4b436e3b61074e": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 6,
+        "hitRequests": 6,
+        "cachedInputTokens": 39936,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 41919
+      }
+    },
+    "18014121801b7d04": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 7,
+        "hitRequests": 7,
+        "cachedInputTokens": 45568,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 49022
+      }
+    },
+    "41607c4060c5eac4": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 4,
+        "hitRequests": 3,
+        "cachedInputTokens": 15222,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 28226
+      }
+    },
+    "a6c553ea5528db63": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 6332
+      }
+    },
+    "27a1663177d66005": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 4,
+        "hitRequests": 4,
+        "cachedInputTokens": 25600,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 26921
+      }
+    },
+    "177c7508c6563c96": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 6,
+        "hitRequests": 6,
+        "cachedInputTokens": 38400,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 41485
+      }
+    },
+    "76df1529958ff102": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 3,
+        "hitRequests": 2,
+        "cachedInputTokens": 7851,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 20741
+      }
+    },
+    "a4c9c4357dfcf1f4": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 6254
+      }
+    },
+    "c04409deeff76588": {
+      "Venice/deepseek-v4-flash-0731": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 6144,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 6254
       }
     }
   },
@@ -10941,11 +11081,11 @@
     },
     "Venice/deepseek-v4-flash-0731": {
       "day": "2026-08-12",
-      "totalRequests": 85,
-      "hitRequests": 79,
-      "cachedInputTokens": 2975541,
+      "totalRequests": 94,
+      "hitRequests": 91,
+      "cachedInputTokens": 5647891,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 3827426
+      "totalInputTokens": 6608452
     },
     "Venice/openai-gpt-56-terra-pro": {
       "day": "2026-08-12",
