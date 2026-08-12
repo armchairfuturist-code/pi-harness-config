@@ -566,6 +566,14 @@ Measured prefix delta: +213 tokens (probe 6254→6467 input), cacheRead-covered 
 its manifest/README/ledger wiring were removed. The APPEND_SYSTEM contract stays (operator
 confirmed keeping it). Attention-kind style reference: github.com/alexgreensh/attention-span.
 
+**Follow-up (same day, ponytail-audit):** operator ran the installed ponytail-audit on
+`~/.pi/agent/*.md`. Applied its findings 1–5 to APPEND_SYSTEM.md: cut "Be terse…" line
+(duplicate of Output contract), "or pure conversation", "(docs, copy, code)", "synonyms/",
+and shrank the [ce-lite-preload] sentence. 1298→1119 chars (−179, ~45–65 tok/fresh prefix
+at 2.8–4 c/t); activation preconditions untouched. Fresh trimmed probe = 3360 input
+(syn:large:text); provider cache made pre-trim same-model probe unreliable.
+
+
 ### Locked (unchanged)
 
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
