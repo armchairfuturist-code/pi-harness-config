@@ -1,12 +1,13 @@
-# Pi coding — seed skill
+# Fallback overlay (only if ce-lite/SKILL.md is missing)
 
-## Approach
-- Route: trivial/read-only → answer directly; 2+ steps or edits → small plan, then act.
-- Read before edit; verify after edit with the cheapest parse/test/run.
+Live orchestrator: `bundled-skills/ce-lite/SKILL.md`. Do not add a second router.
+SkillOpt edits land in ce-lite via HIL.
 
-## Shell
-- Never inline `python3 -c` / `node -e`, heredocs, or `find -exec`. Write a script file, then run it.
-- After a policy block, change approach; never retry the identical command.
+## Compose
+- Route with ce-lite: Lookup / Simple / Contract.
+- Verify every Contract term with a checkable command.
+- Read: probe unknown/jumbo/binary first; hold a current read before edit.
+- Shell: write a script file, then run it. Blocked: `python3 -c`, `node -e`, heredoc, `find -exec`.
 
-## Output
-- Final line: `Done: <passed>/<total> · artifacts: <paths> · next: <one action>`.
+## Done
+`Done: <passed>/<total> · artifacts: <paths> · next: <one action>`

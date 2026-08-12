@@ -25,12 +25,15 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Find the repo pin regardless of install location: when deployed via install.sh
 # the script lands in $HOME/.pi/agent/scripts while the pin stays in the repo
-# ($HOME/.pi/lean-ctx/config.toml or the deploying checkout). Prefer an explicit
-# ENFORCE_TOOL_PROFILE_CONFIG override, else the live harness pin, else walk up
-# to a repo lean-ctx/config.toml sibling.
+# ($HOME/.config/lean-ctx/config.toml, $HOME/.pi/lean-ctx/config.toml, or the
+# deploying checkout). Prefer an explicit ENFORCE_TOOL_PROFILE_CONFIG override,
+# else the live harness pin, else walk up to a repo lean-ctx/config.toml sibling.
+# lean-ctx may rewrite ~/.config/lean-ctx/config.toml and drop the pin; a JSON
+# fallback reads extensions/pi-lean-ctx/config.json toolProfile in that case.
 CONFIG="${ENFORCE_TOOL_PROFILE_CONFIG:-}"
 if [[ -z "$CONFIG" ]]; then
   for cand in \
+    "$HOME/.config/lean-ctx/config.toml" \
     "$HOME/.pi/lean-ctx/config.toml" \
     "$SCRIPT_DIR/../lean-ctx/config.toml" \
     "$SCRIPT_DIR/../../lean-ctx/config.toml"; do
@@ -38,6 +41,12 @@ if [[ -z "$CONFIG" ]]; then
       CONFIG="$cand"; break
     fi
   done
+fi
+# lean-ctx rewrites ~/.config/lean-ctx/config.toml and may drop the pin.
+# pi-config.json is harness-owned and is not overwritten by that rewrite.
+JSON_PIN="${HOME}/.pi/agent/extensions/pi-lean-ctx/config.json"
+if [[ -z "$CONFIG" && -f "$JSON_PIN" ]] && grep -qE '"toolProfile"' "$JSON_PIN"; then
+  CONFIG="$JSON_PIN"
 fi
 CHECK=false
 QUIET=false
@@ -60,9 +69,13 @@ if [[ -z "$CONFIG" ]]; then
   err "no lean-ctx/config.toml with a tool_profile pin found (set ENFORCE_TOOL_PROFILE_CONFIG)"
   exit 2
 fi
-WANT_PROFILE=$(grep -E '^tool_profile' "$CONFIG" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
+if [[ "$CONFIG" == *.json ]]; then
+  WANT_PROFILE=$(sed -nE 's/.*"toolProfile"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' "$CONFIG" | head -1)
+else
+  WANT_PROFILE=$(grep -E '^tool_profile' "$CONFIG" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
+fi
 if [[ -z "$WANT_PROFILE" ]]; then
-  err "repo tool_profile not pinned in $ROOT/lean-ctx/config.toml — refusing to guess"
+  err "repo tool_profile not pinned in $CONFIG — refusing to guess"
   exit 2
 fi
 

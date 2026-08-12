@@ -1,37 +1,30 @@
-# skillopt-pi — offline benchmark-driven skill training (SEED, later/harder)
+# skillopt-pi — scored gate for ce-lite (SEED)
 
-Status: **scaffold only.** The session-driven path (SkillOpt-Sleep) is already
-wired in `scripts/skillopt-sleep-nightly.sh`. This directory is the *offline*
-counterpart: a pi coding benchmark env for the paper-style `skillopt/` CLI
-(`skillopt-train`), which trains a skill against fixed, scored tasks instead of
-harvested sessions.
+The live orchestrator is **ce-lite**. This directory is not a second router.
+It is the offline *evaluate* contract: deterministic tasks that score a ce-lite
+edit the same way SkillOpt's held-out gate scores a skill.
 
-## Why this exists
-- `poor-mans-distill` proved session-trace → few-shot *works* but is manual and
-  keyword-classifier-limited. SkillOpt-Sleep replaces it for daily use.
-- For a *reproducible, benchmark-defined* ce-lite/smart-read skill (comparable
-  across model epochs), SkillOpt's `skillopt/envs/<name>/` needs a pi env:
-  tasks + a deterministic scorer + a `pi_exec` backend.
+Session-driven training is already wired: `scripts/skillopt-sleep-nightly.sh`
+targets `ce-lite/SKILL.md`. Use this path only after that loop has proven the
+gate on live traffic. Two optimizers at once is thrash.
+
+## Train target
+`bundled-skills/ce-lite/SKILL.md` — not `seed-skill.md`. The seed is a fallback
+overlay if that file is missing.
 
 ## What is here
-- `tasks.json` — 6 deterministic pi coding tasks (from this repo's own A/B set:
-  list-files, fix-multiply-bug+changelog, add-function, grep-locate, rename,
-  add-changelog-entry). Each has a `check` shell command (exit 0 = pass).
-- `scorer.py` — runs each task's `check` in a clean temp workspace and returns
-  per-task pass/fail + aggregate score (the SkillOpt env `evaluate` contract).
-- `seed-skill.md` — starting skill (ce-lite routing + read/verify discipline).
-- `fixtures/multiply/` — the T3 bug fixture (multiply returns wrong result).
+- `tasks.json` — Lookup / Simple / Contract tasks. Each has a `route` tag and a
+  `check` command (exit 0 = pass).
+- `scorer.py` — runs each `check` in a clean temp workspace. No LLM, no network.
+- `seed-skill.md` — fallback overlay (compose with ce-lite; do not fork it).
+- `fixtures/multiply/` — T3 bug fixture.
 
-## Remaining work (to make it a real SkillOpt env)
-1. Add a `pi_exec` backend in the SkillOpt checkout (`skillopt/model/pi_backend.py`
-   modeled on `codex_backend.py` / the sleep `PiCliBackend`): run `pi -p` with the
-   seed skill injected, collect the final message, run the task `check`.
-2. Add `skillopt/envs/pi_coding/` (adapter + dataloader + rollout + YAML) using
-   `tasks.json` + `scorer.py`; register in `skillopt/model/__init__.py` + configs.
-3. Train: `skillopt-train --config configs/pi_coding/default.yaml` with a
-   gate score = mean task pass rate; keep the repo canaries as the acceptance bar.
-4. Fold the trained `best_skill.md` back into `bundled-skills/ce-lite/` only via
-   the HIL gate (probe + semantic-canary + trajectory_metrics green).
+## Remaining work (later)
+1. `pi_exec` backend in the SkillOpt checkout (model on sleep `PiCliBackend`).
+2. `skillopt/envs/pi_coding/` adapter + YAML pointing `--target-skill-path` at
+   `bundled-skills/ce-lite/SKILL.md`.
+3. Gate score = mean task pass rate, plus this repo's canaries.
+4. Fold a trained artifact back into ce-lite only via HIL.
 
-Do NOT run this path until the session-driven SkillOpt-Sleep loop has proven the
-gate metric on real traffic. Two optimizers at once is thrash.
+*Done (this scaffold):* tasks tagged by ce-lite route; scorer runs; train target
+named; no second orchestrator in `seed-skill.md`.

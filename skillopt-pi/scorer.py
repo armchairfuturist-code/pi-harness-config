@@ -35,7 +35,7 @@ def main():
         if os.path.isdir(fix_src):
             shutil.copytree(fix_src, os.path.join(ws, "fixtures"), dirs_exist_ok=True)
         ok, out, err = run_task(t, ws)
-        results.append({"id": t["id"], "pass": ok, "stdout": out[:400], "stderr": err[:400]})
+        results.append({"id": t["id"], "route": t.get("route",""), "pass": ok, "stdout": out[:400], "stderr": err[:400]})
         if not a.workspace:
             shutil.rmtree(ws, ignore_errors=True)
     score = sum(1 for r in results if r["pass"]) / max(1, len(results))

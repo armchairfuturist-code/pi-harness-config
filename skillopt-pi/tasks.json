@@ -1,6 +1,15 @@
 [
   {
+    "id": "t0-lookup-multiply",
+    "route": "lookup",
+    "prompt": "What does multiply(3, 4) currently return in fixtures/multiply/multiply.py? Answer the number only. Do not edit files.",
+    "setup": "cp -r fixtures/multiply .",
+    "check": "test \"$(python3 multiply/multiply.py 3 4)\" = \"7\"",
+    "timeout_s": 120
+  },
+  {
     "id": "t1-list-files",
+    "route": "simple",
     "prompt": "List the files in this directory (recursively) into a file named files.txt, one path per line, sorted. Do not include files.txt itself.",
     "setup": "",
     "check": "test -f files.txt && test \"$(wc -l < files.txt)\" -ge 1 && ! grep -q '^files.txt$' files.txt",
@@ -8,20 +17,23 @@
   },
   {
     "id": "t2-add-function",
-    "prompt": "Create greet.py defining greet(name) that returns \"Hello, {name}!\", and a test that calls it with \"world\" and prints the result.",
+    "route": "contract",
+    "prompt": "Create greet.py defining greet(name) that returns \"Hello, {name}!\". Add a check that greet('world') equals that string. Both the file and the check must exist when you stop.",
     "setup": "",
     "check": "python3 -c \"import greet; assert greet.greet('world')=='Hello, world!'; print('ok')\"",
     "timeout_s": 120
   },
   {
     "id": "t3-fix-multiply",
-    "prompt": "fixtures/multiply/multiply.py has a bug: multiply(3,4) should return 12. Fix it and verify by running `python3 fixtures/multiply/multiply.py 3 4`.",
+    "route": "contract",
+    "prompt": "fixtures/multiply/multiply.py is wrong: multiply(3,4) should return 12. Fix it and verify by running python3 fixtures/multiply/multiply.py 3 4.",
     "setup": "cp -r fixtures/multiply .",
     "check": "test \"$(python3 multiply/multiply.py 3 4)\" = \"12\"",
     "timeout_s": 120
   },
   {
     "id": "t4-grep-locate",
+    "route": "simple",
     "prompt": "Find the file and line number containing the exact string 'TODO(fix)' in this directory, and write the result (path:line) to todo.txt.",
     "setup": "printf 'x\\n// TODO(fix): later\\ny\\n' > sample.c",
     "check": "grep -q 'sample.c:2' todo.txt",
@@ -29,13 +41,15 @@
   },
   {
     "id": "t5-rename-var",
-    "prompt": "In config.py, rename the variable `usr` to `user` everywhere and make sure the file still parses.",
+    "route": "simple",
+    "prompt": "In config.py, rename the variable usr to user everywhere. The file must still parse.",
     "setup": "printf 'usr = \"a\"\\nprint(usr)\\n' > config.py",
     "check": "! grep -n '\\busr\\b' config.py && python3 -c 'import config'",
     "timeout_s": 120
   },
   {
     "id": "t6-changelog",
+    "route": "simple",
     "prompt": "Append a CHANGELOG.md entry for version 1.1.0 with one bullet under '## Changed'.",
     "setup": "printf '# Changelog\\n\\n## 1.0.0\\n- init\\n' > CHANGELOG.md",
     "check": "grep -q '## 1.1.0' CHANGELOG.md && grep -q '## Changed' CHANGELOG.md",

@@ -88,6 +88,7 @@ extensions/ce-lite-preload.ts|__AGENT__/extensions/ce-lite-preload.ts|
 extensions/enforce-tool-profile.ts|__AGENT__/extensions/enforce-tool-profile.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|
+lean-ctx/config.toml|__AGENT__/lean-ctx/config.toml|
 lean-ctx/env.tuning.sh|__LEAN_HOME__/env.tuning.sh|
 workflows/model-tiers.json|__PI_HOME__/workflows/model-tiers.json|preserve
 workflows/saved/memory-consolidate.json|__PI_HOME__/workflows/saved/memory-consolidate.json|

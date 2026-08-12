@@ -642,3 +642,27 @@ the staged proposal before `adopt`.
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
+
+## Iter 19 — 2026-08-12 — writing-for-agents pass on always-on MD + skillopt-pi×ce-lite
+
+**Trigger:** operator asked to integrate skillopt-pi with ce-lite and to make
+APPEND_SYSTEM.md optimal; open to other MD pruning.
+
+**Changes (no locked-knob reopen):**
+- `APPEND_SYSTEM.md` 1316→696 chars. Pointers sharpened (*Contract*, *answer-first*);
+  read procedure disclosed to smart-read; shell flipped to positive target + blocked
+  shapes as the hard guardrail; STE100 list collapsed to the leading word.
+- `HARNESS.md`: Tool execution / Output style no longer restate APPEND_SYSTEM
+  (single source). Extensions list now includes `enforce-tool-profile.ts`.
+- `ce-lite-preload.ts` stub: dropped ## Shell (always-on line is the SoT).
+- `ce-lite/SKILL.md`: compound points at `skillopt-sleep-nightly.sh`; read-before-edit
+  is a `smart-read` pointer, not a restated procedure.
+- `skillopt-pi/`: not a second router. Train target = `bundled-skills/ce-lite/SKILL.md`.
+  Tasks tagged Lookup/Simple/Contract; added t0-lookup (empty-rollout pass is correct:
+  Lookup must not mutate). seed-skill.md is fallback overlay only.
+
+**Verify:** preload unit 10/10; preflight OK; scorer runs (1/7 empty = lookup-only).
+Live `~/.pi/agent` copies synced.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation

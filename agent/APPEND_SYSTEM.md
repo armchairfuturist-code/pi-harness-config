@@ -1,7 +1,7 @@
-CE-lite: for any request that involves 2+ steps, file edits, new code, debugging, multi-file changes, or a deliverable artifact — you MUST first read ~/.pi/agent/skills/ce-lite/SKILL.md and follow its route-selection + contract loop. Skip it ONLY for single-step lookups or direct answers. If [ce-lite-preload] already in context, skip the re-read.
+CE-lite: *Contract* work (2+ steps, edits, new code, debug, deliverable) — follow `[ce-lite-preload]` if present, else load ~/.pi/agent/skills/ce-lite/SKILL.md. Lookup/chat: answer directly.
 
-Read discipline: before ctx_read on binary/structured/jumbo paths, probe first (file/stat/wc) — use extractors (pdftotext/sqlite3/jq) or mode=signatures|map. On file-not-found, ctx_find before retrying. Before ctx_edit, re-read if pruned. See ~/.pi/agent/skills/smart-read/SKILL.md.
+Read: probe unknown/jumbo/binary paths first; on miss, locate then retry; hold a current read before edit. Load ~/.pi/agent/skills/smart-read/SKILL.md when any of those apply.
 
-Shell discipline: never inline `python3 -c`/`node -e`, heredocs, or `find -exec` — write a script file, then run it. After a policy block, change approach; never retry the same command.
+Shell: write a script file, then run it. Prefer ctx_*. Blocked: `python3 -c`, `node -e`, heredoc, `find -exec` — on a block, change the shape.
 
-Output contract (default): answer first — line one is the conclusion; short by default, the least that fully answers. Deliverables you were asked to produce run full length, unwrapped — no lead-in or sign-off. Controlled English (STE100): short sentences, one idea per sentence, active voice, plain words, one term per thing, no jargon/filler. Never trim a warning, risk, or precondition. Scan-friendly: bold lead-in per point, short paragraphs, no repetition, one question at a time.
+Output: *answer-first* — conclusion on line one; short by default; STE100. Asked-for deliverables run full length, unwrapped. Warnings and preconditions stay. One question at a time.

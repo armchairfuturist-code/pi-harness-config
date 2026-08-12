@@ -15,11 +15,12 @@ KEEP / compaction / tscg knobs.
 - HIL paused for knob churn; capability/measurement work still OK
 
 ## Extensions (order matters for before_agent_start merges)
-1. `runtime-discipline.ts` — allowlist/edit recovery (may append system guidance on failure only)
-2. `ce-lite-preload.ts` — **H4-safe**: injects ce-lite contract as a *custom message* (LLM user role) once per session on non-trivial prompts; never mutates systemPrompt
+1. `runtime-discipline.ts` — allowlist/edit recovery (failure-only system append)
+2. `ce-lite-preload.ts` — **H4-safe**: ce-lite contract as a custom message (LLM user role) once per session; never mutates systemPrompt
 3. `session-index.ts` — session FTS index
-4. `rot-sentinel.ts` — long-session UI reminders (not system-prompt mutation)
+4. `rot-sentinel.ts` — long-session UI reminders
 5. `transcript-pruner.ts` — transcript hygiene
+6. `enforce-tool-profile.ts` — pins lean-ctx `lean` profile at launch
 
 ## Cache doctrine (progressive-disclosure H4)
 - Keep the **stable system prefix** byte-stable across turns
@@ -27,25 +28,17 @@ KEEP / compaction / tscg knobs.
 - Event-specific guidance → custom messages, UI notifications, or failure-only appends
 - Measure: `bench/probe.sh` emits `cache_hit_pct` = cacheRead/(cacheRead+input)
 
-## Tool execution (preventive)
-- Prefer ctx_read/ctx_edit/ctx_execute/ctx_grep/ctx_find/ctx_ls over raw shell.
-- Never inline `python3 -c` / `node -e`, heredocs, or `find -exec` — write a script file, then run it.
-- After an edit miss: re-read the exact slice; never retry identical stale text.
-- After a shell policy block: change tool strategy; never retry the identical command.
-- `runtime-discipline.ts` adds recovery guidance only after a failure; the lines above prevent the top measured error signatures (191 blocked + ~13 retry-loops/session, 2026-08-07).
+## Tool execution
+Always-on read/shell/output shapes live in `APPEND_SYSTEM.md` (single source). `runtime-discipline.ts` recovers after a failure only.
 
 ## CE-lite activation
-- `APPEND_SYSTEM.md` — imperative one-liner (when to load)
+- `APPEND_SYSTEM.md` — always-on pointer (when to load)
 - `extensions/ce-lite-preload.ts` — mechanical preload of skill body on heuristic match
 - Kill switch: `CE_LITE_PRELOAD=0` · force: `CE_LITE_PRELOAD=force`
 - Trivial chat/lookups must still skip (suite s6)
 
-## Output style (default)
-- `APPEND_SYSTEM.md` — compact always-on output contract: answer-first, short by default,
-  STE100-controlled English, deliverables unwrapped, warnings never trimmed
-- Carve-out: explicitly requested writing content (emails, docs, copy) runs full length —
-  substance is never truncated; only wrapper text stays off
-- Token posture: small fixed prefix delta per turn (probed), offset by leaner replies
+## Output style
+Always-on contract is `APPEND_SYSTEM.md`. Asked-for writing (email, docs, copy) stays full length.
 
 ## Measurement
 - `bench/probe.sh` — tokens + cache hit rate
