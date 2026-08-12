@@ -35,8 +35,8 @@
     "keepRecentTokens": 20000,
     "enabled": true
   },
-  "defaultProvider": "Venice",
-  "defaultModel": "kimi-k3",
+  "defaultProvider": "synthetic",
+  "defaultModel": "syn:small:text",
   "defaultThinkingLevel": "off",
   "retry": {
     "enabled": true
