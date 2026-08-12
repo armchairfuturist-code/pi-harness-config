@@ -10506,11 +10506,11 @@
       },
       "Venice/deepseek-v4-flash-0731": {
         "day": "2026-08-12",
-        "totalRequests": 295,
-        "hitRequests": 270,
-        "cachedInputTokens": 50526976,
+        "totalRequests": 299,
+        "hitRequests": 274,
+        "cachedInputTokens": 51750912,
         "cacheWriteInputTokens": 0,
-        "totalInputTokens": 60051774
+        "totalInputTokens": 61286038
       }
     },
     "ca80b5adb8b450bd": {
@@ -12842,6 +12842,36 @@
         "cacheWriteInputTokens": 0,
         "totalInputTokens": 5311
       }
+    },
+    "6ec7bc9eba8f0475": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5311
+      }
+    },
+    "5bf82465f63434ff": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5311
+      }
+    },
+    "e1f9c64af44e17f2": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5311
+      }
     }
   },
   "totalsByModel": {
@@ -13031,11 +13061,11 @@
     },
     "Venice/kimi-k3": {
       "day": "2026-08-12",
-      "totalRequests": 1,
+      "totalRequests": 0,
       "hitRequests": 0,
       "cachedInputTokens": 0,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 5311
+      "totalInputTokens": 0
     },
     "Venice/zai-org-glm-5-2": {
       "day": "2026-08-12",
@@ -13071,11 +13101,11 @@
     },
     "Venice/deepseek-v4-flash-0731": {
       "day": "2026-08-12",
-      "totalRequests": 336,
-      "hitRequests": 310,
-      "cachedInputTokens": 50852627,
+      "totalRequests": 341,
+      "hitRequests": 315,
+      "cachedInputTokens": 52368915,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 60753675
+      "totalInputTokens": 62294562
     },
     "Venice/openai-gpt-56-terra-pro": {
       "day": "2026-08-12",
