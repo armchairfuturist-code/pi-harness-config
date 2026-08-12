@@ -575,7 +575,7 @@ use fewer tokens by default, except explicitly requested writing content (delive
 - EDIT `hil/ledger.md` — this entry.
 
 **Cost posture:** fixed prefix delta per turn, measured via bench/probe.sh:
-before = 6258 total (input 6254); after = <AFTER> (+<DELTA>). Offset by leaner replies
+before = 6258 total (input 6254); after = 6471 total (input 6467) → +213 tok/prefix (stable, cacheRead-covered after turn 1). Offset by leaner replies
 (attention-span benchmark: ~43% shorter output on average, deliverable purity 88% vs 12%).
 No locked knobs touched (KEEP / compaction / tscg / maxDesc unchanged).
 

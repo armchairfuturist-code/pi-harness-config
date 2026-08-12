@@ -103,6 +103,7 @@ bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/poor-mans-distill|__AGENT__/skills/poor-mans-distill|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
+bundled-skills/attention-kind|__AGENT__/skills/attention-kind|dir
 scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
 scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
 EOF
@@ -113,6 +114,9 @@ fail=${fail_settings:-0}; ok=0; skip=0
 while IFS='|' read -r src dest flags; do
   [[ -z "$src" ]] && continue
   if [[ ! -e "$ROOT/$src" ]] && [[ "$flags" != *preserve* ]]; then echo "[FAIL] source missing: $src"; fail=$((fail+1)); continue; fi
+  # Repo cloned at ~/.pi: __PI_HOME__/__AGENT__ targets may resolve to the same
+  # files/dirs as ROOT. Skip the no-op copy so install stays idempotent here.
+  if [[ -e "$dest" ]] && [[ "$ROOT/$src" -ef "$dest" ]]; then echo "[SAME] $src (repo==target)"; skip=$((skip+1)); continue; fi
   # preserve flag = machine-local provider/model map (thinking/tiers):
   # only deploy if destination absent, so monthly provider rotation survives reinstall.
   if [[ "$flags" == *preserve* ]] && [[ -e "$dest" ]]; then echo "[KEEP] live $dest (preserve)"; skip=$((skip+1)); continue; fi
