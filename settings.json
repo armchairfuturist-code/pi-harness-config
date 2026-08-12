@@ -14,7 +14,10 @@
     "npm:pi-slim",
     "npm:pi-tscg",
     "npm:@quintinshaw/pi-dynamic-workflows",
- "npm:@samfp/pi-essentials"
+ "npm:@samfp/pi-essentials",
+ "npm:@howaboua/pi-smart-btw",
+ "npm:@howaboua/pi-skill-model-facing-api-design",
+ "npm:@howaboua/pi-auto-reasoning-tool"
   ],
   "extensions": [
     "~/.pi/agent/npm/node_modules/@samfp/pi-essentials/src/auto-session-name.ts",

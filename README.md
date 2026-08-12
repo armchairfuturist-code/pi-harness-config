@@ -429,6 +429,35 @@ average. Kill/force flags: `CE_LITE_PRELOAD=0|1|force`; full body via `CE_LITE_P
 Re-run: `node bench/ce-lite-preload-ab.mjs`. Double-read (preload + later
 voluntary SKILL.md read) is measured post-deploy by the same harness.
 
+## Adaptive reasoning (pi-auto-reasoning-tool)
+
+By default this harness targets a **medium** per-turn reasoning baseline and lets
+the model escalate per phase — instead of paying top-tier reasoning on every turn.
+
+- **Installed:** `@howaboua/pi-auto-reasoning-tool` (pinned in `packages.lock.json`).
+- **Mechanics:** the turn-start reasoning level is the *floor*. The agent may
+  raise reasoning (up to `high`) for hard phases via a `change_reasoning` tool,
+  and the level is restored to the baseline when the run settles. It never goes
+  below the floor; `xhigh`/`max` stay user-only levers for genuinely hard work.
+- **Machine knob, not repo knob:** `defaultThinkingLevel` is intentionally *not*
+  committed here (provider-agnostic — see the `settings.json` comment). Set it on
+  the live machine in `~/.pi/agent/settings.json`; `install.sh` merges and
+  preserves machine-local values on reinstall. Recommendation: `medium` with this
+  tool installed.
+- **HIL gate (do not skip — reasoning level is a cache-lane key):** every
+  escalation switches lanes and the new lane starts cold, so measure rather than
+  assume:
+  1. baseline probe: representative multi-turn tasks; record total tokens and
+     `cacheRead`/hit rate at the current default;
+  2. install the tool + set `medium`; re-probe the **same tasks** (one variable);
+  3. ledger row: total-token delta, cache-hit delta, and the tool's own always-on
+     schema cost — re-measure it with the `model-facing-api-design` skill
+     (`tool-token-lines.mjs`) rather than trusting quoted numbers;
+  4. keep only if net-positive; otherwise revert the knob and note the result.
+- **Expectation:** every turn drops from `xhigh`/`max` to the medium floor and
+  hard phases peak below today's ceiling, so net savings are likely even after
+  lane-switch cost — the probe decides.
+
 ## Design (why these files exist)
 
 **Result: ~4,003 tok/turn with MCP off; ~5,300 tok/turn with MCP on + `lean` profile (was ~12,694 with `power`). The `lean` profile was the single biggest win — −9.8K tok/turn vs `power` at zero capability cost (all 82 tools stay callable via `ctx_call`). MCP on + lean wins for any task ≥2 turns; toggle off only for single-turn requests.**
@@ -449,14 +478,37 @@ cost, and the harness must not care which one is live.
 ### `tscg.json` — tool-schema compression
 **Path is `~/.pi/tscg.json`** (pi-tscg home root). Aggressive param-description strip is on; `aggressiveMaxDescChars` **20** (Iter 12). Repo `tscg.json` is what probe/build-variant uses — keep live in sync.
 
-### Extensions
+### Extensions — why only these
 
-| File | Role |
-|------|------|
-| `transcript-pruner.ts` + `lib/prune-core.mjs` | CLEAR/DEDUP/STALE; KEEP via `PI_PRUNE_KEEP` |
-| `session-index.ts` | Session indexing |
-| `runtime-discipline.ts` | Runtime discipline |
-| `rot-sentinel.ts` | Context-rot signals + handoff trigger |
+The harness runs **5 core extensions, on purpose.** Every always-loaded extension
+adds tokens to the model's context and another surface to maintain. The rule:
+**a new extension must earn its place through the HIL gate** (observe → one
+change → verify → ledger), and self-contained capabilities ship as npm packages
+instead of repo extensions whenever possible — so the repo file count stays low
+and bloat stays gated.
+
+| Extension | Why it exists |
+|-----------|---------------|
+| `transcript-pruner.ts` + `lib/prune-core.mjs` | Pointer-replaces spent tool output (CLEAR/DEDUP/STALE, KEEP via `PI_PRUNE_KEEP`) so long sessions don't rot — the enforcement arm of the KEEP=4 doctrine. |
+| `session-index.ts` | Writes zero-token session summaries on shutdown (no LLM call) so past work is findable cross-session without paying for a memory tool. |
+| `runtime-discipline.ts` | Event-driven recovery guidance + cache-stable long-session notices — keeps `HARNESS.md` behavior on rails on long runs. |
+| `rot-sentinel.ts` | Hooks the pre-LLM `context` event and detects rot in real time, triggering a handoff before quality degrades. |
+| `ce-lite-preload.ts` | Deterministically injects the ce-lite orchestration contract on turn 1 at ~1/6th the payload of a voluntary skill read — the biggest measured A/B win in this repo (911 sessions, 2026-08-10). |
+
+Newest additions ship as npm packages, not repo files — self-contained,
+individually gated:
+
+- **pi-smart-btw** — the `/btw` side-thread: renders a question slot *outside*
+  the main model context (cheap child session, inject/discard with Alt+C/Alt+X)
+  so side questions never pay the main-context re-prefill or interrupt the
+  active contract. Zero always-on tokens.
+- **pi-auto-reasoning-tool** — per-phase reasoning escalation from a medium
+  floor, ~44 tok always-on (see [Adaptive reasoning](#adaptive-reasoning-pi-auto-reasoning-tool)
+  for the HIL gate).
+- **pi-skill-model-facing-api-design** — a *skill*, not an extension: gives the
+  HIL gate the craft for measuring and designing model-facing tool contracts
+  (`tool-token-lines.mjs` prices a tool's schema in tokens). ~40 tok catalog
+  description; body read only when needed.
 
 ---
 
