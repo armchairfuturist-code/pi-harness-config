@@ -20,5 +20,6 @@ shell_allowlist_extra = [
 ]
 tool_profile = "lean"
 allow_ide_config_dirs = true
+allow_paths = ["/home/alex/.pi", "/home/alex/Projects/pi-harness-config"]
 
 

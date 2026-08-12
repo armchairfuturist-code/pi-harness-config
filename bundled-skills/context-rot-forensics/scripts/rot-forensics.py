@@ -35,8 +35,16 @@ import json, sys, os, re, glob, argparse, math
 from collections import Counter, defaultdict
 from datetime import datetime
 
-SESSIONS_DIR = os.path.expanduser("~/.pi/agent/sessions/--home-alex--/")
+SESSIONS_ROOT = os.path.expanduser("~/.pi/agent/sessions")
 ROT_LOG = os.path.expanduser("~/.pi/agent/memory/rot-log.jsonl")
+
+def session_jsonls(limit=None):
+    """All cwd slugs under ~/.pi/agent/sessions, largest first."""
+    files = glob.glob(os.path.join(SESSIONS_ROOT, "**", "*.jsonl"), recursive=True)
+    files.sort(key=os.path.getsize, reverse=True)
+    if limit is not None:
+        return files[:limit]
+    return files
 
 # === contextrot signal definitions (adapted for pi) ===
 ERROR_KEYWORDS = ["error", "failed", "blocked", "not found", "no such file", "denied", "exception", "command exited with code"]
@@ -561,7 +569,7 @@ def analyze_session(filepath, verbose=True, context_window=DEFAULT_WINDOW):
 
 def cross_session_summary():
     """Cross-session rot summary using contextrot methodology."""
-    files = sorted(glob.glob(SESSIONS_DIR + "*.jsonl"), key=os.path.getsize, reverse=True)
+    files = session_jsonls()
     print(f"\n{'='*70}")
     print(f"CROSS-SESSION ROT SUMMARY ({len(files)} sessions)")
     print(f"Methodology: contextrot (Wilson CI bucketing + knee detection + 5 behavioral signals)")
@@ -748,10 +756,10 @@ if __name__ == "__main__":
     elif args.file:
         analyze_session(args.file, context_window=args.window)
     elif args.all:
-        for f in sorted(glob.glob(SESSIONS_DIR + "*.jsonl"), key=os.path.getsize, reverse=True):
+        for f in session_jsonls():
             analyze_session(f, context_window=args.window)
     else:
         cross_session_summary()
-        files = sorted(glob.glob(SESSIONS_DIR + "*.jsonl"), key=os.path.getsize, reverse=True)[:5]
+        files = session_jsonls(limit=5)
         for f in files:
             analyze_session(f, context_window=args.window)
