@@ -8,6 +8,7 @@ import {
   readFileSync,
   writeFileSync,
 } from "node:fs";
+import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 
 export const CONTRACT_VERSION = 1;
@@ -16,12 +17,40 @@ export const DEFAULT_TIMEOUT_MS = 30_000;
 export const MAX_TIMEOUT_MS = 120_000;
 export const MAX_CAPTURE = 200_000;
 
-export function contractPaths(cwd) {
-  const scratch = join(cwd, ".scratch");
+export function isUnsafeProjectCwd(cwd) {
+  const abs = resolve(cwd || ".");
+  const home = resolve(homedir());
+  return abs === "/" || abs === "/home" || abs === home;
+}
+
+export function resolveStateDir(cwd, opts = {}) {
+  const abs = resolve(cwd || ".");
+  const home = resolve(homedir());
+  const agentHome = resolve(opts.agentHome || join(home, ".pi", "agent"));
+  const create = opts.create !== false;
+  if (!isUnsafeProjectCwd(abs)) {
+    const scratch = join(abs, ".scratch");
+    if (!create) return scratch;
+    try {
+      mkdirSync(scratch, { recursive: true });
+      return scratch;
+    } catch {
+      // unwritable project dir
+    }
+  }
+  const slug = sha256(abs).slice(0, 12);
+  const fallback = join(agentHome, ".scratch", "ce-lite", slug);
+  if (create) mkdirSync(fallback, { recursive: true });
+  return fallback;
+}
+
+export function contractPaths(cwd, stateDir) {
+  const scratch = stateDir || resolveStateDir(cwd, { create: false });
   return {
     scratch,
     contract: join(scratch, "ce-contract.json"),
     audit: join(scratch, "ce-audit.json"),
+    observed: join(scratch, "ce-observed.json"),
   };
 }
 

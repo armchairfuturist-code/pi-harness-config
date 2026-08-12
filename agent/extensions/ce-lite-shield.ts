@@ -1,8 +1,10 @@
 // ce-lite shield — automatic. Watches writes/tests, audits on settle, gates Done.
 // Manual ce_* tools are overrides. A planted ce-audit.json cannot pass.
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { homedir } from "node:os";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
@@ -41,7 +43,7 @@ function runAuditor(
   cwd: string,
 ): Promise<{ code: number; json: Record<string, unknown>; raw: string }> {
   return new Promise((resolvePromise, reject) => {
-    const child = spawn(process.execPath, [auditorPath, ...args], {
+ const child = spawn(process.execPath, [auditorPath].concat(args), {
       cwd,
       env: { PATH: process.env.PATH, HOME: process.env.HOME, LANG: process.env.LANG || "C" },
     });
@@ -67,14 +69,35 @@ function runAuditor(
   });
 }
 
-function contractRel(cwd: string) {
-  return join(cwd, ".scratch", "ce-contract.json");
+function stateDirOf(cwd: string, create = false): string {
+  const abs = resolve(cwd);
+  const home = resolve(homedir());
+  const agentHome = dirname(here);
+  const unsafe = abs === "/" || abs === "/home" || abs === home;
+  if (!unsafe) {
+    const scratch = join(abs, ".scratch");
+    if (!create) return scratch;
+    try {
+      mkdirSync(scratch, { recursive: true });
+      return scratch;
+    } catch {
+      // fall through
+    }
+  }
+  const slug = createHash("sha256").update(abs).digest("hex").slice(0, 12);
+  const fallback = join(agentHome, ".scratch", "ce-lite", slug);
+  if (create) mkdirSync(fallback, { recursive: true });
+  return fallback;
 }
-function auditRel(cwd: string) {
-  return join(cwd, ".scratch", "ce-audit.json");
+
+function contractRel(cwd: string, create = false) {
+  return join(stateDirOf(cwd, create), "ce-contract.json");
 }
-function observedRel(cwd: string) {
-  return join(cwd, ".scratch", "ce-observed.json");
+function auditRel(cwd: string, create = false) {
+  return join(stateDirOf(cwd, create), "ce-audit.json");
+}
+function observedRel(cwd: string, create = false) {
+  return join(stateDirOf(cwd, create), "ce-observed.json");
 }
 
 function statusFromAudit(audit: Record<string, unknown> | undefined) {
@@ -99,11 +122,10 @@ export default function (pi: ExtensionAPI) {
   const pendingShell = new Map<string, string>();
   let lastAudit: Record<string, unknown> | null = null;
   let settling = false;
-
   const loadMod = () => import(auditorPath);
 
   const loadObserved = async (): Promise<Observed> => {
-    const path = observedRel(cwdOf());
+    const path = observedRel(cwdOf(), false);
     if (!existsSync(path)) return emptyObserved();
     try {
       const { loadJson } = await loadMod();
@@ -121,13 +143,13 @@ export default function (pi: ExtensionAPI) {
 
   const saveObserved = async (obs: Observed) => {
     const { saveJson } = await loadMod();
-    mkdirSync(join(cwdOf(), ".scratch"), { recursive: true });
-    saveJson(observedRel(cwdOf()), obs);
+    stateDirOf(cwdOf(), true);
+    saveJson(observedRel(cwdOf(), false), obs);
   };
 
   const refreshStatus = async () => {
     const cwd = cwdOf();
-    if (!existsSync(contractRel(cwd))) {
+    if (!existsSync(contractRel(cwd, false))) {
       pi.setStatus?.("");
       return;
     }
@@ -135,7 +157,7 @@ export default function (pi: ExtensionAPI) {
       pi.setStatus?.(statusFromAudit(lastAudit));
       return;
     }
-    const auditPath = auditRel(cwd);
+    const auditPath = auditRel(cwd, false);
     if (!existsSync(auditPath)) {
       pi.setStatus?.("ce · auto");
       return;
@@ -155,15 +177,15 @@ export default function (pi: ExtensionAPI) {
     const writes = Object.entries(obs.writes).map(([path, contains]) => ({ path, contains }));
     const contract = makeAutoContract({ writes, cmds: obs.cmds });
     if (!contract) return;
-    mkdirSync(join(cwdOf(), ".scratch"), { recursive: true });
-    saveJson(contractRel(cwdOf()), contract);
+    stateDirOf(cwdOf(), true);
+    saveJson(contractRel(cwdOf(), false), contract);
     pi.setStatus?.(`ce 0/${contract.terms.length} · shield red`);
   };
 
   const autoAuditAndGate = async (reason: string) => {
     if (settling) return;
     const cwd = cwdOf();
-    const contractPath = contractRel(cwd);
+    const contractPath = contractRel(cwd, false);
     if (!existsSync(contractPath)) return;
     settling = true;
     try {
@@ -175,9 +197,9 @@ export default function (pi: ExtensionAPI) {
           "--cwd",
           cwd,
           "--claimed",
-          auditRel(cwd),
+          auditRel(cwd, false),
           "--out",
-          auditRel(cwd),
+          auditRel(cwd, true),
         ],
         cwd,
       );
@@ -212,8 +234,10 @@ export default function (pi: ExtensionAPI) {
         "Fix the failed files/tests. The shield re-runs itself. Do not call ce_open unless adding extra checks.",
       ]
         .filter(Boolean)
-        .join("\n");
+        .join(String.fromCharCode(10));
       pi.sendUserMessage(body, { deliverAs: "followUp", triggerTurn: true });
+    } catch {
+      // never crash the session
     } finally {
       settling = false;
     }
@@ -263,8 +287,8 @@ export default function (pi: ExtensionAPI) {
           summary: String((params as { summary?: string }).summary || ""),
           terms: (params as { terms: TermInput[] }).terms,
         });
-        mkdirSync(join(cwd, ".scratch"), { recursive: true });
-        saveJson(contractRel(cwd), contract);
+        stateDirOf(cwd, true);
+        saveJson(contractRel(cwd, false), contract);
         const obs = await loadObserved();
         obs.manual = true;
         await saveObserved(obs);
@@ -277,7 +301,7 @@ export default function (pi: ExtensionAPI) {
           ),
           "Shield will auto-audit on settle. You do not need to call ce_audit/ce_close.",
         ];
-        return textResult(lines.join("\n"), { contract });
+        return textResult(lines.join(String.fromCharCode(10)), { contract });
       } catch (err) {
         return textResult(`ce_open failed: ${String((err as Error).message || err)}`);
       }
@@ -291,13 +315,13 @@ export default function (pi: ExtensionAPI) {
     parameters: { type: "object", properties: {} },
     execute: async () => {
       const cwd = cwdOf();
-      if (!existsSync(contractRel(cwd))) {
+      if (!existsSync(contractRel(cwd, false))) {
         pi.setStatus?.("");
         return textResult("no ce-lite contract yet (no writes/tests this session)");
       }
       const { loadJson } = await loadMod();
-      const contract = loadJson(contractRel(cwd));
-      const audit = existsSync(auditRel(cwd)) ? loadJson(auditRel(cwd)) : null;
+      const contract = loadJson(contractRel(cwd, false));
+      const audit = existsSync(auditRel(cwd, false)) ? loadJson(auditRel(cwd, false)) : null;
       await refreshStatus();
       const obs = await loadObserved();
       const lines = [
@@ -308,7 +332,7 @@ export default function (pi: ExtensionAPI) {
       ];
       if (audit) lines.push(statusFromAudit(audit));
       else lines.push("no audit yet — runs automatically after writes/tests");
-      return textResult(lines.join("\n"), { contract, audit });
+      return textResult(lines.join(String.fromCharCode(10)), { contract, audit });
     },
   });
 
@@ -320,7 +344,7 @@ export default function (pi: ExtensionAPI) {
     execute: async () => {
       const cwd = cwdOf();
       const ran = await runAuditor(
-        ["audit", "--contract", contractRel(cwd), "--cwd", cwd, "--out", auditRel(cwd)],
+        ["audit", "--contract", contractRel(cwd, false), "--cwd", cwd, "--out", auditRel(cwd, true)],
         cwd,
       );
       lastAudit = ran.json;
@@ -343,13 +367,13 @@ export default function (pi: ExtensionAPI) {
         [
           "close-check",
           "--contract",
-          contractRel(cwd),
+          contractRel(cwd, false),
           "--cwd",
           cwd,
           "--claimed",
-          auditRel(cwd),
+          auditRel(cwd, false),
           "--out",
-          auditRel(cwd),
+          auditRel(cwd, true),
         ],
         cwd,
       );
@@ -360,21 +384,21 @@ export default function (pi: ExtensionAPI) {
         return textResult(`ce_close failed: ${payload.error}`);
       }
       if (payload.ok !== true) {
-        const forged = payload.forged ? `\nforged/stale claimed audit: ${payload.forge_detail}` : "";
+        const forged = payload.forged ? `${String.fromCharCode(10)}forged/stale claimed audit: ${payload.forge_detail}` : "";
         return textResult(
-          `CLOSE BLOCKED: ${payload.reason || "audit not green"}${forged}\n${payload.matrix || ""}`.trim(),
-          { blocked: true, ...payload },
+          `CLOSE BLOCKED: ${payload.reason || "audit not green"}${forged}${String.fromCharCode(10)}${payload.matrix || ""}`.trim(),
+ { blocked: true, ...payload },
         );
       }
       const { loadJson, saveJson } = await loadMod();
-      const contract = loadJson(contractRel(cwd));
+      const contract = loadJson(contractRel(cwd, false));
       contract.status = "closed";
       contract.closed_at = new Date().toISOString();
-      saveJson(contractRel(cwd), contract);
+      saveJson(contractRel(cwd, false), contract);
       pi.setStatus?.(
         `ce ${(lastAudit?.passed as number) ?? ""}/${(lastAudit?.total as number) ?? ""} · closed`,
       );
-      return textResult(`CLOSED · ${payload.reason}\n${payload.matrix || ""}`.trim(), {
+      return textResult(`CLOSED · ${payload.reason}${String.fromCharCode(10)}${payload.matrix || ""}`.trim(), {
         closed: true,
         ...payload,
       });
@@ -387,51 +411,64 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("input", async () => {
-    const obs = await loadObserved();
-    obs.nudges = 0;
-    await saveObserved(obs);
+    try {
+      if (!existsSync(observedRel(cwdOf(), false))) return;
+      const obs = await loadObserved();
+      obs.nudges = 0;
+      await saveObserved(obs);
+    } catch {
+      // never crash a prompt over shield bookkeeping
+    }
   });
 
   pi.on("tool_call", async (event) => {
-    const { WRITE_TOOLS, SHELL_TOOLS, extractWritePath, extractWriteContains, extractShellCommand } =
-      await loadMod();
-    const name = event.toolName;
-    const input = event.input || {};
-    if (WRITE_TOOLS.has(name)) {
-      const path = extractWritePath(name, input);
-      if (!path) return;
-      const obs = await loadObserved();
-      obs.writes[path] = extractWriteContains(name, input);
-      await saveObserved(obs);
-      await syncAutoContract(obs);
-      return;
-    }
-    if (SHELL_TOOLS.has(name)) {
-      const cmd = extractShellCommand(input);
-      if (cmd) pendingShell.set(event.toolCallId, cmd);
+    try {
+      const { WRITE_TOOLS, SHELL_TOOLS, extractWritePath, extractWriteContains, extractShellCommand } =
+        await loadMod();
+      const name = event.toolName;
+      const input = event.input || {};
+      if (WRITE_TOOLS.has(name)) {
+        const path = extractWritePath(name, input);
+        if (!path) return;
+        const obs = await loadObserved();
+        obs.writes[path] = extractWriteContains(name, input);
+        await saveObserved(obs);
+        await syncAutoContract(obs);
+        return;
+      }
+      if (SHELL_TOOLS.has(name)) {
+        const cmd = extractShellCommand(input);
+        if (cmd) pendingShell.set(event.toolCallId, cmd);
+      }
+    } catch {
+      // never crash a tool call
     }
   });
 
   pi.on("tool_result", async (event) => {
-    const cmd = pendingShell.get(event.toolCallId);
-    pendingShell.delete(event.toolCallId);
-    if (!cmd || event.isError) return;
-    const { isTestCommand } = await loadMod();
-    if (!isTestCommand(cmd)) return;
-    const obs = await loadObserved();
-    if (!obs.cmds.includes(cmd)) obs.cmds.push(cmd);
-    await saveObserved(obs);
-    await syncAutoContract(obs);
+    try {
+      const cmd = pendingShell.get(event.toolCallId);
+      pendingShell.delete(event.toolCallId);
+      if (!cmd || event.isError) return;
+      const { isTestCommand } = await loadMod();
+      if (!isTestCommand(cmd)) return;
+      const obs = await loadObserved();
+      if (!obs.cmds.includes(cmd)) obs.cmds.push(cmd);
+      await saveObserved(obs);
+      await syncAutoContract(obs);
+    } catch {
+      // never crash a tool result
+    }
   });
 
   pi.on("before_agent_start", async (event) => {
-    const cwd = cwdOf();
-    if (!existsSync(contractRel(cwd))) return;
-    const auditPath = auditRel(cwd);
-    if (!existsSync(auditPath) && !lastAudit) return;
     try {
+      const cwd = cwdOf();
+      if (!existsSync(contractRel(cwd, false))) return;
+      const auditPath = auditRel(cwd, false);
+      if (!existsSync(auditPath) && !lastAudit) return;
       const { loadJson } = await loadMod();
-      const contract = loadJson(contractRel(cwd));
+      const contract = loadJson(contractRel(cwd, false));
       if (contract.status === "closed") return;
       const audit = lastAudit || loadJson(auditPath);
       if (audit.green) return;
@@ -453,3 +490,4 @@ export default function (pi: ExtensionAPI) {
     void autoAuditAndGate("agent_settled");
   });
 }
+

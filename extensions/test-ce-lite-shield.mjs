@@ -72,7 +72,7 @@ const baseTerms = [
   },
 ];
 
-const { makeContract, hashContract, inferTerms, isTestCommand, extractWritePath, isScratchMeta, makeAutoContract } = await import(auditor);
+const { makeContract, hashContract, inferTerms, isTestCommand, extractWritePath, isScratchMeta, makeAutoContract, isUnsafeProjectCwd, resolveStateDir } = await import(auditor);
 const good = makeContract({ summary: "happy path", terms: baseTerms });
 writeContract(root, good);
 
@@ -213,6 +213,13 @@ assert("20. auto-inferred path contract stays blocked after the file is broken",
 
 const noWork = makeAutoContract({ writes: [], cmds: [] });
 assert("21. no writes/tests → no auto contract (lookup stays quiet)", noWork === null);
+
+
+assert("22. /home is an unsafe project cwd", isUnsafeProjectCwd("/home"));
+assert("23. resolveStateDir(/home) is not /home/.scratch", resolveStateDir("/home", { create: false }) !== "/home/.scratch");
+assert("24. resolveStateDir(/home) lands under agent .scratch/ce-lite", resolveStateDir("/home", { create: false }).includes(".scratch/ce-lite"));
+const homeState = resolveStateDir("/home", { create: false });
+assert("25. creating state for /home does not require /home/.scratch", !homeState.startsWith("/home/.scratch"));
 
 console.log("");
 console.log(`Done: ${passed}/${passed + failed} · tmp: ${root}`);
