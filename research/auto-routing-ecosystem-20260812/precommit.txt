@@ -1,0 +1,73 @@
+=== status ===
+ M README.md
+ M agent/packages.lock.json
+ D agent/patches/auto-reasoning/apply-patches.mjs
+ M agent/scripts/apply-package-patches.sh
+ M agent/settings.json
+ M hil/ledger.md
+ M install.sh
+ M packages.lock.json
+ D patches/auto-reasoning/apply-patches.mjs
+ M scripts/apply-package-patches.sh
+ M settings.json
+?? .skillopt-sleep/
+?? research/auto-routing-ecosystem-20260812.md
+?? research/auto-routing-ecosystem-20260812/
+?? research/autoresearch-thinking-grok-4-6-20260812/
+=== diff stat ===
+ README.md                                      | 40 +++--------
+ agent/packages.lock.json                       | 19 +-----
+ agent/patches/auto-reasoning/apply-patches.mjs | 95 --------------------------
+ agent/scripts/apply-package-patches.sh         |  1 -
+ agent/settings.json                            |  3 +-
+ hil/ledger.md                                  |  6 ++
+ install.sh                                     |  1 -
+ packages.lock.json                             | 19 +-----
+ patches/auto-reasoning/apply-patches.mjs       | 95 --------------------------
+ scripts/apply-package-patches.sh               |  1 -
+ settings.json                                  |  9 ++-
+ 11 files changed, 22 insertions(+), 267 deletions(-)
+=== settings packages ===
+5:  "packages": [
+6-    "npm:@ogulcancelik/pi-model-thinking",
+7-    "npm:@plannotator/pi-extension",
+8-    "npm:context-mode",
+9-    "npm:pi-autoresearch",
+10-    "npm:pi-clarify@1.0.1",
+11-    "npm:pi-cache-optimizer",
+12-    "npm:pi-context-usage",
+13-    "npm:pi-continue",
+14-    "npm:pi-lean-ctx",
+15-    "npm:pi-slim",
+16-    "npm:pi-tscg",
+17-    "npm:@quintinshaw/pi-dynamic-workflows",
+18-    "npm:@samfp/pi-essentials",
+19-    "npm:@howaboua/pi-smart-btw",
+20-    "npm:@howaboua/pi-skill-model-facing-api-design"
+21-  ],
+22-  "extensions": [
+23-    "~/.pi/agent/extensions/transcript-pruner.ts",
+24-    "~/.pi/agent/extensions/session-index.ts",
+25-    "~/.pi/agent/extensions/runtime-discipline.ts",
+=== agent settings packages ===
+5:  "packages": [
+6-    "npm:@ogulcancelik/pi-model-thinking@0.1.0",
+7-    "npm:@plannotator/pi-extension@0.26.7",
+8-    "npm:context-mode@1.0.169",
+9-    "npm:pi-autoresearch@1.6.2",
+10-    "npm:pi-cache-optimizer@2.8.2",
+11-    "npm:pi-context-usage@1.0.2",
+12-    "npm:pi-continue@0.9.3",
+13-    "npm:pi-lean-ctx@3.9.18",
+14-    "npm:pi-slim@0.2.1",
+15-    "npm:pi-tscg@0.2.4",
+16-    "npm:@quintinshaw/pi-dynamic-workflows@3.5.1",
+17-    "npm:@samfp/pi-essentials@0.2.3",
+18-    "npm:pi-clarify@1.0.1",
+19-    "npm:@howaboua/pi-smart-btw@0.2.6",
+20-    "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5"
+21-  ],
+22-  "extensions": [
+23-    "~/.pi/agent/extensions/transcript-pruner.ts",
+24-    "~/.pi/agent/extensions/session-index.ts",
+25-    "~/.pi/agent/extensions/runtime-discipline.ts",

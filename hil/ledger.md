@@ -672,3 +672,20 @@ KEEP=4 | 24k/20k | strip on | maxDesc=20 | APPEND_SYSTEM imperative activation
 - **Decision:** uninstall `@howaboua/pi-auto-reasoning-tool` and delete `patches/auto-reasoning/`. Thinking stays on `defaultThinkingLevel` + `model-thinking.json` + `/think`.
 - **Why:** package is raise-only; every raise is a cache-lane switch. On current pins it spends more. grok-4-6 Phase 1: low/medium/high all passed; medium cheapest (42176 vs high 42525 vs low 60061). Ecosystem scan: no better auto-think skill; only real auto-router is `pi-smart-router` (LLM pre-router, already rejected).
 - **Do not retry:** reinstall AR "to save tokens" without a new canary that beats medium pins.
+
+## Iter 20 — 2026-08-12 — remove @plannotator/pi-extension
+
+**Trigger:** 80 recent sessions, 0 plan/annot tool calls. Added as optional
+review UI (2026-07-29 audit); not on the ce-lite path.
+
+**Change:** dropped from `settings.json` + `packages.lock.json` (repo, agent
+mirror, live `~/.pi/agent`). `pi remove npm:@plannotator/pi-extension` —
+node_modules copy gone. Historical research/ledger rows left as-is.
+
+**SkillOpt follow-up:** Sleep's Pi backend hardcodes `--no-tools` and judges
+**response text**, not the workspace. Enabling tools still would not score
+`skillopt-pi` file checks. Viable path is eval-with-tools + filesystem scorer
+(`skillopt-pi/eval.py`), not more Sleep nights on harvested chores.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20

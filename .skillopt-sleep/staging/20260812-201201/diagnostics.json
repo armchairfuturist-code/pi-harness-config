@@ -1,0 +1,36 @@
+{
+  "night": 1,
+  "backend": "pi",
+  "gate_mode": "on",
+  "n_tasks": 8,
+  "baseline_score": 0.18,
+  "candidate_score": 0.18,
+  "accepted": false,
+  "gate_action": "reject",
+  "holdout_leaked": false,
+  "n_applied_edits": 0,
+  "n_rejected_edits": 8,
+  "n_unmatched_edits": 0,
+  "call_error": "",
+  "reflect_raw_head": "[{\"op\":\"add\",\"content\":\"When the user asks to apply a list of audit remediations, execute every item in the stated order without skipping and report per-item actions for each item. Do not only acknowledge the requirement or claim no remediations list was included.\",\"rationale\":\"Agent only restated the rule instead of walking the list in order with per-item actions.\"},{\"op\":\"add\",\"content\":\"When a design has two overlapping types or dual representations, collapse them to one simplest type that is easy to implement and review, and name that concrete type. Never stay generic.\",\"rationale\":\"Agent kept the single-type preference abstract and never named a concrete type.\"},{\"op\":\"add\",\"content\":\"When syncing models, sync all newly listed models from a provider API into ~/.pi/agent/models.json so every new model is selectable in pi, not just the one named in the request. Fetch the provider catalog, write models.json, and confirm models are selectable; do not only report inability to act.\",\"rationale\":\"Agent skipped catalog fetch, models.json write, and selectability confirmation.\"},{\"op\":\"add\",\"content\":\"When asked to run a GEO-only audit, stay on GEO (llms.txt, crawler allowlists, citati",
+  "holdout_detail": [
+    {
+      "id": "llm_336c132123ba",
+      "reference_kind": "rubric",
+      "hard": 0.0,
+      "soft": 0.72,
+      "response_len": 422,
+      "response_head": "Adopted: keep the pi harness lean. Upgrade only approved plugins. Do not add unapproved extensions. After a smoke test, drop capabilities that are not actually used.\n\nNo harness changes in this turn (",
+      "why": "Adopts the lean approved-only policy and adds no extras, but performs no requested upgrades, skips skill-tree verification, and never runs a smoke test."
+    },
+    {
+      "id": "llm_eddd11423c14",
+      "reference_kind": "rubric",
+      "hard": 0.0,
+      "soft": 0.0,
+      "response_len": 392,
+      "response_head": "No skill-name collisions were resolved. There is no collision report, skill inventory, or memory of duplicate skill paths in this session, and no filesystem tools were available to locate an authorita",
+      "why": "Did not keep a preferred/auto skill path, remove a skipped duplicate, or confirm the collision is gone; it reports no action and leaves collisions unresolved."
+    }
+  ]
+}

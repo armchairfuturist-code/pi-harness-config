@@ -1,0 +1,38 @@
+=== repo lock wc ===
+18 /home/alex/Projects/pi-harness-config/packages.lock.json
+=== repo lock ===
+{
+  "@ogulcancelik/pi-model-thinking": "0.1.0",
+  "@plannotator/pi-extension": "0.26.7",
+  "context-mode": "1.0.169",
+  "pi-autoresearch": "1.6.2",
+  "pi-cache-optimizer": "2.8.2",
+  "pi-clarify": "1.0.1",
+  "pi-context-usage": "1.0.2",
+  "pi-continue": "0.9.3",
+  "pi-lean-ctx": "3.9.18",
+  "pi-slim": "0.2.1",
+  "pi-tscg": "0.2.4",
+  "@quintinshaw/pi-dynamic-workflows": "3.5.1",
+  "@samfp/pi-essentials": "0.2.3",
+  "@howaboua/pi-smart-btw": "0.2.6",
+  "@howaboua/pi-skill-model-facing-api-design": "0.0.5",
+  "@howaboua/pi-auto-reasoning-tool": "0.1.11"
+}
+
+=== apply repo ===
+     1	#!/usr/bin/env bash
+     2	set -euo pipefail
+     3	ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+     4	node "$ROOT/patches/context-mode/apply-patches.mjs"
+     5	node "$ROOT/patches/tscg/apply-patches.mjs"
+     6	node "$ROOT/patches/dynamic-workflows/apply-patches.mjs"
+     7	node "$ROOT/patches/auto-reasoning/apply-patches.mjs"
+=== apply live ===
+     1	#!/usr/bin/env bash
+     2	set -euo pipefail
+     3	ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+     4	node "$ROOT/patches/context-mode/apply-patches.mjs"
+     5	node "$ROOT/patches/tscg/apply-patches.mjs"
+     6	node "$ROOT/patches/dynamic-workflows/apply-patches.mjs"
+     7	node "$ROOT/patches/auto-reasoning/apply-patches.mjs"

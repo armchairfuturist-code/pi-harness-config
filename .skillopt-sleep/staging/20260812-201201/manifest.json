@@ -1,0 +1,7 @@
+{
+  "live_skill_path": "/home/alex/.pi/agent/skills/ce-lite/SKILL.md",
+  "live_memory_path": "/home/alex/Projects/pi-harness-config/CLAUDE.md",
+  "has_skill": false,
+  "has_memory": false,
+  "accepted": false
+}

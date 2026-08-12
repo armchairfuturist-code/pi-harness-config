@@ -109,7 +109,6 @@
   "pi_stack": {
     "packages": [
       "npm:@ogulcancelik/pi-model-thinking",
-      "npm:@plannotator/pi-extension",
       "npm:context-mode",
       "npm:pi-autoresearch",
       "npm:pi-cache-optimizer",

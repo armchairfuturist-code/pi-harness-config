@@ -1,0 +1,93 @@
+=== packages.lock.json ===
+diff --git a/packages.lock.json b/packages.lock.json
+index a977199..42c2dea 100644
+--- a/packages.lock.json
++++ b/packages.lock.json
+@@ -1,18 +1 @@
+-{
+-  "@ogulcancelik/pi-model-thinking": "0.1.0",
+-  "@plannotator/pi-extension": "0.26.7",
+-  "context-mode": "1.0.169",
+-  "pi-autoresearch": "1.6.2",
+-  "pi-cache-optimizer": "2.8.2",
+-  "pi-clarify": "1.0.1",
+-  "pi-context-usage": "1.0.2",
+-  "pi-continue": "0.9.3",
+-  "pi-lean-ctx": "3.9.18",
+-  "pi-slim": "0.2.1",
+-  "pi-tscg": "0.2.4",
+-  "@quintinshaw/pi-dynamic-workflows": "3.5.1",
+-  "@samfp/pi-essentials": "0.2.3",
+-  "@howaboua/pi-smart-btw": "0.2.6",
+-  "@howaboua/pi-skill-model-facing-api-design": "0.0.5",
+-  "@howaboua/pi-auto-reasoning-tool": "0.1.11"
+-}
++{"@ogulcancelik/pi-model-thinking":"0.1.0","@plannotator/pi-extension":"0.26.7","context-mode":"1.0.169","pi-autoresearch":"1.6.2","pi-cache-optimizer":"2.8.2","pi-clarify":"1.0.1","pi-context-usage":"1.0.2","pi-continue":"0.9.3","pi-lean-ctx":"3.9.18","pi-slim":"0.2.1","pi-tscg":"0.2.4","@quintinshaw/pi-dynamic-workflows":"3.5.1","@samfp/pi-essentials":"0.2.3","@howaboua/pi-smart-btw":"0.2.6","@howaboua/pi-skill-model-facing-api-design":"0.0.5"}
+=== agent/packages.lock.json ===
+diff --git a/agent/packages.lock.json b/agent/packages.lock.json
+index a977199..42c2dea 100644
+--- a/agent/packages.lock.json
++++ b/agent/packages.lock.json
+@@ -1,18 +1 @@
+-{
+-  "@ogulcancelik/pi-model-thinking": "0.1.0",
+-  "@plannotator/pi-extension": "0.26.7",
+-  "context-mode": "1.0.169",
+-  "pi-autoresearch": "1.6.2",
+-  "pi-cache-optimizer": "2.8.2",
+-  "pi-clarify": "1.0.1",
+-  "pi-context-usage": "1.0.2",
+-  "pi-continue": "0.9.3",
+-  "pi-lean-ctx": "3.9.18",
+-  "pi-slim": "0.2.1",
+-  "pi-tscg": "0.2.4",
+-  "@quintinshaw/pi-dynamic-workflows": "3.5.1",
+-  "@samfp/pi-essentials": "0.2.3",
+-  "@howaboua/pi-smart-btw": "0.2.6",
+-  "@howaboua/pi-skill-model-facing-api-design": "0.0.5",
+-  "@howaboua/pi-auto-reasoning-tool": "0.1.11"
+-}
++{"@ogulcancelik/pi-model-thinking":"0.1.0","@plannotator/pi-extension":"0.26.7","context-mode":"1.0.169","pi-autoresearch":"1.6.2","pi-cache-optimizer":"2.8.2","pi-clarify":"1.0.1","pi-context-usage":"1.0.2","pi-continue":"0.9.3","pi-lean-ctx":"3.9.18","pi-slim":"0.2.1","pi-tscg":"0.2.4","@quintinshaw/pi-dynamic-workflows":"3.5.1","@samfp/pi-essentials":"0.2.3","@howaboua/pi-smart-btw":"0.2.6","@howaboua/pi-skill-model-facing-api-design":"0.0.5"}
+=== settings.json ===
+diff --git a/settings.json b/settings.json
+index 4ad6e29..3e17c50 100644
+--- a/settings.json
++++ b/settings.json
+@@ -4,7 +4,7 @@
+   "// provider-agnostic": "Provider/model/thinking intentionally NOT committed here. This repo is provider-agnostic: live machines pick a provider via `pi auth login` and store the choice in ~/.pi/agent/settings.json (defaultProvider, defaultModel, defaultThinkingLevel, enabledModels) plus model-thinking.json / workflows/model-tiers.json. install.sh preserves all of those on reinstall; repo values are first-run fallbacks only.",
+   "packages": [
+     "npm:@ogulcancelik/pi-model-thinking",
+-"npm:@plannotator/pi-extension",
++    "npm:@plannotator/pi-extension",
+     "npm:context-mode",
+     "npm:pi-autoresearch",
+     "npm:pi-clarify@1.0.1",
+@@ -15,10 +15,9 @@
+     "npm:pi-slim",
+     "npm:pi-tscg",
+     "npm:@quintinshaw/pi-dynamic-workflows",
+- "npm:@samfp/pi-essentials",
+- "npm:@howaboua/pi-smart-btw",
+- "npm:@howaboua/pi-skill-model-facing-api-design",
+- "npm:@howaboua/pi-auto-reasoning-tool"
++    "npm:@samfp/pi-essentials",
++    "npm:@howaboua/pi-smart-btw",
++    "npm:@howaboua/pi-skill-model-facing-api-design"
+   ],
+   "extensions": [
+     "~/.pi/agent/extensions/transcript-pruner.ts",
+=== agent/settings.json ===
+diff --git a/agent/settings.json b/agent/settings.json
+index 21fdab6..f26d889 100644
+--- a/agent/settings.json
++++ b/agent/settings.json
+@@ -17,8 +17,7 @@
+     "npm:@samfp/pi-essentials@0.2.3",
+     "npm:pi-clarify@1.0.1",
+     "npm:@howaboua/pi-smart-btw@0.2.6",
+-    "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5",
+-    "npm:@howaboua/pi-auto-reasoning-tool@0.1.11"
++    "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5"
+   ],
+   "extensions": [
+     "~/.pi/agent/extensions/transcript-pruner.ts",

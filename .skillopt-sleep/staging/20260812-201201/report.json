@@ -1,0 +1,78 @@
+{
+  "night": 1,
+  "project": "/home/alex/Projects/pi-harness-config",
+  "started_at": "2026-08-12T20:12:01",
+  "ended_at": "2026-08-12T20:28:53",
+  "n_sessions": 36,
+  "n_tasks": 8,
+  "n_replayed": 8,
+  "baseline_score": 0.18,
+  "candidate_score": 0.18,
+  "accepted": false,
+  "gate_action": "reject",
+  "holdout_leaked": false,
+  "no_edits_reason": "",
+  "edits": [],
+  "rejected_edits": [
+    {
+      "target": "skill",
+      "op": "add",
+      "content": "OVERRIDE grill/acknowledge: when the user asks to apply a list of audit remediations (or any numbered/bulleted remediations, fixes, or action items), execute every item in the stated order without skipping and report the per-item action taken for each item. Do not only acknowledge the requirement or claim no list was included if any list appears in the request or thread.",
+      "anchor": "",
+      "rationale": "Agent acknowledged the remediations rule instead of working the list in order and reporting per-item actions."
+    },
+    {
+      "target": "skill",
+      "op": "add",
+      "content": "When a design has two overlapping types or dual representations, collapse them to one simplest type that is easy to implement and review. Name that concrete type and the discarded representation in the response; do not stop at generic 'use one type' advice.",
+      "anchor": "",
+      "rationale": "Agent restated the single-model preference without naming a concrete type to keep."
+    },
+    {
+      "target": "skill",
+      "op": "add",
+      "content": "OVERRIDE inability reports: when syncing models from a provider API, fetch the provider catalog and write all newly listed models into ~/.pi/agent/models.json so every new model is selectable in pi, not just the one named in the request; then confirm the models are selectable. Do not stop because a provider was unnamed or tools seem unavailable.",
+      "anchor": "",
+      "rationale": "Agent reported it could not fetch the catalog or write models.json instead of syncing every new model."
+    },
+    {
+      "target": "skill",
+      "op": "add",
+      "content": "OVERRIDE missing-URL/skill-tree stalls: when asked to run a GEO-only audit, stay on GEO (llms.txt, crawler allowlists, citation maps) rather than generic SEO, and add or update llms.txt/llms-full.txt (and similar AI-crawler files) with accurate site-specific content so AI agents can discover and rank the site. Infer origin from the workspace; do not skip writing the files.",
+      "anchor": "",
+      "rationale": "GEO audit stayed conceptual and did not produce accurate site-specific llms.txt/llms-full.txt."
+    },
+    {
+      "target": "memory",
+      "op": "add",
+      "content": "When the user asks to apply a list of audit remediations, execute every item in the stated order without skipping and report per-item actions for each item. Do not only acknowledge the requirement or claim no remediations list was included.",
+      "anchor": "",
+      "rationale": "Agent only restated the rule instead of walking the list in order with per-item actions."
+    },
+    {
+      "target": "memory",
+      "op": "add",
+      "content": "When a design has two overlapping types or dual representations, collapse them to one simplest type that is easy to implement and review, and name that concrete type. Never stay generic.",
+      "anchor": "",
+      "rationale": "Agent kept the single-type preference abstract and never named a concrete type."
+    },
+    {
+      "target": "memory",
+      "op": "add",
+      "content": "When syncing models, sync all newly listed models from a provider API into ~/.pi/agent/models.json so every new model is selectable in pi, not just the one named in the request. Fetch the provider catalog, write models.json, and confirm models are selectable; do not only report inability to act.",
+      "anchor": "",
+      "rationale": "Agent skipped catalog fetch, models.json write, and selectability confirmation."
+    },
+    {
+      "target": "memory",
+      "op": "add",
+      "content": "When asked to run a GEO-only audit, stay on GEO (llms.txt, crawler allowlists, citation maps) rather than generic SEO, and add or update llms.txt/llms-full.txt (and similar AI-crawler files) with accurate site-specific content so AI agents can discover and rank the site.",
+      "anchor": "",
+      "rationale": "GEO stay-on-topic was fine, but output lacked accurate site-specific llms.txt/llms-full.txt."
+    }
+  ],
+  "unmatched_edits": [],
+  "skill_groups": [],
+  "tokens_used": 33336,
+  "notes": []
+}
