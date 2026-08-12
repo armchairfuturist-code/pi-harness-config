@@ -27,5 +27,8 @@ if (serialized.includes("invest") || serialized.includes("last30days") || serial
 for (const profile of ["research.json", "audit.json"]) {
   if (!existsSync(join(root, "profiles", profile))) bad(`missing profile ${profile}`)
 }
+if (install.includes("systemctl --user link")) bad("install.sh must copy systemd units, not systemctl link from $ROOT")
+if (!install.includes(".config/systemd/user")) bad("install.sh must install units into ~/.config/systemd/user")
+if (!install.includes("FragmentPath")) bad("install.sh --check must verify unit FragmentPath")
 if (failed) process.exit(1)
 console.log(`OK manifest: ${settings.packages.length} packages, ${settings.extensions.length} extensions`)

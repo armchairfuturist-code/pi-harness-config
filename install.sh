@@ -206,21 +206,36 @@ fi
 # OS-level backstop: install + start a user systemd timer that re-enforces the
 # profile every 5 min, so "always lean" holds even when pi runs in a mode that
 # does not load extensions (e.g. -ne) and independent of any single session.
-# Guard: systemd user sessions available? (not whether the unit already exists —
-# list-unit-files returns non-zero until the unit is linked, i.e. on first run.)
+# Copy units into ~/.config/systemd/user — never `systemctl link` from $ROOT.
+# A /tmp or worktree checkout leaves dangling units (LoadState=bad) after the
+# path disappears; reboot or daemon-reload then kills the timer.
+# Guard: systemd user sessions available? (not whether the unit already exists).
 ENFORCE_UNITS=(enforce-tool-profile.service enforce-tool-profile.timer)
+UNIT_DIR="$HOME_DIR/.config/systemd/user"
 if systemctl --user is-system-running >/dev/null 2>&1; then
   if $CHECK; then
-    systemctl --user is-active enforce-tool-profile.timer >/dev/null 2>&1 \
-      && echo "[ OK ] lean-ctx enforce timer active" \
-      || { echo "[DIFF] lean-ctx enforce timer not active — run: ./install.sh"; fail=$((fail+1)); }
+    frag=$(systemctl --user show -p FragmentPath --value enforce-tool-profile.timer 2>/dev/null || true)
+    load=$(systemctl --user show -p LoadState --value enforce-tool-profile.timer 2>/dev/null || true)
+    if ! systemctl --user is-active enforce-tool-profile.timer >/dev/null 2>&1; then
+      echo "[DIFF] lean-ctx enforce timer not active — run: ./install.sh"
+      fail=$((fail+1))
+    elif [[ "$load" == "bad" || "$load" == "not-found" ]]; then
+      echo "[DIFF] lean-ctx enforce timer LoadState=$load — run: ./install.sh"
+      fail=$((fail+1))
+    elif [[ "$frag" != "$UNIT_DIR/enforce-tool-profile.timer" ]]; then
+      echo "[DIFF] lean-ctx enforce timer FragmentPath=$frag (want $UNIT_DIR/...) — run: ./install.sh"
+      fail=$((fail+1))
+    else
+      echo "[ OK ] lean-ctx enforce timer active"
+    fi
   else
+    mkdir -p "$UNIT_DIR"
     for u in "${ENFORCE_UNITS[@]}"; do
-      systemctl --user link "$ROOT/lean-ctx/$u" >/dev/null 2>&1 \
-        && systemctl --user enable "$u" >/dev/null 2>&1
+      rm -f "$UNIT_DIR/$u"
+      install -m 644 "$ROOT/lean-ctx/$u" "$UNIT_DIR/$u"
     done
     systemctl --user daemon-reload >/dev/null 2>&1
-    systemctl --user start enforce-tool-profile.timer >/dev/null 2>&1
+    systemctl --user enable --now enforce-tool-profile.timer >/dev/null 2>&1
     echo "[ OK ] lean-ctx enforce timer installed + started"
   fi
 else
