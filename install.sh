@@ -71,6 +71,7 @@ scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
 scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
 scripts/enforce-tool-profile.sh|__AGENT__/scripts/enforce-tool-profile.sh|executable
+scripts/ensure-btw-model.mjs|__AGENT__/scripts/ensure-btw-model.mjs|executable
 scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
@@ -186,6 +187,17 @@ if $CHECK; then
     || { echo "[DIFF] lean-ctx tool profile drift — run: ./install.sh"; fail=$((fail+1)); }
 else
   "$ROOT/scripts/enforce-tool-profile.sh" 2>&1 | sed 's/^/[enforce] /' || fail=$((fail+1))
+fi
+# /btw (pi-smart-btw) model guard: the upstream default is hardcoded to
+# openai-codex/gpt-5.6-luna, which fails with "No API key found for
+# openai-codex" when the machine has no such key. Assign /btw a cheap model
+# from the machine's own registry (provider-agnostic). Check mode reports.
+if $CHECK; then
+  node "$ROOT/scripts/ensure-btw-model.mjs" --check >/dev/null 2>&1 \
+    && echo "[ OK ] /btw cheap model configured" \
+    || { echo "[DIFF] /btw uses non-working default model — run: ./install.sh"; fail=$((fail+1)); }
+else
+  node "$ROOT/scripts/ensure-btw-model.mjs" 2>&1 | sed 's/^/[btw] /' || fail=$((fail+1))
 fi
 # OS-level backstop: install + start a user systemd timer that re-enforces the
 # profile every 5 min, so "always lean" holds even when pi runs in a mode that

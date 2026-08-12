@@ -502,6 +502,13 @@ individually gated:
   the main model context (cheap child session, inject/discard with Alt+C/Alt+X)
   so side questions never pay the main-context re-prefill or interrupt the
   active contract. Zero always-on tokens.
+
+  > **Model note:** the upstream package defaults `/btw` to
+  > `openai-codex/gpt-5.6-luna`, which fails with `No API key found for
+  > openai-codex` on machines without an OpenAI Codex key. `install.sh`
+  > auto-assigns `/btw` a cheap model from your own registry via
+  > `scripts/ensure-btw-model.mjs` (prefers your active `defaultProvider`;
+  > `~/.pi/agent/pi-smart-btw.json` overrides it, or set `ENSURE_BTW_MODEL`).
 - **pi-auto-reasoning-tool** — per-phase reasoning escalation from a medium
   floor, ~44 tok always-on (see [Adaptive reasoning](#adaptive-reasoning-pi-auto-reasoning-tool)
   for the HIL gate).
