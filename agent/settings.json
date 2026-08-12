@@ -37,7 +37,7 @@
   },
   "defaultProvider": "synthetic",
   "defaultModel": "syn:small:text",
-  "defaultThinkingLevel": "off",
+  "defaultThinkingLevel": "xhigh",
   "retry": {
     "enabled": true
   }
