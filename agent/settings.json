@@ -37,7 +37,7 @@
   },
   "defaultProvider": "Venice",
   "defaultModel": "kimi-k3",
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "off",
   "retry": {
     "enabled": true
   }
