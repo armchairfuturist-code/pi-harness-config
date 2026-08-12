@@ -124,6 +124,7 @@ No destructive ops without consent; declared scope only; no creds/browser/remote
 
 ## Footer
 Done: <passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>
+Done: counts come from the auto-shield after writes/tests, not from memory. Do not call ce_open/ce_audit/ce_close unless overriding. Do not claim Done if statusline says shield red.
 `;
 
 function loadSkillBody(): { body: string; path: string | null; treeOk: boolean; missing: string[] } {

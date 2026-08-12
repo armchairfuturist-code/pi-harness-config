@@ -20,7 +20,7 @@ Completion: every request has one base route plus every applicable overlay.
 1. **Grill** — resolve blockers one at a time; state a reasonable default and proceed when one exists.
    *Done*: objective, constraints, in/out boundaries, and irreversible choices each stated; no unanswered question prevents a checkable contract.
 
-2. **Contract** — assign every acceptance term a short ID and observable pass condition. Keep small contracts in chat; use the profile's work-state artifact when required.
+2. **Contract** — assign every acceptance term a short ID and observable pass condition. Keep small contracts in chat; use the profile's work-state artifact when required. The shield records writes/tests itself and auto-audits on settle. Do not call `ce_open` unless adding extra checks the watcher cannot see.
    *Done*: each requested outcome and material constraint maps to exactly one term with a yes/no test.
 
 3. **Plan** — shortest execution path; discovery before mutation; name the evidence source for each term.
@@ -42,13 +42,13 @@ Fan-out guardrails (from `dispatching-parallel-agents`): parallelize only when t
 5. **Execute** — route mechanical leaves to `small`, workers/reviewers to `medium`, hard synthesis to `big`. Use custom `agent()`/`parallel()`/`phase()` graphs only after reading `workflow-authoring`. Keep intermediate material in workflow variables.
    *Done*: every worker returns the six-field result contract (see `reference.md`); changed paths remain in scope.
 
-6. **Verify** — maintain one evidence matrix: term ID, current evidence, pass/fail. Give the complete matrix and deliverable to a reviewer. Fix failed terms and repeat affected checks.
-   For judgment over gathered evidence, run gather-judge (see `gather-judge.md`).
-   *Done*: every term row says pass and cites current evidence; unresolved risks named and reported as incomplete or qualified.
+6. **Verify** — the shield auto-runs `ce_audit` after writes/tests. A planted `.scratch/ce-audit.json` or same-context "LGTM" is not evidence. Keep one evidence matrix: term ID, current evidence, pass/fail. Give the complete matrix and deliverable to a reviewer. Fix failed terms; the shield re-runs itself.
+   For judgment over gathered evidence, run gather-judge (see `gather-judge.md`). Judgment terms cannot pass the mechanical shield.
+   *Done*: shield is green (it re-runs and auto-closes); every term row says pass and cites current evidence; unresolved risks named and reported as incomplete or qualified.
 
 7. **Deliver and compound** — report outcome against terms, artifact paths, verification status, surviving risks. Save reusable patterns, gotchas, preferences, and durable decisions to the knowledge store or project record.
 
-**Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). This makes Verify and cross-session handoffs parseable.
+**Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). `Done:` counts come from the auto-shield, not from memory. Do not claim Done if the statusline says shield red.
    *Done*: operator can locate every deliverable, see whether all terms passed, identify each residual risk; omit categories with no content.
 
 ## Worker safety

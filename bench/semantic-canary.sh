@@ -47,6 +47,17 @@ else
   fi
 fi
 
+echo "== ce-lite-shield =="
+SHIELD_TEST="$ROOT/extensions/test-ce-lite-shield.mjs"
+if [[ -f "$SHIELD_TEST" ]] && command -v node >/dev/null 2>&1; then
+  if ! node "$SHIELD_TEST"; then
+    echo "FAIL ce-lite-shield unit test"
+    FAIL=1
+  fi
+else
+  echo "SKIP ce-lite-shield (no node or test file)"
+fi
+
 echo "== ctx canaries (if present) =="
 if [[ -x "$ROOT/scripts/ctx-canaries.sh" ]]; then
   if ! "$ROOT/scripts/ctx-canaries.sh"; then

@@ -67,6 +67,14 @@ When in doubt during wayfinding, grill (see `grilling.md`) and model the domain 
 
 If no row matches: stay in ce-lite. Do not hunt the catalog mid-flight.
 
+## Shield
+
+- Automatic. Writes and passing test commands become terms. The shield audits on settle and closes when green.
+- You do not call `ce_open` / `ce_audit` / `ce_close` unless overriding. A written audit file is not evidence.
+- Footer `Done:` counts come from the auto-audit. Do not claim Done if the statusline says shield red.
+- Lookup/chat with no writes and no tests: shield stays off.
+- Judgment terms cannot pass this shield (gather-judge / later isolated judge).
+
 ## Worker result contract
 
 End every workflow worker prompt with this contract and pass the same shape as its schema when JavaScript consumes it:

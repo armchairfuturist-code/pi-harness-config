@@ -34,6 +34,7 @@ Always-on read/shell/output shapes live in `APPEND_SYSTEM.md` (single source). `
 ## CE-lite activation
 - `APPEND_SYSTEM.md` — always-on pointer (when to load)
 - `extensions/ce-lite-preload.ts` — mechanical preload of skill body on heuristic match
+- `extensions/ce-lite-shield.ts` + `ce-lite-auditor.mjs` — automatic mechanical shield (watches writes/tests, audits on settle, forged verdict rejected)
 - Kill switch: `CE_LITE_PRELOAD=0` · force: `CE_LITE_PRELOAD=force`
 - Trivial chat/lookups must still skip (suite s6)
 
@@ -44,6 +45,7 @@ Always-on contract is `APPEND_SYSTEM.md`. Asked-for writing (email, docs, copy) 
 - `bench/probe.sh` — tokens + cache hit rate
 - `bench/semantic-canary.sh` — skill semantics + preload H4/heuristics + optional session efficiency
 - `bench/test-ce-lite-preload.mjs` — unit heuristics
+- `extensions/test-ce-lite-shield.mjs` — mechanical shield (forged green cannot close)
 - `bundled-skills/harness-doctor/scripts/trajectory_metrics.py` — per-session tool/error metrics
 
 ## Install
