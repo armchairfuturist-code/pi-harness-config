@@ -10506,11 +10506,11 @@
       },
       "Venice/deepseek-v4-flash-0731": {
         "day": "2026-08-12",
-        "totalRequests": 260,
-        "hitRequests": 241,
-        "cachedInputTokens": 42409472,
+        "totalRequests": 263,
+        "hitRequests": 244,
+        "cachedInputTokens": 43249664,
         "cacheWriteInputTokens": 0,
-        "totalInputTokens": 49733746
+        "totalInputTokens": 50580776
       }
     },
     "ca80b5adb8b450bd": {
@@ -12442,6 +12442,106 @@
         "cacheWriteInputTokens": 0,
         "totalInputTokens": 5556
       }
+    },
+    "a9b63653ec5a0562": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5372,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5401
+      }
+    },
+    "bc368a83da033cb9": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5120,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5556
+      }
+    },
+    "ebe8d8af1ff8ab4f": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5311
+      }
+    },
+    "ad7f04885a931f82": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 0,
+        "cachedInputTokens": 0,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5311
+      }
+    },
+    "b4ae57f74fb38bab": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5120,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5556
+      }
+    },
+    "b6542810f252a39a": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5372,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5401
+      }
+    },
+    "075e8519c7f52937": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5120,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5556
+      }
+    },
+    "2879192ff0b94441": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5372,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5401
+      }
+    },
+    "cceaf8849992f5fc": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5120,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5556
+      }
+    },
+    "5838ca74c1463a60": {
+      "Venice/kimi-k3": {
+        "day": "2026-08-12",
+        "totalRequests": 1,
+        "hitRequests": 1,
+        "cachedInputTokens": 5372,
+        "cacheWriteInputTokens": 0,
+        "totalInputTokens": 5401
+      }
     }
   },
   "totalsByModel": {
@@ -12631,11 +12731,11 @@
     },
     "Venice/kimi-k3": {
       "day": "2026-08-12",
-      "totalRequests": 6,
-      "hitRequests": 3,
-      "cachedInputTokens": 15360,
+      "totalRequests": 10,
+      "hitRequests": 8,
+      "cachedInputTokens": 41968,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 32601
+      "totalInputTokens": 54450
     },
     "Venice/zai-org-glm-5-2": {
       "day": "2026-08-12",
@@ -12671,11 +12771,11 @@
     },
     "Venice/deepseek-v4-flash-0731": {
       "day": "2026-08-12",
-      "totalRequests": 301,
-      "hitRequests": 281,
-      "cachedInputTokens": 42752275,
+      "totalRequests": 304,
+      "hitRequests": 284,
+      "cachedInputTokens": 43585299,
       "cacheWriteInputTokens": 0,
-      "totalInputTokens": 50461798
+      "totalInputTokens": 51306033
     },
     "Venice/openai-gpt-56-terra-pro": {
       "day": "2026-08-12",
