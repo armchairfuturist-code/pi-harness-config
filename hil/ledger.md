@@ -720,3 +720,26 @@ ce-lite compound is again in-session only (knowledge store / project record).
 
 ### Locked (unchanged)
 KEEP=4 | 24k/20k | strip on | maxDesc=20
+
+
+## Iter 23 — 2026-08-13 — Pi-native analytics baseline (MEASURED)
+
+**Trigger:** operator authorized starting the HIL-approved measurement track after evaluating external optimizer repos.
+
+**Scope:** read-only baseline. No runtime optimizer, prompt, locked knob, or package configuration changed.
+
+**Measurements:**
+- Preflight PASS; inventory PASS with no drift; config hash `75eeca7d2574`.
+- Semantic canary PASS: 33/33 CE-lite shield checks and 10/10 preload heuristics.
+- Probe: `5183` total tokens, cold one-turn `openai-gpt-56-luna` probe, cache read/write `0/0`.
+- Deterministic workload: `23513, 23339, 23510`; median `23510`; correctness `3/3`.
+- Historical cache counters: `1124/1202` request hits (`93.51%`); `38520549/54486104` cached-token coverage (`70.70%`).
+- CE-lite replay: 936 sessions, 92% multi-step recall, 96 chat-like matches, 19% voluntary skill activation.
+- KEEP A/B: KEEP 2/3/4/6 all pass; KEEP=3 only 5.8% more synthetic savings than KEEP=4, below the 10% bar. KEEP remains 4.
+- 30-day trajectory: 915 sessions, 2527 tool errors, 9253 retry loops. This is observational, not yet a change justification.
+
+**Learning:** baseline rig is operational. Remaining leverage appears to be error/retry reduction and analytics quality, not another compression layer. Existing Attention-kind-derived answer-first contract is already in `APPEND_SYSTEM.md`; do not add a second style layer without a target-model semantic/scannability canary.
+
+**Decision:** KEEP current locked posture. Next candidate is read-only classification of recurring retry/error signatures, followed by a small held-out error canary. No HIL knob reopen.
+
+**Trace:** `research/pi-analytics-baseline-20260813.md`
