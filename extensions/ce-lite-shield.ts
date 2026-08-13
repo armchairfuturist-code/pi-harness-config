@@ -122,6 +122,7 @@ export default function (pi: ExtensionAPI) {
   const pendingShell = new Map<string, string>();
   let lastAudit: Record<string, unknown> | null = null;
   let settling = false;
+  let injectingNudge = false;
   const loadMod = () => import(auditorPath);
 
   const loadObserved = async (): Promise<Observed> => {
@@ -187,6 +188,9 @@ export default function (pi: ExtensionAPI) {
     const cwd = cwdOf();
     const contractPath = contractRel(cwd, false);
     if (!existsSync(contractPath)) return;
+    const { loadJson } = await loadMod();
+    const existing = loadJson(contractPath);
+    if (existing?.status === "closed") return;
     settling = true;
     try {
       const ran = await runAuditor(
@@ -228,14 +232,20 @@ export default function (pi: ExtensionAPI) {
             .join(", ")
         : "";
       const body = [
-        `[ce-lite shield] auto-audit red after ${reason} — do not claim Done.`,
-        payload.matrix || payload.reason || "shield red",
-        failed ? `Failed: ${failed}` : "",
-        "Fix the failed files/tests. The shield re-runs itself. Do not call ce_open unless adding extra checks.",
-      ]
-        .filter(Boolean)
+          `[ce-lite shield] auto-audit after ${reason}${payload.ok === true ? "" : " — not closed"}.`,
+          payload.reason && payload.ok !== true ? `reason: ${payload.reason}` : "",
+          payload.matrix || "no matrix",
+          failed ? `Failed: ${failed}` : "",
+          payload.ok === true ? "" : "Fix failed checks if any. Do not call ce_open unless adding extra checks.",
+        ]
+.filter(Boolean)
         .join(String.fromCharCode(10));
-      pi.sendUserMessage(body, { deliverAs: "followUp", triggerTurn: true });
+      injectingNudge = true;
+      try {
+        pi.sendUserMessage(body, { deliverAs: "followUp", triggerTurn: true });
+      } finally {
+        injectingNudge = false;
+      }
     } catch {
       // never crash the session
     } finally {
@@ -412,7 +422,13 @@ export default function (pi: ExtensionAPI) {
 
   pi.on("input", async () => {
     try {
+      if (injectingNudge) return;
       if (!existsSync(observedRel(cwdOf(), false))) return;
+      const cwd = cwdOf();
+      if (existsSync(contractRel(cwd, false))) {
+        const { loadJson } = await loadMod();
+        if (loadJson(contractRel(cwd, false))?.status === "closed") return;
+      }
       const obs = await loadObserved();
       obs.nudges = 0;
       await saveObserved(obs);
