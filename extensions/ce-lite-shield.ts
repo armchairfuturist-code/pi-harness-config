@@ -420,9 +420,10 @@ export default function (pi: ExtensionAPI) {
     void refreshStatus();
   });
 
-  pi.on("input", async () => {
+  pi.on("input", async (event) => {
     try {
       if (injectingNudge) return;
+      if (event?.source === "extension") return;
       if (!existsSync(observedRel(cwdOf(), false))) return;
       const cwd = cwdOf();
       if (existsSync(contractRel(cwd, false))) {
