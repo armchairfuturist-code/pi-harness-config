@@ -39,6 +39,20 @@ What happens without you asking:
 
 Details for agents: `bundled-skills/ce-lite/SKILL.md`.
 
+## Skills we keep
+
+Only these live under `~/.pi/agent/skills/`. Extra dirs are pruned on install.
+
+- `ce-lite` — how the agent ships work
+- `smart-read` — how to open files (ceilings still belong in the tool; see B)
+- `harness-doctor` — `./scripts/harness-doctor.sh`
+- `context-rot-forensics` — post-hoc session log analysis (runtime is `rot-sentinel.ts`)
+- `graph-engineering` — optional; design a `workflow()` DAG
+- `shard-security` — optional; sandbox / creds
+
+Ponytail is a git package, not this list.
+
+
 ## What lives where
 
 | Source | Live dest |
