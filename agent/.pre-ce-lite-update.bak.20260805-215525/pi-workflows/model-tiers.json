@@ -1,7 +1,0 @@
-{
-  "tiers": {
-    "small": "Venice/mercury-2:minimal",
-    "medium": "Venice/gemini-3-5-flash",
-    "big": "Venice/kimi-k3:high"
-  }
-}

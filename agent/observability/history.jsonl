@@ -1,4 +1,0 @@
-{"endedAt":1784563473728,"runtimeMs":11593,"turns":0,"inputTokens":0,"outputTokens":0,"cost":0,"model":"zai-org/glm-5.2","cwd":"/home/alex","branch":null}
-{"endedAt":1784563816709,"runtimeMs":342596,"turns":6,"inputTokens":304211,"outputTokens":6942,"cost":0.19606347000000002,"model":"zai-org/glm-5.2","cwd":"/home/alex","branch":null}
-{"endedAt":1784563853679,"runtimeMs":31170,"turns":0,"inputTokens":0,"outputTokens":0,"cost":0,"model":"moonshotai/kimi-k2.6","cwd":"/home/alex","branch":null}
-{"endedAt":1784567342458,"runtimeMs":3488407,"turns":7,"inputTokens":410690,"outputTokens":8010,"cost":0.215730195,"model":"moonshotai/kimi-k2.6","cwd":"/home/alex","branch":null}

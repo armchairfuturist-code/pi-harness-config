@@ -65,6 +65,23 @@ if $CHECK; then
 else
   mkdir -p "$AGENT"; cp "$EXPECTED_SETTINGS" "$AGENT/settings.json"; echo "[ OK ] settings.json"
 fi
+# Keep ~/.pi/settings.json packages+extensions in lockstep (pi also reads this file).
+PI_SETTINGS="$HOME_DIR/.pi/settings.json"
+if $CHECK; then
+  if [[ -f "$PI_SETTINGS" ]]; then
+    if diff -q <(jq -cS '.packages' "$EXPECTED_SETTINGS") <(jq -cS '.packages' "$PI_SETTINGS") >/dev/null 2>&1; then echo "[ OK ] ~/.pi/settings.json"; else echo "[DIFF] ~/.pi/settings.json packages"; fail_settings=1; fi
+  else
+    echo "[DIFF] ~/.pi/settings.json missing"; fail_settings=1
+  fi
+else
+  mkdir -p "$HOME_DIR/.pi"
+  if [[ -f "$PI_SETTINGS" ]]; then
+    jq --slurpfile exp "$EXPECTED_SETTINGS" '.packages = $exp[0].packages' "$PI_SETTINGS" > "$PI_SETTINGS.tmp" && mv "$PI_SETTINGS.tmp" "$PI_SETTINGS"
+  else
+    cp "$EXPECTED_SETTINGS" "$PI_SETTINGS"
+  fi
+  echo "[ OK ] ~/.pi/settings.json"
+fi
 
 read -r -d '' MANIFEST <<'EOF' || true
 AGENTS.md|__AGENT__/AGENTS.md|

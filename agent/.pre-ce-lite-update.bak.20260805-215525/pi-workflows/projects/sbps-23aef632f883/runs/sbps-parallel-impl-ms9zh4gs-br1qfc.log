@@ -1,3 +1,0 @@
-[2026-08-01T06:26:36.612Z] [ERROR] agent build agent 2 attempt 1/1 failed: Agent "build agent 2" timed out after 300000ms; raise or omit timeoutMs/agentTimeoutMs to allow longer runs
-[2026-08-01T06:26:36.612Z] [INFO] agent "build agent 2" exhausted 1 attempt: AGENT_TIMEOUT Agent "build agent 2" timed out after 300000ms; raise or omit timeoutMs/agentTimeoutMs to allow longer runs
-[2026-08-01T06:26:36.612Z] [INFO] Logs persisted to /home/alex/.pi/workflows/projects/sbps-23aef632f883/runs/sbps-parallel-impl-ms9zh4gs-br1qfc.log

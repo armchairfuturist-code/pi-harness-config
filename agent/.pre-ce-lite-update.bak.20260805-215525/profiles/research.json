@@ -1,7 +1,0 @@
-{
-  "name": "research",
-  "description": "Recent-discourse research tools; optional because their schemas add fixed prompt cost.",
-  "packages": [
-    "https://github.com/gvkhosla/last30days-pi"
-  ]
-}

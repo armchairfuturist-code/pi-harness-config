@@ -24,7 +24,7 @@ Sync this machine to the pi-harness-config master: cd into the clone, git pull, 
 
 | Source | Live dest |
 |--------|-----------|
-| `settings.json` | `~/.pi/agent/settings.json` (provider/model/thinking/enabledModels stay local) |
+| `settings.json` | `~/.pi/agent/settings.json` **and** `~/.pi/settings.json` (packages + extensions stay in lockstep; provider/model/thinking stay local) |
 | `packages.lock.json` | allowlist + pins. Extra live packages are pruned on install. |
 | `models.json` | **not in the repo.** Machine-local. Venice (and others) stay here. |
 | `extensions/`, `scripts/`, `patches/` | `~/.pi/agent/` |

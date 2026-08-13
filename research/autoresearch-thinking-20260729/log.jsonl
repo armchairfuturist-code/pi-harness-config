@@ -1,4 +1,0 @@
-{"iter":0,"think":"xhigh","suite_total":51119,"out_sum":2622,"req_sum":18,"checks":"pass","decision":"baseline","note":"rebuilt proxy w/ accept-encoding fix; prior run had zero tool calls due to gzip-mangled bodies"}
-{"iter":1,"think":"high","suite_total":30995,"out_sum":1695,"req_sum":12,"checks":"pass","decision":"tentative best","note":"-39% suite vs xhigh; t3 halved; reqs 18->12; canaries green"}
-{"iter":2,"think":"medium","suite_total":30592,"out_sum":1294,"req_sum":12,"checks":"FAIL","decision":"DISCARD (canary)","note":"tied with high on suite, -24% out, but quality broke — thinking/quality cliff is between medium and high for kimi-k3"}
-{"iter":1b,"think":"high","suite_total":36333,"out_sum":1444,"req_sum":14,"checks":"pass","decision":"KEEP — WINNER","note":"2-run mean vs xhigh: suite 33664 (-34%), out 1570 (-40%), reqs 13 (-28%); promote thinking high as default"}

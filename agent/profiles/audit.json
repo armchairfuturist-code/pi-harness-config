@@ -1,6 +1,0 @@
-{
-  "name": "audit",
-  "description": "Better Harness durable workflow review; optional slash-command capability.",
-  "packages": [
-  ]
-}

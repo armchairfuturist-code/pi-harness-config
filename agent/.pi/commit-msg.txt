@@ -1,6 +1,0 @@
-fix(agent): residual harness hardening after re-audit
-
-Enable on-demand last30days (not always-on tokens); drop skills denylist.
-Wire local extensions; HARNESS.md SoT; thin AGENTS/APPEND.
-Add harness-preflight.sh; ignore agent/git and skill assets media.
-Untrack last30days binary assets.

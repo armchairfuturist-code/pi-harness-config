@@ -1,6 +1,0 @@
-{"agent":"worker","task":"[redacted]","ts":1784796129,"status":"error","duration":369817,"exit":1,"taskHash":"e4ccabaedaa6a1b1df88a7f492c2da0c096f9322f379c72554b9f17bebc293e6"}
-{"agent":"worker","task":"[redacted]","ts":1784796129,"status":"error","duration":20902,"exit":1,"taskHash":"e4ccabaedaa6a1b1df88a7f492c2da0c096f9322f379c72554b9f17bebc293e6"}
-{"agent":"worker","task":"[redacted]","ts":1784796129,"status":"error","duration":265656,"exit":1,"taskHash":"e4ccabaedaa6a1b1df88a7f492c2da0c096f9322f379c72554b9f17bebc293e6"}
-{"agent":"worker","task":"[redacted]","ts":1784796129,"status":"error","duration":20888,"exit":1,"taskHash":"e4ccabaedaa6a1b1df88a7f492c2da0c096f9322f379c72554b9f17bebc293e6"}
-{"agent":"reviewer","task":"[redacted]","taskHash":"0a6260173e495f69fd3dc7db20971193c578f81ea5852ad80effd4e42fbc727d","ts":1784961031,"status":"ok","duration":458443}
-{"agent":"reviewer","task":"[redacted]","taskHash":"5d9e8af2c05baff8241748905b5914c3154dfefc7c8004e20472cd3493f3d843","ts":1784961031,"status":"ok","duration":388544}
