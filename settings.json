@@ -5,18 +5,14 @@
   "packages": [
     "npm:@ogulcancelik/pi-model-thinking",
     "npm:context-mode",
-    "npm:pi-autoresearch",
-    "npm:pi-clarify@1.0.1",
-    "npm:pi-cache-optimizer",
-    "npm:pi-context-usage",
-    "npm:pi-continue",
     "npm:pi-lean-ctx",
     "npm:pi-slim",
     "npm:pi-tscg",
     "npm:@quintinshaw/pi-dynamic-workflows",
     "npm:@samfp/pi-essentials",
     "npm:@howaboua/pi-smart-btw",
-    "npm:@howaboua/pi-skill-model-facing-api-design"
+    "npm:@howaboua/pi-skill-model-facing-api-design",
+    "git:github.com/DietrichGebert/ponytail"
   ],
   "extensions": [
     "~/.pi/agent/extensions/transcript-pruner.ts",

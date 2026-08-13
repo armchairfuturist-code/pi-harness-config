@@ -38,18 +38,30 @@ fi
 EXPECTED_SETTINGS=$(mktemp)
 trap 'rm -f "$EXPECTED_SETTINGS"' EXIT
 if ! $SETTINGS && [[ -f "$AGENT/settings.json" ]]; then
+  # PRUNE live packages not in repo allowlist. Keep live version pins for allowlisted names only.
   jq -s '.[0] as $repo |.[1] as $live | $repo
   | if ($live.defaultProvider // null) != null then.defaultProvider=$live.defaultProvider else. end
   | if ($live.defaultModel // null) != null then.defaultModel=$live.defaultModel else. end
   | if ($live.defaultThinkingLevel // null) != null then.defaultThinkingLevel=$live.defaultThinkingLevel else. end
   | if ($live.enabledModels // null) != null then.enabledModels=$live.enabledModels else. end
-  | if ($live.packages // null) != null then.packages=$live.packages else. end' \
+  | if ($live.lastChangelogVersion // null) != null then .lastChangelogVersion=$live.lastChangelogVersion else . end
+    | .packages = (
+        ($repo.packages // []) as $allow
+        | $allow
+        | map(
+            . as $rspec
+            | ($rspec | sub("^npm:"; "") | sub("^git:"; "") | sub("@[0-9][^@]*$"; "")) as $n
+            | (($live.packages // [])
+               | map(select((sub("^npm:"; "") | sub("^git:"; "") | sub("@[0-9][^@]*$"; "")) == $n))
+               | .[0]) // $rspec
+          )
+      )' \
   "$ROOT/settings.json" "$AGENT/settings.json" > "$EXPECTED_SETTINGS"
 else
   cp "$ROOT/settings.json" "$EXPECTED_SETTINGS"
 fi
 if $CHECK; then
-  if diff -q "$EXPECTED_SETTINGS" "$AGENT/settings.json" >/dev/null 2>&1; then echo "[ OK ] settings.json"; else echo "[DIFF] settings.json -> $AGENT/settings.json"; fail_settings=1; fi
+  if diff -q <(jq -cS 'del(.lastChangelogVersion)' "$EXPECTED_SETTINGS") <(jq -cS 'del(.lastChangelogVersion)' "$AGENT/settings.json") >/dev/null 2>&1; then echo "[ OK ] settings.json"; else echo "[DIFF] settings.json -> $AGENT/settings.json"; fail_settings=1; fi
 else
   mkdir -p "$AGENT"; cp "$EXPECTED_SETTINGS" "$AGENT/settings.json"; echo "[ OK ] settings.json"
 fi
@@ -88,7 +100,7 @@ extensions/ce-lite-auditor.mjs|__AGENT__/extensions/ce-lite-auditor.mjs|
 extensions/test-ce-lite-shield.mjs|__AGENT__/extensions/test-ce-lite-shield.mjs|
 extensions/enforce-tool-profile.ts|__AGENT__/extensions/enforce-tool-profile.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
-lean-ctx/config.toml|__LEAN_HOME__/config.toml|
+lean-ctx/config.toml|__LEAN_HOME__/config.toml|runtime
 lean-ctx/config.toml|__AGENT__/lean-ctx/config.toml|
 lean-ctx/env.tuning.sh|__LEAN_HOME__/env.tuning.sh|
 workflows/model-tiers.json|__PI_HOME__/workflows/model-tiers.json|preserve
@@ -107,6 +119,7 @@ bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
 scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
 scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
+scripts/harness-doctor.sh|__AGENT__/scripts/harness-doctor.sh|executable
 EOF
 MANIFEST="${MANIFEST//__AGENT__/$AGENT}"
 MANIFEST="${MANIFEST//__PI_HOME__/$HOME_DIR/.pi}"
@@ -121,6 +134,7 @@ while IFS='|' read -r src dest flags; do
   # preserve flag = machine-local provider/model map (thinking/tiers):
   # only deploy if destination absent, so monthly provider rotation survives reinstall.
   if [[ "$flags" == *preserve* ]] && [[ -e "$dest" ]]; then echo "[KEEP] live $dest (preserve)"; skip=$((skip+1)); continue; fi
+if [[ "$flags" == *runtime* ]] && $CHECK; then echo "[KEEP] runtime $dest"; skip=$((skip+1)); continue; fi
   if $CHECK; then
     same=false
     if [[ -d "$ROOT/$src" ]]; then diff -rq "$ROOT/$src" "$dest" >/dev/null 2>&1 && same=true
@@ -141,11 +155,11 @@ OBSOLETE=(
   "$AGENT/AGENTS_full.md"
   "$AGENT/AGENTS_terse.md"
   "$HOME_DIR/.pi/workflows/saved/investment-gather-judge.json"
-  "$AGENT/scripts/skillopt-sleep-nightly.sh"
+  "$AGENT/scripts/skillopt-sleep-nightly.sh" "$AGENT/patches/auto-reasoning"
 )
 for path in "${OBSOLETE[@]}"; do
   if $CHECK; then [[ ! -e "$path" ]] || { echo "[STALE] $path"; fail=$((fail+1)); }
-  else rm -f "$path"; fi
+  else rm -rf "$path"; fi
 done
 
 # Prune harness skill names from $HOME/.pi/skills so they cannot shadow
