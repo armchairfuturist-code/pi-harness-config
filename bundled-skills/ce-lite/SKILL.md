@@ -1,79 +1,50 @@
 ---
 name: ce-lite
-description: "Non-trivial work router: grill, contract, plan, execute, verify, compound. Trivial requests answered directly."
+description: "Multi-step shipping: grill if fuzzy, checkable contract, shield proves it. Lookup and one-step work skip the loop."
 ---
 
 # CE-lite
 
-## Route selection
+Host does proof, compact, handoff, and compound. You do the work.
 
-1. **Lookup** — answer from memory or existing artifacts without new work.
-2. **Simple** — single-step, unambiguous, low-consequence: answer directly; skip the contract loop.
-3. **Contract** — multi-step, ambiguous, deliverable-shaped, externally consequential, or profile-required: run the contract loop.
+## Route
 
-Overlays: Engineering profile (add TDD, code review, preflight); research profile (add deep search); audit profile (add adversarial review). Profile requirements take precedence over Simple.
+1. **Lookup** — answer from memory or existing files. No contract.
+2. **Simple** — one step, unambiguous, low-consequence. Do it. No contract.
+3. **Contract** — two or more steps, a deliverable, or irreversible. Run the loop.
 
-Completion: every request has one base route plus every applicable overlay.
+Novice: ask for the work. Do not type `/skill`, `ce_open`, or `/compact`.
 
 ## Contract loop
 
-1. **Grill** — resolve blockers one at a time; state a reasonable default and proceed when one exists.
-   *Done*: objective, constraints, in/out boundaries, and irreversible choices each stated; no unanswered question prevents a checkable contract.
+1. **Grill** if fuzzy. One question at a time. Default and move. See `grilling.md`.
+2. **Terms** — 2–5 yes/no checks. Path exists or command exits 0. No judgment terms. The shield records writes/tests and audits on settle. Do not call `ce_open` / `ce_audit` / `ce_close`.
+3. **Diagnose, then execute**
+   - Neither high → stay here.
+   - Context high → selective read, then continue. Host writes HANDOFF on compact/rot.
+   - Action high, terms do not share writes → `workflow()`. Fresh session per `agent()`.
+   - Both → `workflow()`; isolation/worktree only if a lane must not share cwd.
+   - Judgment (review, “is this good”) → `gather-judge.md`. Never a shield term.
+4. **Verify** — statusline is the score. Green = closed. Red = fix the failed check. A follow-up with `reason: no open contract` means already closed; continue the user task.
+5. **Compound** — host appends to `~/.pi/memory/solutions.md` on green. You may add one line. Do not invent another store.
 
-2. **Contract** — assign every acceptance term a short ID and observable pass condition. Keep small contracts in chat; use the profile's work-state artifact when required. The shield records writes/tests itself and auto-audits on settle. Do not call `ce_open` unless adding extra checks the watcher cannot see.
-   *Done*: each requested outcome and material constraint maps to exactly one term with a yes/no test.
-
-3. **Plan** — shortest execution path; discovery before mutation; name the evidence source for each term.
-   *Done*: every term ID maps to an execution step or existing evidence source.
-
-4. **Diagnose axes** — classify action and context complexity:
-
-   | Context high | Action high | Topology |
-   |---|---|---|
-   | yes | — | index/search, selective reading, proactive handoff |
-   | — | yes | workflow fan-out |
-   | yes | yes | isolated workers with separate context budgets + indexing/compaction |
-   | — | — | direct execution |
-
-   Invoke a workflow when: two or more independent workstreams can run concurrently; a fresh-context reviewer/judge is required; or work crosses a handoff boundary. Otherwise execute directly.
-
-Fan-out guardrails (from `dispatching-parallel-agents`): parallelize only when the streams are independent — no shared mutable state, no coordination needed, each worker's brief is self-contained. If workers must coordinate or share mutable state, serialize instead. If coordination overhead would exceed the work itself, execute directly. Never fan out to parallelize a single sequential task.
-
-5. **Execute** — route mechanical leaves to `small`, workers/reviewers to `medium`, hard synthesis to `big`. Use custom `agent()`/`parallel()`/`phase()` graphs only after reading `workflow-authoring`. Keep intermediate material in workflow variables.
-   *Done*: every worker returns the six-field result contract (see `reference.md`); changed paths remain in scope.
-
-6. **Verify** — the shield auto-runs `ce_audit` after writes/tests. A planted `.scratch/ce-audit.json` or same-context "LGTM" is not evidence. Keep one evidence matrix: term ID, current evidence, pass/fail. Give the complete matrix and deliverable to a reviewer. Fix failed terms; the shield re-runs itself.
-   For judgment over gathered evidence, run gather-judge (see `gather-judge.md`). Judgment terms cannot pass the mechanical shield.
-   *Done*: shield is green (it re-runs and auto-closes); every term row says pass and cites current evidence; unresolved risks named and reported as incomplete or qualified.
-
-7. **Deliver and compound** — report outcome against terms, artifact paths, verification status, surviving risks. Save reusable patterns, gotchas, preferences, and durable decisions to the knowledge store or project record.
-
-**Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). `Done:` counts come from the auto-shield, not from memory. Do not claim Done if the statusline says shield red. A shield follow-up with `reason: no open contract` means the contract is already closed — continue the user's task, do not re-open.
-   *Done*: operator can locate every deliverable, see whether all terms passed, identify each residual risk; omit categories with no content.
+**Footer:** `Done: n/m · artifacts: … · risks: … · next: …`  
+Counts come from the shield. Do not claim Done if the statusline is red.
 
 ## Worker safety
 
-Workers (subagents, fan-out lanes, background agents) must not: perform destructive operations (delete, force-push, mass-rewrite) without explicit operator consent; read or write outside the agreed work scope (declared paths, workflow variables, indexed scope); access credentials, tokens, cookies, or browser state; post, like, reply, or modify remote content. Scope is declared in the contract or the worker brief. If a worker needs to exceed scope, it must stop and report back — it does not proceed on its own.
+No destroy, force-push, or mass-rewrite without consent. Stay in declared paths. No creds, cookies, or remote social. If a worker must exceed scope, stop and report.
+
+## Load only when needed
+
+- `grilling.md` — fuzzy goal
+- `gather-judge.md` — judgment over evidence
+- `context-health.md` — HANDOFF schema (host writes it)
+- `wayfinding.md` — resume / tickets / memory
+- `reference.md` — worker result fields, workflow authoring
+
+TDD when the change is logic: tests before the implementation.
 
 ## Self-test (first load)
 
-Before routing, verify the skill tree resolves: `reference.md`, `grilling.md`, `gather-judge.md`, `context-health.md`, `wayfinding.md` must exist under `SKILL_DIR`. If any reference is missing, fall back to the SKILL.md body alone and report the gap — do not route on a broken skill tree. This gate runs once per activation, not per turn.
-
-## Operating rules
-
-- Effort proportional to consequence and uncertainty.
-- Show answers, blocker questions, terms, short plan, progress, findings, evidence. Keep routing vocabulary and worker transcripts internal.
-- Batch independent tool calls. Resume journaled work instead of repeating completed calls.
-- Read-before-edit: `smart-read`.
-- Route side questions to the side thread so the active contract remains intact.
-- Before non-trivial decisions in a familiar area, search session summaries and the knowledge store, then read relevant ADRs/context docs, wayfinder decisions, and open tickets. State and record reversals.
-- Give work one home: tracker tickets for session-spanning tasks; workflow journals for within-session fan-out.
-- Load specialist references only when their branch applies: implementation, TDD, research, debugging, code review, domain modeling, specification, handoff, workflow authoring, workflow patterns.
-
-## Context health
-
-Hand off while context is healthy when: a journaled workflow completes three phases with more remaining; context reaches ~28% with rot score >=70 or 40% hard ceiling; the model changes; reasoning drifts; or two tool errors occur within five turns.
-
-Write `.scratch/HANDOFF.md` per `context-health.md`. Consolidate memory first after memory-heavy work. Resume from the handoff and `resumeFromRunId`.
-
-*Done*: handoff names one immediate next action and references enough current evidence for a fresh context to continue without rediscovery.
+`grilling.md`, `gather-judge.md`, `context-health.md`, `wayfinding.md`, `reference.md` must exist next to this file. If one is missing, use this file alone and say so.

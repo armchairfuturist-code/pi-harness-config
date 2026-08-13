@@ -257,6 +257,14 @@ assert(
   "31. preload skips shield follow-ups",
   preloadSrc.includes("ce-lite shield"),
 );
+assert(
+  "32. shield writes HANDOFF on compact",
+  shieldSrc.includes("session_before_compact") && shieldSrc.includes("writeHandoff"),
+);
+assert(
+  "33. shield appends compound on green close",
+  shieldSrc.includes("appendCompound") && shieldSrc.includes("solutions.md"),
+);
 
 console.log("");
 console.log(`Done: ${passed}/${passed + failed} · tmp: ${root}`);

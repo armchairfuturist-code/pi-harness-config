@@ -2,7 +2,7 @@
 // Manual ce_* tools are overrides. A planted ce-audit.json cannot pass.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync, appendFileSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -113,6 +113,85 @@ function matrixText(payload: Record<string, unknown>) {
   return JSON.stringify(payload, null, 2);
 }
 
+
+function handoffPath(cwd: string): string {
+  const dir = stateDirOf(cwd, true);
+  return join(dir, "HANDOFF.md");
+}
+function writeHandoff(cwd: string, reason: string, extras: Record<string, unknown> = {}) {
+  const prep = (extras.preparation && typeof extras.preparation === "object") ? extras.preparation as Record<string, unknown> : {};
+  const fileOps = (prep.fileOps && typeof prep.fileOps === "object") ? prep.fileOps as { read?: string[]; edited?: string[] } : {};
+  const read = (fileOps.read || []).slice(0, 24);
+  const edited = (fileOps.edited || []).slice(0, 24);
+  let contractBlock = "- none";
+  try {
+    if (existsSync(contractRel(cwd, false))) {
+      const raw = JSON.parse(readFileSync(contractRel(cwd, false), "utf8"));
+      const terms = Array.isArray(raw.terms) ? raw.terms : [];
+      contractBlock = terms.map((t: { id?: string; text?: string }) => `- ${t.id || "?"} ${t.text || ""} ${raw.status || "open"}`).join("\n") || "- none";
+    }
+  } catch { /* keep none */ }
+  const body = [
+    `# HANDOFF`,
+    `reason: ${reason}`,
+    `updated: ${new Date().toISOString()}`,
+    "",
+    "## Goal",
+    String(extras.goal || "(see conversation)"),
+    "",
+    "## Constraints",
+    "- host-written; same schema as pi compaction",
+    "",
+    "## Progress",
+    "### Done",
+    extras.done || "- (see contract)",
+    "### In Progress",
+    extras.inProgress || "- (see conversation)",
+    "### Blocked",
+    extras.blocked || "- none",
+    "",
+    "## Key Decisions",
+    extras.decisions || "- (see conversation)",
+    "",
+    "## Next Steps",
+    extras.next || "- continue user task",
+    "",
+    "## Critical Context",
+    extras.critical || "- see contract and file lists",
+    "",
+    "## Contract",
+    contractBlock,
+    "",
+    "## Model note",
+    extras.modelNote || "-",
+    "",
+    "<read-files>",
+    read.join("\n") || "(none)",
+    "</read-files>",
+    "<modified-files>",
+    edited.join("\n") || "(none)",
+    "</modified-files>",
+    "",
+  ].join("\n");
+  writeFileSync(handoffPath(cwd), body);
+}
+function appendCompound(cwd: string, audit: Record<string, unknown> | null, summary: string) {
+  const dir = join(homedir(), ".pi", "memory");
+  mkdirSync(dir, { recursive: true });
+  const files = existsSync(observedRel(cwd, false))
+    ? Object.keys(JSON.parse(readFileSync(observedRel(cwd, false), "utf8")).writes || {}).slice(0, 8)
+    : [];
+  const block = [
+    "",
+    `## ${new Date().toISOString().slice(0, 10)} ${summary || "contract"}`,
+    `- passed: ${audit?.passed ?? "?"}/${audit?.total ?? "?"}`,
+    `- files: ${files.join(", ") || "(none)"}`,
+    "- do-not-repeat: see HANDOFF if compact fired",
+    "",
+  ].join("\n");
+  appendFileSync(join(dir, "solutions.md"), block);
+}
+
 function emptyObserved(): Observed {
   return { writes: {}, cmds: [], manual: false, nudges: 0 };
 }
@@ -219,6 +298,8 @@ export default function (pi: ExtensionAPI) {
         pi.setStatus?.(
           `ce ${(lastAudit?.passed as number) ?? ""}/${(lastAudit?.total as number) ?? ""} · closed`,
         );
+        try { appendCompound(cwd, lastAudit, String((payload as { reason?: string }).reason || "closed")); } catch { /* ignore */ }
+        try { writeHandoff(cwd, "shield-green", { next: "continue user task" }); } catch { /* ignore */ }
         return;
       }
       const failedIds = Array.isArray((payload as { failed?: string[] }).failed)
@@ -507,6 +588,11 @@ export default function (pi: ExtensionAPI) {
     }
   });
 
+  pi.on("session_before_compact", (event: { preparation?: unknown; reason?: string }) => {
+    try {
+      writeHandoff(cwdOf(), String(event?.reason || "compact"), { preparation: event?.preparation, next: "resume from HANDOFF" });
+    } catch { /* never block compact */ }
+  });
   pi.on("agent_settled", () => {
     void autoAuditAndGate("agent_settled");
   });

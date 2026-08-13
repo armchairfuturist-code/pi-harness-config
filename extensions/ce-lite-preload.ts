@@ -109,25 +109,25 @@ function stripFrontmatter(md: string): string {
 const CONDENSED_CONTRACT = `# CE-lite contract (condensed)
 
 ## Route
-- Lookup — answer from memory/citations; no loop.
-- Simple — single-step: answer directly; no loop.
-- Contract — 2+ steps / edits / new code / debugging / multi-file / deliverable:
-  grill (if fuzzy) → contract → plan → diagnose → execute → verify → compound.
+- Lookup — answer from memory; no loop.
+- Simple — one step; no loop.
+- Contract — 2+ steps: grill if fuzzy → terms → diagnose → execute → shield verifies → compound.
 
-## Diagnose axes (high = true?)
-- Context high → index/search, selective read, handoff
-- Action high → workflow fan-out
-- Both → isolated workers + separate budgets
-- Neither → direct execution
+## Diagnose
+- Neither high → stay here.
+- Context high → selective read. Host writes HANDOFF on compact/rot.
+- Action high, terms do not share writes → workflow(). Fresh session per agent().
+- Both → workflow(); worktree only if a lane must not share cwd.
+- Judgment → gather-judge. Never a shield term.
 
 ## Worker safety
-No destructive ops without consent; declared scope only; no creds/browser/remote-social.
+No destroy without consent. Declared paths only. No creds/remote-social.
 
 ## Footer
-Done: <passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>
-Done: counts come from the auto-shield after writes/tests, not from memory. Do not call ce_open/ce_audit/ce_close unless overriding. Do not claim Done if statusline says shield red.
-A shield follow-up with reason: no open contract means already closed. Continue the user task. Do not re-open.
-`;
+Done: n/m · artifacts · risks · next
+Counts from the shield. Do not call ce_open/ce_audit/ce_close. Do not claim Done if statusline is red.
+reason: no open contract = already closed. Continue the user task.
+`
 
 function loadSkillBody(): { body: string; path: string | null; treeOk: boolean; missing: string[] } {
 	let path: string | null = null;
