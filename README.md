@@ -8,17 +8,27 @@ This file is current context only. Session logs hold history.
 
 ## Sync this machine
 
+The git clone is **not** the live agent. Pi reads `~/.pi/agent/` (and `~/.pi/settings.json`). `./install.sh` copies the repo into those dirs. `git pull` alone does nothing to the running agent.
+
 ```bash
 cd ~/Projects/pi-harness-config && git pull && ./install.sh && ./scripts/harness-doctor.sh
 ```
 
+Then restart pi.
+
 Agent copy-paste prompt:
 
 ```
-Sync this machine to the pi-harness-config master: cd into the clone, git pull, run ./install.sh, then ./scripts/harness-doctor.sh. Fix every FAIL. Do not add packages that are not in packages.lock.json. models.json input may only be "text" or "image". Provider and model routing stay machine-local.
+Apply the pi-harness-config master to this machine's live pi config.
+The clone (~/Projects/pi-harness-config) is not live. Pi reads ~/.pi/agent/ and ~/.pi/settings.json.
+1. cd ~/Projects/pi-harness-config && git pull
+2. ./install.sh   # this is the apply step — copies repo into ~/.pi/agent/ and syncs ~/.pi/settings.json packages
+3. ./scripts/harness-doctor.sh  # fix every FAIL
+4. Tell the user to restart pi
+Do not add packages that are not in packages.lock.json. models.json input may only be "text" or "image". Provider and model routing stay machine-local. git pull without install.sh is not a sync.
 ```
 
-`--check` is dry-run. `--skip-packages` skips `pi install`.
+`--check` is dry-run (compare only). `--skip-packages` skips `pi install`.
 
 ## CE-lite (how the agent works)
 
