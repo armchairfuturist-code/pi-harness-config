@@ -221,16 +221,20 @@ export default function (pi: ExtensionAPI) {
         );
         return;
       }
+      const failedIds = Array.isArray((payload as { failed?: string[] }).failed)
+        ? ((payload as { failed: string[] }).failed)
+        : Array.isArray((lastAudit as { results?: { id: string; ok: boolean }[] })?.results)
+          ? (lastAudit as { results: { id: string; ok: boolean }[] }).results.filter((r) => !r.ok).map((r) => r.id)
+          : [];
+      const reasonText = String((payload as { reason?: string }).reason || "");
+      const unfixable = /no open contract|judgment terms|does not match current contract/i.test(reasonText);
+      // Don't start a new turn unless the agent can actually fix a failed check.
+      if (unfixable || failedIds.length === 0) return;
       const obs = await loadObserved();
       if (obs.nudges >= MAX_NUDGES) return;
       obs.nudges += 1;
       await saveObserved(obs);
-      const failed = Array.isArray((lastAudit as { results?: { id: string; ok: boolean }[] })?.results)
-        ? (lastAudit as { results: { id: string; ok: boolean }[] }).results
-            .filter((r) => !r.ok)
-            .map((r) => r.id)
-            .join(", ")
-        : "";
+      const failed = failedIds.join(", ");
       const body = [
           `[ce-lite shield] auto-audit after ${reason}${payload.ok === true ? "" : " — not closed"}.`,
           payload.reason && payload.ok !== true ? `reason: ${payload.reason}` : "",

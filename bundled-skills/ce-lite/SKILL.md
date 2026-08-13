@@ -48,7 +48,7 @@ Fan-out guardrails (from `dispatching-parallel-agents`): parallelize only when t
 
 7. **Deliver and compound** — report outcome against terms, artifact paths, verification status, surviving risks. Save reusable patterns, gotchas, preferences, and durable decisions to the knowledge store or project record.
 
-**Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). `Done:` counts come from the auto-shield, not from memory. Do not claim Done if the statusline says shield red.
+**Output footer** — end the final reply with a one-line footer: `Done: <terms passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>` (omit empty categories). `Done:` counts come from the auto-shield, not from memory. Do not claim Done if the statusline says shield red. A shield follow-up with `reason: no open contract` means the contract is already closed — continue the user's task, do not re-open.
    *Done*: operator can locate every deliverable, see whether all terms passed, identify each residual risk; omit categories with no content.
 
 ## Worker safety

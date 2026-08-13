@@ -42,6 +42,7 @@ const PATHISH_RE = /[\w.-]+\.(ts|js|mjs|sh|md|json|py)\b|\/[\w./-]+|[\w]+-[\w.-]
 export function shouldPreload(prompt: string): boolean {
 	const p = (prompt ?? "").trim();
 	if (p.length < 16) return false;
+	if (/^\[ce-lite shield\]/i.test(p)) return false;
 
 	// Pure conversation / single-token pings
 	if (
@@ -125,6 +126,7 @@ No destructive ops without consent; declared scope only; no creds/browser/remote
 ## Footer
 Done: <passed>/<total> · artifacts: <paths> · risks: <residual> · next: <one action>
 Done: counts come from the auto-shield after writes/tests, not from memory. Do not call ce_open/ce_audit/ce_close unless overriding. Do not claim Done if statusline says shield red.
+A shield follow-up with reason: no open contract means already closed. Continue the user task. Do not re-open.
 `;
 
 function loadSkillBody(): { body: string; path: string | null; treeOk: boolean; missing: string[] } {
