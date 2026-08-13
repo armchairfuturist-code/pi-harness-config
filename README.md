@@ -20,11 +20,30 @@ Sync this machine to the pi-harness-config master: cd into the clone, git pull, 
 
 `--check` is dry-run. `--skip-packages` skips `pi install`.
 
+## CE-lite (how the agent works)
+
+You do not need slash commands. Ask for the work.
+
+**One step or a question** — the agent just answers or does it.
+
+**More than one step** (a fix, a feature, several files) — the agent states a few yes/no checks, does the work, and a **shield** proves those checks. The statusline shows `ce 2/3`. Green means done. Red means fix the failed check.
+
+You never type `ce_open`, `ce_audit`, or `ce_close`.
+
+What happens without you asking:
+
+- Long sessions compact automatically. Do not tweak KEEP / tscg.
+- On compact, the host writes `.scratch/HANDOFF.md` so the next shift can resume.
+- When the shield goes green, a line is appended to `~/.pi/memory/solutions.md`.
+- If the work splits into independent lanes, the agent uses `workflow()` (fresh session per worker).
+
+Details for agents: `bundled-skills/ce-lite/SKILL.md`.
+
 ## What lives where
 
 | Source | Live dest |
 |--------|-----------|
-| `settings.json` | `~/.pi/agent/settings.json` **and** `~/.pi/settings.json` (packages + extensions stay in lockstep; provider/model/thinking stay local) |
+| `settings.json` | `~/.pi/agent/settings.json` **and** `~/.pi/settings.json` (packages stay in lockstep; provider/model/thinking stay local) |
 | `packages.lock.json` | allowlist + pins. Extra live packages are pruned on install. |
 | `models.json` | **not in the repo.** Machine-local. Venice (and others) stay here. |
 | `extensions/`, `scripts/`, `patches/` | `~/.pi/agent/` |
@@ -59,5 +78,3 @@ Venice: fetch `https://api.venice.ai/api/v1/models`, map into the existing shape
 ## Locked knobs
 
 KEEP / compaction / tscg: `hil/HANDOFF.md`. Do not edit those files because a session feels slow.
-
-ce-lite: contract loop for 2+ step work. Shield is automatic. See `bundled-skills/ce-lite/SKILL.md`.
