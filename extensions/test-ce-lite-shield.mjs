@@ -221,6 +221,34 @@ assert("24. resolveStateDir(/home) lands under agent .scratch/ce-lite", resolveS
 const homeState = resolveStateDir("/home", { create: false });
 assert("25. creating state for /home does not require /home/.scratch", !homeState.startsWith("/home/.scratch"));
 
+// Regression guards for the ce-lite settle loop: a closed contract must never
+// re-nudge. The auditor reports "no open contract" for a closed contract; the
+// shield source must early-return on that status and must not reset the nudge
+// budget on extension-injected input (which would defeat MAX_NUDGES).
+const closedDir = mkdtempSync(join(tmpdir(), "ce-shield-closed-"));
+writeContract(closedDir, { ...makeContract({ summary: "closed", terms: baseTerms }), status: "closed" });
+const closedCheck = run(["close-check", "--cwd", closedDir], closedDir);
+assert(
+  "26. close-check on a closed contract reports not-closable (no re-nudge)",
+  closedCheck.json.ok === false && String(closedCheck.json.reason || "").includes("no open contract"),
+  closedCheck.json.reason,
+);
+
+const shieldPath = join(here, "ce-lite-shield.ts");
+const shieldSrc = readFileSync(shieldPath, "utf8");
+assert(
+  "27. shield skips auto-audit when the contract is already closed",
+  shieldSrc.includes('if (existing?.status === "closed") return;'),
+);
+assert(
+  "28. shield does not reset nudge budget on extension-injected input",
+  shieldSrc.includes('if (event?.source === "extension") return;'),
+);
+assert(
+  "29. shield nudge header is not hardcoded red",
+  !shieldSrc.includes("auto-audit red after"),
+);
+
 console.log("");
 console.log(`Done: ${passed}/${passed + failed} · tmp: ${root}`);
 process.exit(failed === 0 ? 0 : 1);

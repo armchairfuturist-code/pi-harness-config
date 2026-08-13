@@ -9,6 +9,9 @@ bad() { printf 'BAD %s\n' "$*" >&2; ERR=1; }
 if [[ -f "$ROOT/install.sh" ]]; then node "$ROOT/scripts/validate-manifest.mjs" && ok "repo manifest closes" || bad "repo manifest mismatch"; fi
 PI_PACKAGE_LOCK="$AGENT/packages.lock.json" node "$ROOT/scripts/verify-package-lock.mjs" && ok "package versions pinned" || bad "package lock mismatch"
 node "$ROOT/scripts/validate-live-settings.mjs" "$AGENT/settings.json" && ok "settings and extension paths resolve" || bad "settings/extension mismatch"
+if command -v node >/dev/null 2>&1 && [[ -f "$ROOT/extensions/test-ce-lite-shield.mjs" ]]; then
+  node "$ROOT/extensions/test-ce-lite-shield.mjs" >/dev/null 2>&1 && ok "ce-lite shield loop regression tests" || bad "ce-lite shield loop regression tests failed"
+fi
 for file in HARNESS.md APPEND_SYSTEM.md AGENTS.md; do [[ -f "$AGENT/$file" ]] && ok "$file present" || bad "$file missing"; done
 
 CM="$AGENT/npm/node_modules/context-mode/build/adapters/pi"
