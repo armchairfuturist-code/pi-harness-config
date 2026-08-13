@@ -183,13 +183,15 @@ done
 # ~/.pi/agent/skills when cwd is $HOME (Pi loads <cwd>/.pi/skills as "project").
 # Happens if this repo was cloned at ~/.pi while source still lived at skills/.
 HARNESS_SKILLS=(ce-lite harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
-# Drop leftover skills under ~/.pi/agent/skills that are not in the allowlist.
+# Slash-only skills: disable-model-invocation, not deployed from this repo, not pruned.
+SLASH_SKILLS=(impeccable last30days teach writing-for-agents)
+# Drop leftover skills under ~/.pi/agent/skills that are not in either list.
 if [[ -d "$AGENT/skills" ]]; then
   for path in "$AGENT/skills"/*; do
     [[ -e "$path" ]] || continue
     name="$(basename "$path")"
     keep=0
-    for k in "${HARNESS_SKILLS[@]}"; do [[ "$name" == "$k" ]] && keep=1 && break; done
+    for k in "${HARNESS_SKILLS[@]}" "${SLASH_SKILLS[@]}"; do [[ "$name" == "$k" ]] && keep=1 && break; done
     if [[ "$keep" -eq 0 ]]; then
       if $CHECK; then echo "[STALE] extra agent skill $path"; fail=$((fail+1))
       else rm -rf "$path"; echo "[ OK ] pruned extra agent skill: $name"; fi
