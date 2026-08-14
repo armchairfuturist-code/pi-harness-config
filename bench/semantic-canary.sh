@@ -23,30 +23,6 @@ for skill in ce-lite harness-doctor; do
   fi
 done
 
-echo "== ce-lite-preload H4 + heuristics =="
-PRE_EXT="$ROOT/extensions/ce-lite-preload.ts"
-TEST_JS="$ROOT/bench/test-ce-lite-preload.mjs"
-if [[ ! -f "$PRE_EXT" ]]; then
-  echo "FAIL missing $PRE_EXT"
-  FAIL=1
-elif [[ -f "$TEST_JS" ]] && command -v node >/dev/null 2>&1; then
-  if ! node "$TEST_JS"; then
-    echo "FAIL ce-lite-preload unit test"
-    FAIL=1
-  fi
-else
-  # Minimal static checks without node test file
-  if grep -q 'systemPrompt\s*:' "$PRE_EXT"; then
-    echo "FAIL ce-lite-preload must not mutate systemPrompt (H4)"
-    FAIL=1
-  elif ! grep -q 'customType: "ce-lite-preload"' "$PRE_EXT"; then
-    echo "FAIL ce-lite-preload missing custom message injection"
-    FAIL=1
-  else
-    echo "OK ce-lite-preload static H4 checks"
-  fi
-fi
-
 echo "== ce-lite-shield =="
 SHIELD_TEST="$ROOT/extensions/test-ce-lite-shield.mjs"
 if [[ -f "$SHIELD_TEST" ]] && command -v node >/dev/null 2>&1; then

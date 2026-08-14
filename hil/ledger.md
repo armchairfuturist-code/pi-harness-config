@@ -743,3 +743,18 @@ KEEP=4 | 24k/20k | strip on | maxDesc=20
 **Decision:** KEEP current locked posture. Next candidate is read-only classification of recurring retry/error signatures, followed by a small held-out error canary. No HIL knob reopen.
 
 **Trace:** `research/pi-analytics-baseline-20260813.md`
+
+---
+
+## 2026-08-14 — Capability cut: remove ce-lite-preload (no locked-knob change)
+
+**Context:** operator approved slimming after a live session (`019fff51`) spun 16 min / 65 read-only tool calls / 0 writes on a config-edit task. Post-mortem: the shield never engaged (no writes → no contract), and the per-session doctrine injection (ce-lite-preload) did not prevent the recon loop — it reframed it as "diagnose." Audit concluded the judgment layer (routing, grilling, wayfinding) should be lazy reference, not per-turn injection.
+
+**Change:** deleted `extensions/ce-lite-preload.ts` + its bench files (`bench/ce-lite-preload-ab.mjs`, `bench/test-ce-lite-preload.mjs`). Removed preload from settings.json, install.sh manifest, HARNESS.md, APPEND_SYSTEM.md, CI, semantic-canary, shield RED-notice label. Gutted `bundled-skills/ce-lite/SKILL.md` from 56 → 20 lines (shield mechanics only). Mattpocock-derived reference files (grilling/wayfinding/gather-judge) kept as on-demand. Loop defense now: runtime-discipline retry-breaker + shield mechanical gate + pi-goal noProgressTurns=3.
+
+**Keep:** `ce-lite-shield.ts` + `ce-lite-auditor.mjs` + `test-ce-lite-shield.mjs`; all token-lever extensions (transcript-pruner, session-index, runtime-discipline, rot-sentinel, enforce-tool-profile); all other packages/patches/scripts.
+
+**Verify:** preflight OK; shield regression tests PASS; harness-doctor clean. (Post-apply on live agent.)
+
+**Trace:** `docs/slim-design.md`
+

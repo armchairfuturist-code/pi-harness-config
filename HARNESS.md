@@ -16,7 +16,7 @@ KEEP / compaction / tscg knobs.
 
 ## Extensions (order matters for before_agent_start merges)
 1. `runtime-discipline.ts` — allowlist/edit recovery (failure-only system append)
-2. `ce-lite-preload.ts` — **H4-safe**: ce-lite contract as a custom message (LLM user role) once per session; never mutates systemPrompt
+2. `ce-lite-shield.ts` — automatic mechanical shield (watches writes/tests, audits on settle)
 3. `session-index.ts` — session FTS index
 4. `rot-sentinel.ts` — long-session UI reminders
 5. `transcript-pruner.ts` — transcript hygiene
@@ -33,9 +33,7 @@ Always-on read/shell/output shapes live in `APPEND_SYSTEM.md` (single source). `
 
 ## CE-lite activation
 - `APPEND_SYSTEM.md` — always-on pointer (when to load)
-- `extensions/ce-lite-preload.ts` — mechanical preload of skill body on heuristic match
 - `extensions/ce-lite-shield.ts` + `ce-lite-auditor.mjs` — automatic mechanical shield (watches writes/tests, audits on settle, forged verdict rejected)
-- Kill switch: `CE_LITE_PRELOAD=0` · force: `CE_LITE_PRELOAD=force`
 - Trivial chat/lookups must still skip (suite s6)
 
 ## Output style
@@ -43,8 +41,7 @@ Always-on contract is `APPEND_SYSTEM.md`. Asked-for writing (email, docs, copy) 
 
 ## Measurement
 - `bench/probe.sh` — tokens + cache hit rate
-- `bench/semantic-canary.sh` — skill semantics + preload H4/heuristics + optional session efficiency
-- `bench/test-ce-lite-preload.mjs` — unit heuristics
+- `bench/semantic-canary.sh` — skill semantics + optional session efficiency
 - `extensions/test-ce-lite-shield.mjs` — mechanical shield (forged green cannot close)
 - `bundled-skills/harness-doctor/scripts/trajectory_metrics.py` — per-session tool/error metrics
 

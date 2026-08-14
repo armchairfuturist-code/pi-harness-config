@@ -248,14 +248,13 @@ assert(
   "29. shield nudge header is not hardcoded red",
   !shieldSrc.includes("auto-audit red after"),
 );
-const preloadSrc = readFileSync(new URL("./ce-lite-preload.ts", import.meta.url), "utf8");
 assert(
   "30. shield skips unfixable close reasons",
   shieldSrc.includes("unfixable") && shieldSrc.includes("no open contract"),
 );
 assert(
-  "31. preload skips shield follow-ups",
-  preloadSrc.includes("ce-lite shield"),
+  "31. shield RED notice is labeled ce-lite-shield (no preload ref)",
+  shieldSrc.includes("[ce-lite-shield]") && !shieldSrc.includes("ce-lite-preload"),
 );
 assert(
   "32. shield writes HANDOFF on compact",

@@ -581,7 +581,7 @@ export default function (pi: ExtensionAPI) {
         role: "custom",
         customType: "ce-lite-shield",
         display: false,
-        content: `[ce-lite-preload] Shield is automatic and currently RED (${audit.passed}/${audit.total}${failed.length ? `; failed ${failed.join(", ")}` : ""}). Do not claim Done. Fix files/tests; do not call ce_open unless adding extra checks.`,
+        content: `[ce-lite-shield] Shield is automatic and currently RED (${audit.passed}/${audit.total}${failed.length ? `; failed ${failed.join(", ")}` : ""}). Do not claim Done. Fix files/tests; do not call ce_open unless adding extra checks.`,
       });
     } catch {
       // ignore

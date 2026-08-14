@@ -1,56 +1,26 @@
 ---
 name: ce-lite
-description: "Multi-step shipping: grill if fuzzy, checkable contract, shield proves it. Lookup and one-step work skip the loop."
+description: "Automatic shield proves multi-step work. Lookup and one-step work skip the loop."
 ---
 
 # CE-lite
 
+The shield is automatic: it watches your writes and passing tests, turns them
+into mechanical checks, and audits on settle. The statusline shows the score.
+Green = done. Red = fix the failed check, then settle again.
+
+- Do not call `ce_open` / `ce_audit` / `ce_close` — the shield does it.
+- Do not claim Done when the statusline is red.
+- A follow-up `reason: no open contract` means already closed; continue the task.
+
 Host does proof, compact, handoff, and compound. You do the work.
-
-## Route
-
-1. **Lookup** — answer from memory or existing files. No contract.
-2. **Simple** — one step, unambiguous, low-consequence. Do it. No contract.
-3. **Contract** — two or more steps, a deliverable, or irreversible. Run the loop.
-
-Novice: ask for the work. Do not type `/skill`, `ce_open`, or `/compact`.
-
-## Contract loop
-
-1. **Grill** if fuzzy. One question at a time. Default and move. See `grilling.md`.
-2. **Terms** — 2–5 yes/no checks. Path exists or command exits 0. No judgment terms. The shield records writes/tests and audits on settle. Do not call `ce_open` / `ce_audit` / `ce_close`.
-3. **Diagnose, then execute**
-   - Neither high → stay here.
-   - Context high → selective read, then continue. Host writes HANDOFF on compact/rot.
-   - Action high, terms do not share writes → `workflow()`. Fresh session per `agent()`.
-   - Both → `workflow()`; isolation/worktree only if a lane must not share cwd.
-   - Judgment (review, “is this good”) → `gather-judge.md`. Never a shield term.
-4. **Verify** — statusline is the score. Green = closed. Red = fix the failed check. A follow-up with `reason: no open contract` means already closed; continue the user task.
-5. **Compound** — host appends to `~/.pi/memory/solutions.md` on green. You may add one line. Do not invent another store.
-
-**Footer:** `Done: n/m · artifacts: … · risks: … · next: …`  
-Counts come from the shield. Do not claim Done if the statusline is red.
-
-## Execute discipline
-
-- **Config/data work is file-state work.** The deliverable is the file: read the target and its source of truth (backup, live source, schema), edit, validate. Do not reverse-engineer the generator or refresh pipeline unless a check requires it. Check for an existing command or script first (`pi update --models`, `scripts/*.mjs`, `research/*.mjs`).
-- **Bound recon.** ~3 read-only probes is usually enough to act. Re-reading the same path returns the same content (ctx dedupes/compresses) — if a probe repeats what you already know, stop probing. After ~5 read-only calls with no write, you are in a recon loop: write the obvious fix, or ask one question.
-- **First write early.** Start the edit once the target file and its schema are known. You learn more from one write + validation than from ten more reads.
-
-## Worker safety
-
-No destroy, force-push, or mass-rewrite without consent. Stay in declared paths. No creds, cookies, or remote social. If a worker must exceed scope, stop and report.
 
 ## Load only when needed
 
-- `grilling.md` — fuzzy goal
+- `grilling.md` — fuzzy goal: one question at a time
 - `gather-judge.md` — judgment over evidence
 - `context-health.md` — HANDOFF schema (host writes it)
-- `wayfinding.md` — resume / tickets / memory
+- `wayfinding.md` — multi-session tickets / resume
 - `reference.md` — worker result fields, workflow authoring
 
-TDD when the change is logic: tests before the implementation.
-
-## Self-test (first load)
-
-`grilling.md`, `gather-judge.md`, `context-health.md`, `wayfinding.md`, `reference.md` must exist next to this file. If one is missing, use this file alone and say so.
+Footer: `Done: n/m · artifacts: … · risks: … · next: …`

@@ -16,7 +16,5 @@ jobs:
           node-version: 20
       - name: ce-lite shield loop regression
         run: node extensions/test-ce-lite-shield.mjs
-      - name: ce-lite preload heuristics
-        run: node bench/test-ce-lite-preload.mjs
       - name: btw model assignment
         run: node scripts/ensure-btw-model.test.mjs

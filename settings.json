@@ -19,7 +19,6 @@
     "~/.pi/agent/extensions/session-index.ts",
     "~/.pi/agent/extensions/runtime-discipline.ts",
     "~/.pi/agent/extensions/rot-sentinel.ts",
-    "~/.pi/agent/extensions/ce-lite-preload.ts",
     "~/.pi/agent/extensions/ce-lite-shield.ts",
     "~/.pi/agent/extensions/enforce-tool-profile.ts"
   ],

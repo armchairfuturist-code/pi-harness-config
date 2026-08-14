@@ -112,7 +112,6 @@ extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|
 extensions/lib/prune-core.mjs|__AGENT__/extensions/lib/prune-core.mjs|
 extensions/rot-sentinel.ts|__AGENT__/extensions/rot-sentinel.ts|
 extensions/runtime-discipline.ts|__AGENT__/extensions/runtime-discipline.ts|
-extensions/ce-lite-preload.ts|__AGENT__/extensions/ce-lite-preload.ts|
 extensions/ce-lite-shield.ts|__AGENT__/extensions/ce-lite-shield.ts|
 extensions/ce-lite-auditor.mjs|__AGENT__/extensions/ce-lite-auditor.mjs|
 extensions/test-ce-lite-shield.mjs|__AGENT__/extensions/test-ce-lite-shield.mjs|

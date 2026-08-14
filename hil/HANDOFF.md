@@ -12,14 +12,13 @@
 | tscg strip | on | |
 | maxDescChars | 20 | KEEP — do not reopen without canary + A/B |
 
-## Active capability (2026-08-10)
-- **ce-lite-preload** (`extensions/ce-lite-preload.ts`): deterministic turn-1 contract inject via custom message (not systemPrompt — H4-safe). Heuristics mirror APPEND_SYSTEM non-trivial triggers. Env: `CE_LITE_PRELOAD=0|1|force`.
+## Active capability (2026-08-14)
+- **ce-lite-shield only** (`extensions/ce-lite-shield.ts` + `ce-lite-auditor.mjs`): automatic mechanical shield — watches writes/tests, audits on settle, forged verdict rejected. No per-session doctrine injection.
+- **Removed ce-lite-preload** (`extensions/ce-lite-preload.ts`) — the per-session contract injection. Judgment routing is now lazy reference only (`bundled-skills/ce-lite/*.md`), owned by the model + dynamic-workflows, not injected every session. Capability cut, no locked-knob change.
 - **probe cache hit rate**: `bench/probe.sh` → `cache_hit_pct`, ledger one-liner.
-- **semantic-canary**: preload H4/heuristic unit tests + optional `CE_SESSION_JSONL` efficiency soft signal.
 
 ## Recommended next
-- **A/B ce-lite-preload** with suite / live sessions: skill_loaded turn index should drop toward 1 on multi-step prompts; s6 trivial skip must stay 0 preload (or harmless). Compare cache_hit_pct pre/post via probe (system prefix unchanged → no H4 regression expected).
-- **Tool profiles only where workers still get full schemas** — `gather-judge-split.js` already uses `tools: []`; focus ce-lite/workflow agents that still pass default tools.
+- **Tool profiles only where workers still get full schemas** — `gather-judge-split.js` already uses `tools: []`; focus workflow agents that still pass default tools.
 - **Do not** reopen KEEP/tscg/maxDesc; **do not** add LLM pre-router, E2B, or Redis.
 
 ## Pause rationale
