@@ -6,6 +6,16 @@ ERR=0
 ok() { printf 'OK %s\n' "$*"; }
 bad() { printf 'BAD %s\n' "$*" >&2; ERR=1; }
 
+# Guard: the repo must not be checked out at ~/.pi — that directory is the live
+# agent parent (agent/ + settings.json). Running git here (reset --hard, clean,
+# checkout, branch switch) can delete or overwrite the live agent home, because
+# origin/master does not track agent/ (it is deploy output, written by
+# install.sh). The canonical clone lives elsewhere (e.g. ~/Projects/pi-harness-config);
+# apply changes with: git pull && ./install.sh && ./scripts/harness-doctor.sh
+if [[ "$ROOT" == "$HOME/.pi" || "$ROOT" == "$HOME/.pi/" ]]; then
+  bad "repo checked out at live agent parent $ROOT — move clone to ~/Projects/pi-harness-config; never run git here"
+fi
+
 if [[ -f "$ROOT/install.sh" ]]; then node "$ROOT/scripts/validate-manifest.mjs" && ok "repo manifest closes" || bad "repo manifest mismatch"; fi
 PI_PACKAGE_LOCK="$AGENT/packages.lock.json" node "$ROOT/scripts/verify-package-lock.mjs" && ok "package versions pinned" || bad "package lock mismatch"
 node "$ROOT/scripts/validate-live-settings.mjs" "$AGENT/settings.json" && ok "settings and extension paths resolve" || bad "settings/extension mismatch"

@@ -37,6 +37,12 @@ memory/
 scripts/harness-preflight.sh.bak
 .scratch/
 
+# Live agent home is deploy output, never source. install.sh copies the repo
+# into ~/.pi/agent; nothing under agent/ is tracked or should be committed.
+# (Protects machine-local files like settings.json, model-thinking.json,
+# pi-smart-btw.json from git operations when the clone lives at ~/.pi.)
+agent/
+
 # iter11 observe/verify log leftovers
 hil/.scratch-*
 # Generated benchmark output (noise)
