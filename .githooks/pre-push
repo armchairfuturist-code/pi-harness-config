@@ -1,5 +1,7 @@
 #!/bin/sh
-# pre-push: block pushes when the live harness is broken or drifted from lock.
+# pre-push: block pushes when the live harness is broken or drifted from lock,
+# or when the repo is checked out at ~/.pi (the live agent parent) — git ops
+# there can delete the untracked agent/ deploy output.
 # Wired via: git config core.hooksPath .githooks (install.sh does this).
 ROOT="$(git rev-parse --show-toplevel)"
-exec "$ROOT/scripts/harness-preflight.sh"
+CI_PRE_PUSH=1 exec "$ROOT/scripts/harness-preflight.sh"

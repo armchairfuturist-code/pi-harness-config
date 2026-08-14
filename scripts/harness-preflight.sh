@@ -12,7 +12,9 @@ bad() { printf 'BAD %s\n' "$*" >&2; ERR=1; }
 # origin/master does not track agent/ (it is deploy output, written by
 # install.sh). The canonical clone lives elsewhere (e.g. ~/Projects/pi-harness-config);
 # apply changes with: git pull && ./install.sh && ./scripts/harness-doctor.sh
-if [[ "$ROOT" == "$HOME/.pi" || "$ROOT" == "$HOME/.pi/" ]]; then
+# Only enforced on the git pre-push path (CI_PRE_PUSH=1), so install.sh --check
+# and harness-doctor keep working when run from the live agent.
+if [[ "${CI_PRE_PUSH:-0}" == "1" ]] && [[ "$ROOT" == "$HOME/.pi" || "$ROOT" == "$HOME/.pi/" ]]; then
   bad "repo checked out at live agent parent $ROOT — move clone to ~/Projects/pi-harness-config; never run git here"
 fi
 
