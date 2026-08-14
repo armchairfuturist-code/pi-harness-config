@@ -13,7 +13,7 @@
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-MODEL="${PROBE_MODEL:-Lilac/zai-org/glm-5.2}"
+MODEL="${PROBE_MODEL:-Synthetic/hf:zai-org/GLM-5.2}"
 PORT="${PI_BENCH_PORT:-4599}"
 LABEL="${PI_BENCH_LABEL:-canary-ctx-tools}"
 CAPTURE_ROOT="${PI_BENCH_CAPTURE_DIR:-$ROOT/.scratch/captures}"

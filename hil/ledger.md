@@ -744,17 +744,26 @@ KEEP=4 | 24k/20k | strip on | maxDesc=20
 
 **Trace:** `research/pi-analytics-baseline-20260813.md`
 
----
 
-## 2026-08-14 — Capability cut: remove ce-lite-preload (no locked-knob change)
+## Iter 24 — 2026-08-13 — Multi-turn canary automation + ctx-canary model fix
 
-**Context:** operator approved slimming after a live session (`019fff51`) spun 16 min / 65 read-only tool calls / 0 writes on a config-edit task. Post-mortem: the shield never engaged (no writes → no contract), and the per-session doctrine injection (ce-lite-preload) did not prevent the recon loop — it reframed it as "diagnose." Audit concluded the judgment layer (routing, grilling, wayfinding) should be lazy reference, not per-turn injection.
+**Trigger:** HIL verify gate was incomplete — verify.sh ran only probe + workload; semantic canary, ctx-tool exercise, and multi-turn simulation were not automated.
 
-**Change:** deleted `extensions/ce-lite-preload.ts` + its bench files (`bench/ce-lite-preload-ab.mjs`, `bench/test-ce-lite-preload.mjs`). Removed preload from settings.json, install.sh manifest, HARNESS.md, APPEND_SYSTEM.md, CI, semantic-canary, shield RED-notice label. Gutted `bundled-skills/ce-lite/SKILL.md` from 56 → 20 lines (shield mechanics only). Mattpocock-derived reference files (grilling/wayfinding/gather-judge) kept as on-demand. Loop defense now: runtime-discipline retry-breaker + shield mechanical gate + pi-goal noProgressTurns=3.
+**Changes (capability, no locked-knob reopen):**
 
-**Keep:** `ce-lite-shield.ts` + `ce-lite-auditor.mjs` + `test-ce-lite-shield.mjs`; all token-lever extensions (transcript-pruner, session-index, runtime-discipline, rot-sentinel, enforce-tool-profile); all other packages/patches/scripts.
+1. **NEW `hil/canaries/multi-turn-simulation.mjs`** — automated four-turn RPC canary.
+   - Drives `pi --mode rpc` through 4 prompts: create+test calculator, add divide+test, refactor+test, state summary.
+   - Checks filesystem state after each turn (functions present, ZeroDivisionError guard, tests cover each function, pytest passes).
+   - Verified PASS 4/4 on `openai-gpt-56-luna`.
+   - Fills the "manual only" gap documented in `hil/canaries/multi-turn-simulation.md`.
 
-**Verify:** preflight OK; shield regression tests PASS; harness-doctor clean. (Post-apply on live agent.)
+2. **FIX `hil/canaries/ctx-tool-exercise.sh`** — default model `Lilac/zai-org/glm-5.2` was removed from the provider registry. Updated to `Synthetic/hf:zai-org/GLM-5.2` (active, available).
 
-**Trace:** `docs/slim-design.md`
+**Known issue:** ctx-tool canary times out (rc=124) because the variant agent home built by `build-variant.sh` advertises only 4 built-in tools (read, bash, edit, write). The ctx_* tools from pi-lean-ctx are not surfacing in the variant despite the package being installed. This is a pre-existing variant-build issue, not introduced by this change. The canary script itself is correct; the fix is to investigate why lean-ctx tools don't register in the variant home.
 
+**Not an A/B HIL experiment** — capability addition (automated multi-turn canary) + model fix. No probe or locked-knob change.
+
+**Verify:** `node --check` PASS; multi-turn canary 4/4 PASS; preflight OK; semantic canary PASS.
+
+### Locked (unchanged)
+KEEP=4 | 24k/20k | strip on | maxDesc=20
