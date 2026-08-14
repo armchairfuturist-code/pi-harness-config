@@ -99,6 +99,7 @@ scripts/profile.sh|__AGENT__/scripts/profile.sh|
 scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
 scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
+scripts/capture-live-tweak.sh|__AGENT__/scripts/capture-live-tweak.sh|executable
 scripts/enforce-tool-profile.sh|__AGENT__/scripts/enforce-tool-profile.sh|executable
 scripts/ensure-btw-model.mjs|__AGENT__/scripts/ensure-btw-model.mjs|executable
 scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|

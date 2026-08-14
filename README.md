@@ -30,6 +30,33 @@ Do not add packages that are not in packages.lock.json. models.json input may on
 
 `--check` is dry-run (compare only). `--skip-packages` skips `pi install`.
 
+### Ship a local tweak to the repo (and other machines)
+
+The apply flow above goes **repo → this machine**. When you instead tweak
+something **on this machine** (edit an extension, script, skill, or
+`HARNESS.md`/`APPEND_SYSTEM.md`/`AGENTS.md` inside `~/.pi/agent`) and want it
+on other machines, capture it back into the repo, commit, push, then apply:
+
+```bash
+cd ~/Projects/pi-harness-config
+./scripts/capture-live-tweak.sh            # dry-run: shows what differs
+./scripts/capture-live-tweak.sh --apply    # copies live ~/.pi/agent -> repo
+git add -A && git commit -m "tweak: <describe>" && git push origin master
+# on each other machine:
+cd ~/Projects/pi-harness-config && git pull && ./install.sh && ./scripts/harness-doctor.sh
+```
+
+Use the script instead of hand-copying — it only touches repo-owned source
+(extensions/, scripts/, patches/, bundled-skills/, HARNESS/APPEND_SYSTEM/AGENTS,
+packages.lock.json) and deliberately **excludes machine-local files**
+(settings.json provider/model/thinking, models.json, model-thinking.json,
+pi-smart-btw.json, auth.json, memory/, npm/, tscg.json). That boundary is what
+keeps a multi-machine repo from drifting into loops.
+
+**Never run git commands in `~/.pi`** — it is the live agent parent, not the
+clone. The pre-push guard blocks pushes from there; use the Projects clone.
+
+
 ## CE-lite (how the agent works)
 
 You do not need slash commands. Ask for the work.
