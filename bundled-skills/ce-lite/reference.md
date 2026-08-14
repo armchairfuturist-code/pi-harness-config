@@ -67,6 +67,14 @@ When in doubt during wayfinding, grill (see `grilling.md`) and model the domain 
 
 If no row matches: stay in ce-lite. Do not hunt the catalog mid-flight.
 
+## Config-file tasks
+
+When the ask is "fix/update the X config" or "refresh the catalog for Y":
+- The deliverable is the **file state**, not an understanding of the pipeline that writes it. Read the target files (and their backups / live sources / schema) and edit them directly.
+- Look for an existing command or script (`pi update --models`, `scripts/*.mjs`, `research/*.mjs`) before reading library internals. Run it if it exists; edit the files if there is no automation.
+- Bound recon: ~3 read-only probes, then act. If the Nth probe repeats what the N−1th showed, stop. 5+ reads with 0 writes means you are in a recon loop — write the obvious fix or ask.
+- Never re-read the same file hoping for different output: ctx dedup/compression means it will be the same content.
+
 ## Shield
 
 - Automatic. Writes and passing test commands become terms. The shield audits on settle and closes when green.

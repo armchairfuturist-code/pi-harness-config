@@ -31,6 +31,12 @@ Novice: ask for the work. Do not type `/skill`, `ce_open`, or `/compact`.
 **Footer:** `Done: n/m · artifacts: … · risks: … · next: …`  
 Counts come from the shield. Do not claim Done if the statusline is red.
 
+## Execute discipline
+
+- **Config/data work is file-state work.** The deliverable is the file: read the target and its source of truth (backup, live source, schema), edit, validate. Do not reverse-engineer the generator or refresh pipeline unless a check requires it. Check for an existing command or script first (`pi update --models`, `scripts/*.mjs`, `research/*.mjs`).
+- **Bound recon.** ~3 read-only probes is usually enough to act. Re-reading the same path returns the same content (ctx dedupes/compresses) — if a probe repeats what you already know, stop probing. After ~5 read-only calls with no write, you are in a recon loop: write the obvious fix, or ask one question.
+- **First write early.** Start the edit once the target file and its schema are known. You learn more from one write + validation than from ten more reads.
+
 ## Worker safety
 
 No destroy, force-push, or mass-rewrite without consent. Stay in declared paths. No creds, cookies, or remote social. If a worker must exceed scope, stop and report.

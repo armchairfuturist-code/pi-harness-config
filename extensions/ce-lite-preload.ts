@@ -119,6 +119,8 @@ const CONDENSED_CONTRACT = `# CE-lite contract (condensed)
 - Action high, terms do not share writes → workflow(). Fresh session per agent().
 - Both → workflow(); worktree only if a lane must not share cwd.
 - Judgment → gather-judge. Never a shield term.
+- Config/data work → file-state task: read target + source of truth, then edit directly. Do NOT reverse-engineer the generator/refresh pipeline.
+- Recon bound: ~3 probes, then act. 5+ reads with 0 writes = loop. Re-reads of the same file add nothing.
 
 ## Worker safety
 No destroy without consent. Declared paths only. No creds/remote-social.
