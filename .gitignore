@@ -45,7 +45,12 @@ agent/
 
 # iter11 observe/verify log leftovers
 hil/.scratch-*
+hil/traces/
+hil/verifications/
 # Generated benchmark output (noise)
 bench/out/
 
 
+
+# external skill clones (ponytail, etc.)
+git/

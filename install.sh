@@ -100,22 +100,12 @@ scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
 scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
 scripts/capture-live-tweak.sh|__AGENT__/scripts/capture-live-tweak.sh|executable
-scripts/enforce-tool-profile.sh|__AGENT__/scripts/enforce-tool-profile.sh|executable
 scripts/ensure-btw-model.mjs|__AGENT__/scripts/ensure-btw-model.mjs|executable
 scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
 patches/dynamic-workflows/apply-patches.mjs|__AGENT__/patches/dynamic-workflows/apply-patches.mjs|
 tscg.json|__PI_HOME__/tscg.json|
-extensions/session-index.ts|__AGENT__/extensions/session-index.ts|
-extensions/transcript-pruner.ts|__AGENT__/extensions/transcript-pruner.ts|
-extensions/lib/prune-core.mjs|__AGENT__/extensions/lib/prune-core.mjs|
-extensions/rot-sentinel.ts|__AGENT__/extensions/rot-sentinel.ts|
-extensions/runtime-discipline.ts|__AGENT__/extensions/runtime-discipline.ts|
-extensions/ce-lite-shield.ts|__AGENT__/extensions/ce-lite-shield.ts|
-extensions/ce-lite-auditor.mjs|__AGENT__/extensions/ce-lite-auditor.mjs|
-extensions/test-ce-lite-shield.mjs|__AGENT__/extensions/test-ce-lite-shield.mjs|
-extensions/enforce-tool-profile.ts|__AGENT__/extensions/enforce-tool-profile.ts|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|runtime
 lean-ctx/config.toml|__AGENT__/lean-ctx/config.toml|
@@ -128,14 +118,11 @@ memory/consolidated.md|__AGENT__/memory/consolidated.md|
 memory/harnesses.md|__AGENT__/memory/harnesses.md|
 memory/user-shell.md|__AGENT__/memory/user-shell.md|
 model-thinking.json|__AGENT__/model-thinking.json|preserve
-bundled-skills/ce-lite|__AGENT__/skills/ce-lite|dir
 bundled-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
 bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
 bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
-scripts/base64_bench.py|__PI_HOME__/scripts/base64_bench.py|
-scripts/base64_bench_providers.json|__PI_HOME__/scripts/base64_bench_providers.json|
 scripts/harness-doctor.sh|__AGENT__/scripts/harness-doctor.sh|executable
 EOF
 MANIFEST="${MANIFEST//__AGENT__/$AGENT}"
@@ -168,6 +155,19 @@ done <<< "$MANIFEST"
 OBSOLETE=(
   "$AGENT/extensions/invest-tools.ts"
   "$AGENT/extensions/tool-trimmer.ts"
+  "$AGENT/extensions/ce-lite-auditor.mjs"
+  "$AGENT/extensions/ce-lite-shield.ts"
+  "$AGENT/extensions/enforce-tool-profile.ts"
+  "$AGENT/extensions/rot-sentinel.ts"
+  "$AGENT/extensions/runtime-discipline.ts"
+  "$AGENT/extensions/session-index.ts"
+  "$AGENT/extensions/test-ce-lite-shield.mjs"
+  "$AGENT/extensions/transcript-pruner.ts"
+  "$AGENT/extensions/lib/prune-core.mjs"
+  "$AGENT/skills/ce-lite"
+  "$AGENT/scripts/enforce-tool-profile.sh"
+  "$HOME_DIR/.config/systemd/user/enforce-tool-profile.service"
+  "$HOME_DIR/.config/systemd/user/enforce-tool-profile.timer"
     "$AGENT/model-agents.json"
   "$AGENT/AGENTS_full.md"
   "$AGENT/AGENTS_terse.md"
@@ -179,10 +179,17 @@ for path in "${OBSOLETE[@]}"; do
   else rm -rf "$path"; fi
 done
 
+# Disable stale enforce-tool-profile systemd timer if present
+if systemctl --user is-enabled enforce-tool-profile.timer >/dev/null 2>&1; then
+  systemctl --user disable --now enforce-tool-profile.timer >/dev/null 2>&1
+  systemctl --user daemon-reload >/dev/null 2>&1
+  $CHECK || echo "[ OK ] disabled stale enforce-tool-profile timer"
+fi
+
 # Prune harness skill names from $HOME/.pi/skills so they cannot shadow
 # ~/.pi/agent/skills when cwd is $HOME (Pi loads <cwd>/.pi/skills as "project").
 # Happens if this repo was cloned at ~/.pi while source still lived at skills/.
-HARNESS_SKILLS=(ce-lite harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
+HARNESS_SKILLS=(harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
 # Slash-only skills: disable-model-invocation, not deployed from this repo, not pruned.
 SLASH_SKILLS=(impeccable last30days teach writing-for-agents)
 # Drop leftover skills under ~/.pi/agent/skills that are not in either list.
@@ -231,17 +238,6 @@ fi
 if ! $CHECK; then
   PI_AGENT_HOME="$AGENT" bash "$AGENT/scripts/apply-package-patches.sh"
 fi
-# Active lean-ctx tool-profile enforcement: snap runtime back to the repo pin
-# (config.toml's tool_profile only accepts minimal|standard|power, so a "lean"
-# pin there is ignored by the runtime and drifts to power silently). In check
-# mode report-only; otherwise enforce.
-if $CHECK; then
-  "$ROOT/scripts/enforce-tool-profile.sh" --check >/dev/null 2>&1 \
-    && echo "[ OK ] lean-ctx tool profile pinned" \
-    || { echo "[DIFF] lean-ctx tool profile drift — run: ./install.sh"; fail=$((fail+1)); }
-else
-  "$ROOT/scripts/enforce-tool-profile.sh" 2>&1 | sed 's/^/[enforce] /' || fail=$((fail+1))
-fi
 # /btw (pi-smart-btw) model guard: the upstream default is hardcoded to
 # openai-codex/gpt-5.6-luna, which fails with "No API key found for
 # openai-codex" when the machine has no such key. Assign /btw a cheap model
@@ -252,44 +248,6 @@ if $CHECK; then
     || { echo "[DIFF] /btw uses non-working default model — run: ./install.sh"; fail=$((fail+1)); }
 else
   node "$ROOT/scripts/ensure-btw-model.mjs" 2>&1 | sed 's/^/[btw] /' || fail=$((fail+1))
-fi
-# OS-level backstop: install + start a user systemd timer that re-enforces the
-# profile every 5 min, so "always lean" holds even when pi runs in a mode that
-# does not load extensions (e.g. -ne) and independent of any single session.
-# Copy units into ~/.config/systemd/user — never `systemctl link` from $ROOT.
-# A /tmp or worktree checkout leaves dangling units (LoadState=bad) after the
-# path disappears; reboot or daemon-reload then kills the timer.
-# Guard: systemd user sessions available? (not whether the unit already exists).
-ENFORCE_UNITS=(enforce-tool-profile.service enforce-tool-profile.timer)
-UNIT_DIR="$HOME_DIR/.config/systemd/user"
-if systemctl --user is-system-running >/dev/null 2>&1; then
-  if $CHECK; then
-    frag=$(systemctl --user show -p FragmentPath --value enforce-tool-profile.timer 2>/dev/null || true)
-    load=$(systemctl --user show -p LoadState --value enforce-tool-profile.timer 2>/dev/null || true)
-    if ! systemctl --user is-active enforce-tool-profile.timer >/dev/null 2>&1; then
-      echo "[DIFF] lean-ctx enforce timer not active — run: ./install.sh"
-      fail=$((fail+1))
-    elif [[ "$load" == "bad" || "$load" == "not-found" ]]; then
-      echo "[DIFF] lean-ctx enforce timer LoadState=$load — run: ./install.sh"
-      fail=$((fail+1))
-    elif [[ "$frag" != "$UNIT_DIR/enforce-tool-profile.timer" ]]; then
-      echo "[DIFF] lean-ctx enforce timer FragmentPath=$frag (want $UNIT_DIR/...) — run: ./install.sh"
-      fail=$((fail+1))
-    else
-      echo "[ OK ] lean-ctx enforce timer active"
-    fi
-  else
-    mkdir -p "$UNIT_DIR"
-    for u in "${ENFORCE_UNITS[@]}"; do
-      rm -f "$UNIT_DIR/$u"
-      install -m 644 "$ROOT/lean-ctx/$u" "$UNIT_DIR/$u"
-    done
-    systemctl --user daemon-reload >/dev/null 2>&1
-    systemctl --user enable --now enforce-tool-profile.timer >/dev/null 2>&1
-    echo "[ OK ] lean-ctx enforce timer installed + started"
-  fi
-else
-  echo "[skip] systemd user sessions unavailable — rely on extension + preflight only"
 fi
 # Wire repo git hooks (secret guard pre-commit + pre-push preflight)
 if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
