@@ -1,11 +1,11 @@
 {
-  "@ogulcancelik/pi-model-thinking": "0.1.0",
-  "context-mode": "1.0.169",
-  "pi-lean-ctx": "3.9.18",
-  "pi-slim": "0.2.1",
-  "pi-tscg": "0.2.4",
-  "@quintinshaw/pi-dynamic-workflows": "3.5.1",
-  "@samfp/pi-essentials": "0.2.3",
-  "@howaboua/pi-smart-btw": "0.2.6",
-  "@howaboua/pi-skill-model-facing-api-design": "0.0.5"
+ "@howaboua/pi-skill-model-facing-api-design": "0.0.5",
+ "@narumitw/pi-btw": "0.51.0",
+ "@ogulcancelik/pi-model-thinking": "0.1.0",
+ "@quintinshaw/pi-dynamic-workflows": "3.5.1",
+ "@samfp/pi-essentials": "0.2.3",
+ "context-mode": "1.0.169",
+ "pi-lean-ctx": "3.9.18",
+ "pi-slim": "0.2.1",
+ "pi-tscg": "0.2.4"
 }

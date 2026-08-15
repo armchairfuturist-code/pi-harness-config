@@ -1,24 +1,25 @@
 {
-  "lastChangelogVersion": "0.83.0",
-  "theme": "dark",
-  "// provider-agnostic": "Provider/model/thinking intentionally NOT committed here. This repo is provider-agnostic: live machines pick a provider via `pi auth login` and store the choice in ~/.pi/agent/settings.json (defaultProvider, defaultModel, defaultThinkingLevel, enabledModels) plus model-thinking.json / workflows/model-tiers.json. install.sh preserves all of those on reinstall; repo values are first-run fallbacks only.",
-  "packages": [
-    "npm:@ogulcancelik/pi-model-thinking@0.1.0",
-    "npm:context-mode@1.0.169",
-    "npm:pi-lean-ctx@3.9.18",
-    "npm:pi-slim@0.2.1",
-    "npm:pi-tscg@0.2.4",
-    "npm:@quintinshaw/pi-dynamic-workflows@3.5.1",
-    "npm:@samfp/pi-essentials@0.2.3",
-    "npm:@howaboua/pi-smart-btw@0.2.6",
-    "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5",
-    "git:github.com/DietrichGebert/ponytail"
-  ],
-  "extensions": [],
-  "steeringMode": "all",
-  "hideThinkingBlock": true,
-  "compaction": {
-    "reserveTokens": 24000,
-    "keepRecentTokens": 20000
-  }
+ "lastChangelogVersion": "0.83.0",
+ "theme": "dark",
+ "// provider-agnostic": "Provider/model/thinking intentionally NOT committed here. This repo is provider-agnostic: live machines pick a provider via `pi auth login` and store the choice in ~/.pi/agent/settings.json (defaultProvider, defaultModel, defaultThinkingLevel, enabledModels) plus model-thinking.json / workflows/model-tiers.json. install.sh preserves all of those on reinstall; repo values are first-run fallbacks only.",
+ "packages": [
+  "npm:@ogulcancelik/pi-model-thinking@0.1.0",
+  "npm:context-mode@1.0.169",
+  "npm:pi-lean-ctx@3.9.18",
+  "npm:pi-slim@0.2.1",
+  "npm:pi-tscg@0.2.4",
+  "npm:@quintinshaw/pi-dynamic-workflows@3.5.1",
+  "npm:@samfp/pi-essentials@0.2.3",
+  "npm:@howaboua/pi-skill-model-facing-api-design@0.0.5",
+  "npm:@narumitw/pi-btw@0.51.0",
+  "git:github.com/kartikkabadi/pi-handoff",
+  "git:github.com/DietrichGebert/ponytail"
+ ],
+ "extensions": [],
+ "steeringMode": "all",
+ "hideThinkingBlock": true,
+ "compaction": {
+  "reserveTokens": 24000,
+  "keepRecentTokens": 20000
+ }
 }

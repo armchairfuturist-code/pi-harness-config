@@ -100,7 +100,6 @@ scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
 scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
 scripts/capture-live-tweak.sh|__AGENT__/scripts/capture-live-tweak.sh|executable
-scripts/ensure-btw-model.mjs|__AGENT__/scripts/ensure-btw-model.mjs|executable
 scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
@@ -123,6 +122,7 @@ bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
 bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
+bundled-skills/router|__AGENT__/skills/router|dir
 scripts/harness-doctor.sh|__AGENT__/scripts/harness-doctor.sh|executable
 EOF
 MANIFEST="${MANIFEST//__AGENT__/$AGENT}"
@@ -189,9 +189,9 @@ fi
 # Prune harness skill names from $HOME/.pi/skills so they cannot shadow
 # ~/.pi/agent/skills when cwd is $HOME (Pi loads <cwd>/.pi/skills as "project").
 # Happens if this repo was cloned at ~/.pi while source still lived at skills/.
-HARNESS_SKILLS=(harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
+HARNESS_SKILLS=(router harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
 # Slash-only skills: disable-model-invocation, not deployed from this repo, not pruned.
-SLASH_SKILLS=(impeccable last30days teach writing-for-agents)
+SLASH_SKILLS=(impeccable last30days teach writing-for-agents grilling wayfinder ask-matt)
 # Drop leftover skills under ~/.pi/agent/skills that are not in either list.
 if [[ -d "$AGENT/skills" ]]; then
   for path in "$AGENT/skills"/*; do
@@ -237,17 +237,6 @@ fi
 
 if ! $CHECK; then
   PI_AGENT_HOME="$AGENT" bash "$AGENT/scripts/apply-package-patches.sh"
-fi
-# /btw (pi-smart-btw) model guard: the upstream default is hardcoded to
-# openai-codex/gpt-5.6-luna, which fails with "No API key found for
-# openai-codex" when the machine has no such key. Assign /btw a cheap model
-# from the machine's own registry (provider-agnostic). Check mode reports.
-if $CHECK; then
-  node "$ROOT/scripts/ensure-btw-model.mjs" --check >/dev/null 2>&1 \
-    && echo "[ OK ] /btw cheap model configured" \
-    || { echo "[DIFF] /btw uses non-working default model — run: ./install.sh"; fail=$((fail+1)); }
-else
-  node "$ROOT/scripts/ensure-btw-model.mjs" 2>&1 | sed 's/^/[btw] /' || fail=$((fail+1))
 fi
 # Wire repo git hooks (secret guard pre-commit + pre-push preflight)
 if git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then

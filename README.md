@@ -108,7 +108,8 @@ Only these stay in `settings.json` / `packages.lock.json`:
 - `pi-tscg` — compaction (HIL-locked)
 - `@quintinshaw/pi-dynamic-workflows` — workflows
 - `@samfp/pi-essentials` — session UX
-- `@howaboua/pi-smart-btw` — `/btw`
+- `@narumitw/pi-btw` — `/btw` side-thread
+- `git:github.com/kartikkabadi/pi-handoff` — `/handoff` session handoff
 - `@howaboua/pi-skill-model-facing-api-design` — skill
 - `git:github.com/DietrichGebert/ponytail` — ponytail mode (git, not in the npm lock)
 
