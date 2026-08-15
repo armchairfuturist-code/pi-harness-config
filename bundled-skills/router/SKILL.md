@@ -1,6 +1,6 @@
 ---
 name: router
-description: Route a task to the right skill. Before multi-step work: apply the ponytail ladder, clarify scope (grill), load the matching skill (registry), fan out if lanes are independent (workflow).
+description: "Route a task to the right skill. Before multi-step work: apply the ponytail ladder, clarify scope (grill), load the matching skill (registry), fan out if lanes are independent (workflow)."
 ---
 
 # Router
