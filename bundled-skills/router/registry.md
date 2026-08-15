@@ -15,6 +15,9 @@ One line per skill: `name — purpose — path — load`.
 - shard-security — sandbox / creds — skills/shard-security/SKILL.md — slash
 
 ## Slash-only (manual, never auto-loaded)
+- grill-me — relentless interview to sharpen a plan — `/grill-me`
+- grill-with-docs — grilling + domain model building — `/grill-with-docs`
+- domain-modeling — build CONTEXT.md + ADRs — `/domain-modeling`
 - impeccable, last30days, teach, writing-for-agents — `/skill:name`
 
 ## Reference skills (npx)

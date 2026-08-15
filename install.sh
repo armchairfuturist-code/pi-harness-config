@@ -193,7 +193,7 @@ fi
 # Happens if this repo was cloned at ~/.pi while source still lived at skills/.
 HARNESS_SKILLS=(router harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
 # Slash-only skills: disable-model-invocation, not deployed from this repo, not pruned.
-SLASH_SKILLS=(impeccable last30days teach writing-for-agents grilling wayfinder ask-matt)
+SLASH_SKILLS=(impeccable last30days teach writing-for-agents grilling wayfinder ask-matt grill-me grill-with-docs domain-modeling)
 # Drop leftover skills under ~/.pi/agent/skills that are not in either list.
 if [[ -d "$AGENT/skills" ]]; then
   for path in "$AGENT/skills"/*; do

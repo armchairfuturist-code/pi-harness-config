@@ -11,7 +11,7 @@ Run before multi-step work. Quick questions: answer directly (or `/btw`), skip t
 
 1. **Classify.** Quick → answer. Single-lane → step 2. Multi-lane → step 2, then `workflow()`. Too big for one session → `wayfinder`.
 
-2. **Grill.** Resolve the design tree before building. Work in rounds: ask the whole frontier at once (numbered questions + your recommended answer), wait, repeat. Find facts yourself (dispatch a sub-agent); never ask the user for what you can look up. Reference: `grilling`.
+2. **Grill.** Resolve the design tree before building. Read `grilling/SKILL.md` for full mechanics (design tree, frontier, dependency ordering, termination, confirmation). Work in rounds: ask the whole frontier at once (numbered questions + your recommended answer), wait, repeat. Find facts yourself (dispatch a sub-agent); never ask the user for what you can look up.
 
 3. **Route.** Match the resolved task to `registry.md`. Load only the matched skill's body. Unsure which fits → `ask-matt`.
 
