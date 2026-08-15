@@ -21,9 +21,6 @@ fi
 if [[ -f "$ROOT/install.sh" ]]; then node "$ROOT/scripts/validate-manifest.mjs" && ok "repo manifest closes" || bad "repo manifest mismatch"; fi
 PI_PACKAGE_LOCK="$AGENT/packages.lock.json" node "$ROOT/scripts/verify-package-lock.mjs" && ok "package versions pinned" || bad "package lock mismatch"
 node "$ROOT/scripts/validate-live-settings.mjs" "$AGENT/settings.json" && ok "settings and extension paths resolve" || bad "settings/extension mismatch"
-if command -v node >/dev/null 2>&1 && [[ -f "$ROOT/extensions/test-ce-lite-shield.mjs" ]]; then
-  node "$ROOT/extensions/test-ce-lite-shield.mjs" >/dev/null 2>&1 && ok "ce-lite shield loop regression tests" || bad "ce-lite shield loop regression tests failed"
-fi
 for file in HARNESS.md APPEND_SYSTEM.md AGENTS.md; do [[ -f "$AGENT/$file" ]] && ok "$file present" || bad "$file missing"; done
 
 CM="$AGENT/npm/node_modules/context-mode/build/adapters/pi"
@@ -33,7 +30,7 @@ grep -q 'PI_HARNESS_TSCG_DEEP' "$AGENT/npm/node_modules/pi-tscg/extensions/tscg.
 
 # Harness skills must live only under agent/skills. When cwd=$HOME, Pi loads
 # ~/.pi/skills as "project" skills and collides with agent copies.
-HARNESS_SKILLS="ce-lite harness-doctor context-rot-forensics graph-engineering shard-security"
+HARNESS_SKILLS="harness-doctor context-rot-forensics graph-engineering shard-security"
 for name in $HARNESS_SKILLS; do
   if [[ -e "$HOME/.pi/skills/$name" ]]; then
     bad "skill shadow $HOME/.pi/skills/$name (collides with agent/skills/$name)"
