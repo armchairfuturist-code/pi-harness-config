@@ -95,6 +95,7 @@ scripts/validate-manifest.mjs|__AGENT__/scripts/validate-manifest.mjs|
 scripts/verify-package-lock.mjs|__AGENT__/scripts/verify-package-lock.mjs|
 scripts/apply-package-patches.sh|__AGENT__/scripts/apply-package-patches.sh|
 scripts/tickets-to-workflow.mjs|__AGENT__/scripts/tickets-to-workflow.mjs|
+scripts/sess|__AGENT__/scripts/sess|executable
 scripts/profile.sh|__AGENT__/scripts/profile.sh|
 scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
@@ -116,6 +117,7 @@ workflows/saved/review-fix-graph.js|__PI_HOME__/workflows/saved/review-fix-graph
 memory/consolidated.md|__AGENT__/memory/consolidated.md|
 memory/harnesses.md|__AGENT__/memory/harnesses.md|
 memory/user-shell.md|__AGENT__/memory/user-shell.md|
+memory/sess-themes.md|__AGENT__/memory/sess-themes.md|
 model-thinking.json|__AGENT__/model-thinking.json|preserve
 bundled-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
 bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir

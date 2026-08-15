@@ -34,6 +34,10 @@ workflows/projects/
 skills/**/assets/
 agent/git/
 memory/
+!memory/consolidated.md
+!memory/harnesses.md
+!memory/user-shell.md
+!memory/sess-themes.md
 scripts/harness-preflight.sh.bak
 .scratch/
 

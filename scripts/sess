@@ -1,0 +1,205 @@
+#!/usr/bin/env python3
+"""sess — recall aid over local pi session jsonl.
+
+  sess themes   cluster recent first-asks (default last 80)
+  sess ls       last 20 sessions
+
+Not a bus. Historical corpses only. Commit memory/sess-themes.md to share.
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+SESS_ROOT = Path.home() / ".pi/agent/sessions"
+REPO = Path(__file__).resolve().parent.parent
+OUT = REPO / "memory/sess-themes.md"
+AGENT_OUT = Path.home() / ".pi/agent/memory/sess-themes.md"
+
+STOP = {
+    "the", "a", "an", "and", "or", "to", "for", "of", "in", "on", "my", "this",
+    "that", "with", "from", "how", "what", "can", "you", "we", "i", "me",
+    "please", "help", "just", "it", "is", "are", "be", "do", "does", "want",
+    "need", "let", "lets", "using", "use", "into", "about", "your", "our",
+    "not", "but", "if", "then", "than", "also", "any", "all", "get", "got",
+    "make", "made", "run", "running", "check", "look", "see", "tell", "ask",
+    "current", "directory", "file", "files", "now", "dont", "don't", "name",
+    "location", "home", "alex", "references", "relative",
+}
+
+SKIP_CWD = re.compile(r"(/tmp/|mtbench|pi-bench|celite|bench-ws|/bench/)")
+SKILL_TAG = re.compile(r'<skill\s+name="([^"]+)"', re.I)
+
+
+def jsonls(limit: int | None) -> list[Path]:
+    if not SESS_ROOT.is_dir():
+        return []
+    files = [p for p in SESS_ROOT.rglob("*.jsonl") if p.is_file()]
+    files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+    return files[:limit] if limit else files
+
+
+def first_user(path: Path) -> dict | None:
+    sid = cwd = ts = title = None
+    try:
+        with path.open(encoding="utf-8", errors="replace") as fh:
+            for i, line in enumerate(fh):
+                if i > 60:
+                    break
+                try:
+                    obj = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                kind = obj.get("type")
+                if kind == "session":
+                    sid = obj.get("id") or path.stem.split("_")[-1]
+                    cwd = obj.get("cwd") or ""
+                    ts = obj.get("timestamp") or ""
+                elif kind == "message" and obj.get("message", {}).get("role") == "user" and title is None:
+                    parts = obj["message"].get("content") or []
+                    chunks = []
+                    if isinstance(parts, str):
+                        chunks.append(parts)
+                    else:
+                        for p in parts:
+                            if isinstance(p, dict) and p.get("type") == "text":
+                                chunks.append(p.get("text") or "")
+                    raw = " ".join(chunks).strip()
+                    m = SKILL_TAG.search(raw)
+                    if m:
+                        rest = re.sub(r"<skill[\s\S]*?</skill>", " ", raw, count=1, flags=re.I)
+                        rest = re.sub(r"\s+", " ", rest).strip()
+                        raw = f"/{m.group(1)}" + (f" {rest[:120]}" if rest else "")
+                    title = re.sub(r"\s+", " ", raw)[:160]
+                    break
+    except OSError:
+        return None
+    if not title or SKIP_CWD.search(cwd or ""):
+        return None
+    mtime = path.stat().st_mtime
+    fid = sid or path.stem.split("_")[-1]
+    return {
+        "id": fid[:13],
+        "full_id": fid,
+        "cwd": cwd or "",
+        "ts": ts or datetime.fromtimestamp(mtime, tz=timezone.utc).isoformat(),
+        "title": title,
+        "path": str(path),
+        "mtime": mtime,
+    }
+
+
+def words(title: str) -> list[str]:
+    return [w for w in re.findall(r"[a-z0-9]{3,}", title.lower()) if w not in STOP]
+
+
+def fingerprint(title: str) -> tuple[str, ...]:
+    w = words(title)
+    return tuple(w[:5]) if w else ("untitled",)
+
+
+def cluster(rows: list[dict]) -> list[tuple[tuple[str, ...], list[dict]]]:
+    # ponytail: exact first-5-word key. Jaccard merge mixed canaries with real asks.
+    buckets: dict[tuple[str, ...], list[dict]] = defaultdict(list)
+    seen: set[str] = set()
+    for row in rows:
+        if row["full_id"] in seen:
+            continue
+        seen.add(row["full_id"])
+        buckets[fingerprint(row["title"])].append(row)
+    return sorted(buckets.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+
+
+def label(key: tuple[str, ...], items: list[dict]) -> str:
+    if key == ("untitled",):
+        return "untitled / empty ask"
+    # prefer the shortest title's content words
+    best = min(items, key=lambda r: len(r["title"]))
+    w = words(best["title"])[:6]
+    return " ".join(w) if w else " ".join(key)
+
+
+def day(ts: str) -> str:
+    return (ts or "")[:10]
+
+
+def cmd_ls(limit: int) -> int:
+    rows = [r for p in jsonls(limit) if (r := first_user(p))]
+    if not rows:
+        print("no sessions")
+        return 0
+    for r in rows:
+        print(f"{r['id']}  {day(r['ts'])}  {r['cwd']:<24}  {r['title'][:80]}")
+    return 0
+
+
+def render(groups: list[tuple[tuple[str, ...], list[dict]]], scanned: int) -> str:
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    lines = [
+        f"# sess themes — {now}",
+        "",
+        f"Scanned {scanned} recent jsonl under `~/.pi/agent/sessions`.",
+        "Clusters = shared first-ask words. Commit this file so other machines can recall.",
+        "",
+    ]
+    singles = 0
+    for key, items in groups:
+        items.sort(key=lambda r: r["mtime"], reverse=True)
+        if len(items) < 2 or len(words(items[0]["title"])) < 2:
+            singles += 1
+            continue
+        lines.append(f"## {label(key, items)} ({len(items)})")
+        for r in items[:12]:
+            lines.append(f"- `{r['id']}`  {day(r['ts'])}  `{r['cwd']}`  {r['title']}")
+        if len(items) > 12:
+            lines.append(f"- … +{len(items) - 12} more")
+        lines.append("")
+    lines.append(f"unclustered: {singles}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def cmd_themes(limit: int | None) -> int:
+    # oversample: bench/tmp jsonl are skipped, so scan more files than we keep
+    scan = None if limit is None else limit * 5
+    files = jsonls(scan)
+    rows = [r for p in files if (r := first_user(p))]
+    if limit is not None:
+        rows = rows[:limit]
+    if not rows:
+        print("no sessions")
+        return 0
+    text = render(cluster(rows), len(files))
+    print(text, end="")
+    for dest in (OUT, AGENT_OUT):
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(text, encoding="utf-8")
+    print(f"wrote {OUT}")
+    print(f"wrote {AGENT_OUT}")
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    args = list(argv)
+    limit = 80
+    if "--all" in args:
+        limit = None
+        args.remove("--all")
+    if args and args[0] in ("-n", "--limit") and len(args) > 1:
+        limit = int(args[1])
+        args = args[2:]
+    cmd = args[0] if args else "themes"
+    if cmd == "themes":
+        return cmd_themes(limit)
+    if cmd == "ls":
+        return cmd_ls(20 if limit == 80 else limit or 20)
+    print("usage: sess [themes|ls] [--all] [-n N]", file=sys.stderr)
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
