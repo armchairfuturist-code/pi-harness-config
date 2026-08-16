@@ -72,8 +72,7 @@ You do not need slash commands. Ask for the work.
 Only these live under `~/.pi/agent/skills/`. Extra dirs are pruned on install.
 
 - `smart-read` — how to open files (size limits belong in the tool, not the skill)
-- `harness-doctor` — `./scripts/harness-doctor.sh`
-- `context-rot-forensics` — post-hoc session log analysis
+- `harness-doctor` — `./scripts/harness-doctor.sh` (includes context-rot analysis)
 - `graph-engineering` — optional; design a `workflow()` DAG
 - `shard-security` — optional; sandbox / creds
 
@@ -83,6 +82,22 @@ Dropped: ce-lite, poor-mans-distill, triage, wait-what.
 
 Ponytail is a git package, not this list.
 
+
+## Updating
+
+`pi update --all` updates pi and npm extensions but **NOT** the lean-ctx Rust binary.
+The binary has its own updater. Always use the unified wrapper:
+```bash
+~/.pi/agent/scripts/update-all.sh           # full update: pi + extensions + lean-ctx binary + skills + sync check
+~/.pi/agent/scripts/update-all.sh --check    # version sync check only
+```
+This closes a gap that caused 495 MCP bridge errors across 121 sessions (Jul-Aug 2026):
+the npm package (3.9.18) and binary (3.9.15) drifted, causing protocol-mismatch failures.
+The preflight check in `harness-doctor/scripts/preflight.py` catches this drift.
+
+After `pi update --extensions`, patches are re-applied automatically by `install.sh`
+(via `scripts/apply-package-patches.sh`). This includes the pi-lean-ctx MCP bridge
+resilience patch (force-reconnect on internal errors, strips "Please retry" text).
 
 ## What lives where
 
@@ -94,6 +109,17 @@ Ponytail is a git package, not this list.
 | `scripts/`, `patches/` | `~/.pi/agent/` |
 | `bundled-skills/` | `~/.pi/agent/skills/` |
 | `HARNESS.md`, `APPEND_SYSTEM.md`, `AGENTS.md` | `~/.pi/agent/` |
+| `lean-ctx/config.toml` | `~/.config/lean-ctx/config.toml` (runtime) and `~/.pi/agent/lean-ctx/config.toml` |
+| `lean-ctx/pi-config.json` | `~/.pi/agent/extensions/pi-lean-ctx/config.json` |
+| `lean-ctx/env.tuning.sh` | `~/.config/lean-ctx/env.tuning.sh` |
+
+The lean-ctx **binary** (`~/.local/bin/lean-ctx`) is NOT installed by this repo. It is
+a standalone Rust binary distributed via GitHub releases. Install it with:
+```bash
+curl -fsSL https://github.com/yvgude/lean-ctx/releases/latest/download/lean-ctx-x86_64-unknown-linux-gnu.tar.gz | tar xz -C ~/.local/bin/
+lean-ctx init --agent pi --mode replace
+```
+Then keep it updated with `~/.pi/agent/scripts/update-all.sh`.
 
 `install.sh --check` ignores `lastChangelogVersion` (pi writes it). `~/.config/lean-ctx/config.toml` is runtime-owned.
 

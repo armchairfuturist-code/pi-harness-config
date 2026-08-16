@@ -100,11 +100,13 @@ scripts/profile.sh|__AGENT__/scripts/profile.sh|
 scripts/mcp-toggle.sh|__AGENT__/scripts/mcp-toggle.sh|executable
 scripts/fix-embeddings.sh|__AGENT__/scripts/fix-embeddings.sh|executable
 scripts/check-extension-updates.sh|__AGENT__/scripts/check-extension-updates.sh|executable
+scripts/update-all.sh|__AGENT__/scripts/update-all.sh|executable
 scripts/capture-live-tweak.sh|__AGENT__/scripts/capture-live-tweak.sh|executable
 scripts/_gh-release-body.js|__AGENT__/scripts/_gh-release-body.js|
 patches/context-mode/apply-patches.mjs|__AGENT__/patches/context-mode/apply-patches.mjs|
 patches/tscg/apply-patches.mjs|__AGENT__/patches/tscg/apply-patches.mjs|
 patches/dynamic-workflows/apply-patches.mjs|__AGENT__/patches/dynamic-workflows/apply-patches.mjs|
+patches/pi-lean-ctx/apply-patches.sh|__AGENT__/patches/pi-lean-ctx/apply-patches.sh|executable
 tscg.json|__PI_HOME__/tscg.json|
 lean-ctx/pi-config.json|__AGENT__/extensions/pi-lean-ctx/config.json|
 lean-ctx/config.toml|__LEAN_HOME__/config.toml|runtime
@@ -120,7 +122,6 @@ memory/user-shell.md|__AGENT__/memory/user-shell.md|
 memory/sess-themes.md|__AGENT__/memory/sess-themes.md|
 model-thinking.json|__AGENT__/model-thinking.json|preserve
 bundled-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
-# context-rot-forensics merged into harness-doctor (rot-analysis.py + _session_utils.py)
 bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir

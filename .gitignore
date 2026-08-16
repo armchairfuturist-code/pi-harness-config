@@ -58,3 +58,4 @@ bench/out/
 
 # external skill clones (ponytail, etc.)
 git/
+__pycache__/

@@ -30,7 +30,7 @@ grep -q 'PI_HARNESS_TSCG_DEEP' "$AGENT/npm/node_modules/pi-tscg/extensions/tscg.
 
 # Harness skills must live only under agent/skills. When cwd=$HOME, Pi loads
 # ~/.pi/skills as "project" skills and collides with agent copies.
-HARNESS_SKILLS="harness-doctor context-rot-forensics graph-engineering shard-security"
+HARNESS_SKILLS="harness-doctor graph-engineering shard-security"
 for name in $HARNESS_SKILLS; do
   if [[ -e "$HOME/.pi/skills/$name" ]]; then
     bad "skill shadow $HOME/.pi/skills/$name (collides with agent/skills/$name)"

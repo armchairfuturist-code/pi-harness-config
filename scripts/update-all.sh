@@ -47,7 +47,7 @@ get_lean_binary_version() {
 }
 
 get_lean_npm_version() {
-  node -e "console.log(require('$ROOT/agent/npm/node_modules/pi-lean-ctx/package.json').version)" 2>/dev/null || echo "?"
+  node -e "console.log(require('$ROOT/npm/node_modules/pi-lean-ctx/package.json').version)" 2>/dev/null || echo "?"
 }
 
 get_lean_lock_version() {
