@@ -144,7 +144,7 @@ while IFS='|' read -r src dest flags; do
 if [[ "$flags" == *runtime* ]] && $CHECK; then echo "[KEEP] runtime $dest"; skip=$((skip+1)); continue; fi
   if $CHECK; then
     same=false
-    if [[ -d "$ROOT/$src" ]]; then diff -rq "$ROOT/$src" "$dest" >/dev/null 2>&1 && same=true
+    if [[ -d "$ROOT/$src" ]]; then diff -rq --exclude="__pycache__" "$ROOT/$src" "$dest" >/dev/null 2>&1 && same=true
     else diff -q "$ROOT/$src" "$dest" >/dev/null 2>&1 && same=true; fi
     if $same; then echo "[ OK ] $src"; ok=$((ok+1)); else echo "[DIFF] $src -> $dest"; fail=$((fail+1)); fi
   else
