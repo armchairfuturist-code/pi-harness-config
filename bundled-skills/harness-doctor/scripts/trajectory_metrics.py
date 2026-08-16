@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Trajectory metrics (survey §8.5.2): judge the path, not just outcome.
 
-Mines session jsonl for tool errors classified by harness layer + retry loops.
+Mineral session jsonl for tool errors classified by harness layer + retry loops.
 Usage: trajectory_metrics.py [--days N] [--session FILE] [--json]
 Output: counts by layer (env_path / tool_interface / mcp_bridge / policy / orchestration)
 plus retry-loop count (identical consecutive tool calls).
 Baseline 2026-07-30: 898 errors/30d (env_path 173+, tool_interface 105+, mcp_bridge 38).
+Baseline 2026-08-16 (post-SIGS fix): mcp_bridge now catches 'lean-ctx internal error'
+variant — previously missed, undercounted by ~4x (114 → 495 when fixed).
 """
 import argparse, glob, json, re, time
 from collections import Counter
@@ -13,7 +15,10 @@ from collections import Counter
 SIGS = [
     (r'command not found|ENOENT|No such file or directory', "env_path"),
     (r'Could not find|Validation failed for tool|target.*is required', "tool_interface"),
-    (r'MCP bridge not connected', "mcp_bridge"),
+    # Match both "MCP bridge not connected" (transport failure) and
+    # "lean-ctx internal error" (daemon-alive but tool-call failure).
+    # The latter was the dominant variant: 136/495 errors (Jul-Aug 2026).
+    (r'MCP bridge not connected|lean-ctx internal error|MCP server is still running', "mcp_bridge"),
     (r'BLOCKED — DO NOT RETRY|allowlist', "policy"),
 ]
 BASE = "/home/alex/.pi/agent/sessions"
@@ -47,14 +52,24 @@ def scan(files):
                         last = sig
             elif role == "toolResult":
                 s = json.dumps(msg.get("content") or "")[:400]
-                if msg.get("isError") or '"error"' in s[:200].lower():
+                raw_lower = s[:200].lower()
+                is_error = (msg.get("isError")
+                            or '"error"' in raw_lower
+                            or 'error:' in raw_lower
+                            or 'lean-ctx internal error' in raw_lower
+                            or 'mcp bridge not connected' in raw_lower
+                            or 'enoent' in raw_lower
+                            or 'command not found' in raw_lower
+                            or 'blocked' in raw_lower
+                            or 'validation failed' in raw_lower)
+                if is_error:
                     layer = "other"
                     for pat, l in SIGS:
                         if re.search(pat, s, re.I):
                             layer = l
                             break
                     err[layer] += 1
-                    m = re.search(r'command not found|Could not find|MCP bridge|BLOCKED|Validation failed|ENOENT', s, re.I)
+                    m = re.search(r'command not found|Could not find|MCP bridge|lean-ctx internal error|BLOCKED|Validation failed|ENOENT', s, re.I)
                     sig_c[m.group(0).lower() if m else s[:50]] += 1
     return err, retries, sig_c
 

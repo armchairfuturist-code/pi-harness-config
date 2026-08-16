@@ -111,6 +111,53 @@ def bench_rig():
     check("bench probe.sh present", os.path.exists(f"{HOME}/Projects/pi-harness-config/bench/probe.sh"))
 
 
+def lean_ctx_version_sync():
+    """Detect version drift between lean-ctx binary and pi-lean-ctx npm package.
+
+    Root cause of 495 MCP bridge errors across 121 sessions (Jul-Aug 2026):
+    `pi update --all` updates the npm extension but NOT the standalone binary.
+    When versions drift, the MCP bridge protocol mismatches, causing intermittent
+    'lean-ctx internal error. The MCP server is still running' failures.
+    Fix: run `lean-ctx update` or `~/.pi/scripts/update-all.sh`.
+    """
+    import subprocess
+    # Binary version
+    try:
+        out = subprocess.run(["lean-ctx", "--version"], capture_output=True, text=True, timeout=5)
+        bin_ver = re.search(r'(\d+\.\d+\.\d+)', out.stdout)
+        bin_ver = bin_ver.group(1) if bin_ver else "?"
+    except Exception:
+        bin_ver = "?"
+    # npm package version
+    npm_ver = "?"
+    pkg_json = f"{HOME}/.pi/agent/npm/node_modules/pi-lean-ctx/package.json"
+    if os.path.exists(pkg_json):
+        try:
+            npm_ver = json.load(open(pkg_json)).get("version", "?")
+        except Exception:
+            pass
+    # packages.lock.json version
+    lock_ver = "?"
+    lock_file = f"{HOME}/.pi/packages.lock.json"
+    if os.path.exists(lock_file):
+        try:
+            lock_ver = json.load(open(lock_file)).get("pi-lean-ctx", "?")
+        except Exception:
+            pass
+
+    if bin_ver == "?" or npm_ver == "?":
+        check("lean-ctx version sync", False, f"cannot determine (binary={bin_ver}, npm={npm_ver})")
+    elif bin_ver != npm_ver:
+        check(f"lean-ctx version sync", False,
+              f"binary {bin_ver} != npm {npm_ver} — run: lean-ctx update")
+    else:
+        check(f"lean-ctx version sync", True, f"{bin_ver}")
+
+    if lock_ver != "?" and lock_ver != npm_ver:
+        check("lean-ctx lock sync", False,
+              f"packages.lock {lock_ver} != npm {npm_ver} — run: pi update --extensions")
+
+
 def main():
     providers()
     broken_shims()
@@ -118,6 +165,7 @@ def main():
     configs()
     env_credentials()
     bench_rig()
+    lean_ctx_version_sync()
     fails = [r for r in RESULTS if not r[0]]
     for ok, name, detail in RESULTS:
         print(f"  {'PASS' if ok else 'FAIL'}  {name}" + (f"  — {detail}" if detail and not ok else ""))

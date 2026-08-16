@@ -47,6 +47,8 @@ def session_jsonls(limit=None):
     return files
 
 # === contextrot signal definitions (adapted for pi) ===
+# Broad keywords — used as fallback only (first 200 chars). Strict patterns above are primary.
+# Substring matching these against full tool result text caused 56% false positives (file contents).
 ERROR_KEYWORDS = ["error", "failed", "blocked", "not found", "no such file", "denied", "exception", "command exited with code"]
 
 # Tool name sets (case-insensitive — pi uses lowercase, but be tolerant)
@@ -228,7 +230,23 @@ def extract_signals(entries, context_window=DEFAULT_WINDOW):
                     result_text += c.get("text", "")
 
             # Mark error on the last unmatched tool call
-            is_error = any(kw in result_text.lower() for kw in ERROR_KEYWORDS)
+            # Two-tier error detection (fixes 56% false-positive rate):
+            # Tier 1: strict patterns in first 500 chars (real errors)
+            # Tier 2: broad keywords anywhere (fallback, but only if tier 1 misses)
+            _rl = result_text.lower()
+            _strict_patterns = ["enoent", "no such file", "command exited with code",
+                                "permission denied", "not found:", "is not recognized",
+                                "cannot find", "unable to", "failed to", "error:",
+                                "exception", "traceback", "errno", "eacces",
+                                "lean-ctx internal error", "mcp bridge not connected",
+                                "mcp server is still running", "timed out", "timeout",
+                                "path escapes project root", "validation failed"]
+            _first_500 = _rl[:500]
+            is_error = any(p in _first_500 for p in _strict_patterns)
+            if not is_error:
+                # Fallback: broad keywords, but only in first 200 chars to avoid
+                # matching file contents that happen to contain "error" or "failed"
+                is_error = any(kw in _rl[:200] for kw in ERROR_KEYWORDS)
             for tc in reversed(current_step["tool_calls"]):
                 if not tc.get("result_matched"):
                     tc["is_error"] = is_error
@@ -728,7 +746,14 @@ def live_monitor(filepath):
                     for c in content:
                         if isinstance(c, dict) and c.get("type") == "text":
                             text += c.get("text", "")
-                    if any(kw in text.lower() for kw in ERROR_KEYWORDS):
+                    # Use strict error detection (fixes false positives from file content)
+                    _text_lower = text.lower()[:500]
+                    if any(p in _text_lower for p in ["enoent", "no such file", "command exited with code",
+                                                          "permission denied", "error:", "exception", "traceback",
+                                                          "lean-ctx internal error", "mcp bridge not connected",
+                                                          "mcp server is still running", "timed out", "timeout",
+                                                          "path escapes project root", "validation failed",
+                                                          "failed to", "unable to", "not found:", "blocked"]):
                         step_signals.add("tool_error")
                     if len(text) > 5000:
                         print(f"  {'':>4}  🔴 BLOAT: tool result = {len(text):,} chars")

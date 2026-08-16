@@ -52,6 +52,27 @@ Slims the `workflow` tool's `script` parameter description in `@quintinshaw/pi-d
 
 `setActiveTools()` in Pi's extension API controls which tools the agent can *call*, but does NOT remove their schemas from the API request sent to the model. The only way to remove tool schemas is to not register them in the first place — hence the patches to context-mode's MCP bridge and TSCG's truncation function.
 
+## pi-lean-ctx MCP bridge resilience
+
+**File**: `pi-lean-ctx/apply-patches.sh`
+
+Patches `extensions/mcp-bridge.ts` `callTool()` to fix 495 MCP bridge errors across
+121 sessions (Jul-Aug 2026). Two changes:
+
+1. **Internal-error retry**: The existing code retries on timeout errors for
+   retry-safe tools. The patch extends this to catch "lean-ctx internal error"
+   (daemon alive, tool call failed) for ALL tools — force-reconnect + retry once
+   before surfacing the error. Most internal errors self-heal on reconnect.
+
+2. **Strip "Please retry"**: The daemon's error text says "Please retry or use a
+   different approach" — the agent follows this instruction, creating retry+reread
+   loops that inflate rot signals. The patch strips this phrase from errors that
+   reach the agent.
+
+Root cause was version drift (binary 3.9.15 vs npm 3.9.18) — `pi update --all`
+updates the npm extension but NOT the standalone binary. Fixed by
+`scripts/update-all.sh` + `preflight.py` version-sync check.
+
 ## lean-ctx extension vs rules/lean-ctx.md
 
 **These are different things:**
