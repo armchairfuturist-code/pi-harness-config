@@ -1,6 +1,6 @@
 ---
 name: harness-doctor
-description: Inventory and audit local harnesses, providers, credentials, and Pi package health; add/remove providers safely; run preflight checks for broken shims, dead endpoints, and config drift. Use when diagnosing harness errors, provider setup, command-not-found/shim failures, or system health.
+description: Inventory and audit local harnesses, providers, credentials, and Pi package health; add/remove providers safely; run preflight checks for broken shims, dead endpoints, and config drift; analyze context-rot in sessions (Wilson-interval bucketing, knee detection, 5 behavioral signals). Use when diagnosing harness errors, provider setup, command-not-found/shim failures, MCP bridge errors, context degradation, or system health.
 ---
 
 # Harness Doctor
@@ -9,6 +9,8 @@ Pi-native replacement for the deleted OMP system-health-check. Use when the user
 - inventory/audit harnesses, agents, providers, or credentials on this machine
 - add or remove a provider across agents/harnesses
 - explain or reduce repeated tool/agent errors (command-not-found, edit failures)
+- analyze context rot / session degradation (merged from context-rot-forensics skill)
+- diagnose MCP bridge errors or lean-ctx version drift
 
 Curated context: `~/.pi/agent/memory/harnesses.md` (active/ghost inventory — update it after any mutation).
 
@@ -66,6 +68,43 @@ Ad-hoc: scan `~/.pi/agent/sessions/*/*.jsonl` for error taxonomies (see this ses
 Count ctx_read calls, result bytes (raw vs post-compression), miss/error rate, binary/boring-format
 hit rate, extension distribution, top-read paths. Baseline: 3073 reads / 185 errors (6.0%) across
 all sessions (2026-08-10). Run before and after smart-read skill adoption to measure impact.
+
+### 10. Context-rot analysis — `scripts/rot-analysis.py` (merged from context-rot-forensics skill)
+```
+python3 .../rot-analysis.py              # top 5 sessions + summary
+python3 .../rot-analysis.py --all        # all sessions
+python3 .../rot-analysis.py --summary    # cross-session summary only
+python3 .../rot-analysis.py <file.jsonl> # specific session
+python3 .../rot-analysis.py --live <f>   # live-monitor active session
+```
+Implements the contextrot project's statistical methodology (Wilson-interval bucketing, knee
+detection, 5 behavioral signals: tool_error, edit_failure, retry, reread, self_correction)
+adapted for pi's JSONL format. Also tracks pi-specific signals: token bloat, output decline
+(quartile analysis), compaction events, model swaps.
+
+Uses `_session_utils.py` for shared error detection (two-tier: strict patterns in first 500
+chars, broad keywords in first 200 chars). This is the single source of truth — also used by
+`trajectory_metrics.py` and `read_cost.py`. Do not duplicate error detection logic.
+
+Baseline (30 non-trivial sessions, Jul-Aug 2026): 4/30 sessions show knee detection, average
+knee at 42% context fill / step 76 / 377K cumulative tokens. Handoff should trigger before
+~28% fill. Signal frequency: tool_error 25.1%, reread 15.6%, retry 4.0%, edit_failure 0.3%,
+self_correction 0.3% (post-false-positive-fix).
+
+#### What ctx_stats / lean-ctx already provides (and what this adds)
+- `lean-ctx stats` — aggregate token savings, compression rates
+- This script adds: per-turn token growth curve, error clustering, re-read detection,
+  output decline metric, collapse point estimation, cross-session patterns, live monitoring
+
+## Shared utilities — `scripts/_session_utils.py`
+Single source of truth for error detection and session parsing. All scripts that analyze
+session JSONL files should import from this module. Key exports:
+- `is_error_result(text)` — two-tier error detection (fixes 56% false-positive rate)
+- `classify_error_layer(text)` — harness layer classification (env_path/mcp_bridge/etc)
+- `parse_session(filepath)` — JSONL parser
+- `extract_signals(entries)` — full contextrot behavioral signal extraction
+- `wilson_interval(successes, n)` — statistical CI for rot curve
+- `session_jsonls(limit)` — session discovery
 
 ## Rules
 - After inventory mutations: update `memory/harnesses.md` (maintenance rule #1 there).

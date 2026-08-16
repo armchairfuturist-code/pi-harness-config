@@ -120,7 +120,7 @@ memory/user-shell.md|__AGENT__/memory/user-shell.md|
 memory/sess-themes.md|__AGENT__/memory/sess-themes.md|
 model-thinking.json|__AGENT__/model-thinking.json|preserve
 bundled-skills/harness-doctor|__AGENT__/skills/harness-doctor|dir
-bundled-skills/context-rot-forensics|__AGENT__/skills/context-rot-forensics|dir
+# context-rot-forensics merged into harness-doctor (rot-analysis.py + _session_utils.py)
 bundled-skills/graph-engineering|__AGENT__/skills/graph-engineering|dir
 bundled-skills/shard-security|__AGENT__/skills/shard-security|dir
 bundled-skills/smart-read|__AGENT__/skills/smart-read|dir
@@ -191,7 +191,7 @@ fi
 # Prune harness skill names from $HOME/.pi/skills so they cannot shadow
 # ~/.pi/agent/skills when cwd is $HOME (Pi loads <cwd>/.pi/skills as "project").
 # Happens if this repo was cloned at ~/.pi while source still lived at skills/.
-HARNESS_SKILLS=(router harness-doctor context-rot-forensics graph-engineering shard-security smart-read)
+HARNESS_SKILLS=(router harness-doctor graph-engineering shard-security smart-read)
 # Slash-only skills: disable-model-invocation, not deployed from this repo, not pruned.
 SLASH_SKILLS=(impeccable last30days teach writing-for-agents grilling wayfinder ask-matt grill-me grill-with-docs domain-modeling)
 # Drop leftover skills under ~/.pi/agent/skills that are not in either list.
