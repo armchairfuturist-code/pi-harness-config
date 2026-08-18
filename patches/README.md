@@ -38,15 +38,15 @@ Patches `truncateLongDescriptions` in `pi-tscg/extensions/tscg.ts` to recurse in
 
 **Re-apply**: `node patches/tscg/apply-patches.mjs`
 
-## dynamic-workflows workflow-tool slim
+## dynamic-workflows routing
 
 **File**: `dynamic-workflows/apply-patches.mjs`
 
-Slims the `workflow` tool's `script` parameter description in `@quintinshaw/pi-dynamic-workflows/dist/workflow-tool.js`. The package ships a ~1,000-token inline JavaScript authoring reference inside the always-on tool schema; this patch replaces it with a ~150-token compact pointer to the lazy-loaded `workflow-authoring` skill. The full reference is still available on demand — it just no longer taxes every request.
+Slims the always-on workflow authoring description and adds cross-provider tier fallback: configured `small`/`medium`/`big` anchors remain preferred; an unavailable anchor is replaced from the authenticated catalog using the package's existing cost/capability/context ranking, with thinking suffix preservation and at most one-tier downgrade. It never mutates `model-tiers.json` or auto-upgrades.
 
 **Version-pinned**: refuses to patch if the installed package version ≠ `3.5.1` (update the pin after intentional upgrades).
 
-**Re-apply**: `node patches/dynamic-workflows/apply-patches.mjs`
+**Re-apply**: `node patches/dynamic-workflows/apply-patches.mjs` or add `--self-test`.
 
 ## Why these patches exist
 
